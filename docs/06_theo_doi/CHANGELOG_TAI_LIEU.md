@@ -10,6 +10,16 @@ lý do. File dữ liệu `.json` cũng không chứa khối `changelog` — dữ
 
 ---
 
+## 15/09/2026 — Viết lại mô tả bài toán
+
+- Tạo `docs/01_de_bai/MO_TA_BAI_TOAN.md` (14 mục, đánh số liên tục) từ `Y_TUONG_DU_AN.md`.
+- **Nguyên tắc tách phạm vi:** file này sở hữu bài toán, target lab, mô hình đe dọa, G1–G3, kênh K, bảng tổng quan T1–T9 và D1–D4, `blocked_by`, harness, mô hình đích, sáu RQ, nguyên tắc đo, phạm vi, đóng góp, hạn chế. Nó **không** nhắc lại: đặc tả từng kỹ thuật và ma trận dự đoán (`04_thiet_ke/payload_taxonomy.md`), đặc tả từng cơ chế phòng thủ (`04_thiet_ke/defense_spec.md`), lược đồ trace (`04_thiet_ke/trace_schema.md`), công thức từng chỉ số (`05_bo_do/metrics.md`), lịch và mốc (`02_ke_hoach/`). Mỗi khái niệm nằm đúng một chỗ.
+- Ký hiệu dùng `TS1`–`TS3` cho tài sản, `A1`–`A3` cho mô hình đích, ngưỡng scorer 8/8 — thống nhất với `CLAUDE.md`.
+
+**Còn lại của đợt tách:** `02_ke_hoach/KE_HOACH.md` · `02_ke_hoach/TASKS.md` · bốn file `04_thiet_ke/` · `05_bo_do/metrics.md`. Sau khi tách xong, `Y_TUONG_DU_AN.md` co lại thành bản điều hướng hai trang; **chưa làm trước khi các file đích tồn tại**, nếu không nội dung sẽ mất trong lúc chuyển.
+
+---
+
 ## 15/09/2026 — Chốt ngưỡng kiểm chứng scorer 8/8
 
 **Lý do.** Ngưỡng này từng tồn tại song song hai giá trị (6/6 và 8/8) ở hai tài liệu khác nhau, trong khi nó là cổng cứng chặn cả giai đoạn ma trận thực nghiệm.
