@@ -10,6 +10,17 @@ lý do. File dữ liệu `.json` cũng không chứa khối `changelog` — dữ
 
 ---
 
+## 15/09/2026 — Chốt ngưỡng kiểm chứng scorer 8/8
+
+**Lý do.** Ngưỡng này từng tồn tại song song hai giá trị (6/6 và 8/8) ở hai tài liệu khác nhau, trong khi nó là cổng cứng chặn cả giai đoạn ma trận thực nghiệm.
+
+- Chốt **8/8**, sai một ca là chưa đạt.
+- `Y_TUONG_DU_AN.md`: thêm mục 12.5 định nghĩa cổng và **tám ca thử cụ thể** — con số không còn tuỳ tiện. Tám ca phủ bốn bồn chứa G1, hai điều kiện G2, ca âm `max_calls`, G3 không tool-call, và phân định `blocked_by`.
+- `CLAUDE.md`: quy tắc cứng số 5 ghi rõ 8/8 và trỏ về mục 12.5 làm định nghĩa duy nhất.
+- Đóng ba mục treo trong `Y_TUONG_DU_AN.md` mục 18: ngưỡng scorer 8/8 · báo cáo 6 chương · ký hiệu tài sản TS1–TS3.
+
+---
+
 ## 15/09/2026 — Dựng lại workspace từ số không
 
 **Lý do.** Cây tài liệu cũ tích tụ bốn lớp vấn đề không sửa lẻ được: ghi chú phiên bản lẫn

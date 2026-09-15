@@ -48,8 +48,9 @@ Chỉ giữ bản hiện hành trong cây thư mục. Lịch sử thay đổi gh
    người dùng chọn trước.
 4. **Mọi tham số hành vi của D1–D4 nằm ở `config/defenses.yaml`**, không hard-code trong
    `src/defense/*.py`.
-5. **Không sang giai đoạn ma trận nếu kiểm chứng scorer chưa đạt ngưỡng đã chốt.** Không
-   chạy full matrix nếu hiệu chỉnh độ khó chưa đưa ASR pilot vào 20–80%.
+5. **Không sang giai đoạn ma trận nếu kiểm chứng scorer chưa đạt 8/8 ca thử.** Sai một ca là
+   chưa đạt. Tám ca thử định nghĩa ở `Y_TUONG_DU_AN.md` mục 12.5. Không chạy full matrix nếu
+   hiệu chỉnh độ khó chưa đưa ASR pilot vào 20–80%.
 6. **Dữ liệu là mô phỏng** — `customers.db` sinh bằng Faker `vi_VN`, seed cố định. Không
    đưa dữ liệu cá nhân hay khách hàng thật vào bất kỳ đâu trong dự án.
 7. **MCPTox chỉ chạy chế độ mô phỏng**, không nhắm MCP server thật của bên thứ ba. Payload
