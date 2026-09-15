@@ -1,0 +1,19 @@
+# Bí mật — không bao giờ commit
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ruff_cache/
+
+# Hệ điều hành
+.DS_Store
+
+# Repo mã nguồn là repo Git RIÊNG, có remote riêng.
+# Khi có điều kiện thì chuyển sang `git submodule add`.
+/ipi-agent-lab/
+
+# Clone benchmark bên thứ ba — không theo Git, tải lại theo hướng dẫn
+/benchmarks/
