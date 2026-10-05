@@ -9,23 +9,21 @@ Workspace tài liệu của đồ án tốt nghiệp. Mã nguồn nằm ở repo
 | Cần gì | Đọc |
 |---|---|
 | Toàn bộ ý tưởng dự án ở một chỗ | `Y_TUONG_DU_AN.md` |
-| Bài toán: phạm vi, threat model, biến, RQ | `docs/01_de_bai/` |
-| Kế hoạch, mốc, ngân sách | `docs/02_ke_hoach/` |
-| Trạng thái task (cái gì đã xong) | `docs/02_ke_hoach/TASKS.md` |
-| Lịch sử thay đổi tài liệu | `docs/06_theo_doi/CHANGELOG_TAI_LIEU.md` |
+| Bài toán: phạm vi, threat model, biến, RQ | `docs/01. Đề bài/` |
+| Nhiệm vụ, khung sáu Nội dung, hạn nộp | Phiếu giao nhiệm vụ `PhieuGiaoNhiemVu_DATN_*.xlsx` |
+| Kế hoạch, mốc | `Kế hoạch thực hiện.xlsx` |
+| Trạng thái task (cái gì đã xong) | `Kế hoạch thực hiện.xlsx`, cột Trạng thái |
+| Lịch sử thay đổi tài liệu | `docs/06. Track/CHANGELOG_TAI_LIEU.md` |
 | Quy tắc làm việc, quy tắc cứng | `CLAUDE.md` |
 
 ## Cây thư mục
 
 ```
-docs/01_de_bai      mô tả bài toán — nguồn chân lý về bài toán
-docs/02_ke_hoach    kế hoạch + bảng task
-docs/03_khao_sat    khảo sát công trình, fit-gap, persona
-docs/04_thiet_ke    threat model, taxonomy kênh, taxonomy payload, spec phòng thủ, trace schema
-docs/05_bo_do       bộ chỉ số, baseline
-docs/06_theo_doi    changelog tài liệu, chi phí, biểu mẫu GVHD, rà soát
-docs/07_bao_cao     dàn ý, bản nộp
-docs/08_tham_khao   PDF công trình tham khảo
+docs/01. Đề bài    mô tả bài toán — nguồn chân lý về bài toán, bản đồ AI Security
+docs/03. Khảo sát  khảo sát công trình, fit-gap, bằng chứng chạy thật
+docs/04. Design    threat model, taxonomy, thiết kế agent, sơ đồ luồng dữ liệu
+docs/06. Track     changelog tài liệu, chốt phạm vi và checklist ký GVHD
+docs/07. Báo cáo   bản LaTeX của báo cáo
 ```
 
-Đánh số 01→08 theo luồng triển khai.
+Đánh số theo luồng triển khai.

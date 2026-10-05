@@ -1,0 +1,9 @@
+repo: ethz-spylab/agentdojo
+commit: 089ed468cf3ed0322acc66b0211f26d9d90dbf60
+commit_date: 2026-06-02T11:59:58+02:00
+host: may TA - Cowork Linux VM (Linux 6.8.0-138-generic)
+python: Python 3.12.2
+run_date_utc: 2026-09-23T04:09:18Z
+cmd: python -m agentdojo.scripts.check_suites -v v1.2.2  (ban upstream, log: check_suites_upstream.log)
+cmd: xem them run_manifest_cloud.txt cho lo chay day du
+llm_calls: 0 (khong goi LLM, khong API key)

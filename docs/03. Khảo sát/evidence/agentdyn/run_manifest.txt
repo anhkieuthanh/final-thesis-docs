@@ -1,0 +1,10 @@
+repo: SaFo-Lab/AgentDyn
+commit: 5353cf7615b135cace8d07c8f12dac53a16b6db3
+commit_date: 2026-05-19T14:56:30-07:00
+host: may TA - Cowork Linux VM (Linux 6.8.0-138-generic)
+python: Python 3.12.2
+run_date_utc: 2026-09-23T04:09:18Z
+cmd: uv sync --frozen (dung uv.lock cua tac gia)
+cmd: python -m agentdojo.scripts.check_suites -s {shopping,github,dailylife} --no-check-injectable -> check_suites_upstream_locked.log
+cmd: python scripts/agentdojo_offline.py <out> v1.2.2 shopping none -> inventory_shopping.json
+llm_calls: 0 (khong goi LLM, khong API key)

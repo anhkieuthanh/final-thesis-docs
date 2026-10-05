@@ -1,0 +1,21 @@
+User task 'user_task_15' failed: Ground truth does not solve the task
+User task 'user_task_16' failed: Ground truth does not solve the task
+User task 'user_task_17' failed: Ground truth does not solve the task
+User task 'user_task_18' failed: Ground truth does not solve the task
+User task 'user_task_19' failed: Ground truth does not solve the task
+0
+--shopping
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sessions/rcw-01mmad4vbg1cjdu5qcg7287z/bench/AgentDyn/src/agentdojo/functions_runtime.py", line 273, in run_function
+    raise ToolNotFoundError(f"The requested function `{function}` is not available.")
+agentdojo.functions_runtime.ToolNotFoundError: The requested function `send_money` is not available.
+Checking suite: `github`
+0
+--github
+    For further information visit https://errors.pydantic.dev/2.11/v/missing
+end_time
+  Field required [type=missing, input_value={'title': 'Day off', 'tim...: '2024-05-19 09:00:00'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.11/v/missing
+Checking suite: `dailylife`
+0
+--dailylife

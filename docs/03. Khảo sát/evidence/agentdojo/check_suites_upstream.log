@@ -1,0 +1,118 @@
+2026-09-23T03:23:09Z
+Checking suite: `workspace`
+Suite 'workspace' failed for some user tasks!
+Suite 'workspace' failed for some injection tasks!
+User task 'user_task_0' failed: The task is not injectable
+User task 'user_task_1' failed: The task is not injectable
+User task 'user_task_3' failed: The task is not injectable
+User task 'user_task_2' failed: The task is not injectable
+User task 'user_task_5' failed: The task is not injectable
+User task 'user_task_6' failed: The task is not injectable
+User task 'user_task_7' failed: The task is not injectable
+User task 'user_task_8' failed: The task is not injectable
+User task 'user_task_9' failed: The task is not injectable
+User task 'user_task_10' failed: The task is not injectable
+User task 'user_task_11' failed: The task is not injectable
+User task 'user_task_12' failed: The task is not injectable
+User task 'user_task_21' failed: The task is not injectable
+User task 'user_task_14' failed: The task is not injectable
+User task 'user_task_16' failed: The task is not injectable
+User task 'user_task_17' failed: The task is not injectable
+User task 'user_task_22' failed: The task is not injectable
+User task 'user_task_24' failed: The task is not injectable
+User task 'user_task_26' failed: The task is not injectable
+User task 'user_task_27' failed: The task is not injectable
+User task 'user_task_28' failed: The task is not injectable
+User task 'user_task_35' failed: The task is not injectable
+User task 'user_task_29' failed: The task is not injectable
+User task 'user_task_30' failed: The task is not injectable
+User task 'user_task_31' failed: The task is not injectable
+User task 'user_task_32' failed: The task is not injectable
+User task 'user_task_15' failed: The task is not injectable
+User task 'user_task_18' failed: The task is not injectable
+User task 'user_task_34' failed: The task is not injectable
+User task 'user_task_20' failed: The task is not injectable
+User task 'user_task_33' failed: The task is not injectable
+User task 'user_task_25' failed: The task is not injectable
+User task 'user_task_13' failed: The task is not injectable
+User task 'user_task_23' failed: The task is not injectable
+User task 'user_task_4' failed: The task is not injectable
+User task 'user_task_19' failed: The task is not injectable
+User task 'user_task_36' failed: The task is not injectable
+User task 'user_task_37' failed: The task is not injectable
+User task 'user_task_38' failed: The task is not injectable
+User task 'user_task_39' failed: The task is not injectable
+The ground truth does not solve the injection task task 'injection_task_6'
+The ground truth does not solve the injection task task 'injection_task_7'
+The ground truth does not solve the injection task task 'injection_task_8'
+The ground truth does not solve the injection task task 'injection_task_9'
+The ground truth does not solve the injection task task 'injection_task_10'
+The ground truth does not solve the injection task task 'injection_task_11'
+The ground truth does not solve the injection task task 'injection_task_12'
+The ground truth does not solve the injection task task 'injection_task_13'
+Checking suite: `travel`
+Suite 'travel' failed for some user tasks!
+Suite 'travel' passed for all 7 injection tasks!
+User task 'user_task_0' failed: The task is not injectable
+User task 'user_task_1' failed: The task is not injectable
+User task 'user_task_2' failed: The task is not injectable
+User task 'user_task_3' failed: The task is not injectable
+User task 'user_task_4' failed: The task is not injectable
+User task 'user_task_5' failed: The task is not injectable
+User task 'user_task_6' failed: The task is not injectable
+User task 'user_task_7' failed: The task is not injectable
+User task 'user_task_8' failed: The task is not injectable
+User task 'user_task_9' failed: The task is not injectable
+User task 'user_task_10' failed: The task is not injectable
+User task 'user_task_11' failed: The task is not injectable
+User task 'user_task_12' failed: The task is not injectable
+User task 'user_task_13' failed: The task is not injectable
+User task 'user_task_14' failed: The task is not injectable
+User task 'user_task_15' failed: The task is not injectable
+User task 'user_task_16' failed: The task is not injectable
+User task 'user_task_17' failed: The task is not injectable
+User task 'user_task_18' failed: The task is not injectable
+User task 'user_task_19' failed: The task is not injectable
+Checking suite: `banking`
+Suite 'banking' failed for some user tasks!
+Suite 'banking' passed for all 9 injection tasks!
+User task 'user_task_0' failed: The task is not injectable
+User task 'user_task_1' failed: The task is not injectable
+User task 'user_task_2' failed: The task is not injectable
+User task 'user_task_3' failed: The task is not injectable
+User task 'user_task_4' failed: The task is not injectable
+User task 'user_task_5' failed: The task is not injectable
+User task 'user_task_6' failed: The task is not injectable
+User task 'user_task_7' failed: The task is not injectable
+User task 'user_task_8' failed: The task is not injectable
+User task 'user_task_9' failed: The task is not injectable
+User task 'user_task_10' failed: The task is not injectable
+User task 'user_task_11' failed: The task is not injectable
+User task 'user_task_12' failed: The task is not injectable
+User task 'user_task_13' failed: The task is not injectable
+User task 'user_task_14' failed: The task is not injectable
+User task 'user_task_15' failed: The task is not injectable
+Checking suite: `slack`
+Suite 'slack' failed for some user tasks!
+Suite 'slack' passed for all 5 injection tasks!
+User task 'user_task_0' failed: The task is not injectable
+User task 'user_task_1' failed: The task is not injectable
+User task 'user_task_2' failed: The task is not injectable
+User task 'user_task_3' failed: The task is not injectable
+User task 'user_task_4' failed: The task is not injectable
+User task 'user_task_5' failed: The task is not injectable
+User task 'user_task_6' failed: The task is not injectable
+User task 'user_task_7' failed: The task is not injectable
+User task 'user_task_8' failed: The task is not injectable
+User task 'user_task_9' failed: The task is not injectable
+User task 'user_task_10' failed: The task is not injectable
+User task 'user_task_11' failed: The task is not injectable
+User task 'user_task_12' failed: The task is not injectable
+User task 'user_task_13' failed: The task is not injectable
+User task 'user_task_14' failed: The task is not injectable
+User task 'user_task_15' failed: The task is not injectable
+User task 'user_task_16' failed: The task is not injectable
+User task 'user_task_17' failed: The task is not injectable
+User task 'user_task_18' failed: The task is not injectable
+User task 'user_task_19' failed: The task is not injectable
+User task 'user_task_20' failed: The task is not injectable

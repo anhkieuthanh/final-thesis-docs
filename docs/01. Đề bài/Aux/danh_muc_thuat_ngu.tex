@@ -1,0 +1,44 @@
+% Danh mục thuật ngữ — Đồ án tốt nghiệp IPI
+% Soạn với sự hỗ trợ của AI (Claude). Nguồn: Y_TUONG_DU_AN.md, Mô tả bài toán.md
+% Yêu cầu gói: \usepackage{longtable}
+
+\begin{longtable}{l p{4cm} p{8cm}}
+	\hline
+	\textbf{Thuật ngữ} & \textbf{Tiếng Việt} & \textbf{Giải thích} \\ \hline
+	\endfirsthead
+	\hline
+	\textbf{Thuật ngữ} & \textbf{Tiếng Việt} & \textbf{Giải thích} \\ \hline
+	\endhead
+
+	\textbf{Adaptive attacker} & Kẻ tấn công thích ứng & Kẻ tấn công biết trước cơ chế phòng thủ và được viết lại payload theo phản hồi bị chặn, tối đa ba vòng \\
+	\textbf{Agent} & Tác tử & Hệ thống dùng LLM làm bộ điều khiển, tự quyết định gọi công cụ để hoàn thành tác vụ \\
+	\textbf{Allowlist} & Danh sách cho phép & Tập công cụ hoặc miền mạng được phép; gọi ra ngoài tập này là vi phạm quyền hạn \\
+	\textbf{Blind attacker} & Kẻ tấn công mù & Kẻ tấn công không biết cơ chế phòng thủ, gieo payload một lần duy nhất \\
+	\textbf{Canary} & Chuỗi mồi & Chuỗi duy nhất sinh theo từng run, nhúng vào tài sản cần bảo vệ; xuất hiện ở đầu ra tức là đã rò rỉ \\
+	\textbf{Carrier task} & Tác vụ chở & Tác vụ nghiệp vụ hợp lệ mà payload bám vào để được kích hoạt \\
+	\textbf{Chunk} & Đoạn tài liệu & Mảnh tài liệu sau khi cắt để đánh chỉ mục; đồ án dùng 512 token, chồng lấn 64 \\
+	\textbf{Context window} & Cửa sổ ngữ cảnh & Toàn bộ văn bản đưa vào mô hình trong một lượt suy luận \\
+	\textbf{Delimiter} & Dấu phân cách & Chuỗi bao quanh nội dung không tin cậy trong cơ chế D1; sinh ngẫu nhiên mỗi lượt \\
+	\textbf{Egress} & Luồng ra & Dữ liệu rời khỏi vành đai hệ thống qua email, HTTP hoặc phiếu hỗ trợ \\
+	\textbf{Embedding} & Biểu diễn vector & Vector số hóa ngữ nghĩa văn bản, dùng để đo độ tương đồng khi truy hồi \\
+	\textbf{Exfiltration} & Rò rỉ dữ liệu & Việc đưa dữ liệu nhạy cảm ra ngoài vành đai \\
+	\textbf{Frontier model} & Mô hình lớp đầu & Lớp mô hình mạnh nhất hiện có, dùng làm nhánh A1 \\
+	\textbf{Harness} & Khung chạy agent & Nền tảng thương mại chạy agent, có sẵn lớp kiểm soát công cụ riêng không tắt được \\
+	\textbf{Injector} & Bộ tiêm & Thành phần đưa payload vào kênh K1 hoặc K2 trước mỗi run \\
+	\textbf{Judge} & Bộ chấm & Thành phần đánh giá chất lượng câu trả lời theo rubric, dùng cho chỉ số hữu dụng \\
+	\textbf{Mutator} & Bộ biến thể & Thành phần sinh biến thể payload từ một mẫu gốc theo kỹ thuật T1--T8 \\
+	\textbf{Payload} & Nội dung tấn công & Đoạn văn bản độc gieo vào kênh không tin cậy nhằm chiếm quyền điều khiển agent \\
+	\textbf{Pareto frontier} & Biên Pareto & Tập cấu hình không bị cấu hình nào khác vượt trội đồng thời cả an toàn lẫn hữu dụng \\
+	\textbf{Prompt injection} & Tiêm nhiễm chỉ thị & Đưa chỉ thị của kẻ tấn công vào ngữ cảnh để mô hình thi hành thay vì chỉ thị hợp lệ \\
+	\textbf{Retrieval} & Truy hồi & Khâu tìm và lấy đoạn tài liệu liên quan từ vector store để ghép vào prompt \\
+	\textbf{Rubric} & Thang chấm & Bộ tiêu chí cố định để chấm câu trả lời, bảo đảm chấm lại cho cùng kết quả \\
+	\textbf{Rug-pull} & Đánh tráo công cụ & Server MCP đổi mô tả công cụ sau khi đã được duyệt, khiến việc duyệt một lần mất hiệu lực \\
+	\textbf{Sanitizer} & Bộ làm sạch & Cơ chế D2, biến đổi cú pháp tất định để loại ký tự ẩn và mẫu mệnh lệnh \\
+	\textbf{Scorer} & Bộ chấm điểm & Thành phần đọc trace và kết luận run thành công hay thất bại, tách rõ nguyên nhân chặn \\
+	\textbf{Spotlighting} & Làm nổi ranh giới & Cơ chế D1, bọc nội dung không tin cậy trong delimiter kèm chỉ thị coi đó là dữ liệu \\
+	\textbf{System prompt} & Chỉ thị hệ thống & Khối chỉ thị nền quy định vai trò, quy tắc nghiệp vụ và ràng buộc an toàn của agent \\
+	\textbf{Tool-calling} & Gọi công cụ & Cơ chế cho phép mô hình sinh lời gọi hàm có cấu trúc để tác động ra bên ngoài \\
+	\textbf{Trace} & Vết chạy & Bản ghi đầy đủ một run: prompt, tool-call, kết quả, nguyên nhân chặn; là nguồn cho mọi số liệu \\
+	\textbf{Vector store} & Kho vector & Cơ sở dữ liệu lưu embedding, phục vụ truy hồi theo độ tương đồng \\
+	\hline
+\end{longtable}

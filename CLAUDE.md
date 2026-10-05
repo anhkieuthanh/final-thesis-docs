@@ -8,23 +8,26 @@
 Nghiên cứu và xây dựng hệ thống đánh giá, phòng chống tấn công tiêm nhiễm gián tiếp
 (Indirect Prompt Injection — IPI) trên AI Agent dùng RAG + MCP tool-calling.
 
-Đồ án **ứng dụng** — sản phẩm bàn giao là công cụ. Nhịp 20 giờ/tuần, 16 tuần dương lịch.
+Đồ án **ứng dụng** — sản phẩm bàn giao là công cụ. Theo phiếu giao nhiệm vụ: 17 tuần dương lịch
+(07/09/2026 → 08/01/2027), sáu Nội dung ND1–ND6, nhịp 20 giờ/tuần.
 
 Bốn đóng góp cốt lõi: testbed agent doanh nghiệp Việt có kiểm soát · bộ đo ASR/DSR/ARR/USR
 lặp lại được · bốn cơ chế phòng thủ D1–D4 đánh giá theo cặp an toàn/hữu dụng · đo độ bền
 trước kẻ tấn công thích ứng.
 
-## 2. Nguồn chân lý — không có nguồn thứ năm
+## 2. Nguồn chân lý — không có nguồn nào khác
 
 | Hỏi về | Đọc |
 |---|---|
+| Nhiệm vụ, khung sáu Nội dung, hạn nộp | Phiếu giao nhiệm vụ `PhieuGiaoNhiemVu_DATN_*.xlsx` (gốc workspace) |
 | Ý tưởng tổng thể, mọi quyết định đã chốt | `Y_TUONG_DU_AN.md` |
-| Bài toán: phạm vi, threat model, biến, RQ | `docs/01_de_bai/MO_TA_BAI_TOAN.md` |
-| Kế hoạch: lịch, mốc, ngân sách | `docs/02_ke_hoach/KE_HOACH.md` |
-| Trạng thái task — cái gì đã DONE | `docs/02_ke_hoach/TASKS.md` — **luôn kiểm trước khi đề xuất việc kế tiếp, đừng giả định** |
+| Bài toán: phạm vi, threat model, biến, RQ | `docs/01. Đề bài/01. Mô tả bài toán.md` |
+| Kế hoạch: lịch, mốc | `Kế hoạch thực hiện.xlsx` (sheet "Kế hoạch chi tiết", "Tổng quan mốc") |
+| Trạng thái task — cái gì đã xong | `Kế hoạch thực hiện.xlsx`, sheet "Kế hoạch chi tiết", cột Trạng thái — **luôn kiểm trước khi đề xuất việc kế tiếp, đừng giả định** |
 
+Phiếu giao nhiệm vụ đứng trên bốn nguồn còn lại: xung đột thì theo phiếu, rồi sửa nguồn kia.
 Chỉ giữ bản hiện hành trong cây thư mục. Lịch sử thay đổi ghi ở
-`docs/06_theo_doi/CHANGELOG_TAI_LIEU.md`.
+`docs/06. Track/CHANGELOG_TAI_LIEU.md`.
 
 ## 3. Hai repo Git tách biệt — chủ ý
 
@@ -40,7 +43,7 @@ Chỉ giữ bản hiện hành trong cây thư mục. Lịch sử thay đổi gh
 
 1. **Không sửa file bộ đo đã khóa** (`data/benign_queries.json`, `data/carrier_tasks.json`,
    khóa bằng tag `v-bench-1.0`). Mọi thay đổi ghi vào
-   `docs/06_theo_doi/CHANGELOG_TAI_LIEU.md` kèm lý do — **không** ghi changelog trong chính
+   `docs/06. Track/CHANGELOG_TAI_LIEU.md` kèm lý do — **không** ghi changelog trong chính
    file JSON.
 2. **Không nhận xét hay dùng số liệu về AgentDojo / AutoDojo / MCPTox nếu chưa thực sự cài
    và chạy**, và bằng chứng chạy thật phải nằm trong repo.
@@ -63,7 +66,7 @@ Chỉ giữ bản hiện hành trong cây thư mục. Lịch sử thay đổi gh
     chiếu bản cũ, không dòng "cập nhật ngày", không ghi chú sửa đổi. Sửa là thay thẳng nội
     dung rồi ghi một mục lên đầu `CHANGELOG_TAI_LIEU.md`: ngày · file · thay đổi · lý do.
     Áp cho **cả file dữ liệu `.json`** — dữ liệu chỉ chứa dữ liệu. Biểu mẫu chờ ký và việc
-    còn treo không phải ghi chú lịch sử: để ở file riêng trong `docs/06_theo_doi/`.
+    còn treo không phải ghi chú lịch sử: để ở file riêng trong `docs/06. Track/`.
 
 Hai quy tắc vận hành kèm theo: kiểm chi phí API mỗi 2 giờ trong 4 giờ đầu mọi lần chạy lô,
 vượt 120% dự toán thì dừng ngay; hạn mức lấy từ `.env` và **không mở hay sửa `.env` thay
@@ -76,8 +79,10 @@ người dùng**. Nội dung do AI soạn phải ghi rõ ở đầu tài liệu,
 | `TS1`–`TS3` | Ba tài sản cần bảo vệ (system prompt · customers.db · quyền gọi tool) |
 | `A1`–`A3` | Ba mô hình đích (frontier · doanh nghiệp Việt · lớp rẻ) |
 | `M0`–`M8` | Các mốc nghiệm thu |
-| `G1`–`G3` | Mục tiêu tấn công · `K1`–`K5` kênh · `T1`–`T9` kỹ thuật · `D1`–`D4` phòng thủ |
+| `G1`–`G3` | Mục tiêu tấn công · `K1`–`K5` kênh · `T1`–`T8` kỹ thuật · `D1`–`D4` phòng thủ |
 | `CT-01`–`CT-06` | Tác vụ chở · `U1`–`U5` nhóm câu hỏi lành tính |
+| `ND1`–`ND6` | Sáu Nội dung của phiếu giao nhiệm vụ. Tuần viết đầy đủ "Tuần n" (1–17), không viết `Tn` vì `T1`–`T8` dành cho kỹ thuật payload |
+| `STT-n` | Số thứ tự đầu việc trong sheet "Kế hoạch chi tiết" |
 
 Không tái sử dụng một tiền tố cho hai khái niệm. Ngưỡng nghiệm thu viết một lần, một chỗ.
 
@@ -85,7 +90,7 @@ Không tái sử dụng một tiền tố cho hai khái niệm. Ngưỡng nghi�
 
 - Dependency bằng **uv**: `cd ipi-agent-lab && uv sync --all-groups`.
 - Test `uv run pytest -v`; lint `uv run ruff check .` (line-length 100, target py310).
-- Commit message gắn mã task: `docs(W2-09): ...` / `feat(W2-09): ...`.
+- Commit message gắn mã task: `docs(STT-32): ...` / `feat(STT-32): ...`.
 - Model đích cấu hình qua `config/models.yaml` + `.env` (mẫu ở `.env.example`). Đổi model =
   đổi `.env` + một khối `targets`, **không sửa code**.
 - `config/` là hợp đồng, viết trước `src/`.
@@ -94,7 +99,7 @@ Không tái sử dụng một tiền tố cho hai khái niệm. Ngưỡng nghi�
 
 ## 7. Nhịp làm việc
 
-- Đầu tuần: đọc bước lớn và mốc phải đạt trong `KE_HOACH.md`.
+- Đầu tuần: đọc Nội dung hiện hành (ND1–ND6) và mốc phải đạt trong `Kế hoạch thực hiện.xlsx`.
 - Cuối tuần: đối chiếu % giờ đã dùng, rà ngưỡng rủi ro, đếm hạng mục ngoài phạm vi.
 - Họp GVHD tối thiểu 2 tuần một lần.
 - Viết báo cáo 2 giờ mỗi tuần, không dồn cuối.

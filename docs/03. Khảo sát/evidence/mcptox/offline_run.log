@@ -1,0 +1,140 @@
+{
+ "run_at_utc": "2026-09-23T03:30:01.769952Z",
+ "n_payload_records": 485,
+ "n_servers": 45,
+ "by_paradigm": {
+  "Template-2": 183,
+  "Template-3": 225,
+  "Template-1": 77
+ },
+ "by_security_risk": {
+  "Infrastructure Damage": 41,
+  "Credential Leakage": 40,
+  "Privacy Leakage": 97,
+  "Service Disruption": 73,
+  "Code Injection": 22,
+  "Information Manipulation": 108,
+  "Financial Loss": 21,
+  "Instruction Tampering": 21,
+  "Other": 2,
+  "Message Hijacking": 15,
+  "Data Tampering": 45
+ },
+ "tool_content_len_chars": {
+  "min": 99,
+  "max": 998,
+  "mean": 272.0
+ },
+ "response_all_top_keys": [
+  "data_length",
+  "attack_scopes",
+  "label_scopes",
+  "call_behaviors",
+  "save_dir",
+  "servers"
+ ],
+ "response_all_data_length": 1348,
+ "label_scopes": [
+  "Success",
+  "Failure",
+  "Work but not Success",
+  "Identifiable",
+  "None"
+ ],
+ "call_behaviors": [
+  "Template-1",
+  "Template-2",
+  "Template-3",
+  "Other"
+ ],
+ "license_file_present": false,
+ "def_tool_files": 485,
+ "def_tool_docstring_matches_pure_tool": 236,
+ "servers_in_response_all": 45,
+ "server_record_keys": [
+  "server_id",
+  "category_id",
+  "server_name",
+  "tool_names",
+  "clean_system_promot",
+  "clean_querys",
+  "server_url",
+  "malicious_instance"
+ ],
+ "released_malicious_instances": 1348,
+ "released_malicious_instances_by_paradigm": {
+  "Template-2": 519,
+  "Template-3": 618,
+  "Template-1": 211
+ },
+ "released_query_cases": 1348,
+ "released_label_counts_per_model": {
+  "Qwen3-8b-Think": {
+   "Failure-Ignored": 606,
+   "Success": 289,
+   "Failure-Direct Execution": 258,
+   "None": 31
+  },
+  "Qwen3-8b-No-Think": {
+   "Failure-Ignored": 744,
+   "Failure-Direct Execution": 424,
+   "Success": 68,
+   "None": 18
+  },
+  "Qwen3-14b-Think": {
+   "Failure-Ignored": 580,
+   "Failure-Direct Execution": 345,
+   "Success": 343,
+   "None": 14
+  },
+  "Qwen3-14b-No-Think": {
+   "Failure-Ignored": 755,
+   "Failure-Direct Execution": 431,
+   "Success": 64,
+   "None": 9
+  },
+  "Deepseek-qwen3-8b-Think": {
+   "None": 69,
+   "Failure-Ignored": 112,
+   "Failure-Direct Execution": 181,
+   "Success": 29
+  },
+  "gemma-2-9b": {
+   "Failure-Ignored": 858,
+   "Failure-Direct Execution": 246,
+   "None": 31,
+   "Success": 187
+  },
+  "mistral": {
+   "Failure-Ignored": 571,
+   "None": 67,
+   "Failure-Direct Execution": 390,
+   "Success": 87
+  },
+  "Phi-4-Think": {
+   "Failure-Direct Execution": 82,
+   "Failure-Ignored": 204,
+   "Success": 676,
+   "None": 34
+  },
+  "LLama-3-8b": {
+   "Failure-Direct Execution": 194,
+   "Failure-Ignored": 480,
+   "None": 61,
+   "Success": 35
+  },
+  "Qwen3-30b-A3b-No-Think": {
+   "Failure-Direct Execution": 277,
+   "Failure-Ignored": 439,
+   "None": 7,
+   "Success": 53
+  },
+  "LLama-13b": {
+   "Success": 3,
+   "Failure-Ignored": 143,
+   "None": 3,
+   "Failure-Direct Execution": 8
+  }
+ },
+ "NOTE": "released_label_counts_* la nhan do tac gia MCPTox cham tren phan hoi model ho da chay; KHONG phai so do ASR do do an tu chay."
+}

@@ -1,0 +1,10 @@
+InjectionTask3 có ground truth dòng 39
+InjectionTask6 ground_truth=[] (rỗng) dòng 90
+InjectionTask7 ground_truth=[] (rỗng) dòng 121
+InjectionTask8 ground_truth=[] (rỗng) dòng 157
+InjectionTask9 ground_truth=[] (rỗng) dòng 197
+InjectionTask10 ground_truth=[] (rỗng) dòng 251
+InjectionTask11 ground_truth=[] (rỗng) dòng 279
+InjectionTask12 ground_truth=[] (rỗng) dòng 324
+InjectionTask13 ground_truth=[] (rỗng) dòng 379
+nguồn: agentdojo@089ed468 src/agentdojo/default_suites/v1_2/workspace/injection_tasks.py

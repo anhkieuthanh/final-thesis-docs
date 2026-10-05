@@ -1,0 +1,8 @@
+repo: zhiqiangwang4/MCPTox-Benchmark
+commit: f85189f9ad12504c197c7f920ab818a40657b1fa
+commit_date: 2025-12-03T15:30:47+08:00
+host: may TA - Cowork Linux VM (Linux 6.8.0-138-generic)
+python: Python 3.10.12
+run_date_utc: 2026-09-23T04:09:18Z
+cmd: python3 scripts/mcptox_offline.py <MCPTox-Benchmark> <out>
+llm_calls: 0 (khong goi LLM, khong API key)

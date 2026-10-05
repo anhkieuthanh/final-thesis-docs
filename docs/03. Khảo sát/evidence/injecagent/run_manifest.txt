@@ -1,0 +1,8 @@
+repo: uiuc-kang-lab/InjecAgent
+commit: f19c9f2c79a41046eb13c03c51a24c567a8ffa07
+commit_date: 2024-07-02T00:38:20-05:00
+host: may TA - Cowork Linux VM (Linux 6.8.0-138-generic)
+python: Python 3.10.12
+run_date_utc: 2026-09-23T04:09:18Z
+cmd: python3 scripts/injecagent_offline.py <InjecAgent> <out>
+llm_calls: 0 (khong goi LLM, khong API key)
