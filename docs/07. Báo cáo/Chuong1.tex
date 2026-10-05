@@ -1,0 +1,82 @@
+% =============================================================================
+% CHƯƠNG 1 — GIỚI THIỆU ĐỀ TÀI
+% Nội dung soạn với sự hỗ trợ của AI (Claude). Sinh viên tự kiểm mọi trích dẫn
+% trước khi nộp. Nguồn: Y_TUONG_DU_AN.md, docs/01. Đề bài/01. Mô tả bài toán.md,
+% phiếu giao nhiệm vụ ĐATN. Thay toàn bộ nội dung file chương 1 của mẫu bằng file
+% này (đã xoá phần hướng dẫn của mẫu). Tài liệu tham khảo: refs_chuong1.bib.
+%
+% ĐIỂM CẦN XÁC NHẬN (tìm "% [XÁC NHẬN]"):
+%   (1) Đặt kết quả thực nghiệm ở cuối Chương 4 là điều chỉnh khung mẫu, cần GVHD đồng ý.
+%   (2) Câu "kết quả đạt được" ở mục 1.3 chỉ điền khi đã có số liệu.
+% =============================================================================
+\documentclass[../DoAn.tex]{subfiles}
+\begin{document}
+
+\section{Đặt vấn đề}
+\label{section:1.1}
+
+Các mô hình ngôn ngữ lớn (Large Language Model -- LLM) đang được đưa vào doanh nghiệp dưới dạng tác tử (agent) có khả năng hành động chứ không chỉ trả lời văn bản. Một tác tử như vậy tra cứu kho tri thức nội bộ bằng kỹ thuật sinh câu trả lời có tăng cường truy hồi (Retrieval-Augmented Generation -- RAG)~\cite{lewis2020rag}, và gọi công cụ bên ngoài thông qua vòng lặp suy luận xen hành động~\cite{yao2023react}, trong đó Giao thức ngữ cảnh mô hình (Model Context Protocol -- MCP) chuẩn hóa cách tác tử phát hiện và gọi công cụ của máy chủ bên thứ ba~\cite{anthropic2024mcp}. Nhờ đó, một trợ lý nội bộ có thể tra cứu cơ sở dữ liệu khách hàng, gửi thư điện tử, gọi giao diện lập trình nội bộ và tạo phiếu hỗ trợ thay cho nhân viên.
+
+Để làm được các việc đó, tác tử phải đọc nội dung nằm ngoài vòng kiểm soát của tổ chức, gồm tài liệu được nạp tự động vào kho tri thức, mô tả công cụ lấy về lúc chạy từ máy chủ MCP và kết quả trả về của công cụ. Toàn bộ nội dung này được ghép với chỉ thị hệ thống vào một cửa sổ ngữ cảnh duy nhất, trong khi mô hình ngôn ngữ không có kênh xác thực nguồn phát: đoạn nào là chỉ thị, đoạn nào là dữ liệu chỉ được suy ra từ hình thức văn bản. Tấn công tiêm nhiễm chỉ thị gián tiếp (Indirect Prompt Injection -- IPI) khai thác đúng điểm này bằng cách đặt chỉ thị độc hại vào dữ liệu mà tác tử sẽ đọc, để chỉ thị đó được thi hành như thể do người dùng hợp lệ đưa ra~\cite{greshake2023indirect}. Khác với tiêm nhiễm trực tiếp do chính người dùng nhập vào~\cite{perez2022ignore}, IPI không đòi hỏi kẻ tấn công tương tác với hệ thống, và được xếp vào nhóm rủi ro hàng đầu của ứng dụng dùng mô hình ngôn ngữ~\cite{owasp2025llm}.
+
+Tính cấp thiết của vấn đề đến từ việc tác tử có quyền hành động. Khi bị tiêm nhiễm, tác tử có thể gửi dữ liệu khách hàng ra ngoài bằng hộp thư nội bộ, gọi giao diện lập trình bằng thông tin xác thực của công ty hoặc ghi nội dung vào phiếu mà người ngoài đọc được, trong khi kẻ tấn công chỉ cần đặt được một đoạn văn bản vào nơi tác tử sẽ đọc. Rò rỉ dữ liệu khách hàng còn thuộc phạm vi điều chỉnh của Nghị định 13/2023/NĐ-CP về bảo vệ dữ liệu cá nhân~\cite{nd13-2023}. Nghiêm trọng hơn, quyền gọi công cụ bị chiếm có thể dùng lặp lại, và mọi hành động phát sinh đều mang danh nghĩa hợp lệ của doanh nghiệp.
+
+Nếu vấn đề này được giải quyết, người chịu trách nhiệm an toàn cho một tác tử doanh nghiệp sẽ trả lời được ba câu hỏi vận hành bằng số liệu, gồm (i) cấu hình phòng thủ nào đáng bật, (ii) bật cấu hình đó thì mất bao nhiêu tính hữu dụng, và (iii) khi bật đồng thời mọi cơ chế phòng thủ thì những dạng tấn công nào vẫn thành công, và trong số các cơ chế đã chặn được tấn công, cơ chế nào vẫn giữ hiệu lực khi kẻ tấn công biết trước cách cơ chế đó hoạt động. Đối với doanh nghiệp Việt Nam, các câu trả lời này cần được đo trên chính bối cảnh nghiệp vụ và dữ liệu tiếng Việt, vì kết quả công bố trên bối cảnh khác không chuyển trực tiếp sang được. Bài toán cũng không giới hạn ở một ngành: mọi tác tử đọc nội dung bên ngoài và có quyền gọi công cụ, từ chăm sóc khách hàng, tài chính đến dịch vụ hành chính công, đều chịu cùng loại rủi ro.
+
+\section{Mục tiêu và phạm vi đề tài}
+\label{section:1.2}
+
+Các nghiên cứu về IPI trên tác tử hiện phát triển theo hai hướng. Hướng thứ nhất xây dựng bộ đo để định lượng mức độ dễ bị tấn công, trong đó InjecAgent~\cite{zhan2024injecagent} và AgentDojo~\cite{debenedetti2024agentdojo} tập trung vào payload nằm trong kết quả trả về của công cụ, còn MCPTox~\cite{wang2025mcptox} tập trung vào việc đầu độc mô tả công cụ trên máy chủ MCP. Hướng thứ hai đề xuất cơ chế phòng thủ, chẳng hạn đánh dấu ranh giới giữa dữ liệu và chỉ thị~\cite{hines2024spotlighting}, đồng thời các nghiên cứu gần đây cho thấy nhiều cơ chế phòng thủ mất hiệu lực trước kẻ tấn công thích ứng~\cite{zhan2025adaptive}.
+
+Đối chiếu các công trình trên với nhu cầu của một doanh nghiệp Việt Nam cho thấy ba hạn chế. Thứ nhất, kênh tài liệu truy hồi và kênh công cụ được đo bằng các hệ đo khác nhau, nên không so sánh được mức độ nguy hiểm của hai kênh trên cùng một thang đo. Thứ hai, chưa bộ đo nào trong số đã khảo sát đồng thời đo hiệu quả phòng thủ, cái giá về tính hữu dụng và độ bền trước kẻ tấn công thích ứng trên cùng một tập lượt chạy. Thứ ba, các bộ đo được xây dựng trên dữ liệu và bối cảnh nghiệp vụ tiếng Anh, nên không phản ánh được các kỹ thuật che giấu đặc thù tiếng Việt hay thói quen tuân thủ thẩm quyền hành chính trong doanh nghiệp Việt.
+
+Trên cơ sở đó, đồ án hướng tới xây dựng một hệ thống đánh giá và phòng chống IPI cho tác tử doanh nghiệp dùng RAG và gọi công cụ qua MCP. Hệ thống có năm chức năng chính, gồm (i) môi trường thử nghiệm (testbed) mô phỏng trợ lý nội bộ của một công ty phân phối thiết bị với năm công cụ, kho tri thức và cơ sở dữ liệu khách hàng tiếng Việt, (ii) sinh và bơm payload tấn công qua hai kênh, (iii) chấm điểm tự động và tất định kết quả của từng lượt chạy, (iv) bốn cơ chế phòng thủ bật tắt được bằng tệp cấu hình, và (v) bảng điều khiển tra cứu kết quả, xem lại vết chạy và trình diễn trực tiếp. Hệ thống được dùng để trả lời sáu câu hỏi nghiên cứu (Research Question -- RQ) tóm tắt trong Bảng~\ref{tab:rq-gia-thuyet}, trong đó mỗi câu hỏi có một giả thuyết được ghi lại trước khi thực nghiệm để tránh diễn giải kết quả theo hướng có lợi. Chỉ số trung tâm là tỷ lệ tấn công thành công (Attack Success Rate -- ASR).
+
+\begin{table}[htbp]
+	\centering
+	\caption{Sáu câu hỏi nghiên cứu và giả thuyết ghi trước thực nghiệm}
+	\label{tab:rq-gia-thuyet}
+	\begin{tabular}{|p{0.08\textwidth}|p{0.4\textwidth}|p{0.4\textwidth}|}
+		\hline
+		\textbf{Mã} & \textbf{Câu hỏi nghiên cứu} & \textbf{Giả thuyết} \\ \hline
+		RQ1 & Kênh tài liệu (K1) và kênh công cụ (K2) khác nhau thế nào về ASR? & ASR trên K2 cao hơn đáng kể, vì nội dung K2 không phải vượt qua khâu truy hồi. \\ \hline
+		RQ2 & Kỹ thuật nào mạnh nhất trên từng kênh, và có ổn định khi đổi lớp mô hình? & Điều kiện tiên quyết giả (T3) thống trị trên mô tả công cụ; ngụy trang nghiệp vụ (T5) thống trị trên K1 khi phòng thủ được bật. \\ \hline
+		RQ3 & Tổ hợp bốn cơ chế phòng thủ có hơn cơ chế đơn lẻ tốt nhất không? & Hiệu quả không cộng tính; phần tăng thêm chủ yếu đến từ chính sách gọi công cụ (D3). \\ \hline
+		RQ4 & Mỗi cơ chế làm mất bao nhiêu tính hữu dụng? & D3 có tỷ lệ từ chối sai cao nhất ở các tác vụ gửi thư và mở phiếu. \\ \hline
+		RQ5 & Phòng thủ còn hiệu quả bao nhiêu khi kẻ tấn công biết trước cơ chế? & Hai cơ chế dựa trên văn bản (D1, D2) mất gần hết hiệu lực; D3 và D4 giữ được. \\ \hline
+		RQ6 & Mỗi trong hai harness thương mại giảm ASR bao nhiêu so với vòng lặp trần trên cùng một mô hình, hai harness khác nhau thế nào, và mỗi harness bao phủ cơ chế nào của D1--D4? & Harness bao phủ phần lớn D3 nhưng không bao phủ D1, D2 và D4. \\ \hline
+	\end{tabular}
+\end{table}
+
+Phạm vi thực nghiệm được giới hạn ở hai kênh tấn công là tài liệu truy hồi và công cụ, tám kỹ thuật payload, bốn cơ chế phòng thủ, ba mục tiêu tấn công gồm rò rỉ dữ liệu, chiếm quyền hành động và thao túng câu trả lời, ba lớp mô hình đích, hai mức năng lực kẻ tấn công, hai khung điều phối tác tử thương mại (harness) chạy trên tập con.
+
+Công cụ được đánh giá thêm với ba đến năm người dùng thực dùng thử bảng điều khiển và kịch bản trình diễn. Tấn công trực tiếp, tấn công đa phương thức, tấn công vào tầng huấn luyện và các kênh web, bộ nhớ dài hạn, liên tác tử nằm ngoài phạm vi thực nghiệm. Toàn bộ dữ liệu khách hàng trong testbed là dữ liệu mô phỏng.
+
+\section{Định hướng giải pháp}
+\label{section:1.3}
+
+Đồ án giải quyết bài toán theo phương pháp đánh giá thực nghiệm trên một testbed có kiểm soát thay vì trên hệ thống thật, vì chỉ khi môi trường được cố định thì chênh lệch ASR giữa hai cấu hình mới phản ánh tác động của cấu hình. Lõi tác tử là vòng lặp suy luận và gọi công cụ tự cài bằng Python, không phụ thuộc khung phát triển, để mọi điểm đo và điểm chèn phòng thủ nằm trong tầm kiểm soát. Công cụ được cung cấp qua MCP Python SDK, kho tri thức dùng embedding đa ngữ và vector store, vết chạy lưu trong SQLite, bảng điều khiển dựng bằng Streamlit, và toàn bộ testbed được đóng gói bằng Docker Compose để tái lập trên máy khác.
+
+Giải pháp gồm ba khối. Khối tấn công sinh payload theo các kỹ thuật đã phân loại và bơm vào kênh tài liệu hoặc kênh công cụ. Khối phòng thủ ghép bốn cơ chế theo nguyên tắc phòng thủ nhiều lớp, gồm lọc đầu vào (D2), đánh dấu ranh giới dữ liệu (D1), chính sách gọi công cụ (D3) và lọc dữ liệu ra (D4). Khối đo lường dùng chuỗi đánh dấu (canary) sinh mới ở mỗi lượt chạy để chấm thành công bằng chương trình, ghi rõ lượt tấn công bị chặn bởi cơ chế phòng thủ, bởi mô hình tự từ chối hay bởi harness, và báo cáo mỗi cấu hình phòng thủ bằng cặp chỉ số an toàn và hữu dụng kèm khoảng tin cậy.
+
+Đồ án có bốn đóng góp chính. Thứ nhất, đồ án cung cấp một testbed tác tử doanh nghiệp tiếng Việt cùng bộ đo gộp kênh tài liệu và kênh công cụ vào một hệ đo, dùng hai chỉ số ASR để tách ảnh hưởng của khâu truy hồi. Thứ hai, đồ án đánh giá bốn cơ chế phòng thủ theo cặp an toàn và hữu dụng trên cùng tập lượt chạy, đồng thời tách việc mô hình tự từ chối khỏi việc phòng thủ chặn thành công. Thứ ba, đồ án đề xuất ba kỹ thuật tấn công mở rộng, gồm chia mảnh payload qua nhiều tài liệu, kích hoạt trễ có điều kiện, che giấu đặc thù tiếng Việt và thao túng bằng thẩm quyền hành chính, kèm phép đo độ bền trước kẻ tấn công thích ứng. Thứ tư, đồ án lập bảng đối chiếu bốn cơ chế phòng thủ với lớp kiểm soát sẵn có của hai harness thương mại, chỉ ra phần doanh nghiệp đã được bảo vệ và phần còn phải bổ sung.
+% [XÁC NHẬN] (2): thêm một đến hai câu "kết quả đạt được" khi đã có số liệu, ví dụ
+% chênh lệch ASR giữa hai kênh và cấu hình có cân bằng an toàn--hữu dụng tốt nhất.
+
+\section{Bố cục đồ án}
+\label{section:1.4}
+
+% [XÁC NHẬN] (1): kết quả thực nghiệm đặt ở cuối Chương 4.
+Phần còn lại của báo cáo đồ án tốt nghiệp này được tổ chức như sau.
+
+Chương 2 khảo sát hiện trạng các bộ đo và công trình liên quan đến IPI trên tác tử, xác định mô hình đe dọa và phân loại kênh nội dung không tin cậy, từ đó đặc tả các yêu cầu chức năng và phi chức năng của hệ thống đánh giá.
+
+Chương 3 giới thiệu nền tảng lý thuyết và công nghệ của đồ án, gồm cơ chế vận hành của tác tử dùng RAG và MCP, bản chất của tấn công tiêm nhiễm gián tiếp, nguyên lý của các kỹ thuật phòng thủ và các công nghệ nền của testbed.
+
+Chương 4 trình bày thiết kế kiến trúc, thiết kế chi tiết, quá trình xây dựng và triển khai testbed, bộ đo và bốn cơ chế phòng thủ. Mục cuối của chương trình bày kết quả thực nghiệm trả lời sáu câu hỏi nghiên cứu cùng các yếu tố ảnh hưởng tới tính hợp lệ của kết quả.
+
+Chương 5 trình bày các giải pháp và đóng góp nổi bật của đồ án, gồm bộ đo gộp hai kênh, phương pháp đánh giá phòng thủ theo cặp an toàn và hữu dụng, ba kỹ thuật tấn công mở rộng và bảng đối chiếu với hai harness thương mại, đồng thời diễn giải kết quả thực nghiệm trong tương quan với các công trình đã công bố và phản hồi của người dùng thực.
+
+Chương 6 tổng kết kết quả đạt được, nêu các hạn chế về phương pháp và đề xuất hướng phát triển.
+
+\end{document}

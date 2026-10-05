@@ -1,0 +1,8 @@
+repo: xhOwenMa/AutoDojo
+commit: abbcbd8d59ea19115dc874eeb2cf294169ac5e0d
+commit_date: 2026-08-20T23:11:56-05:00
+host: may TA - Cowork Linux VM (Linux 6.8.0-138-generic)
+python: Python 3.10.12
+run_date_utc: 2026-09-23T04:09:18Z
+cmd: python3 scripts/autodojo_offline.py <AutoDojo>/agentdojo/variant_generation <out>
+llm_calls: 0 (khong goi LLM, khong API key)

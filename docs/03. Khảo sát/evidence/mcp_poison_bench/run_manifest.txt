@@ -1,0 +1,9 @@
+repo: chirag-dewan/MCP-Poison-Bench
+commit: 944ccbb6d8137c08ae1e0027ea525fd1b6b188a2
+commit_date: 2026-09-10T15:59:56-05:00
+host: may TA - Cowork Linux VM (Linux 6.8.0-138-generic)
+python: Python 3.11.16
+run_date_utc: 2026-09-23T04:09:18Z
+cmd: pytest -q (khong co API key trong env) -> pytest.log
+cmd: inventory.json: doc fixtures/payloads.py va dataset/poisoned_descriptors.json
+llm_calls: 0 (khong goi LLM, khong API key)

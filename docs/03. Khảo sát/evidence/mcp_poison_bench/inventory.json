@@ -1,0 +1,118 @@
+{
+ "run_at_utc": "2026-09-23T03:45:43.028219Z",
+ "attack_classes": [
+  "tool_description",
+  "schema_field",
+  "rug_pull",
+  "cross_server",
+  "metadata_drift"
+ ],
+ "objectives": [
+  "exfil_sink",
+  "arg_tamper",
+  "destructive"
+ ],
+ "descriptor_catalog": [
+  {
+   "id": "td-compliance-audit",
+   "attack_class": "tool_description",
+   "carrier_field": "description"
+  },
+  {
+   "id": "sf-operation-desc",
+   "attack_class": "schema_field",
+   "carrier_field": "schema_field"
+  },
+  {
+   "id": "rp-post-approval",
+   "attack_class": "rug_pull",
+   "carrier_field": "tool_result"
+  },
+  {
+   "id": "xs-shadow-audit",
+   "attack_class": "cross_server",
+   "carrier_field": "shadow_description"
+  },
+  {
+   "id": "md-post-call-description",
+   "attack_class": "metadata_drift",
+   "carrier_field": "description"
+  }
+ ],
+ "payload_sets": {
+  "seen": {
+   "tool_description": 1,
+   "schema_field": 1,
+   "rug_pull": 1,
+   "cross_server": 1,
+   "metadata_drift": 1
+  },
+  "heldout": {
+   "tool_description": 9,
+   "schema_field": 10,
+   "rug_pull": 10,
+   "cross_server": 10,
+   "metadata_drift": 5
+  }
+ },
+ "objective_payload_sets": {
+  "exfil_sink": {
+   "seen": {
+    "tool_description": 1,
+    "schema_field": 1,
+    "rug_pull": 1,
+    "cross_server": 1,
+    "metadata_drift": 1
+   },
+   "heldout": {
+    "tool_description": 9,
+    "schema_field": 10,
+    "rug_pull": 10,
+    "cross_server": 10,
+    "metadata_drift": 5
+   }
+  },
+  "arg_tamper": {
+   "seen": {
+    "tool_description": 1,
+    "schema_field": 1,
+    "rug_pull": 1,
+    "cross_server": 1,
+    "metadata_drift": 1
+   },
+   "heldout": {
+    "tool_description": 5,
+    "schema_field": 5,
+    "rug_pull": 5,
+    "cross_server": 5,
+    "metadata_drift": 5
+   }
+  },
+  "destructive": {
+   "seen": {
+    "tool_description": 1,
+    "schema_field": 1,
+    "rug_pull": 1,
+    "cross_server": 1,
+    "metadata_drift": 1
+   },
+   "heldout": {
+    "tool_description": 5,
+    "schema_field": 5,
+    "rug_pull": 5,
+    "cross_server": 5,
+    "metadata_drift": 5
+   }
+  }
+ },
+ "tasks": [
+  ".gitkeep",
+  "account_review.json",
+  "calc_add.json",
+  "notes_pipeline.json",
+  "v2"
+ ],
+ "n_configs": 12,
+ "canary_is_synthetic": "CANARY-7F3A-9B22",
+ "sink_tool": "export_data"
+}

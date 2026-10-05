@@ -17,3 +17,6 @@ __pycache__/
 
 # Clone benchmark bên thứ ba — không theo Git, tải lại theo hướng dẫn
 /benchmarks/
+
+# File khoá tạm của Office
+~$*

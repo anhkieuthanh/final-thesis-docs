@@ -1,0 +1,25 @@
+{
+  "run_at_utc": "2026-09-23T04:01:28.243807Z",
+  "benchmark_version": "v1.2.2",
+  "agentdojo_pkg": "0.1.35",
+  "python": "3.10.20",
+  "attacks_registered": [
+    "captcha_dos",
+    "direct",
+    "dos",
+    "felony_dos",
+    "ignore_previous",
+    "important_instructions",
+    "important_instructions_no_model_name",
+    "important_instructions_no_names",
+    "important_instructions_no_user_name",
+    "important_instructions_wrong_model_name",
+    "important_instructions_wrong_user_name",
+    "injecagent",
+    "manual",
+    "offensive_email_dos",
+    "swearwords_dos",
+    "system_message",
+    "tool_knowledge"
+  ]
+}

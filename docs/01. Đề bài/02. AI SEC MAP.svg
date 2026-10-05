@@ -1,0 +1,146 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="880" viewBox="0 0 1240 880" font-family="DejaVu Sans, Arial, Helvetica, sans-serif">
+  <defs>
+    <marker id="ar" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 z" fill="#334155"/>
+    </marker>
+    <marker id="arRed" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 z" fill="#b91c1c"/>
+    </marker>
+  </defs>
+
+  <rect width="1240" height="880" fill="#ffffff"/>
+  <text x="40" y="46" font-size="24" font-weight="bold" fill="#0f172a">Bản đồ khái niệm AI Security — vị trí của tấn công tiêm nhiễm gián tiếp (IPI)</text>
+  <text x="40" y="72" font-size="14" fill="#475569">Trục dọc: nơi kẻ tấn công chạm vào hệ thống. Tô đậm: phạm vi thực nghiệm của đồ án.</text>
+
+  <!-- layers -->
+  <g font-size="14">
+    <!-- L0 -->
+    <rect x="40" y="100" width="700" height="62" rx="8" fill="#f1f5f9" stroke="#cbd5e1"/>
+    <text x="58" y="126" font-size="15" font-weight="bold" fill="#334155">L0 · Quản trị và tuân thủ</text>
+    <text x="58" y="148" fill="#64748b">Đánh giá rủi ro · trách nhiệm giải trình · bảo vệ dữ liệu cá nhân — NIST AI RMF, NĐ 13/2023</text>
+
+    <!-- L1 -->
+    <rect x="40" y="172" width="700" height="62" rx="8" fill="#f1f5f9" stroke="#cbd5e1"/>
+    <text x="58" y="198" font-size="15" font-weight="bold" fill="#334155">L1 · Hạ tầng và chuỗi cung ứng</text>
+    <text x="58" y="220" fill="#64748b">Trọng số · thư viện · MCP server bên thứ ba · rug-pull — LLM03, ASI04</text>
+
+    <!-- L2 -->
+    <rect x="40" y="244" width="700" height="62" rx="8" fill="#f1f5f9" stroke="#cbd5e1"/>
+    <text x="58" y="270" font-size="15" font-weight="bold" fill="#334155">L2 · Dữ liệu và huấn luyện</text>
+    <text x="58" y="292" fill="#64748b">Đầu độc dữ liệu · cửa hậu · đảo ngược mô hình · suy luận thành viên — LLM04, NIST AI 100-2</text>
+
+    <!-- L3 -->
+    <rect x="40" y="316" width="700" height="62" rx="8" fill="#fefce8" stroke="#eab308"/>
+    <text x="58" y="342" font-size="15" font-weight="bold" fill="#854d0e">L3 · Mô hình khi suy luận — ranh giới</text>
+    <text x="58" y="364" fill="#854d0e">Jailbreak · né lớp an toàn · lộ system prompt — LLM01 trực tiếp, LLM07 · tách bằng blocked_by</text>
+
+    <!-- L4 -->
+    <rect x="40" y="388" width="700" height="72" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+    <text x="58" y="414" font-size="15" font-weight="bold" fill="#1e3a8a">L4 · Ứng dụng LLM và RAG — TRỌNG TÂM</text>
+    <text x="58" y="436" fill="#1e40af">Kho tri thức · vector store · ghép prompt — LLM01, LLM02, LLM08, ASI06</text>
+    <text x="58" y="454" font-weight="bold" fill="#1e40af">Kênh K1 — tài liệu retrieval</text>
+
+    <!-- L5 -->
+    <rect x="40" y="470" width="700" height="90" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+    <text x="58" y="496" font-size="15" font-weight="bold" fill="#1e3a8a">L5 · Agent: tự chủ và quyền gọi công cụ — TRỌNG TÂM</text>
+    <text x="58" y="518" fill="#1e40af">Vòng lặp ReAct · MCP tool-calling · bộ nhớ · liên-agent — ASI01, ASI02, ASI03, LLM06</text>
+    <text x="58" y="538" font-weight="bold" fill="#1e40af">Kênh K2a — mô tả công cụ · K2b — kết quả công cụ</text>
+    <text x="58" y="554" fill="#64748b">K3 web · K4 bộ nhớ · K5 liên-agent: chỉ mô tả, ngoài thực nghiệm</text>
+  </g>
+
+  <!-- IPI band -->
+  <rect x="760" y="388" width="200" height="172" rx="10" fill="#fee2e2" stroke="#b91c1c" stroke-width="2"/>
+  <text x="860" y="430" font-size="20" font-weight="bold" fill="#7f1d1d" text-anchor="middle">IPI</text>
+  <text x="860" y="454" font-size="13" fill="#7f1d1d" text-anchor="middle">Tiêm nhiễm gián tiếp</text>
+  <text x="860" y="486" font-size="12" fill="#7f1d1d" text-anchor="middle">LLM01 · ASI01 · ASI02</text>
+  <text x="860" y="506" font-size="12" fill="#7f1d1d" text-anchor="middle">AML.T0051.002</text>
+  <text x="860" y="530" font-size="11" fill="#7f1d1d" text-anchor="middle">Đường duy nhất nối nội dung</text>
+  <text x="860" y="545" font-size="11" fill="#7f1d1d" text-anchor="middle">không tin cậy với</text>
+  <text x="860" y="557" font-size="11" fill="#7f1d1d" text-anchor="middle">quyền hành động</text>
+  <line x1="740" y1="424" x2="758" y2="440" stroke="#b91c1c" stroke-width="2" marker-end="url(#arRed)"/>
+  <line x1="740" y1="514" x2="758" y2="500" stroke="#b91c1c" stroke-width="2" marker-end="url(#arRed)"/>
+
+  <!-- assets / goals -->
+  <rect x="980" y="388" width="220" height="172" rx="10" fill="#f8fafc" stroke="#94a3b8"/>
+  <text x="1000" y="414" font-size="14" font-weight="bold" fill="#0f172a">Hậu quả đo được</text>
+  <text x="1000" y="440" font-size="13" fill="#334155">G1 · rò rỉ TS1, TS2</text>
+  <text x="1000" y="464" font-size="13" fill="#334155">G2 · chiếm quyền TS3</text>
+  <text x="1000" y="488" font-size="13" fill="#334155">G3 · thao túng đầu ra</text>
+  <text x="1000" y="520" font-size="12" fill="#64748b">TS1 system prompt</text>
+  <text x="1000" y="538" font-size="12" fill="#64748b">TS2 customers.db</text>
+  <text x="1000" y="554" font-size="12" fill="#64748b">TS3 quyền gọi công cụ</text>
+  <line x1="962" y1="474" x2="978" y2="474" stroke="#334155" stroke-width="2" marker-end="url(#ar)"/>
+
+  <!-- autonomy arrow -->
+  <line x1="1150" y1="110" x2="1150" y2="360" stroke="#334155" stroke-width="2" marker-end="url(#ar)"/>
+  <text x="1140" y="110" font-size="12" fill="#475569" text-anchor="end">mức tự chủ tăng</text>
+  <text x="1140" y="360" font-size="12" fill="#475569" text-anchor="end">hậu quả đổi bản chất</text>
+  <text x="1168" y="240" font-size="12" fill="#475569" transform="rotate(90 1168 240)" text-anchor="middle">trả lời sai → rò rỉ → hành động</text>
+
+  <!-- lifecycle strip -->
+  <text x="40" y="614" font-size="17" font-weight="bold" fill="#0f172a">Vòng đời một lượt tấn công và điểm chèn phòng thủ</text>
+  <text x="40" y="636" font-size="13" fill="#475569">Ánh xạ chiến thuật MITRE ATLAS sang năm giai đoạn của một lượt agent</text>
+
+  <g font-size="13">
+    <rect x="40" y="654" width="205" height="86" rx="8" fill="#f1f5f9" stroke="#cbd5e1"/>
+    <text x="56" y="678" font-weight="bold" fill="#334155">1 · Gieo</text>
+    <text x="56" y="700" fill="#64748b">Soạn payload, đặt vào</text>
+    <text x="56" y="718" fill="#64748b">nơi agent sẽ đọc</text>
+    <text x="56" y="734" fill="#94a3b8">Reconnaissance</text>
+
+    <rect x="265" y="654" width="205" height="86" rx="8" fill="#f1f5f9" stroke="#cbd5e1"/>
+    <text x="281" y="678" font-weight="bold" fill="#334155">2 · Nạp</text>
+    <text x="281" y="700" fill="#64748b">KB tự động, tool list</text>
+    <text x="281" y="718" fill="#64748b">lấy lúc chạy</text>
+    <text x="281" y="734" font-size="12" fill="#94a3b8">Initial Access · AML.T0051.002</text>
+
+    <rect x="490" y="654" width="205" height="86" rx="8" fill="#f1f5f9" stroke="#cbd5e1"/>
+    <text x="506" y="678" font-weight="bold" fill="#334155">3 · Kích hoạt</text>
+    <text x="506" y="700" fill="#64748b">Người dùng hỏi,</text>
+    <text x="506" y="718" fill="#64748b">chunk được truy hồi</text>
+    <text x="506" y="734" fill="#94a3b8">delivered = true</text>
+
+    <rect x="715" y="654" width="205" height="86" rx="8" fill="#f1f5f9" stroke="#cbd5e1"/>
+    <text x="731" y="678" font-weight="bold" fill="#334155">4 · Nhầm ranh giới</text>
+    <text x="731" y="700" fill="#64748b">Dữ liệu được đọc</text>
+    <text x="731" y="718" fill="#64748b">như chỉ thị</text>
+    <text x="731" y="734" fill="#94a3b8">Execution · Defense Evasion</text>
+
+    <rect x="940" y="654" width="260" height="86" rx="8" fill="#f1f5f9" stroke="#cbd5e1"/>
+    <text x="956" y="678" font-weight="bold" fill="#334155">5 · Thi hành</text>
+    <text x="956" y="700" fill="#64748b">Tool-call thật,</text>
+    <text x="956" y="718" fill="#64748b">rẽ nhánh G1 / G2 / G3</text>
+    <text x="956" y="734" fill="#94a3b8">Exfiltration · Impact</text>
+  </g>
+
+  <line x1="246" y1="697" x2="263" y2="697" stroke="#334155" stroke-width="2" marker-end="url(#ar)"/>
+  <line x1="471" y1="697" x2="488" y2="697" stroke="#334155" stroke-width="2" marker-end="url(#ar)"/>
+  <line x1="696" y1="697" x2="713" y2="697" stroke="#334155" stroke-width="2" marker-end="url(#ar)"/>
+  <line x1="921" y1="697" x2="938" y2="697" stroke="#334155" stroke-width="2" marker-end="url(#ar)"/>
+
+  <!-- defenses -->
+  <g font-size="13">
+    <rect x="265" y="758" width="205" height="46" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+    <text x="367" y="780" font-weight="bold" fill="#14532d" text-anchor="middle">D2 · Lọc đầu vào</text>
+    <text x="367" y="797" fill="#166534" text-anchor="middle">trước khi vào context</text>
+
+    <rect x="715" y="758" width="205" height="46" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+    <text x="817" y="780" font-weight="bold" fill="#14532d" text-anchor="middle">D1 · Spotlighting</text>
+    <text x="817" y="797" fill="#166534" text-anchor="middle">dựng lại ranh giới</text>
+
+    <rect x="940" y="758" width="125" height="46" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+    <text x="1002" y="780" font-weight="bold" fill="#14532d" text-anchor="middle">D3 · Policy</text>
+    <text x="1002" y="797" fill="#166534" text-anchor="middle">gọi công cụ</text>
+
+    <rect x="1075" y="758" width="125" height="46" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+    <text x="1137" y="780" font-weight="bold" fill="#14532d" text-anchor="middle">D4 · Egress</text>
+    <text x="1137" y="797" fill="#166534" text-anchor="middle">lọc dữ liệu ra</text>
+  </g>
+  <line x1="367" y1="742" x2="367" y2="756" stroke="#16a34a" stroke-width="2"/>
+  <line x1="817" y1="742" x2="817" y2="756" stroke="#16a34a" stroke-width="2"/>
+  <line x1="1002" y1="742" x2="1002" y2="756" stroke="#16a34a" stroke-width="2"/>
+  <line x1="1137" y1="742" x2="1137" y2="756" stroke="#16a34a" stroke-width="2"/>
+
+  <text x="40" y="838" font-size="12" fill="#94a3b8">Không cơ chế nào chặn được cả ba mục tiêu: D3 và D4 không thấy G3 (không có tool-call), D1 và D2 không thấy T5 (không có câu mệnh lệnh nào).</text>
+  <text x="40" y="858" font-size="12" fill="#94a3b8">Sơ đồ soạn với sự hỗ trợ của AI (Claude). Ký hiệu theo docs/01_de_bai/MO_TA_BAI_TOAN.md.</text>
+</svg>
