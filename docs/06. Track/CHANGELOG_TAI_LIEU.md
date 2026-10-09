@@ -3,6 +3,9 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-09
+- `docs/06. Track/Lộ trình triển khai code.md` — tạo mới: thứ tự dựng code sáu giai đoạn, phụ thuộc và cổng chặn,
+  tham chiếu theo STT; không đổi ngày trong `Kế hoạch thực hiện.xlsx`. Lý do: TA ưu tiên dựng hệ thống chạy được trước,
+  phần lý thuyết xử lý sau.
 - `docs/06. Track/Chốt phạm vi và checklist ký GVHD.md` (bảng chiều phạm vi, hạng mục 6, điều kiện harness điểm 5),
   `Y_TUONG_DU_AN.md` và `docs/01. Đề bài/01. Mô tả bài toán.md` (bảng hạn chế, thêm dòng 14),
   `ipi-agent-lab/config/models.yaml`, `ipi-agent-lab/.env.example` — chốt bộ model đích: A1 `claude-opus-5`, A2
