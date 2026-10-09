@@ -14,6 +14,12 @@ Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi ·
 - `ipi-agent-lab/data/benign_queries.json` — `task_id` W2-07 → STT-18; W1-06 → STT-18, W2-04 → STT-22, bỏ W2-03 trong
   `note_vi`; bỏ trường `updated`. Không đổi câu hỏi hay đáp án nào. Lý do: update bài toán — như trên.
 
+## 2026-10-08
+- `docs/03. Khảo sát/KHAO_SAT_PHONG_THU.md` — tạo mới: bảng đối chiếu bốn nhóm phòng thủ (cơ chế · vị trí cắm · điểm mù · chi phí),
+  nhận xét cho thiết kế, ánh xạ sang D1–D4. Lý do: đầu ra STT-12, đầu vào cho STT-20 và mục 2.4 báo cáo.
+- `docs/03. Khảo sát/KHAO_SAT_PHONG_THU.xlsx` — tạo mới: bản Excel của bảng đối chiếu, thêm cột cách hoạt động, ví dụ testbed,
+  phụ thuộc mức tuân thủ của model. Lý do: TA cần bản bảng tính để tra và trình bày.
+
 ## 2026-10-05 (sau khi GVHD ký phụ lục)
 - `PhieuGiaoNhiemVu_DATN_20250127E_KIEU_THANH_ANH.xlsx` (sheet "Kỹ sư", ô A62) — "bốn kỹ thuật tự đề xuất … và thao túng bằng
   thẩm quyền hành chính" thành "ba kỹ thuật tự đề xuất: chia mảnh, kích hoạt trễ, che giấu đặc thù tiếng Việt". `Y_TUONG_DU_AN.md`
