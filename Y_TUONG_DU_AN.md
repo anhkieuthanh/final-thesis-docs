@@ -352,8 +352,8 @@ Hạn chế phải khai: cả ba target đi qua **một gateway chung** ⇒ khô
 | Mô hình đích | 3 | A1 frontier · A2 doanh nghiệp Việt · A3 lớp rẻ | `v-models-1.0` |
 | Mục tiêu tấn công | 3 | G1 · G2 · G3 | Checklist chốt phạm vi |
 | Mức attacker | 2 | A-blind · A-adaptive (≤3 vòng) | Checklist chốt phạm vi |
-| Tác vụ chở | 6 | CT-01 … CT-06 | `v-bench-1.0` |
-| Câu hỏi lành tính | 60 | Đo hồi quy tính hữu dụng | `v-bench-1.0` |
+| Tác vụ chở | 6 | CT-01 … CT-06 | Quy tắc cứng #1 |
+| Câu hỏi lành tính | 60 | Đo hồi quy tính hữu dụng | Quy tắc cứng #1 |
 | Harness | 2 | HN-CC · HN-OW; mỗi harness trên A1, A2, A3 (HN-CC trên A2, A3 có điều kiện); 50 mẫu mỗi nhánh, chỉ D=OFF | Pin version cả hai, ghi vào trace |
 | Đánh giá người dùng | 3–5 người | Đồng nghiệp làm an toàn thông tin hoặc vận hành trợ lý AI, GVHD; dùng thử dashboard và demo theo kịch bản; thang Likert + câu hỏi mở; không thu thập thông tin định danh | Phiếu giao nhiệm vụ, Nội dung 6 |
 
@@ -525,7 +525,7 @@ DoD của schema: viết được SQL tính **cả hai** chỉ số ASR trên d�
 
 ## 14. MƯỜI QUY TẮC CỨNG
 
-1. **Không sửa file bộ đo đã khóa** (`benign_queries.json`, `carrier_tasks.json` — khóa bằng `v-bench-1.0`). Mọi thay đổi ghi vào file changelog tài liệu kèm lý do; **không** ghi changelog trong chính file JSON.
+1. **Không sửa file bộ đo đã khóa** (`benign_queries.json`, `carrier_tasks.json`). Mọi thay đổi ghi vào file changelog tài liệu kèm lý do; **không** ghi changelog trong chính file JSON.
 2. **Không nhận xét hay dùng số liệu về AgentDojo/AutoDojo/MCPTox nếu chưa thực sự cài và chạy**, và bằng chứng chạy thật phải nằm trong repo.
 3. **Không thêm bước phân loại ý định tự do (regex/NLU/LLM) vào D3.** `task_type` là input người dùng chọn trước.
 4. **Mọi tham số hành vi của D1–D4 nằm ở `config/defenses.yaml`**, không hard-code trong `src/defense/*.py`.
@@ -548,7 +548,7 @@ Khung thời gian theo phiếu giao nhiệm vụ: 17 tuần, 07/09/2026 → 08/0
 |---|---|---|---|
 | **ND1** Tổng quan bài toán | Tuần 1–3 · 07/09 → 27/09/2026 | AI Security, cơ chế agent RAG + MCP, IPI, threat model, taxonomy K1–K5, khảo sát và fit-gap có bằng chứng chạy thật, chốt phạm vi và RQ, chương 1 | **M0** (27/09) — chốt bài toán, có chữ ký |
 | **ND2** Công nghệ liên quan | Tuần 4–5 · 28/09 → 11/10 | MCP SDK, RAG, bốn nhóm phòng thủ, công nghệ nền của hệ đo, khung repo uv; chốt bộ model + `v-models-1.0`; ngân sách API hết TODO; chương 3 | **M1b** (11/10) |
-| **ND3** Phân tích thiết kế | Tuần 6–8 · 12/10 → 01/11 | Kiến trúc 5 tầng, bộ đo (60 câu lành tính + 6 tác vụ chở, khóa bộ đo), trace schema, đặc tả T1–T8 và D1–D4, ma trận dự đoán ghi trước, `customers.db`, wireframe dashboard, giao thức thực nghiệm; chương 2 và phần thiết kế của chương 4 | **M1** (18/10) — `v-bench-1.0` |
+| **ND3** Phân tích thiết kế | Tuần 6–8 · 12/10 → 01/11 | Kiến trúc 5 tầng, bộ đo (60 câu lành tính + 6 tác vụ chở, khóa bộ đo), trace schema, đặc tả T1–T8 và D1–D4, ma trận dự đoán ghi trước, `customers.db`, wireframe dashboard, giao thức thực nghiệm; chương 2 và phần thiết kế của chương 4 | **M1** (18/10) — khóa bộ đo |
 | **ND4** Xây dựng chương trình | Tuần 9–12 · 02/11 → 29/11 | Lõi agent, 5 tool MCP, canary, scorer + kiểm chứng, USR nền; adapter benchmark ngoài, bản địa hóa payload, 2 kênh, mutator, injector, runner ma trận; T8 → T6 → T7; D1–D4 + pipeline + unit test; tấn công thích ứng; dashboard; chương 4 phần thiết kế, xây dựng | **M2** (Tuần 10, 15/11) · **M3** (Tuần 11, 22/11) · **M3b** (Tuần 12, 29/11) — `v-attack-1.0` |
 | **ND5** Thử nghiệm và đánh giá | Tuần 13–15 · 30/11 → 20/12 | Pilot, hiệu chỉnh độ khó, phương sai, ASR nền 3 model, RQ1–RQ2; ma trận kẻ tấn công mù, bench hữu dụng, Pareto, RQ3–RQ4; tấn công thích ứng, ARR, RQ5; chương 4 mục 4.4 | **M4** (Tuần 14, 13/12) · **M5** (Tuần 15, 20/12) |
 | **ND6** Triển khai thực tế, phản hồi người dùng | Tuần 16–17 · 21/12 → 08/01/2027 | Cắm hai harness, đối chiếu D1–D4 ↔ harness, RQ6, kịch bản demo, đóng gói một lệnh, demo 90 giây + video; đánh giá với 3–5 người dùng thực; ráp báo cáo 6 chương, slide, 15 câu phản biện, dọn repo; nộp quyển và bảo vệ | **M6** · **M7** (Tuần 16, 27/12) · **M8** (Tuần 17, 08/01/2027) |
@@ -649,5 +649,5 @@ Nếu bắt đầu trên một thư mục trắng, làm đúng thứ tự này:
 6. `config/` trước `src/`: `defenses.yaml`, `models.yaml`, `rag.yaml` là hợp đồng, code đi theo.
 7. `schema.sql` đầy đủ trường theo mục 13.3, kèm SQL kiểm chứng hai chỉ số ASR trên dữ liệu giả.
 8. Dữ liệu bộ đo: 6 tác vụ chở + 60 câu lành tính + corpus 40 file + `customers.db`, kèm test dương tính giả 0 vi phạm G2 và test `unchecked_constraints()` rỗng.
-9. Khóa bộ đo bằng tag, đẩy tag lên remote, và bảo đảm mọi file dữ liệu thô của cổng nghiệm thu đều được Git theo dõi.
+9. Khóa bộ đo (quy tắc cứng #1) và bảo đảm mọi file dữ liệu thô của cổng nghiệm thu đều được Git theo dõi.
 10. Từ đó mới tới lõi agent, scorer, phòng thủ, ma trận thực nghiệm theo lộ trình mục 15.

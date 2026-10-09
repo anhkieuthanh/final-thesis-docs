@@ -2,6 +2,18 @@
 
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
+## 2026-10-09
+- `CLAUDE.md` (quy tắc cứng #1), `Y_TUONG_DU_AN.md` (bảng biến, quy tắc #1, lịch ND3, mục 19 bước 9),
+  `docs/01. Đề bài/01. Mô tả bài toán.md` (mục 3.4, 3.5, bảng biến), `docs/01. Đề bài/Aux/Danh mục viết tắt.md` (M1),
+  `ipi-agent-lab/README.md` — bỏ cơ chế khóa bộ đo bằng tag `v-bench-1.0`; bộ đo vẫn khóa theo quy tắc cứng #1, mọi thay
+  đổi ghi ở file này. Lý do: tag chưa từng được tạo; TA quyết bỏ cơ chế tag.
+- `ipi-agent-lab/data/carrier_tasks.json` — đổi mã task cũ sang mã hiện hành (`task_id` W1-06 → STT-18; W1-07 → STT-20;
+  W2-04 → STT-22; W2-08 → STT-18; W1-04 → Threat Model, trỏ `docs/04. Design/02. Threat Model.md`); bỏ khối `changelog` và
+  trường `updated` trong file. Không đổi tác vụ, ràng buộc, allowlist hay tiêu chí chấm nào. Lý do: update bài toán — đồng bộ
+  bộ đo với kế hoạch hiện hành; quy tắc cứng #10 (dữ liệu chỉ chứa dữ liệu).
+- `ipi-agent-lab/data/benign_queries.json` — `task_id` W2-07 → STT-18; W1-06 → STT-18, W2-04 → STT-22, bỏ W2-03 trong
+  `note_vi`; bỏ trường `updated`. Không đổi câu hỏi hay đáp án nào. Lý do: update bài toán — như trên.
+
 ## 2026-10-05 (sau khi GVHD ký phụ lục)
 - `PhieuGiaoNhiemVu_DATN_20250127E_KIEU_THANH_ANH.xlsx` (sheet "Kỹ sư", ô A62) — "bốn kỹ thuật tự đề xuất … và thao túng bằng
   thẩm quyền hành chính" thành "ba kỹ thuật tự đề xuất: chia mảnh, kích hoạt trễ, che giấu đặc thù tiếng Việt". `Y_TUONG_DU_AN.md`

@@ -41,8 +41,8 @@ Chỉ giữ bản hiện hành trong cây thư mục. Lịch sử thay đổi gh
 
 ## 4. Mười quy tắc cứng — không được vi phạm
 
-1. **Không sửa file bộ đo đã khóa** (`data/benign_queries.json`, `data/carrier_tasks.json`,
-   khóa bằng tag `v-bench-1.0`). Mọi thay đổi ghi vào
+1. **Không sửa file bộ đo đã khóa** (`data/benign_queries.json`, `data/carrier_tasks.json`).
+   Mọi thay đổi ghi vào
    `docs/06. Track/CHANGELOG_TAI_LIEU.md` kèm lý do — **không** ghi changelog trong chính
    file JSON.
 2. **Không nhận xét hay dùng số liệu về AgentDojo / AutoDojo / MCPTox nếu chưa thực sự cài
