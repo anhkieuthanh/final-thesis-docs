@@ -31,7 +31,7 @@ Phân biệt bắt buộc: **nhân viên kinh doanh** là người dùng *mô ph
 | Kênh tấn công | 2 | K1 · K2 (hai phân kênh K2a, K2b) | Checklist này |
 | Kỹ thuật payload | 8 | T1–T5 nền · T6 chia mảnh · T7 kích hoạt trễ · T8 che giấu tiếng Việt | `v-attack-1.0` |
 | Cơ chế phòng thủ | 4 | D1 · D2 · D3 · D4 | Checklist này |
-| Mô hình đích | 3 | A1 Claude Opus 5 · A2 GLM-5.2 · A3 DeepSeek-V4-Flash (0731) | `v-models-1.0` |
+| Mô hình đích | 3 | A1 `claude-opus-5` · A2 `glm-5.2` · A3 `glm-5.3-flash` | `v-models-1.0` |
 | Mục tiêu tấn công | 3 | G1 · G2 · G3 | Checklist này |
 | Mức attacker | 2 | A-blind · A-adaptive (mức phản hồi PH1, tối đa 3 vòng) | Checklist này |
 | Tác vụ chở | 6 | CT-01 … CT-06 | `v-bench-1.0` |
@@ -95,7 +95,7 @@ Ràng buộc phải ghi trước khi chạy:
 2. Pin phiên bản và ghi vào `harness_version`: Claude Code; OpenWork **và** opencode. Báo cáo gọi tên "OpenWork (lõi opencode)" vì lớp kiểm soát được đo nằm ở opencode.
 3. Harness đi qua cùng gateway với vòng lặp trần. Nhánh nào không làm được thì khai vào phần hạn chế: khác nhau ở tầng hạ tầng.
 4. Mọi nhánh của cùng một model chạy trong cùng một lô, vì overhead token của gateway không ổn định theo thời gian.
-5. Model id phải là bản pin có ngày, khớp `v-models-1.0`; không dùng bí danh kiểu "bản mới nhất" của nhà cung cấp. Riêng HN-CC trên A2, A3: endpoint tương thích Anthropic của nhà cung cấp phải nhận đúng model id đã pin.
+5. Model id dùng đúng ba id ghi trong `v-models-1.0`. Gateway chỉ cung cấp bí danh, không có bản pin có ngày, nên mọi run ghi trường `model` trong response của gateway vào trace để phát hiện trôi model. Riêng HN-CC trên A2, A3: endpoint tương thích Anthropic của nhà cung cấp phải nhận đúng id đó.
 6. HN-CC trên A2, A3 có thể mất một phần tính năng khi dịch API (prompt caching, chế độ suy nghĩ) và prompt của harness được viết cho model Claude — khai vào phần hạn chế, ghi các tính năng quan sát được vào trace.
 
 **Chạy thử trước khi ký**, lưu log vào repo làm bằng chứng. Điều kiện đạt cho từng harness: kết nối MCP server của lab và thấy đủ 5 tool · chạy không tương tác bằng script · đúng model id đã pin · ghi được phiên bản · cấu hình quyền ở điểm 1 hoạt động. Nhánh HN-CC trên A2, A3 là **có điều kiện**: nhánh nào không đạt thì bỏ, RQ6 trên model đó chỉ còn HN-OW, không cần ký lại. Nhánh HN-CC trên A1 hoặc HN-OW không đạt thì ký lại hạng mục 14.
@@ -127,7 +127,7 @@ Ràng buộc phải ghi trước khi chạy:
 | 3 | Persona | P1 chính, P2 phụ; tách người dùng mô phỏng trong lab (mục 2) | ☑ | |
 | 4 | Kênh | 2 kênh K1, K2 (K2a, K2b) | ☑ | |
 | 5 | Kỹ thuật | **Mở từ 5 lên 8** (thêm T6–T8); khóa `v-attack-1.0` trước khi hiện thực D1–D4 | ☑ | |
-| 6 | Mô hình đích | **Đổi lớp mô hình**: A1 Claude Opus 5 · A2 GLM-5.2 · A3 DeepSeek-V4-Flash (0731); khóa `v-models-1.0` | ☑ | |
+| 6 | Mô hình đích | **Đổi lớp mô hình**: A1 `claude-opus-5` · A2 `glm-5.2` · A3 `glm-5.3-flash`; khóa `v-models-1.0` | ☑ | |
 | 7 | Phòng thủ, mục tiêu, tác vụ, câu lành tính | D1–D4 · G1–G3 · CT-01…CT-06 · 60 câu | ☑ | |
 | 8 | Ngoài phạm vi | Danh sách ở mục 3 | ☑ | |
 | 9 | Sáu RQ và H1–H6 | Bản ở mục 4, gồm tiêu chí trả lời ghi trước | ☑ | |
