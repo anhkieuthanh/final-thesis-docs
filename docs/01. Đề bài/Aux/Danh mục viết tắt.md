@@ -147,7 +147,7 @@ Thứ tự ghép: `D2 → D1 → (agent suy luận) → D3 → nếu tool ∈ EG
 | Mốc | Nội dung |
 |---|---|
 | M0 | Chốt bài toán, có chữ ký GVHD |
-| M1 | Khóa bộ đo — tag `v-bench-1.0` |
+| M1 | Khóa bộ đo |
 | M1b | Chốt bộ model, tag `v-models-1.0`, ngân sách API |
 | M2 | Lõi agent E2E, 5 tool MCP, canary, scorer đã kiểm chứng |
 | M3 | Adapter benchmark ngoài, mở 2 kênh, mutator, injector, runner ma trận |
