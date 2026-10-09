@@ -588,6 +588,7 @@ Viết trung thực, không giấu. Đây là phần hội đồng đọc kỹ n
 | 11 | Dữ liệu là mô phỏng | Không dùng dữ liệu cá nhân hay khách hàng thật ở bất kỳ đâu |
 | 12 | Core-B là hạng mục có thể cắt | Cắt thì không kết luận được về ảnh hưởng của lớp abstraction framework |
 | 13 | Overhead token của gateway không ổn định theo thời gian | Kết quả đo ở hai thời điểm khác nhau không so sánh trực tiếp được |
+| 14 | Gateway chỉ cung cấp bí danh model, không có bản pin có ngày | Nhà cung cấp có thể đổi snapshot sau bí danh mà không báo. Trace ghi trường `model` của response; lần đo trôi trước bảo vệ là kiểm tra duy nhất |
 
 **Tuyên bố đạo đức.** MCPTox chỉ chạy chế độ mô phỏng, không nhắm MCP server thật của bên thứ ba. Payload có nguồn `verbatim`/`adapted` dẫn đúng điều khoản giấy phép. Dữ liệu trong `customers.db` là mô phỏng hoàn toàn.
 

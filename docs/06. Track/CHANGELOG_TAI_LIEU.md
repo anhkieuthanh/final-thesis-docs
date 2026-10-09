@@ -3,6 +3,12 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-09
+- `docs/06. Track/Chốt phạm vi và checklist ký GVHD.md` (bảng chiều phạm vi, hạng mục 6, điều kiện harness điểm 5),
+  `Y_TUONG_DU_AN.md` và `docs/01. Đề bài/01. Mô tả bài toán.md` (bảng hạn chế, thêm dòng 14),
+  `ipi-agent-lab/config/models.yaml`, `ipi-agent-lab/.env.example` — chốt bộ model đích: A1 `claude-opus-5`, A2
+  `glm-5.2`, A3 `glm-5.3-flash` (thay DeepSeek-V4-Flash 0731); bỏ yêu cầu id có ngày, thay bằng ghi trường `model` của
+  response vào trace. Lý do: TA chốt lại với GVHD ngày 2026-10-09; gateway chỉ cung cấp bí danh. STT-14, khóa bằng
+  tag `v-models-1.0`.
 - `CLAUDE.md` (quy tắc cứng #1), `Y_TUONG_DU_AN.md` (bảng biến, quy tắc #1, lịch ND3, mục 19 bước 9),
   `docs/01. Đề bài/01. Mô tả bài toán.md` (mục 3.4, 3.5, bảng biến), `docs/01. Đề bài/Aux/Danh mục viết tắt.md` (M1),
   `ipi-agent-lab/README.md` — bỏ cơ chế khóa bộ đo bằng tag `v-bench-1.0`; bộ đo vẫn khóa theo quy tắc cứng #1, mọi thay
