@@ -4,7 +4,8 @@ Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi ·
 
 ## 2026-10-12
 - `docs/04. Design/03. Kiến trúc testbed và interface.md` — tạo mới: năm tầng, kiểu dữ liệu qua ranh giới tầng, năm
-  hook phòng thủ, hình kiến trúc và trình tự một bước (Mermaid), phân định `blocked_by`. Lý do: đầu ra STT-17, đi kèm
+  hook phòng thủ, hình kiến trúc và trình tự một bước (Mermaid, kèm bản SVG
+  `00. Image/kien_truc_01_nam_tang.svg`, `00. Image/kien_truc_02_trinh_tu_mot_buoc.svg`), phân định `blocked_by`. Lý do: đầu ra STT-17, đi kèm
   `ipi-agent-lab/src/interfaces.py`.
 - `ipi-agent-lab/config/defenses.yaml` — hook `ingest_kb` đổi thành `kb_retrieval`: D2 trên K1 chạy lúc chunk được truy
   hồi, không lúc ingest; thêm `automated_resolution: "block"` vào luật R4 của D3. Lý do: TA chốt — giữ `delivered` như
