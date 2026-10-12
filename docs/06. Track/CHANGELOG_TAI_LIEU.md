@@ -2,6 +2,14 @@
 
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
+## 2026-10-12
+- `docs/04. Design/03. Kiến trúc testbed và interface.md` — tạo mới: năm tầng, kiểu dữ liệu qua ranh giới tầng, năm
+  hook phòng thủ, hình kiến trúc và trình tự một bước (Mermaid), phân định `blocked_by`. Lý do: đầu ra STT-17, đi kèm
+  `ipi-agent-lab/src/interfaces.py`.
+- `ipi-agent-lab/config/defenses.yaml` — hook `ingest_kb` đổi thành `kb_retrieval`: D2 trên K1 chạy lúc chunk được truy
+  hồi, không lúc ingest; thêm `automated_resolution: "block"` vào luật R4 của D3. Lý do: TA chốt — giữ `delivered` như
+  nhau giữa D2 bật/tắt, không cần collection thứ hai; chạy tự động không có người duyệt nên yêu cầu xác nhận quy về chặn.
+
 ## 2026-10-09
 - `docs/06. Track/Lộ trình triển khai code.md` — tạo mới: thứ tự dựng code sáu giai đoạn, phụ thuộc và cổng chặn,
   tham chiếu theo STT; không đổi ngày trong `Kế hoạch thực hiện.xlsx`. Lý do: TA ưu tiên dựng hệ thống chạy được trước,
