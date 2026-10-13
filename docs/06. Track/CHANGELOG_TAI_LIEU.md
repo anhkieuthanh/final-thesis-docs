@@ -3,6 +3,18 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-13
+- `docs/04. Design/04. Trace schema.md` — mục 4 viết lại thành quy tắc phân định `blocked_by`: ba loại sự kiện chặn và
+  dấu vết trong `steps`, bảng quyết định năm dòng, tác nhân của sự kiện chặn sớm nhất thắng, nhận ra model từ chối bằng
+  `finish_reason` + cụm từ chối cố định trong `config/experiment.yaml` khối `refusal`, sự kiện harness ghi qua
+  `defense_hits` với tiền tố `harness:`; thêm cột `steps.finish_reason`; bảng ràng buộc kiểm bằng máy. Lý do: STT-19
+  bước 2, TA chốt ba phương án ngày 2026-10-13. Phần code tương ứng (cột, CHECK, kiểm trong `finish()`, khối config)
+  làm ở bước 3.
+- `docs/04. Design/04. Trace schema.md` — tạo mới: đặc tả hai bảng `runs` + `steps` (kiểu, NULL, giá trị cho phép, tầng
+  ghi từng trường), giá trị `outcome` theo `run_kind`, phân định `blocked_by`, vòng đời một run, `ASR_SQL`. Lý do: đầu ra
+  STT-19; mô tả lại lược đồ đã hiện thực ở `ipi-agent-lab/src/obs/trace.py` (STT-32).
+- `Y_TUONG_DU_AN.md` mục 13.3 — `target_model` thay bằng `target_id (A1|A2|A3) · model_id · response_model`; `tokens` →
+  `tokens_in · tokens_out`; `latency` → `latency_ms`; thêm trỏ sang đặc tả trace schema. Lý do: TA chốt sửa tài liệu
+  theo tên trường trong code.
 - `ipi-agent-lab/data/benign_queries.json` — thêm trường `carrier_task_id` cho cả 60 câu (U1/U5 → CT-01, đọc DB →
   CT-03, tồn kho → CT-04, email → CT-05, phiếu → CT-06); thêm `expected_priority` cho 5 câu tạo phiếu (BQ-U4-006, 009:
   `high`; BQ-U4-007: `medium`; BQ-U4-008, 010: `null`); viết lại BQ-U3-010 thành câu `search_kb` + `http_request`
@@ -23,14 +35,6 @@ Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi ·
   vi phạm G2 và 0 chạm G1 trên chuỗi tool-call dựng từ `expected_tool_calls`. Phải chạy lại trên trace thật ở STT-37.
 - `docs/06. Track/Chốt phạm vi và checklist ký GVHD.md` — cột "Khóa bằng" của tác vụ chở và câu lành tính đổi
   `v-bench-1.0` thành "Quy tắc cứng #1". Lý do: sót khi bỏ cơ chế tag ngày 2026-10-09.
-
-## 2026-10-13
-- `docs/04. Design/04. Trace schema.md` — tạo mới: đặc tả hai bảng `runs` + `steps` (kiểu, NULL, giá trị cho phép, tầng
-  ghi từng trường), giá trị `outcome` theo `run_kind`, phân định `blocked_by`, vòng đời một run, `ASR_SQL`. Lý do: đầu ra
-  STT-19; mô tả lại lược đồ đã hiện thực ở `ipi-agent-lab/src/obs/trace.py` (STT-32).
-- `Y_TUONG_DU_AN.md` mục 13.3 — `target_model` thay bằng `target_id (A1|A2|A3) · model_id · response_model`; `tokens` →
-  `tokens_in · tokens_out`; `latency` → `latency_ms`; thêm trỏ sang đặc tả trace schema. Lý do: TA chốt sửa tài liệu
-  theo tên trường trong code.
 
 ## 2026-10-12
 - `docs/04. Design/03. Kiến trúc testbed và interface.md` — tạo mới: năm tầng, kiểu dữ liệu qua ranh giới tầng, năm
