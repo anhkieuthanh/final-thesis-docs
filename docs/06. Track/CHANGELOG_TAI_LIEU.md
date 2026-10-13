@@ -3,6 +3,12 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-13
+- `Y_TUONG_DU_AN.md` mục 10.1 và 16, `docs/01. Đề bài/01. Mô tả bài toán.md` (hệ quả 2, bảng hạn chế) — A1 gọi thẳng API
+  Anthropic, không qua gateway; hạn chế #2 và #13 chỉ còn áp cho A2, A3; thêm hạn chế #15: A1 không đặt được
+  `temperature`. `ipi-agent-lab`: `LLMClient` thêm `provider: anthropic` (SDK `anthropic`), khối A1 trong
+  `config/models.yaml` đổi provider, `temperature: null`, giá $5 / $25; `refusal.finish_reasons` thêm `refusal`.
+  Lý do: TA chọn phương án a của VT-2 ngày 2026-10-13. Chờ GVHD xác nhận vì đổi điều kiện "một gateway chung" đã ký.
+- `docs/06. Track/Việc treo.md` — VT-2 phần A1 thay bảng phương án bằng trạng thái đã quyết và ba việc còn lại.
 - `ipi-agent-lab/config/experiment.yaml` — thêm `fixed.max_tokens: 4096`, như nhau cho A1–A3, giữ suy luận mặc định;
   `Y_TUONG_DU_AN.md` mục 12.4 và `docs/04. Design/04. Trace schema.md` mục 2.4 — `parse_error` thêm trường hợp (d): bước
   `llm` cuối chạm `max_tokens`. Lý do: xử lý VT-1; dò 26 lời gọi
