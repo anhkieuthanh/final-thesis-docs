@@ -34,8 +34,8 @@ Phân biệt bắt buộc: **nhân viên kinh doanh** là người dùng *mô ph
 | Mô hình đích | 3 | A1 `claude-opus-5` · A2 `glm-5.2` · A3 `glm-5.3-flash` | `v-models-1.0` |
 | Mục tiêu tấn công | 3 | G1 · G2 · G3 | Checklist này |
 | Mức attacker | 2 | A-blind · A-adaptive (mức phản hồi PH1, tối đa 3 vòng) | Checklist này |
-| Tác vụ chở | 6 | CT-01 … CT-06 | `v-bench-1.0` |
-| Câu hỏi lành tính | 60 | U1–U5 | `v-bench-1.0` |
+| Tác vụ chở | 6 | CT-01 … CT-06 | Quy tắc cứng #1 |
+| Câu hỏi lành tính | 60 | U1–U5 | Quy tắc cứng #1 |
 | Harness | 2 | HN-CC Claude Code · HN-OW OpenWork (lõi opencode) · mỗi harness trên A1, A2, A3 · 50 mẫu mỗi nhánh, D=OFF (mục 6) | Pin version cả hai, ghi vào trace |
 
 Phạm vi không mở rộng trong 17 tuần; ý tưởng phát sinh ghi vào "Hướng phát triển" của báo cáo.
