@@ -340,7 +340,7 @@ Ba hệ quả phải xử lý:
 2. USR nền phải chạy lại trên bộ model mới; số của model cũ không dùng lại được.
 3. Sau khi chốt, **khóa bộ model bằng `git tag v-models-1.0`**. Đổi model giữa kỳ làm mọi số đo trước mất giá trị so sánh — buộc phải đổi thì chạy lại từ mốc M4.
 
-Hạn chế phải khai: cả ba target đi qua **một gateway chung** ⇒ không độc lập ở tầng hạ tầng, và **không** được rút kết luận nào về "khác biệt giữa hai nhà cung cấp". Overhead token của gateway **không ổn định theo thời gian** (đo lại cùng nguyên văn request cho hai kết quả chênh 4.895 token), nên: hard cap đặt theo trường hợp xấu quan sát được; kết quả đo ở hai thời điểm khác nhau **không so sánh trực tiếp được**; phải chạy script dò overhead trước và sau mỗi lô, lưu kèm dữ liệu lô đó.
+Hạn chế phải khai: A2 và A3 đi qua **một gateway chung** ⇒ không độc lập ở tầng hạ tầng, và **không** được rút kết luận nào về "khác biệt giữa hai nhà cung cấp". A1 gọi thẳng API Anthropic, không qua gateway, vì gateway bọc A1 bằng system prompt Claude Code (`docs/06. Track/Việc treo.md` VT-2); chênh lệch A1–A3 vì thế gồm cả khác biệt hạ tầng. Overhead token của gateway **không ổn định theo thời gian** (đo lại cùng nguyên văn request cho hai kết quả chênh 4.895 token), nên: hard cap đặt theo trường hợp xấu quan sát được; kết quả đo ở hai thời điểm khác nhau **không so sánh trực tiếp được**; phải chạy script dò overhead trước và sau mỗi lô, lưu kèm dữ liệu lô đó.
 
 ### 10.2 Phạm vi chốt cứng
 
@@ -576,7 +576,7 @@ Viết trung thực, không giấu. Đây là phần hội đồng đọc kỹ n
 | # | Hạn chế | Hệ quả |
 |---|---|---|
 | 1 | Cỡ mẫu ở quy mô luận văn (30–60 run/ô) | Nhiều so sánh chỉ báo được **xu hướng**. Bắt buộc kèm Wilson CI 95% ở mọi tỉ lệ |
-| 2 | Chỉ 3 mô hình đích, đều qua **một gateway chung** | Các target **không độc lập ở tầng hạ tầng** |
+| 2 | Chỉ 3 mô hình đích; A2, A3 qua **một gateway chung**, A1 gọi thẳng API Anthropic | A2, A3 **không độc lập ở tầng hạ tầng**; chênh lệch A1–A3 gồm cả khác biệt hạ tầng, không quy riêng cho lớp mô hình |
 | 3 | A2 không phải self-host thật | Đo được hành vi model, không đo được ảnh hưởng của cấu hình self-host thật |
 | 4 | Lab đã được hiệu chỉnh độ khó | **ASR tuyệt đối không so được** với hệ thống khác. Chỉ so được **delta** giữa các cấu hình trong cùng lab |
 | 5 | Mô hình đe dọa hẹp — 6 giả định vận hành | Kết quả không áp dụng trực tiếp cho tổ chức không thỏa mãn giả định nào |
@@ -587,8 +587,9 @@ Viết trung thực, không giấu. Đây là phần hội đồng đọc kỹ n
 | 10 | Model frontier có lớp an toàn riêng | `model_refusal > 15%` trên A1 thì báo cáo riêng, không gộp vào ASR |
 | 11 | Dữ liệu là mô phỏng | Không dùng dữ liệu cá nhân hay khách hàng thật ở bất kỳ đâu |
 | 12 | Core-B là hạng mục có thể cắt | Cắt thì không kết luận được về ảnh hưởng của lớp abstraction framework |
-| 13 | Overhead token của gateway không ổn định theo thời gian | Kết quả đo ở hai thời điểm khác nhau không so sánh trực tiếp được |
+| 13 | Overhead token của gateway (A2, A3) không ổn định theo thời gian | Kết quả đo ở hai thời điểm khác nhau không so sánh trực tiếp được |
 | 14 | Gateway chỉ cung cấp bí danh model, không có bản pin có ngày | Nhà cung cấp có thể đổi snapshot sau bí danh mà không báo. Trace ghi trường `model` của response; lần đo trôi trước bảo vệ là kiểm tra duy nhất |
+| 15 | A1 không đặt được `temperature` (`claude-opus-5` từ chối tham số); A2, A3 chạy `temperature = 0` | A1 dao động giữa các lần lặp nhiều hơn; đo phương sai A1 riêng, không so độ ổn định giữa A1 và A2/A3 |
 
 **Tuyên bố đạo đức.** MCPTox chỉ chạy chế độ mô phỏng, không nhắm MCP server thật của bên thứ ba. Payload có nguồn `verbatim`/`adapted` dẫn đúng điều khoản giấy phép. Dữ liệu trong `customers.db` là mô phỏng hoàn toàn.
 

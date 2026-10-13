@@ -30,14 +30,18 @@ cụ; hai điều kiện: không system prompt và system prompt của testbed).
 - A3: hai run cùng tổ hợp có thể đi qua hai upstream khác nhau, thêm một nguồn phương sai không
   kiểm soát vào ô thí nghiệm.
 
-**Phương án cho A1** (cần TA chọn; mọi phương án đổi phạm vi phải báo GVHD vì đụng `v-models-1.0`
-và điều kiện "một gateway chung" đã ký):
-
-| # | Phương án | Đổi gì | Đánh đổi |
-|---|---|---|---|
-| a | **Gọi A1 thẳng qua API của Anthropic** (đề xuất) | `.env` + `base_url_env`/`api_key_env` riêng cho khối A1 trong `models.yaml`; giữ `model_id: claude-opus-5` | Đo đúng model trần. A1 tách khỏi gateway chung — giảm chứ không tăng hạn chế #2. Cần khóa API riêng và chi phí trực tiếp |
-| b | Hỏi nhà cung cấp gateway có endpoint/tham số tắt lớp bọc | Không đổi code nếu có | Phụ thuộc bên ngoài; phải dò lại để xác nhận đã tắt |
-| c | Giữ nguyên, khai thành hạn chế | Thêm dòng vào `Y_TUONG_DU_AN.md` mục 16 và `01. Mô tả bài toán.md` | Không tốn công, nhưng A1 mất giá trị so sánh; RQ dùng A1 phải rút phạm vi kết luận |
+**A1 — đã quyết, chờ hoàn tất.** TA chọn gọi A1 thẳng Messages API của Anthropic (2026-10-13).
+Đã làm: `LLMClient` có nhánh `provider: anthropic` dùng SDK chính thức; khối A1 trong
+`config/models.yaml` bỏ gateway, `temperature: null` (`claude-opus-5` trả 400 khi có tham số này),
+giá $5 / $25 mỗi triệu token; `stop_reason = refusal` của API thành tín hiệu từ chối cấp API; hạn
+chế #2, #13 sửa lại và thêm #15 trong `Y_TUONG_DU_AN.md` mục 16 và `01. Mô tả bài toán.md`.
+Còn lại:
+1. TA thêm `ANTHROPIC_API_KEY` vào `.env`.
+2. Chạy `scripts/check_targets.py A1` và `scripts/probe_gateway.py identity A1`: `prompt_tokens`
+   phải khớp request, A1 không còn tự nhận là Claude Code.
+3. Báo GVHD: A1 rời "một gateway chung" — `Chốt phạm vi và checklist ký GVHD.md` (điều kiện
+   harness, điểm 3 và 5) và hạn chế #2 đều giả định cả ba target qua gateway; xin xác nhận bằng
+   văn bản. `model_id` không đổi nên `v-models-1.0` giữ nguyên.
 
 **Phương án cho A3:**
 1. Hỏi gateway có tham số ghim nhà cung cấp upstream không (kiểu định tuyến `provider` của các
