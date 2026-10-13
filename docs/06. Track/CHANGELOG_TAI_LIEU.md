@@ -3,6 +3,11 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-13
+- `docs/04. Design/04. Trace schema.md` mục 4.4 — thêm bước chuẩn hóa nháy cong `’` → `'`; ghi kết quả dò: gateway không
+  phát tín hiệu từ chối cấp API (A1–A3 đều `stop`/`length`), nhận diện thực tế dựa vào cụm từ chối. Lý do: lần dò 30 lời
+  gọi, bằng chứng `ipi-agent-lab/results/smoke/probe_refusal_20261013T012512Z.json`.
+- `docs/06. Track/Việc treo.md` — tạo mới, hai mục: VT-1 phần suy luận của A2/A3 ăn hết `max_tokens`; VT-2 gateway có
+  thể chèn system prompt riêng. Lý do: phát hiện trong lần dò của STT-19, TA quyết tách thành việc riêng, hạn trước pilot.
 - `docs/04. Design/04. Trace schema.md` — mục 4 viết lại thành quy tắc phân định `blocked_by`: ba loại sự kiện chặn và
   dấu vết trong `steps`, bảng quyết định năm dòng, tác nhân của sự kiện chặn sớm nhất thắng, nhận ra model từ chối bằng
   `finish_reason` + cụm từ chối cố định trong `config/experiment.yaml` khối `refusal`, sự kiện harness ghi qua
