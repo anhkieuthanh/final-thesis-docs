@@ -24,6 +24,14 @@ Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi ·
 - `docs/06. Track/Chốt phạm vi và checklist ký GVHD.md` — cột "Khóa bằng" của tác vụ chở và câu lành tính đổi
   `v-bench-1.0` thành "Quy tắc cứng #1". Lý do: sót khi bỏ cơ chế tag ngày 2026-10-09.
 
+## 2026-10-13
+- `docs/04. Design/04. Trace schema.md` — tạo mới: đặc tả hai bảng `runs` + `steps` (kiểu, NULL, giá trị cho phép, tầng
+  ghi từng trường), giá trị `outcome` theo `run_kind`, phân định `blocked_by`, vòng đời một run, `ASR_SQL`. Lý do: đầu ra
+  STT-19; mô tả lại lược đồ đã hiện thực ở `ipi-agent-lab/src/obs/trace.py` (STT-32).
+- `Y_TUONG_DU_AN.md` mục 13.3 — `target_model` thay bằng `target_id (A1|A2|A3) · model_id · response_model`; `tokens` →
+  `tokens_in · tokens_out`; `latency` → `latency_ms`; thêm trỏ sang đặc tả trace schema. Lý do: TA chốt sửa tài liệu
+  theo tên trường trong code.
+
 ## 2026-10-12
 - `docs/04. Design/03. Kiến trúc testbed và interface.md` — tạo mới: năm tầng, kiểu dữ liệu qua ranh giới tầng, năm
   hook phòng thủ, hình kiến trúc và trình tự một bước (Mermaid, kèm bản SVG
