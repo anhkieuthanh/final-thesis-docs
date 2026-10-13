@@ -3,6 +3,14 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-13
+- `ipi-agent-lab/config/experiment.yaml` — thêm `fixed.max_tokens: 4096`, như nhau cho A1–A3, giữ suy luận mặc định;
+  `Y_TUONG_DU_AN.md` mục 12.4 và `docs/04. Design/04. Trace schema.md` mục 2.4 — `parse_error` thêm trường hợp (d): bước
+  `llm` cuối chạm `max_tokens`. Lý do: xử lý VT-1; dò 26 lời gọi
+  (`ipi-agent-lab/results/smoke/probe_gateway_tokens_20261013T024403Z.json`): A2 với 256 token trả câu rỗng 2/2, với 1024
+  trả trọn; đầu ra lớn nhất đã thấy 1.175 token. Xóa VT-1 khỏi `Việc treo.md`.
+- `docs/06. Track/Việc treo.md` — VT-2 viết lại theo kết quả dò 36 lời gọi
+  (`ipi-agent-lab/results/smoke/probe_gateway_identity_20261013T024118Z.json`): xác nhận gateway bọc A1 bằng system prompt
+  Claude Code; A3 bị định tuyến qua nhiều upstream. Còn chờ TA và GVHD quyết.
 - `docs/04. Design/04. Trace schema.md` mục 4.4 — thêm bước chuẩn hóa nháy cong `’` → `'`; ghi kết quả dò: gateway không
   phát tín hiệu từ chối cấp API (A1–A3 đều `stop`/`length`), nhận diện thực tế dựa vào cụm từ chối. Lý do: lần dò 30 lời
   gọi, bằng chứng `ipi-agent-lab/results/smoke/probe_refusal_20261013T012512Z.json`.
