@@ -3,6 +3,9 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-13
+- `docs/06. Track/Việc treo.md` — VT-2 phần A1: ghi kết quả chạy thật sau khi chuyển sang API Anthropic (hết khối chèn,
+  A1 tự nhận đúng danh tính, vòng tool hai lượt chạy được); chỉ còn việc báo GVHD. `ipi-agent-lab/scripts/check_targets.py`
+  nới tiêu chí: chấp nhận nhiều tool-call song song. Lý do: A1 gọi hai `search_kb` song song — hành vi hợp lệ.
 - `docs/04. Design/04. Trace schema.md` mục 7 — liệt kê test của ràng buộc `blocked_by` hai chiều, kiểm hit chặn trong
   `finish()`, `finish_reason` theo bước, khối `refusal` và nhánh provider `anthropic`. Lý do: STT-19 bước 4.
 - `Y_TUONG_DU_AN.md` mục 10.1 và 16, `docs/01. Đề bài/01. Mô tả bài toán.md` (hệ quả 2, bảng hạn chế) — A1 gọi thẳng API

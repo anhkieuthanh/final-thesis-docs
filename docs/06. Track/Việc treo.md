@@ -30,16 +30,17 @@ cụ; hai điều kiện: không system prompt và system prompt của testbed).
 - A3: hai run cùng tổ hợp có thể đi qua hai upstream khác nhau, thêm một nguồn phương sai không
   kiểm soát vào ô thí nghiệm.
 
-**A1 — đã quyết, chờ hoàn tất.** TA chọn gọi A1 thẳng Messages API của Anthropic (2026-10-13).
+**A1 — đã quyết và đã chạy được, chờ GVHD.** TA chọn gọi A1 thẳng Messages API của Anthropic (2026-10-13).
 Đã làm: `LLMClient` có nhánh `provider: anthropic` dùng SDK chính thức; khối A1 trong
 `config/models.yaml` bỏ gateway, `temperature: null` (`claude-opus-5` trả 400 khi có tham số này),
 giá $5 / $25 mỗi triệu token; `stop_reason = refusal` của API thành tín hiệu từ chối cấp API; hạn
 chế #2, #13 sửa lại và thêm #15 trong `Y_TUONG_DU_AN.md` mục 16 và `01. Mô tả bài toán.md`.
-Còn lại:
-1. TA thêm `ANTHROPIC_API_KEY` vào `.env`.
-2. Chạy `scripts/check_targets.py A1` và `scripts/probe_gateway.py identity A1`: `prompt_tokens`
-   phải khớp request, A1 không còn tự nhận là Claude Code.
-3. Báo GVHD: A1 rời "một gateway chung" — `Chốt phạm vi và checklist ký GVHD.md` (điều kiện
+Đã kiểm chạy thật (2026-10-13, `ipi-agent-lab/results/smoke/`): `check_targets_20261013T030145Z.json`
+đạt; `probe_gateway_identity_20261013T030241Z.json` — `prompt_tokens` khớp request (50 token cho
+câu ngắn, trước là 12.196), A1 tự nhận là Claude của Anthropic, không có chỉ dẫn hay công cụ nào
+ngoài thứ testbed gửi; vòng gọi tool hai lượt chạy được khi gửi lại block gốc.
+
+Còn lại: báo GVHD: A1 rời "một gateway chung" — `Chốt phạm vi và checklist ký GVHD.md` (điều kiện
    harness, điểm 3 và 5) và hạn chế #2 đều giả định cả ba target qua gateway; xin xác nhận bằng
    văn bản. `model_id` không đổi nên `v-models-1.0` giữ nguyên.
 
