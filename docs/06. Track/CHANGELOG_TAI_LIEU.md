@@ -3,6 +3,8 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-13
+- `docs/04. Design/04. Trace schema.md` mục 7 — liệt kê test của ràng buộc `blocked_by` hai chiều, kiểm hit chặn trong
+  `finish()`, `finish_reason` theo bước, khối `refusal` và nhánh provider `anthropic`. Lý do: STT-19 bước 4.
 - `Y_TUONG_DU_AN.md` mục 10.1 và 16, `docs/01. Đề bài/01. Mô tả bài toán.md` (hệ quả 2, bảng hạn chế) — A1 gọi thẳng API
   Anthropic, không qua gateway; hạn chế #2 và #13 chỉ còn áp cho A2, A3; thêm hạn chế #15: A1 không đặt được
   `temperature`. `ipi-agent-lab`: `LLMClient` thêm `provider: anthropic` (SDK `anthropic`), khối A1 trong
