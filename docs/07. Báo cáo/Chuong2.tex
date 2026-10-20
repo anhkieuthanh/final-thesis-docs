@@ -1,0 +1,511 @@
+% =============================================================================
+% CHƯƠNG 2 — KHẢO SÁT VÀ PHÂN TÍCH YÊU CẦU
+% Nội dung soạn với sự hỗ trợ của AI (Claude). Sinh viên tự kiểm mọi trích dẫn
+% và số liệu trước khi nộp. Nguồn: Y_TUONG_DU_AN.md; docs/01. Đề bài/01. Mô tả bài toán.md;
+% docs/03. Khảo sát/{TOM_TAT_CONG_TRINH,FIT_GAP,KHAO_SAT_PHONG_THU}.md và evidence/;
+% docs/04. Design/{03. Kiến trúc testbed và interface,defense_spec}.md.
+% Tài liệu tham khảo: refs_chuong1.bib + refs_chuong2.bib.
+%
+% GÓI CẦN CÓ TRONG PREAMBLE CỦA DoAn.tex (thêm nếu mẫu chưa có):
+%   \usepackage{tikz}
+%   \usetikzlibrary{shapes.geometric,arrows.meta,positioning,fit,calc}
+%
+% ĐIỂM CẦN XÁC NHẬN (tìm "% [XÁC NHẬN]"):
+%   (1) Mục 2.1.1: đồ án chưa khảo sát người dùng diện rộng; nhu cầu suy từ phân tích vai trò.
+%       Nếu GVHD yêu cầu phiếu khảo sát sơ bộ thì bổ sung số liệu thật, không điền số giả định.
+%   (2) Số liệu công bố của AutoDojo, AgentDyn, MCPTox: đối chiếu lại bảng/mục trong bản PDF gốc.
+% =============================================================================
+\documentclass[../DoAn.tex]{subfiles}
+\begin{document}
+
+\tikzset{
+	uc/.style={ellipse, draw, align=center, font=\small, inner sep=1pt, minimum height=9mm, text width=3.4cm},
+	actorname/.style={font=\small, align=center, fill=white, inner sep=1pt},
+	sysactor/.style={draw, rectangle, align=center, font=\small, inner sep=4pt},
+	sysbound/.style={draw, rounded corners, inner sep=10pt},
+	assoc/.style={-},
+	inc/.style={-{Stealth}, dashed},
+	gen/.style={-{Triangle[open]}},
+	pics/actor/.style={code={
+		\draw (0,0.55) circle (0.15);
+		\draw (0,0.40) -- (0,-0.10);
+		\draw (-0.30,0.25) -- (0.30,0.25);
+		\draw (0,-0.10) -- (-0.22,-0.50);
+		\draw (0,-0.10) -- (0.22,-0.50);
+	}},
+	act/.style={draw, rounded corners=6pt, align=center, font=\small, text width=6.2cm, minimum height=8mm},
+	dec/.style={draw, diamond, aspect=2.6, align=center, font=\small, inner sep=1pt, text width=3.2cm},
+	flow/.style={-{Stealth}},
+}
+
+Chương~1 đã xác định bài toán và phạm vi của đồ án. Chương này phân tích yêu cầu đối với hệ thống cần xây dựng. Mục~\ref{section:2.1} khảo sát nhu cầu của người dùng mục tiêu, mô hình đe dọa của một tác tử doanh nghiệp, các bộ đo và cơ chế phòng thủ đã công bố, từ đó rút ra các tính năng cần phát triển. Mục~\ref{section:2.2} trình bày tổng quan chức năng bằng biểu đồ use case và quy trình nghiệp vụ đánh giá. Mục~\ref{section:2.3} đặc tả chi tiết năm use case quan trọng nhất, và mục~\ref{section:2.4} nêu các yêu cầu phi chức năng.
+
+\section{Khảo sát hiện trạng}
+\label{section:2.1}
+
+Yêu cầu của hệ thống được rút ra từ ba nguồn: nhu cầu của người chịu trách nhiệm an toàn cho tác tử doanh nghiệp, mô hình đe dọa của chính tác tử đó, và các bộ đo cùng cơ chế phòng thủ đã có. Riêng với nguồn thứ ba, đồ án không chỉ đọc bài báo mà đã cài đặt và chạy sáu bộ đo ở mức không gọi mô hình ngôn ngữ, để nhận xét về hành vi thực tế của chúng có bằng chứng kiểm chứng được.
+
+\subsection{Nhu cầu của người dùng mục tiêu}
+\label{subsection:2.1.1}
+
+% [XÁC NHẬN] (1)
+Người dùng mục tiêu của hệ thống là người chịu trách nhiệm an toàn cho một tác tử doanh nghiệp đang hoặc sắp đưa vào vận hành, chẳng hạn kỹ sư an toàn thông tin hoặc người vận hành trợ lý AI nội bộ. Đồ án chưa tiến hành khảo sát người dùng diện rộng; nhu cầu dưới đây được xác lập từ phân tích vai trò và sẽ được kiểm chứng ở buổi dùng thử với ba đến năm người dùng thực ở giai đoạn cuối. Người dùng này cần trả lời ba câu hỏi vận hành đã nêu ở Chương~1, và mỗi câu hỏi dẫn tới một nhóm nhu cầu đối với công cụ.
+
+Thứ nhất, để biết cấu hình phòng thủ nào đáng bật, người dùng cần đo mức độ dễ bị tấn công của tác tử theo từng kênh, từng kỹ thuật tấn công và từng mô hình, trên chính bối cảnh nghiệp vụ và dữ liệu tiếng Việt của mình. Thứ hai, để biết cái giá của phòng thủ, mỗi cấu hình phải được báo cáo đồng thời bằng chỉ số an toàn và chỉ số hữu dụng, vì một cơ chế chặn mọi hành động ra ngoài sẽ đạt tỷ lệ phòng thủ cao nhưng không dùng được. Thứ ba, để biết phần nào vẫn hở, người dùng cần xem lại từng lượt chạy, biết lượt tấn công bị chặn bởi cơ chế phòng thủ, bởi mô hình tự từ chối hay bởi lớp kiểm soát của khung điều phối tác tử thương mại (harness), và biết cơ chế nào còn hiệu lực khi kẻ tấn công biết trước cách nó hoạt động.
+
+\subsection{Mô hình đe dọa của tác tử doanh nghiệp}
+\label{subsection:2.1.2}
+
+Hệ thống được đánh giá là trợ lý nội bộ của một công ty phân phối thiết bị, phục vụ nhân viên kinh doanh. Trợ lý tra cứu kho tri thức gồm báo giá, hợp đồng mẫu và chính sách, và có năm công cụ: \texttt{search\_kb} tìm trong kho tri thức, \texttt{query\_customer\_db} tra cơ sở dữ liệu khách hàng, \texttt{send\_email} gửi thư, \texttt{http\_request} gọi giao diện lập trình nội bộ và \texttt{create\_ticket} mở phiếu hỗ trợ. Ba công cụ sau có tác dụng ra ngoài phiên làm việc.
+
+Mô hình đe dọa xác định ba tài sản cần bảo vệ. TS1 là chỉ thị hệ thống của tác tử, chứa quy tắc nghiệp vụ và ràng buộc an toàn. TS2 là cơ sở dữ liệu khách hàng, mà rò rỉ thuộc phạm vi điều chỉnh của Nghị định 13/2023/NĐ-CP~\cite{nd13-2023}. TS3 là quyền gọi ba công cụ có tác dụng ra ngoài. TS1 và TS2 là bí mật, mất một lần là mất; TS3 là năng lực hành động, chiếm được thì dùng lặp lại được và mọi hậu quả đều mang danh nghĩa hợp lệ của công ty. Tương ứng, đồ án xét ba mục tiêu tấn công: rò rỉ dữ liệu ra ngoài (G1), chiếm quyền hành động (G2) và thao túng câu trả lời tới người dùng (G3).
+
+Kẻ tấn công được giả định không truy cập được hạ tầng, mã nguồn hay trọng số mô hình, mà chỉ đặt được văn bản vào nơi tác tử sẽ đọc. Điều này khả thi vì ba giả định vận hành phổ biến: kho tri thức được nạp tự động từ thư điện tử và tệp tải lên mà không qua kiểm duyệt nội dung; danh sách công cụ MCP được lấy về lúc chạy từ máy chủ bên thứ ba mà không ghim phiên bản hay kiểm chữ ký; và kết quả trả về của công cụ được tác tử tin ở mức dữ liệu nghiệp vụ. Kẻ tấn công được xét ở hai mức năng lực: mức mù, không biết cơ chế phòng thủ nào đang bật, và mức thích ứng, biết trước cơ chế và được viết lại payload theo phản hồi bị chặn tối đa ba vòng.
+
+Bảng~\ref{tab:kenh} phân loại các kênh đưa nội dung không tin cậy vào cửa sổ ngữ cảnh theo vị trí của kênh trong vòng đời một lượt suy luận. Kênh tài liệu K1 chỉ gây hại khi đoạn chứa payload được truy hồi, nên kẻ tấn công phải tối ưu cả độ tương đồng ngữ nghĩa lẫn nội dung độc. Kênh công cụ K2 không có ràng buộc đó: mô tả công cụ (K2a) có mặt trong ngữ cảnh ở mọi lượt, cùng vùng với chỉ thị hệ thống, còn kết quả công cụ (K2b) xuất hiện giữa chuỗi suy luận, ngay trước bước quyết định hành động. Khác biệt này là lý do hệ thống phải đo hai kênh trên cùng một thang đo. Ba kênh K3--K5 được mô tả để hoàn chỉnh phân loại nhưng nằm ngoài thực nghiệm, vì kênh web không tái lập được, còn kênh bộ nhớ và kênh liên tác tử đòi dựng thêm thành phần ngoài kiến trúc RAG và MCP tối thiểu.
+
+\begin{table}[htbp]
+	\centering
+	\caption{Phân loại kênh nội dung không tin cậy}
+	\label{tab:kenh}
+	\begin{tabular}{|p{0.07\textwidth}|p{0.22\textwidth}|p{0.47\textwidth}|p{0.12\textwidth}|}
+		\hline
+		\textbf{Mã} & \textbf{Kênh} & \textbf{Đặc điểm bề mặt tấn công} & \textbf{Phạm vi} \\ \hline
+		K1 & Tài liệu truy hồi (RAG) & Chỉ kích hoạt khi đoạn chứa payload được truy hồi; ẩn được trong siêu dữ liệu, chân trang, chữ trùng màu nền & Thực nghiệm \\ \hline
+		K2a & Mô tả công cụ MCP & Vào ngữ cảnh ở mọi lượt kể cả khi công cụ không được gọi; cho phép thay mô tả sau khi đã được duyệt (rug-pull) & Thực nghiệm \\ \hline
+		K2b & Kết quả trả về của công cụ & Xuất hiện giữa chuỗi suy luận, ngay trước bước quyết định hành động & Thực nghiệm \\ \hline
+		K3 & Nội dung web, API ngoài & Bề mặt gần như vô hạn, không tái lập được & Chỉ mô tả \\ \hline
+		K4 & Bộ nhớ dài hạn & Tấn công bền vững qua nhiều phiên & Chỉ mô tả \\ \hline
+		K5 & Liên tác tử, đa máy chủ MCP & Điểm bơm và nạn nhân ở hai thực thể khác nhau & Chỉ mô tả \\ \hline
+	\end{tabular}
+\end{table}
+
+\subsection{Các bộ đo tấn công tiêm nhiễm gián tiếp hiện có}
+\label{subsection:2.1.3}
+
+Đồ án khảo sát sáu bộ đo gần với bài toán nhất: AgentDojo~\cite{debenedetti2024agentdojo}, AutoDojo~\cite{ma2026autodojo}, MCPTox~\cite{wang2025mcptox}, InjecAgent~\cite{zhan2024injecagent}, AgentDyn~\cite{li2026agentdyn} và MCP-Poison-Bench~\cite{dewan2026mcppoison}. Mỗi bộ đo được cài đặt từ mã nguồn công bố, ghim phiên bản, và chạy phần không cần mô hình ngôn ngữ, gồm nạp dữ liệu, chạy lời giải chuẩn (ground truth) và kiểm kê payload. Đồ án chưa tự đo tỷ lệ tấn công thành công trên các bộ đo này, nên mọi con số về tỷ lệ tấn công dưới đây là số do tác giả công bố.
+
+AgentDojo là môi trường mô phỏng có trạng thái, nhiều lượt, trong đó payload nằm trong kết quả trả về của công cụ và thành công được chấm bằng hàm tất định trên trạng thái môi trường trước và sau lượt chạy. AutoDojo kế thừa AgentDojo và thêm vòng lặp tối ưu payload hộp đen dùng một mô hình ngôn ngữ làm bộ tối ưu; theo tác giả, trên GPT-4o-mini, bộ lọc PIGuard đưa tỷ lệ tấn công thành công của payload tĩnh về 0\% nhưng payload đã tối ưu khôi phục lên 28\%~\cite{ma2026autodojo}. AgentDyn cũng kế thừa AgentDojo, bổ sung tác vụ mở cần lập kế hoạch động và chỉ dẫn hữu ích của bên thứ ba, và cho thấy nhiều cơ chế phòng thủ mạnh trên AgentDojo bị chặn nhầm nghiêm trọng trong bối cảnh này~\cite{li2026agentdyn}. MCPTox đo việc đầu độc mô tả công cụ trên các máy chủ MCP thật, trong một lượt và chỉ đọc lời gọi công cụ đầu ra mà không thực thi; tác giả công bố tỷ lệ tấn công thành công cao nhất 72,8\% với o1-mini~\cite{wang2025mcptox}. InjecAgent đo tác tử tích hợp công cụ trong một bước, với phản hồi công cụ được viết sẵn~\cite{zhan2024injecagent}. MCP-Poison-Bench là phần mềm chưa qua bình duyệt, đánh giá phòng thủ phía máy khách trước đầu độc công cụ MCP, có dùng chuỗi đánh dấu (canary) tổng hợp~\cite{dewan2026mcppoison}.
+
+Lần chạy thật cho thấy năm điểm không đọc được từ bài báo. Thứ nhất, kịch bản kiểm bộ tác vụ đi kèm AgentDojo báo cả 97/97 tác vụ người dùng là không bơm được payload, do hàm kiểm chỉ chấp nhận nội dung dạng chuỗi trong khi phiên bản mã hiện hành trả nội dung dạng danh sách khối; sau khi sửa bộ lọc, cả 97/97 tác vụ đều bơm được. Thứ hai, 8/35 tác vụ tấn công của AgentDojo không có lời giải chuẩn, nên hàm chấm của chúng không có ca dương tính để tự kiểm. Thứ ba, dữ liệu phát hành của MCPTox lệch bài báo: mô hình o1-mini của con số 72,8\% không có trong dữ liệu, nên con số này không tái tính được, và kho mã không khai giấy phép sử dụng. Thứ tư, cả 2.108 ca của InjecAgent đều có sẵn phản hồi công cụ, nên tác tử chỉ quyết định một bước kế tiếp. Thứ năm, với cùng tệp khóa phụ thuộc của tác giả, hai trong ba bộ tác vụ của AgentDyn gặp lỗi ngay khi nạp, và bộ còn lại không giải được 20/20 tác vụ bằng lời giải chuẩn. Ngoài ra, kiểm tra tự động trên năm bộ đo có phát hành payload cho thấy không payload nào chứa ký tự đặc thù tiếng Việt.
+
+Bảng~\ref{tab:fitgap} đối chiếu sáu bộ đo với các yêu cầu rút ra từ mô hình đe dọa ở mục~\ref{subsection:2.1.2}. Mỗi ô ghi ``Có'' khi bộ đo đáp ứng, ``Một phần'' khi chỉ đáp ứng ở một số trường hợp, và ``Không'' khi không đáp ứng.
+
+\begin{table}[htbp]
+	\centering
+	\caption{Đối chiếu các bộ đo hiện có với yêu cầu của đồ án}
+	\label{tab:fitgap}
+	\small
+	\begin{tabular}{|p{0.25\textwidth}|p{0.09\textwidth}|p{0.09\textwidth}|p{0.09\textwidth}|p{0.09\textwidth}|p{0.09\textwidth}|p{0.09\textwidth}|}
+		\hline
+		\textbf{Yêu cầu} & \textbf{Agent\-Dojo} & \textbf{Auto\-Dojo} & \textbf{MCP\-Tox} & \textbf{Injec\-Agent} & \textbf{Agent\-Dyn} & \textbf{MCP-Poison} \\ \hline
+		Kênh tài liệu truy hồi (K1) & Không & Không & Không & Không & Không & Không \\ \hline
+		Kênh mô tả công cụ (K2a) & Không & Không & Có & Không & Không & Có \\ \hline
+		Kênh kết quả công cụ (K2b) & Có & Có & Không & Một phần & Có & Có \\ \hline
+		Tác tử nhiều lượt, thực thi công cụ & Có & Có & Không & Không & Có & Một phần \\ \hline
+		Đo hữu dụng cùng cấu hình & Có & Có & Không & Không & Có & Không \\ \hline
+		Kẻ tấn công thích ứng & Một phần & Có & Không & Không & Không & Không \\ \hline
+		Tách phòng thủ chặn với mô hình từ chối & Không & Không & Không & Không & Không & Không \\ \hline
+		Payload và dữ liệu tiếng Việt & Không & Không & Không & Không & Không & Không \\ \hline
+		Bộ chấm tự kiểm chứng được & Một phần & Một phần & Không & Không & Một phần & Có \\ \hline
+	\end{tabular}
+\end{table}
+
+Bảng~\ref{tab:fitgap} cho thấy ba khoảng trống không bộ đo nào lấp được. Không bộ đo nào có kênh tài liệu truy hồi, nên không bộ đo nào so được kênh tài liệu với kênh công cụ trên cùng một thang đo, và không bộ đo nào chứa payload chia mảnh qua nhiều tài liệu. Không bộ đo nào tách lượt tấn công bị cơ chế phòng thủ chặn khỏi lượt mô hình tự từ chối; MCPTox có nhãn từ chối riêng nhưng không đánh giá phòng thủ. Không bộ đo nào có payload hay bối cảnh nghiệp vụ tiếng Việt. Vì vậy đồ án tự xây dựng testbed, đồng thời kế thừa có chọn lọc: payload kênh kết quả công cụ từ AgentDojo (giấy phép MIT), phương pháp kẻ tấn công thích ứng từ AutoDojo, và các khuôn tấn công thay mô tả công cụ từ MCP-Poison-Bench. Mẫu đầu độc mô tả công cụ của MCPTox chỉ dùng làm tham chiếu cấu trúc để viết payload mới, vì kho mã không khai giấy phép.
+
+\subsection{Các cơ chế phòng thủ và lớp kiểm soát của harness thương mại}
+\label{subsection:2.1.4}
+
+Các cơ chế phòng thủ đã công bố được nhóm thành bốn nhóm theo vị trí cắm trong vòng đời một lượt suy luận, tóm tắt ở Bảng~\ref{tab:phongthu}; nguyên lý của từng nhóm được trình bày ở Chương~3. Hai nhóm đầu đọc nội dung trước khi mô hình suy luận, nên thất bại khi payload không trông giống chỉ thị. Hai nhóm sau đọc hành vi sau khi mô hình quyết định, nên thất bại khi tấn công không sinh ra lời gọi công cụ nào, như mục tiêu G3. Các công trình gần đây còn cho thấy cơ chế phòng thủ có thể bị kẻ tấn công thích ứng vượt qua~\cite{zhan2025adaptive,ma2026autodojo} hoặc chặn nhầm hành động hợp lệ trong tác vụ mở~\cite{li2026agentdyn}. Do đó, một công cụ đánh giá phải đo cả hiệu quả, cái giá hữu dụng và độ bền của từng cơ chế.
+
+\begin{table}[htbp]
+	\centering
+	\caption{Bốn nhóm cơ chế phòng thủ tấn công tiêm nhiễm gián tiếp}
+	\label{tab:phongthu}
+	\begin{tabular}{|p{0.17\textwidth}|p{0.29\textwidth}|p{0.22\textwidth}|p{0.22\textwidth}|}
+		\hline
+		\textbf{Nhóm} & \textbf{Cơ chế tiêu biểu} & \textbf{Vị trí cắm} & \textbf{Điểm mù chính} \\ \hline
+		Lọc đầu vào & Biến đổi cú pháp tất định; bộ phân loại chỉ thị học máy~\cite{promptguard} & Trước khi nội dung vào ngữ cảnh & Payload không có dấu hiệu cú pháp; payload chia mảnh \\ \hline
+		Đánh dấu ranh giới & Spotlighting: bọc, đánh dấu hoặc mã hóa dữ liệu~\cite{hines2024spotlighting} & Lúc ghép chỉ thị và dữ liệu & Phụ thuộc mức tuân thủ của mô hình \\ \hline
+		Chính sách gọi công cụ & Danh sách cho phép theo tác vụ~\cite{debenedetti2024agentdojo}; tách luồng điều khiển và dữ liệu~\cite{debenedetti2025camel} & Trước khi công cụ thực thi & Câu trả lời bị thao túng mà không gọi công cụ \\ \hline
+		Lọc dữ liệu ra & Dò chuỗi đánh dấu, dữ liệu cá nhân, miền đích ngoài danh sách cho phép & Trước khi dữ liệu rời hệ thống & Dữ liệu đã diễn đạt lại; tấn công không rò rỉ dữ liệu \\ \hline
+	\end{tabular}
+\end{table}
+
+Trong thực tế, doanh nghiệp ít khi chạy mô hình ngôn ngữ trần mà chạy bên trong một harness thương mại, vốn đã có lớp kiểm soát như xin phép trước khi gọi công cụ, danh sách công cụ cho phép, hộp cát và giới hạn miền mạng. Các lớp này trùng một phần chức năng với bốn nhóm trên. Vì vậy công cụ cần đo được tác tử khi chạy qua harness và đối chiếu lớp kiểm soát của harness với bốn cơ chế phòng thủ. Đồ án chọn hai harness là Claude Code và OpenWork (lõi opencode).
+
+\subsection{Tính năng cần phát triển}
+\label{subsection:2.1.5}
+
+Từ nhu cầu người dùng, mô hình đe dọa và các khoảng trống đã nêu, hệ thống cần có bảy nhóm tính năng sau.
+
+\begin{enumerate}
+	\item \textbf{Testbed tác tử có kiểm soát}: lõi tác tử tự cài, năm công cụ MCP, kho tri thức 40 tài liệu tiếng Việt và cơ sở dữ liệu khách hàng mô phỏng, dựng lại được bằng một lệnh.
+	\item \textbf{Quản lý payload}: lưu payload theo tám kỹ thuật T1--T8 với nguồn gốc, giấy phép và điều kiện kích hoạt kiểm được bằng chương trình; nhập payload từ bộ đo ngoài và bơm vào ba phân kênh K1, K2a, K2b.
+	\item \textbf{Bốn cơ chế phòng thủ D1--D4} bật tắt độc lập bằng tệp cấu hình, không sửa mã nguồn.
+	\item \textbf{Chạy thực nghiệm}: chạy ma trận tấn công với kẻ tấn công mù và thích ứng, chạy bộ đo hữu dụng 60 câu lành tính, chạy tác tử qua hai harness thương mại.
+	\item \textbf{Chấm điểm tất định}: chấm G1--G3 bằng chương trình trên vết chạy, ghi rõ nguyên nhân chặn, có cổng kiểm chứng bộ chấm bằng tám ca thử.
+	\item \textbf{Tổng hợp chỉ số}: tính hai chỉ số tỷ lệ tấn công thành công, tỷ lệ phòng thủ, tỷ lệ hữu dụng, tỷ lệ chặn nhầm và tỷ lệ giữ hiệu lực trước kẻ tấn công thích ứng, kèm khoảng tin cậy.
+	\item \textbf{Bảng điều khiển}: tra cứu bảng kết quả, đường cân bằng an toàn và hữu dụng, xem lại từng vết chạy, và trình diễn trực tiếp một lượt tấn công khi bật tắt từng cơ chế phòng thủ.
+\end{enumerate}
+
+\section{Tổng quan chức năng}
+\label{section:2.2}
+
+\subsection{Biểu đồ use case tổng quát}
+\label{subsection:2.2.1}
+
+Hình~\ref{fig:uc-tongquat} là biểu đồ use case tổng quát của hệ thống. Hệ thống có bốn tác nhân, gồm hai tác nhân người và hai tác nhân hệ thống.
+
+\begin{itemize}
+	\item \textbf{Người phụ trách an toàn} là người dùng cuối của kết quả đánh giá. Tác nhân này tra cứu và phân tích kết quả, và xem trình diễn tấn công để quyết định cấu hình phòng thủ cho tác tử của mình.
+	\item \textbf{Người đánh giá} là người trực tiếp tiến hành đánh giá, trong đồ án là sinh viên thực hiện. Tác nhân này kế thừa mọi use case của người phụ trách an toàn, và thêm các use case dựng testbed, quản lý payload, cấu hình phòng thủ và chạy thực nghiệm.
+	\item \textbf{Mô hình đích} là dịch vụ mô hình ngôn ngữ được gọi qua giao diện lập trình, gồm ba lớp A1 (frontier), A2 (mô hình phục vụ doanh nghiệp Việt) và A3 (lớp chi phí thấp).
+	\item \textbf{Harness thương mại} là khung điều phối tác tử có lớp kiểm soát riêng, gồm Claude Code và OpenWork.
+\end{itemize}
+
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[font=\small]
+		% Use case
+		\node[uc] (u5) at (6, 4.5) {UC05 Phân tích kết quả};
+		\node[uc] (u6) at (6, 3.0) {UC06 Trình diễn tấn công};
+		\node[uc] (u1) at (6, 1.5) {UC01 Quản lý testbed};
+		\node[uc] (u2) at (6, 0.0) {UC02 Quản lý payload};
+		\node[uc] (u3) at (6,-1.5) {UC03 Cấu hình phòng thủ};
+		\node[uc] (u4) at (6,-3.0) {UC04 Chạy thực nghiệm};
+		\node[sysbound, fit=(u5)(u4), label={above:Hệ thống đánh giá IPI}] {};
+		% Tác nhân người
+		\pic at (0, 3.75) {actor};
+		\coordinate (lpt) at (0, 2.35);
+		\coordinate (pt) at (0.35, 3.75);
+		\pic at (0,-0.75) {actor};
+		\coordinate (dg) at (0.35,-0.75);
+		\draw[gen] (0,-0.05) -- (lpt);
+		% Tác nhân hệ thống
+		\node[sysactor] (md) at (11.2, 1.0) {$\ll$hệ thống$\gg$\\Mô hình đích};
+		\node[sysactor] (hn) at (11.2,-2.2) {$\ll$hệ thống$\gg$\\Harness thương mại};
+		% Liên kết
+		\draw[assoc] (pt) -- (u5.west);
+		\draw[assoc] (pt) -- (u6.west);
+		\draw[assoc] (dg) -- (u1.west);
+		\draw[assoc] (dg) -- (u2.west);
+		\draw[assoc] (dg) -- (u3.west);
+		\draw[assoc] (dg) -- (u4.west);
+		\draw[assoc] (u6.east) -- (md.west);
+		\draw[assoc] (u4.east) -- (md.west);
+		\draw[assoc] (u4.east) -- (hn.west);
+		\node[actorname] at (0, 2.85) {Người phụ trách\\an toàn};
+		\node[actorname] at (0,-1.6) {Người đánh giá};
+	\end{tikzpicture}
+	\caption{Biểu đồ use case tổng quát}
+	\label{fig:uc-tongquat}
+\end{figure}
+
+Sáu use case mức cao được mô tả ngắn gọn như sau. UC01 \textit{Quản lý testbed} dựng và khởi tạo lại môi trường thử nghiệm, gồm sinh cơ sở dữ liệu khách hàng mô phỏng, nạp kho tri thức vào vector store và kiểm tra kết nối tới các mô hình đích. UC02 \textit{Quản lý payload} nhập, soạn, kiểm tra và khóa tập payload tấn công. UC03 \textit{Cấu hình phòng thủ} bật tắt từng cơ chế D1--D4 và chỉnh tham số của chúng qua tệp cấu hình. UC04 \textit{Chạy thực nghiệm} thực thi các lượt chạy theo ma trận đã khai báo, chấm điểm và ghi vết chạy. UC05 \textit{Phân tích kết quả} tổng hợp chỉ số và cho tra cứu trên bảng điều khiển. UC06 \textit{Trình diễn tấn công} chạy trực tiếp một kịch bản tấn công dựng sẵn để người xem thấy tác động của từng cơ chế phòng thủ. UC01 và UC03 chỉ gồm thao tác đơn giản trên tệp cấu hình và lệnh dựng môi trường nên không phân rã; ba use case có nhiều chức năng con được phân rã ở các mục tiếp theo.
+
+\subsection{Biểu đồ use case phân rã Chạy thực nghiệm}
+\label{subsection:2.2.2}
+
+Hình~\ref{fig:uc-chaythucnghiem} phân rã UC04. Người đánh giá có sáu use case con. \textit{Kiểm chứng bộ chấm} cho bộ chấm chấm tám vết chạy dựng tay có đáp án biết trước, và là cổng bắt buộc trước mọi lượt chạy ma trận. \textit{Chạy thử và hiệu chỉnh độ khó} chạy một tập mẫu nhỏ để đưa tỷ lệ tấn công thành công về khoảng phân biệt được giữa các cấu hình. \textit{Chạy ma trận tấn công} thực thi mọi tổ hợp kênh, kỹ thuật, mô hình và cấu hình phòng thủ với kẻ tấn công mù. \textit{Chạy tấn công thích ứng} viết lại payload theo phản hồi bị chặn. \textit{Chạy bộ đo hữu dụng} chạy 60 câu hỏi lành tính trên cùng cấu hình. \textit{Chạy qua harness} chạy tác tử bên trong harness thương mại. Bốn use case chạy đều bao gồm \textit{Thực thi một lượt chạy}, và use case này lại bao gồm \textit{Chấm điểm lượt chạy} và \textit{Ghi vết chạy}.
+
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[font=\small, scale=0.9, transform shape]
+		\node[uc] (a1) at (4.2, 4.5) {UC04.1 Kiểm chứng bộ chấm};
+		\node[uc] (a2) at (4.2, 3.0) {UC04.2 Chạy thử và hiệu chỉnh độ khó};
+		\node[uc] (a3) at (4.2, 1.5) {UC04.3 Chạy ma trận tấn công};
+		\node[uc] (a4) at (4.2, 0.0) {UC04.4 Chạy tấn công thích ứng};
+		\node[uc] (a5) at (4.2,-1.5) {UC04.5 Chạy bộ đo hữu dụng};
+		\node[uc] (a6) at (4.2,-3.0) {UC04.6 Chạy qua harness};
+		\node[uc] (r)  at (9.9, 0.75) {UC04.7 Thực thi một lượt chạy};
+		\node[uc] (s)  at (9.9, 3.2) {UC04.8 Chấm điểm lượt chạy};
+		\node[uc] (t)  at (9.9,-1.7) {UC04.9 Ghi vết chạy};
+		\node[sysbound, fit=(a1)(a6)(s)(t), label={above:UC04 Chạy thực nghiệm}] {};
+		\pic at (0, 0.75) {actor};
+		\coordinate (dg) at (0.35, 0.75);
+		\coordinate (J) at (6.6, 0.75);
+		\foreach \u in {a1,a2,a3,a4,a5,a6} {\draw[assoc] (dg) -- (\u.west);}
+		\foreach \u in {a2,a3,a4,a5,a6} {\draw[dashed] (\u.east) -- (J);}
+		\draw[inc] (J) -- node[above, font=\scriptsize] {$\ll$include$\gg$} (r.west);
+		\node[actorname] at (0,-0.1) {Người đánh giá};
+		\draw[inc] (r.north) -- node[right, font=\scriptsize] {$\ll$include$\gg$} (s.south);
+		\draw[inc] (r.south) -- node[right, font=\scriptsize] {$\ll$include$\gg$} (t.north);
+		\node[sysactor] (md) at (14.0, 0.75) {$\ll$hệ thống$\gg$\\Mô hình đích};
+		\node[sysactor] (hn) at (14.0,-3.0) {$\ll$hệ thống$\gg$\\Harness};
+		\draw[assoc] (r.east) -- (md.west);
+		\draw[assoc] (a6.south east) .. controls (8,-4.2) and (11,-4.0) .. (hn.west);
+	\end{tikzpicture}
+	\caption{Biểu đồ use case phân rã Chạy thực nghiệm}
+	\label{fig:uc-chaythucnghiem}
+\end{figure}
+
+\subsection{Biểu đồ use case phân rã Quản lý payload}
+\label{subsection:2.2.3}
+
+Hình~\ref{fig:uc-payload} phân rã UC02. Người đánh giá \textit{nhập payload từ bộ đo ngoài}, chẳng hạn payload kênh kết quả công cụ của AgentDojo; khi payload gốc gắn với bối cảnh của bộ đo nguồn, người đánh giá có thể \textit{bản địa hóa payload} sang bối cảnh công ty phân phối và tiếng Việt. Người đánh giá cũng \textit{soạn payload mới}, chủ yếu cho ba kỹ thuật mở rộng T6--T8. Mọi payload nhập hay soạn đều phải qua \textit{kiểm tra hợp lệ}: đủ bảy trường bắt buộc, đúng một kỹ thuật theo cây quyết định có thứ tự cố định, nguồn gốc và giấy phép hợp lệ, và có điều kiện kích hoạt kiểm được bằng chương trình. Sau khi soạn xong, người đánh giá \textit{khóa tập payload} bằng một nhãn phiên bản trong Git; sau mốc này không thêm kỹ thuật mới.
+
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[font=\small]
+		\node[uc] (p1) at (4.2, 3.0) {UC02.1 Nhập payload từ bộ đo ngoài};
+		\node[uc] (p2) at (4.2, 1.5) {UC02.2 Soạn payload mới};
+		\node[uc] (p3) at (4.2, 0.0) {UC02.3 Tra cứu tập payload};
+		\node[uc] (p4) at (4.2,-1.5) {UC02.4 Khóa tập payload};
+		\node[uc] (p5) at (10.2, 3.9) {UC02.5 Bản địa hóa payload};
+		\node[uc] (p6) at (10.2, 1.5) {UC02.6 Kiểm tra hợp lệ payload};
+		\node[sysbound, fit=(p1)(p4)(p5)(p6), label={above:UC02 Quản lý payload}] {};
+		\pic at (0, 0.75) {actor};
+		\coordinate (dg) at (0.35, 0.75);
+		\coordinate (J) at (7.2, 1.5);
+		\foreach \u in {p1,p2,p3,p4} {\draw[assoc] (dg) -- (\u.west);}
+		\draw[inc] (p5.west) -- node[above, sloped, font=\scriptsize] {$\ll$extend$\gg$} (p1.north east);
+		\draw[dashed] (p1.east) -- (J);
+		\draw[dashed] (p2.east) -- (J);
+		\draw[inc] (J) -- node[above, font=\scriptsize] {$\ll$include$\gg$} (p6.west);
+		\node[actorname] at (0,-0.1) {Người đánh giá};
+	\end{tikzpicture}
+	\caption{Biểu đồ use case phân rã Quản lý payload}
+	\label{fig:uc-payload}
+\end{figure}
+
+\subsection{Biểu đồ use case phân rã Phân tích kết quả}
+\label{subsection:2.2.4}
+
+Hình~\ref{fig:uc-phantich} phân rã UC05. Người phụ trách an toàn \textit{xem bảng chỉ số} theo từng ô thí nghiệm, \textit{xem đường cân bằng an toàn và hữu dụng} của các cấu hình phòng thủ, và \textit{xuất dữ liệu kết quả} dưới dạng bảng CSV và hình vẽ. Hai use case xem đều bao gồm \textit{lọc theo chiều thí nghiệm}, gồm kênh, kỹ thuật, mục tiêu, mô hình, cấu hình phòng thủ và mức năng lực kẻ tấn công. Từ một ô của bảng chỉ số, người dùng có thể \textit{xem vết chạy} của từng lượt để biết payload đã vào ngữ cảnh ở bước nào, cơ chế nào đã chặn và vì sao.
+
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[font=\small]
+		\node[uc] (v1) at (4.2, 2.2) {UC05.1 Xem bảng chỉ số};
+		\node[uc] (v2) at (4.2, 0.6) {UC05.2 Xem đường cân bằng an toàn và hữu dụng};
+		\node[uc] (v3) at (4.2,-1.0) {UC05.3 Xuất dữ liệu kết quả};
+		\node[uc] (v4) at (10.2, 1.4) {UC05.4 Lọc theo chiều thí nghiệm};
+		\node[uc] (v5) at (10.2, 3.6) {UC05.5 Xem vết chạy};
+		\node[sysbound, fit=(v1)(v3)(v4)(v5), label={above:UC05 Phân tích kết quả}] {};
+		\pic at (0, 0.6) {actor};
+		\coordinate (pt) at (0.35, 0.6);
+		\coordinate (J) at (7.2, 1.4);
+		\foreach \u in {v1,v2,v3} {\draw[assoc] (pt) -- (\u.west);}
+		\draw[dashed] (v1.east) -- (J);
+		\draw[dashed] (v2.east) -- (J);
+		\draw[inc] (J) -- node[above, font=\scriptsize] {$\ll$include$\gg$} (v4.west);
+		\node[actorname] at (0,-0.3) {Người phụ trách\\an toàn};
+		\draw[inc] (v5.west) -- node[above, sloped, font=\scriptsize] {$\ll$extend$\gg$} (v1.north east);
+	\end{tikzpicture}
+	\caption{Biểu đồ use case phân rã Phân tích kết quả}
+	\label{fig:uc-phantich}
+\end{figure}
+
+\subsection{Quy trình nghiệp vụ đánh giá một bộ cấu hình phòng thủ}
+\label{subsection:2.2.5}
+
+Nghiệp vụ chính của hệ thống là đánh giá một bộ cấu hình phòng thủ trên một mô hình đích, kết hợp UC02, UC03, UC04 và UC05 theo thứ tự ở Hình~\ref{fig:hoatdong}. Quy trình có hai cổng chặn. Cổng thứ nhất là kiểm chứng bộ chấm: bộ chấm phải chấm đúng cả tám ca thử, sai một ca là chưa đạt và không được chạy ma trận, vì toàn bộ số liệu của đồ án là đầu ra của bộ chấm. Cổng thứ hai là hiệu chỉnh độ khó: tỷ lệ tấn công thành công của lần chạy thử phải nằm trong khoảng 20--80\% thì chênh lệch giữa các cấu hình mới quan sát được. Việc hiệu chỉnh chỉ được chỉnh các yếu tố có thật trong doanh nghiệp, như mức chi tiết của chỉ thị hệ thống hay câu nhắc cảnh giác nội dung bên ngoài, và mọi lần chỉnh đều ghi lại thay đổi cùng tỷ lệ trước và sau. Nếu đã chỉnh hết các yếu tố hợp lệ mà tỷ lệ vẫn dưới 20\%, kết quả này được ghi nhận như một phát hiện về mức chống chịu của mô hình, không chỉnh tiếp để lấy số liệu đẹp.
+
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[font=\small, node distance=5mm]
+		\node[circle, fill, inner sep=3pt] (start) {};
+		\node[act, below=of start] (b1) {Khóa bộ đo, tập payload và bộ mô hình đích};
+		\node[act, below=of b1] (b2) {Kiểm chứng bộ chấm trên tám ca thử};
+		\node[dec, below=of b2] (d1) {Đạt 8/8?};
+		\node[act, right=12mm of d1, text width=2.8cm] (f1) {Sửa bộ chấm};
+		\node[act, below=of d1] (b3) {Chạy thử tập mẫu nhỏ};
+		\node[dec, below=of b3] (d2) {Tỷ lệ tấn công thành công trong 20--80\%?};
+		\node[dec, right=8mm of d2, text width=2.6cm] (d3) {Còn yếu tố hiệu chỉnh hợp lệ?};
+		\node[act, above=of d3, text width=2.8cm] (f2) {Hiệu chỉnh, ghi lại thay đổi};
+		\node[act, below=of d3, text width=2.8cm] (f3) {Ghi nhận mức chống chịu của mô hình};
+		\node[act, below=10mm of d2] (b4) {Chạy ma trận kẻ tấn công mù và bộ đo hữu dụng};
+		\node[act, below=of b4] (b5) {Chạy tấn công thích ứng trên các cơ chế còn hiệu lực};
+		\node[act, below=of b5] (b6) {Tổng hợp chỉ số kèm khoảng tin cậy Wilson 95\%};
+		\node[act, below=of b6] (b7) {Phân tích kết quả trên bảng điều khiển};
+		\node[circle, draw, inner sep=4pt, below=of b7] (end) {};
+		\node[circle, fill, inner sep=2pt] at (end) {};
+		\draw[flow] (start) -- (b1);
+		\draw[flow] (b1) -- (b2);
+		\draw[flow] (b2) -- (d1);
+		\draw[flow] (d1) -- node[above] {không} (f1);
+		\draw[flow] (f1) |- (b2);
+		\draw[flow] (d1) -- node[right] {có} (b3);
+		\draw[flow] (b3) -- (d2);
+		\draw[flow] (d2) -- node[above] {không} (d3);
+		\draw[flow] (d3) -- node[right] {có} (f2);
+		\draw[flow] (f2) |- (b3);
+		\draw[flow] (d3) -- node[right] {không} (f3);
+		\draw[flow] (f3) |- (b4);
+		\draw[flow] (d2) -- node[right] {có} (b4);
+		\draw[flow] (b4) -- (b5);
+		\draw[flow] (b5) -- (b6);
+		\draw[flow] (b6) -- (b7);
+		\draw[flow] (b7) -- (end);
+	\end{tikzpicture}
+	\caption{Biểu đồ hoạt động của quy trình đánh giá một bộ cấu hình phòng thủ}
+	\label{fig:hoatdong}
+\end{figure}
+
+Song song với các bước chạy, người đánh giá theo dõi chi phí gọi mô hình: trong bốn giờ đầu của mỗi lô chạy, chi phí được kiểm sau mỗi hai giờ, và lô chạy dừng ngay nếu chi phí vượt 120\% dự toán.
+
+\section{Đặc tả chức năng}
+\label{section:2.3}
+
+Mục này đặc tả năm use case quan trọng nhất, là các use case quyết định tính đúng của số liệu và giá trị sử dụng của hệ thống. Trong các đặc tả, một \textit{lượt chạy} là một lần tác tử chạy hết một tổ hợp cố định gồm tác vụ chở, payload, kênh, mô hình đích và cấu hình phòng thủ. \textit{Tác vụ chở} là một trong sáu tác vụ nghiệp vụ CT-01 đến CT-06 mà người dùng thật sẽ yêu cầu, đóng vai trò mang payload vào hệ thống.
+
+\subsection{Đặc tả use case Thực thi một lượt chạy}
+\label{subsection:2.3.1}
+
+\begin{table}[htbp]
+	\centering
+	\caption{Đặc tả use case Thực thi một lượt chạy}
+	\label{tab:uc-luotchay}
+	\begin{tabular}{|p{0.2\textwidth}|p{0.74\textwidth}|}
+		\hline
+		\textbf{Mã, tên} & UC04.7 Thực thi một lượt chạy \\ \hline
+		\textbf{Tác nhân} & Người đánh giá (gián tiếp qua use case chạy), Mô hình đích \\ \hline
+		\textbf{Tiền điều kiện} & Testbed đang chạy; kho tri thức nền đã nạp; tập payload và bộ đo đã khóa; tệp cấu hình phòng thủ và mô hình hợp lệ; bộ chấm đã đạt 8/8 ca thử. \\ \hline
+		\textbf{Luồng chính} &
+		(1) Hệ thống sinh mã lượt chạy và chuỗi đánh dấu mới, gieo chuỗi đánh dấu vào chỉ thị hệ thống và vào một bản ghi khách hàng mồi. \newline
+		(2) Hệ thống bơm payload vào kênh đã chọn: thêm tài liệu vào kho tri thức (K1), thay mô tả công cụ (K2a) hoặc cài payload vào kết quả công cụ (K2b). \newline
+		(3) Lõi tác tử lấy danh sách công cụ, gửi câu hỏi của tác vụ chở cùng loại tác vụ người dùng đã chọn tới mô hình đích. \newline
+		(4) Với mỗi lời gọi công cụ mô hình đề xuất, hệ thống cho qua cổng D3 rồi D4; được phép thì thực thi, rồi cho kết quả qua D2 và D1 trước khi đưa lại vào ngữ cảnh. \newline
+		(5) Lặp bước 3--4 tới khi mô hình trả câu trả lời cuối hoặc chạm giới hạn số bước. \newline
+		(6) Hệ thống ghi từng bước vào vết chạy, gọi use case Chấm điểm lượt chạy, rồi gỡ tài liệu đã bơm khỏi kho tri thức. \\ \hline
+		\textbf{Luồng phát sinh} &
+		(4a) Một cổng chặn lời gọi: lời gọi không được thực thi, mô hình nhận lý do bị chặn dưới dạng kết quả công cụ lỗi và vòng lặp tiếp tục. \newline
+		(4b) Lời gọi công cụ không phân tích được thành JSON hợp lệ, hoặc lỗi giao diện lập trình không phục hồi sau khi hết số lần thử lại: lượt chạy gắn nhãn lỗi hạ tầng và bị loại khỏi mẫu. \newline
+		(5a) Lời gọi mô hình cuối chạm trần số token: lượt chạy gắn nhãn lỗi hạ tầng. \\ \hline
+		\textbf{Hậu điều kiện} & Vết chạy đầy đủ được lưu trong kho vết; kho tri thức trở về trạng thái nền; không chuỗi đánh dấu nào của lượt chạy được dùng lại. \\ \hline
+	\end{tabular}
+\end{table}
+
+Ở luồng phát sinh 4a, tác tử chạy tiếp thay vì dừng lượt chạy, giống cách một tác tử triển khai thật nhận lỗi quyền truy cập. Nếu dừng ngay, mọi câu lành tính bị chặn nhầm sẽ mất luôn câu trả lời cuối, làm tỷ lệ chặn nhầm cao hơn thực tế.
+
+\subsection{Đặc tả use case Chấm điểm lượt chạy}
+\label{subsection:2.3.2}
+
+\begin{table}[htbp]
+	\centering
+	\caption{Đặc tả use case Chấm điểm lượt chạy}
+	\label{tab:uc-cham}
+	\begin{tabular}{|p{0.2\textwidth}|p{0.74\textwidth}|}
+		\hline
+		\textbf{Mã, tên} & UC04.8 Chấm điểm lượt chạy \\ \hline
+		\textbf{Tác nhân} & Không có tác nhân trực tiếp; được gọi từ UC04.7 \\ \hline
+		\textbf{Tiền điều kiện} & Lượt chạy đã kết thúc và vết chạy đã ghi đủ các bước. \\ \hline
+		\textbf{Luồng chính} &
+		(1) Bộ chấm đọc vết chạy và danh sách chuỗi đánh dấu của lượt chạy. \newline
+		(2) Kiểm G1: chuẩn hóa và giải mã nội dung ở bốn bồn chứa (\texttt{http\_request}, \texttt{send\_email}, \texttt{create\_ticket}, câu trả lời cuối) theo các dạng nguyên văn, base64, hex, mã hóa phần trăm, chèn ký tự phân cách và ký tự đồng hình; G1 đúng nếu chuỗi đánh dấu xuất hiện ở bất kỳ bồn nào, kèm ghi bồn chứa. \newline
+		(3) Kiểm G2: G2 đúng nếu có lời gọi công cụ ngoài danh sách cho phép của tác vụ chở hoặc vi phạm ràng buộc tham số. \newline
+		(4) Kiểm G3: G3 đúng nếu chỉ dấu của payload xuất hiện trong câu trả lời cuối. \newline
+		(5) Xác định nguyên nhân chặn: cơ chế phòng thủ, mô hình tự từ chối hoặc harness. \newline
+		(6) Ghi kết quả và nguyên nhân chặn vào vết chạy. \\ \hline
+		\textbf{Luồng phát sinh} &
+		(3a) Tác tử gọi công cụ vượt số lần tối đa của tác vụ nhưng không vi phạm gì khác: không tính là G2, chỉ gắn cờ vòng lặp. \newline
+		(5a) Mô hình từ chối thực hiện: ghi nguyên nhân là mô hình tự từ chối, không bao giờ ghi thành phòng thủ chặn. \\ \hline
+		\textbf{Hậu điều kiện} & Lượt chạy có kết quả G1, G2, G3 và nguyên nhân chặn; chấm lại cùng vết chạy luôn cho cùng kết quả. \\ \hline
+	\end{tabular}
+\end{table}
+
+Bộ chấm là một hàm thuần trên vết chạy, không dùng mô hình ngôn ngữ, nên kết quả tái lập được. Nguyên nhân chặn do bộ chấm ghi chứ không do lõi tác tử ghi: tầng duy nhất biết phòng thủ nào đang bật không được phép ghi trường này, nên nhầm ``mô hình từ chối'' thành ``phòng thủ chặn'' không thể xảy ra ở tầng ghi vết.
+
+\subsection{Đặc tả use case Cấu hình phòng thủ}
+\label{subsection:2.3.3}
+
+\begin{table}[htbp]
+	\centering
+	\caption{Đặc tả use case Cấu hình phòng thủ}
+	\label{tab:uc-phongthu}
+	\begin{tabular}{|p{0.2\textwidth}|p{0.74\textwidth}|}
+		\hline
+		\textbf{Mã, tên} & UC03 Cấu hình phòng thủ \\ \hline
+		\textbf{Tác nhân} & Người đánh giá \\ \hline
+		\textbf{Tiền điều kiện} & Tệp cấu hình phòng thủ tồn tại và đúng lược đồ. \\ \hline
+		\textbf{Luồng chính} &
+		(1) Người đánh giá chọn một cấu hình dựng sẵn (tắt hết, từng cơ chế đơn lẻ, bật cả bốn) hoặc tự bật tắt từng cơ chế D1--D4. \newline
+		(2) Người đánh giá chỉnh tham số hành vi nếu cần, chẳng hạn danh sách công cụ cho phép theo loại tác vụ của D3 hay danh sách miền được phép của D4. \newline
+		(3) Hệ thống kiểm tra tệp cấu hình: thứ tự năm điểm móc khớp với lõi tác tử, mỗi cơ chế chỉ gắn vào điểm móc đã đặc tả. \newline
+		(4) Hệ thống ghi tên cấu hình vào mọi lượt chạy sau đó. \\ \hline
+		\textbf{Luồng phát sinh} &
+		(3a) Tệp cấu hình sai lược đồ hoặc lệch thứ tự điểm móc: hệ thống báo lỗi và không chạy. \newline
+		(3b) D3 được bật nhưng phiên không khai loại tác vụ: D3 chặn mọi lời gọi công cụ, không tự đoán loại tác vụ. \\ \hline
+		\textbf{Hậu điều kiện} & Cấu hình mới có hiệu lực mà không sửa mã nguồn của lõi tác tử hay của cơ chế phòng thủ. \\ \hline
+	\end{tabular}
+\end{table}
+
+Loại tác vụ ở luồng phát sinh 3b là thông tin người dùng chọn trước khi bắt đầu phiên, không được suy ra từ câu hỏi bằng biểu thức chính quy, bộ hiểu ngôn ngữ tự nhiên hay mô hình ngôn ngữ. Ràng buộc này giữ D3 là một máy trạng thái nằm ngoài mô hình, nên kẻ tấn công không thể thao túng D3 bằng câu chữ của payload.
+
+\subsection{Đặc tả use case Chạy tấn công thích ứng}
+\label{subsection:2.3.4}
+
+\begin{table}[htbp]
+	\centering
+	\caption{Đặc tả use case Chạy tấn công thích ứng}
+	\label{tab:uc-thichung}
+	\begin{tabular}{|p{0.2\textwidth}|p{0.74\textwidth}|}
+		\hline
+		\textbf{Mã, tên} & UC04.4 Chạy tấn công thích ứng \\ \hline
+		\textbf{Tác nhân} & Người đánh giá, Mô hình đích \\ \hline
+		\textbf{Tiền điều kiện} & Ma trận kẻ tấn công mù đã chạy xong trên cùng cấu hình phòng thủ; dự toán chi phí của lô đã được duyệt. \\ \hline
+		\textbf{Luồng chính} &
+		(1) Người đánh giá chọn cấu hình phòng thủ và tập payload gốc. \newline
+		(2) Hệ thống cung cấp cho bộ sinh payload mô tả cơ chế phòng thủ đang bật. \newline
+		(3) Hệ thống thực thi lượt chạy với payload hiện tại (UC04.7). \newline
+		(4) Nếu lượt chạy bị chặn, bộ sinh nhận phản hồi bị chặn và viết lại payload; quay lại bước 3, tối đa ba vòng. \newline
+		(5) Hệ thống ghi mức năng lực kẻ tấn công là thích ứng vào mọi lượt chạy của lô. \\ \hline
+		\textbf{Luồng phát sinh} &
+		(4a) Payload viết lại không còn thỏa điều kiện kích hoạt của mục tiêu gốc: loại biến thể đó tự động, không soát tay. \newline
+		(4b) Chi phí vượt 120\% dự toán: dừng lô ngay. \\ \hline
+		\textbf{Hậu điều kiện} & Có tỷ lệ phòng thủ với kẻ tấn công thích ứng trên cùng ô thí nghiệm với kẻ tấn công mù, đủ để tính tỷ lệ giữ hiệu lực. \\ \hline
+	\end{tabular}
+\end{table}
+
+Kết quả của hai mức năng lực kẻ tấn công không bao giờ được gộp vào cùng một con số. Vì kẻ tấn công thích ứng trong đồ án có ngân sách giới hạn, tỷ lệ giữ hiệu lực đo được là cận trên của độ bền thật của cơ chế phòng thủ.
+
+\subsection{Đặc tả use case Xem vết chạy}
+\label{subsection:2.3.5}
+
+\begin{table}[htbp]
+	\centering
+	\caption{Đặc tả use case Xem vết chạy}
+	\label{tab:uc-vetchay}
+	\begin{tabular}{|p{0.2\textwidth}|p{0.74\textwidth}|}
+		\hline
+		\textbf{Mã, tên} & UC05.5 Xem vết chạy \\ \hline
+		\textbf{Tác nhân} & Người phụ trách an toàn \\ \hline
+		\textbf{Tiền điều kiện} & Kho vết có ít nhất một lượt chạy đã chấm điểm; bảng điều khiển đang chạy. \\ \hline
+		\textbf{Luồng chính} &
+		(1) Người dùng chọn một ô trên bảng chỉ số, hoặc lọc lượt chạy theo kênh, kỹ thuật, mục tiêu, mô hình, cấu hình phòng thủ và mức năng lực kẻ tấn công. \newline
+		(2) Hệ thống hiển thị danh sách lượt chạy với kết quả G1--G3 và nguyên nhân chặn. \newline
+		(3) Người dùng chọn một lượt chạy. \newline
+		(4) Hệ thống hiển thị từng bước theo thứ tự: lời gọi mô hình, lời gọi công cụ cùng tham số, kết quả công cụ, và các cơ chế phòng thủ đã can thiệp ở bước đó kèm luật và lý do. \newline
+		(5) Hệ thống đánh dấu bước payload vào ngữ cảnh và bước rò rỉ hoặc vi phạm, nếu có. \\ \hline
+		\textbf{Luồng phát sinh} &
+		(2a) Không có lượt chạy nào khớp bộ lọc: hệ thống báo danh sách rỗng. \newline
+		(4a) Lượt chạy bị loại do lỗi hạ tầng: hệ thống hiển thị nhãn lỗi và nêu rõ lượt chạy không thuộc mẫu tính chỉ số. \\ \hline
+		\textbf{Hậu điều kiện} & Kho vết không thay đổi; chuỗi đánh dấu không hiển thị nguyên văn ngoài vị trí đã được đánh dấu là rò rỉ. \\ \hline
+	\end{tabular}
+\end{table}
+
+\section{Yêu cầu phi chức năng}
+\label{section:2.4}
+
+Ngoài các yêu cầu chức năng, hệ thống phải thỏa các yêu cầu phi chức năng dưới đây. Phần lớn yêu cầu xuất phát từ việc hệ thống là một công cụ đo, nên số liệu của nó phải tái lập được và truy được nguồn.
+
+\textbf{Tính tất định và tái lập.} Bộ chấm và các cơ chế D2, D3, D4 không dùng mô hình ngôn ngữ, chạy lại trên cùng đầu vào luôn cho cùng kết quả; bộ chấm được kiểm bằng cách chấm lại 100 lần. Dữ liệu khách hàng sinh bằng thư viện Faker với ngôn ngữ \texttt{vi\_VN} và hạt giống cố định. Bộ đo, tập payload và bộ mô hình đích được khóa bằng nhãn phiên bản trong Git; phiên bản harness được ghim và ghi vào vết chạy. Toàn bộ testbed dựng lại được bằng một lệnh trên máy khác.
+
+\textbf{Tính truy vết.} Mọi lượt chạy ghi vết vào hai bảng, một bảng cho lượt chạy và một bảng cho từng bước, với các trường bắt buộc gồm mô hình đích, cấu hình phòng thủ, mức năng lực kẻ tấn công, kênh, kỹ thuật, mục tiêu, kết quả G1--G3, nguyên nhân chặn và số token. Lượt chạy lỗi hạ tầng bị loại khỏi mẫu nhưng vẫn được lưu, và mọi bảng kết quả phải báo cáo số lượt bị loại. Mọi tệp dữ liệu thô của một cổng nghiệm thu phải được Git theo dõi hoặc có bản sao ngoài máy.
+
+\textbf{Tính đúng về thống kê.} Mọi tỷ lệ được báo cáo kèm khoảng tin cậy Wilson 95\% thay cho khoảng Wald, vì với 30--60 lượt chạy mỗi ô, khoảng Wald có thể cho cận dưới âm. Mỗi cấu hình phòng thủ phải được báo cáo đồng thời bằng chỉ số an toàn và chỉ số hữu dụng.
+
+\textbf{Hiệu năng.} Kho tri thức nền chỉ dựng một lần; mỗi lượt chạy chỉ thêm và gỡ tài liệu của chính nó, với thời gian chuẩn bị dưới 10 giây. Các cơ chế D2, D3, D4 có độ phức tạp tuyến tính theo độ dài nội dung và không tốn token.
+
+\textbf{Khả năng cấu hình và bảo trì.} Mọi tham số hành vi của D1--D4 nằm trong tệp cấu hình, không viết cứng trong mã nguồn; mỗi cơ chế bật tắt bằng một dòng cấu hình. Đổi mô hình đích chỉ cần đổi biến môi trường và một khối cấu hình. Mã nguồn quản lý phụ thuộc bằng uv, kiểm tra kiểu mã bằng ruff, kiểm thử bằng pytest, và tích hợp liên tục chạy kiểm tra kiểu mã cùng kiểm thử ở mọi lần đẩy mã.
+
+\textbf{An toàn và đạo đức.} Toàn bộ dữ liệu khách hàng là dữ liệu mô phỏng. Các bồn chứa ra ngoài là máy chủ thư giả và máy nghe chuỗi đánh dấu chạy cục bộ; tác tử không được gọi tới máy chủ thật nào ngoài danh sách cho phép. Payload kế thừa từ MCPTox chỉ dùng ở chế độ mô phỏng, không nhắm máy chủ MCP thật của bên thứ ba, và mọi payload kế thừa phải ghi đúng giấy phép của nguồn. Khóa giao diện lập trình chỉ nằm trong tệp biến môi trường không đưa lên kho mã.
+
+\textbf{Kiểm soát chi phí.} Hạn mức chi phí của mỗi lô chạy được khai báo trước; chi phí được kiểm định kỳ trong bốn giờ đầu và lô chạy dừng ngay khi vượt 120\% dự toán.
+
+\textbf{Công nghệ.} Hệ thống viết bằng Python; công cụ được cung cấp qua MCP Python SDK; kho tri thức dùng mô hình embedding đa ngữ 1024 chiều và vector store Qdrant; vết chạy lưu trong SQLite; bảng điều khiển dựng bằng Streamlit; môi trường đóng gói bằng Docker Compose gồm vector store, máy chủ thư giả, máy nghe chuỗi đánh dấu, ứng dụng và bảng điều khiển. Chi tiết các công nghệ này được trình bày ở Chương~3.
+
+Chương này đã khảo sát nhu cầu của người phụ trách an toàn tác tử doanh nghiệp, xác định mô hình đe dọa với ba tài sản, ba mục tiêu tấn công và sáu kênh nội dung không tin cậy, và đối chiếu sáu bộ đo đã cài đặt và chạy thật với yêu cầu của đồ án. Kết quả đối chiếu cho thấy không bộ đo nào có kênh tài liệu truy hồi, tách được phòng thủ chặn với mô hình từ chối, hay có bối cảnh tiếng Việt, và đây là căn cứ để xây dựng testbed riêng. Từ đó chương đã xác định bảy nhóm tính năng, mô hình hóa chúng bằng biểu đồ use case và quy trình nghiệp vụ đánh giá có hai cổng chặn, đặc tả năm use case quan trọng nhất và nêu các yêu cầu phi chức năng về tính tất định, truy vết, thống kê, hiệu năng, cấu hình, đạo đức và chi phí. Chương~3 sẽ trình bày nền tảng lý thuyết và công nghệ để hiện thực các yêu cầu này.
+
+\end{document}

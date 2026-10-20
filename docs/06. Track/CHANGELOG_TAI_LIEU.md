@@ -2,6 +2,16 @@
 
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
+## 2026-10-20
+- `docs/07. Báo cáo/Chuong2.tex`, `docs/07. Báo cáo/refs_chuong2.bib` — tạo mới: Chương 2 (khảo sát hiện trạng,
+  use case tổng quát và ba biểu đồ phân rã, quy trình nghiệp vụ, đặc tả năm use case, yêu cầu phi chức năng), hình vẽ
+  bằng TikZ. Lý do: ND3 yêu cầu chương 2; nội dung rút từ `Y_TUONG_DU_AN.md`, `docs/03. Khảo sát/` và `docs/04. Design/`.
+- `docs/07. Báo cáo/Chuong1.tex` mục 1.2 — hạn chế thứ hai đổi thành "chưa bộ đo nào tách lượt bị phòng thủ chặn khỏi
+  lượt mô hình tự từ chối". Lý do: bản cũ ghi chưa bộ đo nào đồng thời đo phòng thủ, hữu dụng và kẻ tấn công thích ứng,
+  nhưng AutoDojo đo cả ba (`TOM_TAT_CONG_TRINH.md` C7, C9, C6). Mục 1.3 — bỏ "thao túng bằng thẩm quyền hành chính" khỏi
+  danh sách ba kỹ thuật mở rộng. Lý do: danh sách liệt kê bốn mục cho "ba kỹ thuật"; biến thể thẩm quyền hành chính đã
+  gộp vào T1 (`Y_TUONG_DU_AN.md` mục 6.1).
+
 ## 2026-10-13
 - `docs/06. Track/Việc treo.md` — VT-2 phần A1: ghi kết quả chạy thật sau khi chuyển sang API Anthropic (hết khối chèn,
   A1 tự nhận đúng danh tính, vòng tool hai lượt chạy được); chỉ còn việc báo GVHD. `ipi-agent-lab/scripts/check_targets.py`
