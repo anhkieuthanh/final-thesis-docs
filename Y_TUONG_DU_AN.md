@@ -505,7 +505,7 @@ ASR_e2e = 12,8% (95% CI [6,0%, 25,2%]) · N = 47 · N_excl = 3/50 (6,0%, đã r�
 
 Hai bảng `runs` + `steps`. Bảng `runs` phải có, tối thiểu:
 
-`run_id · created_at · run_kind (attack|benign) · target_id (A1|A2|A3) · model_id · response_model · defense_config · attacker_mode (blind|adaptive) · carrier_task_id · payload_id · technique (T1..T8) · goal (G1|G2|G3) · channel (K1|K2a|K2b) · lang · obfuscation · run_canaries · delivered · g1_hit · g1_channel (http|email|ticket|answer) · g2_hit · g2_severity (read_only|internal_write|external_action) · g3_hit · blocked_by (defense|model_refusal|harness) · outcome · parse_error · harness_version · tokens_in · tokens_out · latency_ms`
+`run_id · created_at · run_kind (attack|benign) · target_id (A1|A2|A3) · model_id · response_model · defense_config · attacker_mode (blind|adaptive) · carrier_task_id · payload_id · technique (T1..T8) · goal (G1|G2|G3) · channel (K1|K2a|K2b) · lang · obfuscation · run_canaries · delivered · g1_hit · g1_channel (http|email|ticket|answer) · g2_hit · g2_severity (read_only|internal_write|external_action) · g3_hit · blocked_by (defense|model_refusal|harness) · outcome · parse_error · harness_version · env_hash · judge_model · tokens_in · tokens_out · latency_ms`
 
 Bảng `steps`: một dòng cho một bước vòng lặp, `defense_hits` lưu dạng mảng JSON (một bước có thể bị 0..N cơ chế chặn cùng lúc). Đặc tả đầy đủ từng trường và ràng buộc: `docs/04. Design/04. Trace schema.md`.
 

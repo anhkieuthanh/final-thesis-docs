@@ -73,3 +73,24 @@ khám phá vì ma trận `v-pred-1.0` không có dự đoán cho nó. Không đ�
 đo với R4 chặn tự động.
 
 **Hạn:** buổi họp GVHD kế tiếp, trước khi chốt dự toán chạy ma trận.
+
+---
+
+## VT-5. Hai điểm giao thức thực nghiệm lệch câu chữ checklist đã ký — chờ GVHD xác nhận
+
+**Phát hiện ở:** STT-24, rà biến gây nhiễu (`docs/04. Design/06. Giao thức thực nghiệm.md` mục 8, N1–N3).
+
+**Bằng chứng và quyết định của TA (2026-10-20):**
+1. **B2 thêm preset `off`** trên S_def, cùng lô với 5 preset bật. Checklist mục 5 tính B2 với preset bật; nếu DSR so với
+   `off` của B1 thì lẫn trôi gateway theo thời gian và lệch lên do chọn S_def. Kế hoạch STT-71 vốn đã ghi
+   "OFF/D1/D2/D3/D4/ALL". Số run B2 theo `planned_runs` ra 4.320, trùng con số của checklist.
+2. **RQ3 chọn cơ chế đơn lẻ tốt nhất trên toàn B2**, không trên "lượt pilot tách khỏi lượt đo" như checklist mục 4.
+   Không khối nào cung cấp lượt tách đó; chia đôi dữ liệu làm mỗi nhánh còn ~60 run/G. Chọn trên cùng dữ liệu thiên lệch
+   ngược H3, tức thận trọng, và được khai ở báo cáo.
+
+**Hệ quả nếu GVHD không đồng ý:** (1) bỏ `off` khỏi `blocks.B2.presets`, khai hai hạn chế; (2) đổi
+`blocks.B2.best_single.select_on` sang chia đôi theo băm `payload_id` (cần thêm giá trị vào
+`eval.experiment.BEST_SINGLE_SELECT_ON`).
+
+**Hạn:** buổi họp GVHD kế tiếp, trước B1 (STT-65).
+

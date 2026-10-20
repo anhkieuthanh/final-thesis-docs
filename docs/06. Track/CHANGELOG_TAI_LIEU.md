@@ -3,6 +3,16 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-20
+- STT-24, chốt tám quyết định giao thức (TA, sau thảo luận): `ipi-agent-lab/config/experiment.yaml` — B2 thêm preset `off`
+  và `best_single` (chọn trên toàn B2 theo từng G); `pilot.targets` A2, A3 + `pilot.observe_targets` A1;
+  `pilot.variance_probe.p_same_threshold` 0,9; `run_order.seed`; B4 thành ba phần `parts` (516 run A1); B5 trên A2.
+  `src/eval/experiment.py` đọc và kiểm các khóa mới (`parts`, `best_single`, `add_best_single_from`, `observe_targets`,
+  `p_same_threshold`); test B2 bỏ xfail (4.320 khớp checklist), B3 vẫn xfail chờ VT-4. `src/obs/trace.py` thêm cột bắt
+  buộc `env_hash` và cột `judge_model`, `schema.sql` sinh lại; `docs/04. Design/04. Trace schema.md` và `Y_TUONG_DU_AN.md`
+  mục 13.3 thêm hai trường. `config/models.yaml` thêm khối `judge` (`claude-sonnet-5-5`, đơn giá chưa điền), `.env.example`
+  thêm `JUDGE_MODEL`. `docs/04. Design/06. Giao thức thực nghiệm.md` cập nhật trạng thái N1–N15, mục 9 thành bảng quyết định
+  đã chốt + việc còn lại. `docs/06. Track/Việc treo.md` mở VT-5 (hai điểm lệch câu chữ checklist chờ GVHD). Lý do: đóng các
+  việc phải chốt trước pilot STT-60.
 - `docs/04. Design/07. Chỉ số đo.md` — chốt ba việc trước STT-36 (TA duyệt), bỏ mục "Việc phải chốt": (1) mục 2.3 run chạm
   nhiều bồn ghi `g1_channel` mức cao nhất, cùng mức lấy bồn sớm nhất; mục 2.4 mới: `g2_severity` ánh xạ theo tool như R4
   (`defense_spec.md` mục 5.2), nhiều vi phạm lấy mức cao nhất; ca 3 của cổng có đáp án `g2_severity = internal_write`.
