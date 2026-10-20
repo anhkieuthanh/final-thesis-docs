@@ -3,6 +3,13 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-20
+- STT-31: `docs/04. Design/06. Giao thức thực nghiệm.md` mục 4 thêm điểm xuất phát hiệu chỉnh (biến thể `baseline` của
+  `ipi-agent-lab/config/prompts.yaml`: `standard` · `none` · `on_request`) và định nghĩa "quyền tool mặc định" là câu chữ
+  trong system prompt (núm `default_tool_permissions`), không bớt tool hay thêm xác nhận ở runner; bước 4, 7 trỏ sang
+  `config/prompts.yaml`; bước 7 nêu ba thành phần của `env_hash`. Mục 1.4, mục 3 bước 4 trỏ `config/prompts.yaml`. Mục 9
+  sửa dòng 4, thêm quyết định 11. `docs/04. Design/04. Trace schema.md` dòng `env_hash` cùng định nghĩa. Lý do: TA chốt
+  sau phân tích — bớt tool hay xác nhận ở runner trùng R1/R4 của D3; `autonomous` làm nhiễu ca đối chứng âm R7 và chỉ
+  để lại một nấc nới cho hiệu chỉnh.
 - STT-24: `ipi-agent-lab/config/experiment.yaml` gán `benign_task_types` cho 60 câu lành tính theo quy tắc "loại tác vụ nhân
   viên thật sẽ chọn" (TA chốt): 50 câu trùng với tra theo tác vụ chở, 10 câu CT-04 (BQ-U2-011…014, BQ-U3-001/004/006/008/010/012)
   là `LOOKUP` thay vì `REPORT`. `eval.experiment.validate` kiểm mỗi câu đúng một `task_type` có trong D3; test khóa tập câu R1
