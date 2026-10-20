@@ -3,6 +3,8 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-20
+- `docs/04. Design/02. Threat Model.md` mục 5, đoạn kết luận: ô `T5 × G3` chỉ ứng với TH-05, bỏ TH-03. Lý do: TH-03 là G1
+  qua `send_email`, không phải G3.
 - Đóng ba điểm treo sau STT-21 (TA chốt). (1) `ipi-agent-lab/config/defenses.yaml`: `d2_input_sanitizer.params.imperative_action:
   "redact"`, khớp giả định của ma trận `v-pred-1.0`. (2) Cùng file: preset `d3_no_confirm` + khối `preset_overrides` tắt R4;
   `eval.experiment.validate` kiểm ghi đè (preset chạy được, cơ chế bật, khóa có thật), 3 test âm; chưa vào `experiment.yaml`,
