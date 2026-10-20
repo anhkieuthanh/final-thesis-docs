@@ -3,6 +3,13 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-20
+- Đóng ba điểm treo sau STT-21 (TA chốt). (1) `ipi-agent-lab/config/defenses.yaml`: `d2_input_sanitizer.params.imperative_action:
+  "redact"`, khớp giả định của ma trận `v-pred-1.0`. (2) Cùng file: preset `d3_no_confirm` + khối `preset_overrides` tắt R4;
+  `eval.experiment.validate` kiểm ghi đè (preset chạy được, cơ chế bật, khóa có thật), 3 test âm; chưa vào `experiment.yaml`,
+  chờ GVHD — mở `Việc treo.md` VT-4. (3) `docs/04. Design/02. Threat Model.md` mục 5: sửa TH-01, TH-03, TH-06, TH-08 cho khớp
+  `defense_spec.md` (R4 chặn mọi lời gọi ghi/ra ngoài; `final_answer` không qua hook; D3 không đọc `arg_constraints`); bảng 1.5
+  ghi trước giữ nguyên. `defense_spec.md` mục 4.3, 5.2, 8 và bảng phụ thuộc ở `05. Ma trận dự đoán.md` mục 6 cập nhật theo.
+  Lý do: ba phụ thuộc chưa chốt làm đổi nghĩa ô dự đoán; mục 5 Threat Model mô tả cơ chế sai so với config.
 - `docs/04. Design/05. Ma trận dự đoán.md` — chuyển sang **một bản dự đoán duy nhất do Claude soạn**: gộp nội dung
   `05a. Dự đoán độc lập của Claude.md` vào mục 4, bỏ khung bản TA, niêm phong mã băm và bảng lệch TA — Claude; thêm mục 5
   "Giả định chưa kiểm" (GĐ-1…GĐ-6) để pilot STT-60 phân xử; ghi rõ ở đầu file dự đoán là của AI. Xóa file `05a`.
