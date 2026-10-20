@@ -14,11 +14,12 @@
 | RAG: `src/rag/ingest.py`, `embedder.py`, `retriever.py` + corpus 40 file | Kèm test |
 | Bộ đo: `carrier_tasks.json`, `benign_queries.json` (đã khóa), `src/eval/allowed_actions.py` | STT-18 |
 | `data/customers.db` + `scripts/seed_db.py` | Phần code của STT-22 đã có, cần đối chiếu với lược đồ |
+| Schema payload + validator: `src/attack/payloads/schema.py`, `tests/test_payload_schema.py`, `data/payloads_sample.json` (17 entry, đủ 8 kỹ thuật, 20 test) | STT-20 phần code — đạt điều kiện "validate một payload mẫu mỗi kỹ thuật" |
 
 Tag `legacy-pre-cleanup` còn `llm_client.py`, `check_targets.py`, `probe_gateway_overhead.py`,
-payload `schema.py`, `utility_bench.py`. Các file này bị gỡ vì gắn bộ model cũ và schema thiếu
-T6–T8, `blocked_by`. Chỉ dùng để **tham khảo logic** (retry, đếm token, log), viết lại theo hợp
-đồng `config/` hiện hành. Không khôi phục nguyên trạng.
+`utility_bench.py`. Các file này bị gỡ vì gắn bộ model cũ, chỉ dùng **tham khảo logic** (retry, đếm
+token, log), viết lại theo hợp đồng `config/` hiện hành. Không khôi phục nguyên trạng. Payload
+`schema.py` **đã viết lại** (STT-20 phần code), đủ T6–T8 — không còn thuộc nhóm tham khảo.
 
 ## 2. Sáu giai đoạn
 

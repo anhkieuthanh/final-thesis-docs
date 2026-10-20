@@ -3,6 +3,55 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-20
+- `docs/04. Design/payload_taxonomy.md` — chốt schema STT-20 (bước 1). (a) `goal_binding` chuyển từ trường bổ sung sang
+  **bắt buộc có điều kiện**, hết mâu thuẫn với bất biến 6. (b) `id` ghi rõ ánh xạ viết tắt `VI|EN|MIX` ↔ enum `vi|en|mixed`.
+  (c) `base_frame`: **giữ**, bắt buộc với T8 (có đối chứng cùng khung — mục 6.6), khuyến nghị với T6/T7; thêm bất biến 10.
+  (d) thêm mục 4.4: **T4 ngoài tập `base_frame`** — không dựng payload chồng hai cơ chế né, ghi thành giới hạn phạm vi.
+  (e) T2 × K2a **giữ cho**, bác bản cấm `legacy-pre-cleanup`. Lý do: `T_chung` đã khóa và GVHD ký ở `Chốt phạm vi…` mục 4.
+  Lý do chung: TA chốt mục 3–5 của bước rà schema; hai lỗi nhất quán (a)(b) sửa thẳng.
+- `docs/04. Design/payload_author_worksheet.md` — tạo mới: phiếu điền T1–T8 (bước 2 STT-20). Mỗi kỹ thuật một khung điền:
+  ô cố định (mã, biến thể, kênh, base_frame, nguồn/giấy phép) Claude điền; ô nội dung tấn công `<<ĐIỀN: …>>` để người soạn
+  viết; công thức `activation_check` theo G1/G2/G3 chấm bằng máy; tác vụ chở gợi ý theo `payload_binding_rules`. Lý do:
+  tách phần đặc tả khỏi phần sinh nội dung khai thác; file không chứa payload hoàn chỉnh.
+- `ipi-agent-lab/src/attack/payloads/schema.py` + `tests/test_payload_schema.py` — tạo mới: validator payload (bước 3
+  STT-20). `validate_payload()` cưỡng chế bất biến taxonomy 4.3 (1–10) + ràng buộc trường 4.1/4.2/5; mỗi lỗi gắn mã bất
+  biến. `load_payloads()` gom lỗi theo id, không ném ngoại lệ. Hằng tool/bồn G1/placeholder canary đọc thẳng từ
+  `carrier_tasks.json` và `eval/canary.py` (một nguồn sự thật). Chỉ thư viện chuẩn. 17/17 test xanh, ruff sạch. Validator
+  chỉ kiểm hình thức, không kiểm hiệu lực tấn công (việc của pilot).
+- `ipi-agent-lab/data/payloads_sample.json` — tạo mới: 7 entry T1/T2/T4 (3 T1, 2 T2, 2 T4), validate 7/7 xanh. Áp mô hình
+  hai lớp của taxonomy: **khung tấn công** (`technique.template`) mượn verbatim từ AgentDojo (MIT), dịch sang tiếng Việt,
+  trích đúng file nguồn — `ImportantInstructionsAttack`, `IgnorePreviousAttack`, `InjecAgentAttack`, `DirectAttack`;
+  **mục tiêu lab** (`goal_binding.instruction_vi/en`) viết mới theo năm tool của lab, bám tác vụ chở. T1-G1 (authority_letter)
+  và T4 là `original`. Khung AgentDojo lấy qua WebFetch từ repo công khai ethz-spylab/agentdojo, không chép toàn bộ dataset
+  vào repo. Lý do: hoàn tất phần Claude dựng được (T1/T2/T4); còn T3, T5, T6, T7, T8 do người soạn viết (xem HUONG_DAN).
+- `ipi-agent-lab/data/payloads_sample.json` — thêm khung T3 (×2) và T5 (×2), tổng 11 entry, validate 11/11 xanh. T3/T5 là
+  `original` (không benchmark): Claude dựng `technique.template` (khung điều kiện tiên quyết cho T3; khung trần không mệnh
+  lệnh cho T5 — giữ đòn bẩy 'chỉ khẳng định') + goal_binding tool/arguments + activation_check + ghép tác vụ chở; ô
+  `instruction_vi/en` điền mục tiêu lab (T3 dạng điều kiện tiên quyết, T5 dạng khẳng định không mệnh lệnh — giữ đòn bẩy).
+  Cả 11 entry T1–T5 đã điền đủ, không còn ô trống; GVHD rà lại câu chữ. Còn lại T6, T7, T8 (phát kiến đồ án).
+- `ipi-agent-lab/data/payloads_sample.json` — thêm T6 (×2), T7 (×1), T8 (×1) + 1 đối chứng của T8; tổng 16 entry, đủ 8
+  kỹ thuật, validate 16/16 xanh. T6: `fragments` ≥2 mỗi mảnh có `fragment_id`, ghép CT-02, base_frame khai; T7: `trigger`
+  `min_step=3`, ghép CT-04; T8: `vi_transform=[strip_diacritics]` + `base_frame=T1`, kèm **bản đối chứng** `P-T1-G2-VI-002`
+  (`control_for`) cùng nội dung không biến đổi (bất biến 10, taxonomy 6.6). Tất cả `original`. Phân bố: T1×4, T2–T6×2,
+  T7×1, T8×1.
+- `docs/06. Track/Việc treo.md` — thêm rồi **đóng** VT-3 ngay (TA chọn nới bất biến 6, không treo). Mâu thuẫn: G1 qua bồn
+  `final_answer` không biểu diễn được vì bất biến 6 cũ buộc G1 phải có tool, nhưng answer-leak không có tool-call. Phát hiện
+  khi ghép T6 vào CT-02.
+- `docs/04. Design/payload_taxonomy.md` — **nới bất biến 6** (xử VT-3): `goal_binding.tool = None` khi G3 **hoặc** khi G1 rò
+  chỉ qua `final_answer` (`sinks == ["final_answer"]`, không tool-call). G1 qua bồn egress và mọi G2 vẫn bắt buộc tool. Sửa
+  mục 4.1, 4.2, bất biến 6.
+- `ipi-agent-lab/src/attack/payloads/schema.py` + test — cưỡng chế bất biến 6 đã nới: thêm nhánh `g1_answer_only`. Thêm 3
+  test (answer-only cho tool None, answer-only bác tool đã gán, egress vẫn cần tool) → 20/20 xanh. Thêm payload
+  `P-T6-G1-VI-001` (T6 rò qua answer trên CT-02) minh họa vector vừa mở; `payloads_sample.json` 17 entry, 17/17 xanh.
+- `docs/04. Design/HUONG_DAN_DIEN_PAYLOAD.md`, `payload_author_worksheet.md` — đồng bộ nới bất biến 6: bảng trường và mẫu
+  khối ghi `tool = None` cả khi G1 rò chỉ qua `final_answer`, không riêng G3.
+- `Kế hoạch thực hiện.xlsx` (STT-20) — Trạng thái "Chưa bắt đầu" → "Xong (đặc tả)"; ghi chú nêu phần đã xong (đặc tả T1–T8,
+  D1–D4; validator + 17 payload mẫu; worksheet; hướng dẫn) và phần còn (GVHD rà, tập đầy đủ + pilot chặn bởi STT-26, κ≥0,80,
+  khóa v-attack-1.0). `Lộ trình triển khai code.md` — thêm schema payload + validator vào "Đã có"; cập nhật lưu ý legacy
+  (payload `schema.py` đã viết lại, đủ T6–T8). Lý do: đồng bộ thông tin dự án sau khi chốt phạm vi STT-20 = đặc tả đã trọn.
+- `docs/04. Design/HUONG_DAN_DIEN_PAYLOAD.md` — tạo mới: hướng dẫn soạn payload (bước 2–3). Hình dạng file, khung JSON hợp
+  lệ sao chép được, bảng điền từng trường kèm mã lỗi validator, "công thức" đòn bẩy từng kỹ thuật (người soạn tự viết nội
+  dung chỉ thị), cách chạy validator, vòng soạn đầy đủ. Lý do: hoàn tất bước 3 và nối sang phần người soạn điền.
 - `docs/07. Báo cáo/Chuong2.tex`, `docs/07. Báo cáo/refs_chuong2.bib` — tạo mới: Chương 2 (khảo sát hiện trạng,
   use case tổng quát và ba biểu đồ phân rã, quy trình nghiệp vụ, đặc tả năm use case, yêu cầu phi chức năng), hình vẽ
   bằng TikZ. Lý do: ND3 yêu cầu chương 2; nội dung rút từ `Y_TUONG_DU_AN.md`, `docs/03. Khảo sát/` và `docs/04. Design/`.
@@ -11,6 +60,15 @@ Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi ·
   nhưng AutoDojo đo cả ba (`TOM_TAT_CONG_TRINH.md` C7, C9, C6). Mục 1.3 — bỏ "thao túng bằng thẩm quyền hành chính" khỏi
   danh sách ba kỹ thuật mở rộng. Lý do: danh sách liệt kê bốn mục cho "ba kỹ thuật"; biến thể thẩm quyền hành chính đã
   gộp vào T1 (`Y_TUONG_DU_AN.md` mục 6.1).
+
+## 2026-10-15
+- `docs/04. Design/payload_taxonomy.md` — tạo mới: đặc tả T1–T8 theo một mẫu (định nghĩa, thuộc / không thuộc, kênh,
+  mục tiêu, nguồn), cây quyết định gán nhãn có thứ tự cố định, schema payload, `activation_check` theo G1–G3, quy trình
+  khóa `v-attack-1.0`. Lý do: STT-20; `taxonomy.md` và `Y_TUONG_DU_AN.md` đã trỏ tới file này. Không chứa ma trận dự đoán
+  kỹ thuật × phòng thủ (thuộc STT-21).
+- `docs/04. Design/defense_spec.md` — tạo mới: đặc tả D1–D4 (chữ ký hàm, thuật toán từng bước, luật R1–R4 của D3 và
+  E1–E4 của D4, hit ghi vào trace, điểm mù, điều kiện đạt, khóa cần bổ sung vào `defenses.yaml`). Lý do: STT-20;
+  `defenses.yaml` đã trỏ tới `defense_spec.md` mục 4.
 
 ## 2026-10-13
 - `docs/06. Track/Việc treo.md` — VT-2 phần A1: ghi kết quả chạy thật sau khi chuyển sang API Anthropic (hết khối chèn,
