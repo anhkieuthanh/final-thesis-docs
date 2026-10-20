@@ -3,6 +3,15 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-20
+- STT-24: `ipi-agent-lab/config/experiment.yaml` gán `benign_task_types` cho 60 câu lành tính theo quy tắc "loại tác vụ nhân
+  viên thật sẽ chọn" (TA chốt): 50 câu trùng với tra theo tác vụ chở, 10 câu CT-04 (BQ-U2-011…014, BQ-U3-001/004/006/008/010/012)
+  là `LOOKUP` thay vì `REPORT`. `eval.experiment.validate` kiểm mỗi câu đúng một `task_type` có trong D3; test khóa tập câu R1
+  chặn nhầm đúng bằng 10 câu CT-04. `docs/04. Design/defense_spec.md` mục 5: thay câu "câu lành tính lấy task_type qua
+  carrier_task_id" bằng quy tắc trên. Lý do: checklist đã ký ghi quy tắc nhân viên chọn, spec lệch checklist; tra theo tác vụ
+  chở làm FRR của R1 bằng 0 theo cách dựng.
+- `Kế hoạch thực hiện.xlsx` sheet "Kế hoạch chi tiết", STT-75: "20 biến thể mỗi cặp kỹ thuật × cơ chế" → "khối B5, trên A2:
+  S_adp ≤ 6 ô × 5 preset bật × 10 chuỗi mỗi ô, tối đa 3 vòng mỗi chuỗi" (cột Đầu việc và cột Đề xuất kết hợp). Lý do: khớp
+  checklist mục 5 đã ký và `blocks.B5`.
 - STT-24, chốt tám quyết định giao thức (TA, sau thảo luận): `ipi-agent-lab/config/experiment.yaml` — B2 thêm preset `off`
   và `best_single` (chọn trên toàn B2 theo từng G); `pilot.targets` A2, A3 + `pilot.observe_targets` A1;
   `pilot.variance_probe.p_same_threshold` 0,9; `run_order.seed`; B4 thành ba phần `parts` (516 run A1); B5 trên A2.
