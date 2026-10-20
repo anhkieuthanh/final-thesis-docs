@@ -3,6 +3,10 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-20
+- `docs/04. Design/05. Ma trận dự đoán.md` — chuyển sang **một bản dự đoán duy nhất do Claude soạn**: gộp nội dung
+  `05a. Dự đoán độc lập của Claude.md` vào mục 4, bỏ khung bản TA, niêm phong mã băm và bảng lệch TA — Claude; thêm mục 5
+  "Giả định chưa kiểm" (GĐ-1…GĐ-6) để pilot STT-60 phân xử; ghi rõ ở đầu file dự đoán là của AI. Xóa file `05a`.
+  `Y_TUONG_DU_AN.md` mục 7.3 sửa câu mô tả tương ứng. Lý do: TA quyết không tự điền dự đoán, dùng bản Claude.
 - `docs/04. Design/05. Ma trận dự đoán.md` — tạo mới (STT-21): giao thức ghi trước, đại lượng `r = 1 − ASR(d_only)/ASR(off)`,
   thang bốn băng có ngưỡng số, quy tắc phân xử (ô đo được khi `ASR(off) ≥ 0,20` và `N ≥ 30`; CI bootstrap), tách **ô cấu trúc**
   (`≡` luật chặn tất định, `∅` không có hook, `—` không dựng) khỏi ô thực nghiệm; D1/D2 theo kỹ thuật × kênh, D3/D4 theo chín

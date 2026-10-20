@@ -283,8 +283,8 @@ Mọi tham số hành vi nằm ở `config/defenses.yaml`, **không hard-code**.
 ### 7.3 Ma trận dự đoán — ghi TRƯỚC thực nghiệm
 
 Ma trận dự đoán kỹ thuật × phòng thủ nằm **một chỗ duy nhất**: `docs/04. Design/05. Ma trận dự đoán.md` (STT-21). File đó
-chốt thang có ngưỡng số, quy tắc phân xử, tách ô cấu trúc (hệ quả của config) khỏi ô thực nghiệm, và giữ hai bản dự đoán
-độc lập — TA và Claude — để lộ giả định chưa kiểm.
+chốt thang có ngưỡng số, quy tắc phân xử, tách ô cấu trúc (hệ quả của config) khỏi ô thực nghiệm, ghi một bản dự đoán
+do Claude soạn (TA duyệt) và liệt kê các giả định chưa kiểm để pilot phân xử.
 
 Hai đọc hiểu định hướng giữ ở đây vì chúng là lý do tồn tại của T5 và G3:
 
