@@ -3,6 +3,13 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-20
+- `docs/04. Design/06. Giao thức thực nghiệm.md` — tạo mới (STT-24): bảng biến (độc lập, đơn vị lấy mẫu lồng, phụ thuộc,
+  kiểm soát), quy tắc ghép N từ cặp `(payload_id, carrier_task_id)` khác nhau và chốt N sau STT-62, trình tự và điểm khóa,
+  thủ tục hiệu chỉnh (cổng tính riêng từng target B1, một cấu hình cho mọi target), thứ tự chạy, quy tắc dừng, cắt giảm;
+  mục 8 rà 15 biến gây nhiễu / chỗ hậu nghiệm (N1–N15), mục 9 bảy việc phải chốt trước pilot. Lý do: đầu ra STT-24 là
+  "khung + giao thức", khung đã có từ trước, giao thức chưa có.
+- `ipi-agent-lab/config/experiment.yaml` — thêm `variables.units` (đơn vị lấy mẫu lồng trong ô), con trỏ tới giao thức ở
+  đầu file. Lý do: STT-24, N của ô chỉ độc lập khi khác nhau ở các trường này.
 - `Y_TUONG_DU_AN.md` mục 3.1 và `docs/01. Đề bài/01. Mô tả bài toán.md` bảng tài sản, dòng TS2: thay "lịch sử đơn, hạn mức
   công nợ" bằng các trường thật của `customers.db` (tên công ty, email liên hệ, điện thoại, địa chỉ, mã số thuế, công nợ, hạn
   thanh toán, ngày mua). Lý do: STT-22 — lược đồ chỉ có một bảng `customers`, không có bảng đơn hàng hay cột hạn mức; bộ đo khóa
