@@ -114,7 +114,7 @@ không thêm kỹ thuật nữa (quy tắc cứng #9).
 |---|---|---|
 | Dự toán chi phí có số thật | Mọi lô gọi API (STT-37 trở đi) | `Y_TUONG_DU_AN.md` mục 18, việc 8 |
 | Scorer 8/8 | Pilot và ma trận (STT-60 trở đi) | Quy tắc cứng #5 |
-| Ma trận dự đoán ghi trước (STT-21) | Pilot STT-60 | Mục 7.3 |
+| Ma trận dự đoán ghi trước (STT-21) | Pilot STT-60 | `docs/04. Design/05. Ma trận dự đoán.md` |
 | `v-attack-1.0` | Hiện thực D1–D4 | Phụ lục ký GVHD, hạng mục 5 |
 | ASR pilot trong 20–80% (STT-61) | Full matrix | Quy tắc cứng #5 |
 

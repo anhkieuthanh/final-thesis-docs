@@ -282,25 +282,15 @@ Mọi tham số hành vi nằm ở `config/defenses.yaml`, **không hard-code**.
 
 ### 7.3 Ma trận dự đoán — ghi TRƯỚC thực nghiệm
 
-Thang: `++` chặn mạnh · `+` chặn một phần · `·` gần như không tác dụng · `✗` mù hoàn toàn.
+Ma trận dự đoán kỹ thuật × phòng thủ nằm **một chỗ duy nhất**: `docs/04. Design/05. Ma trận dự đoán.md` (STT-21). File đó
+chốt thang có ngưỡng số, quy tắc phân xử, tách ô cấu trúc (hệ quả của config) khỏi ô thực nghiệm, và giữ hai bản dự đoán
+độc lập — TA và Claude — để lộ giả định chưa kiểm.
 
-| | D1 | D2 | D3 | D4 |
-|---|---|---|---|---|
-| **T1** Uy quyền | ++ | + | ++ (G1,G2) / ✗ (G3) | + (G1) / ✗ (G2,G3) |
-| **T2** Ghi đè | ++ | ++ | ++ (G1,G2) / ✗ (G3) | + (G1) / ✗ (G2,G3) |
-| **T3** Điều kiện giả | · | · | ++ (G1,G2) / ✗ (G3) | + (G1) / ✗ (G2,G3) |
-| **T4** Chèn ẩn | + | ++ | ++ (G1,G2) / ✗ (G3) | + (G1) / ✗ (G2,G3) |
-| **T5** Ngụy trang nghiệp vụ | ✗ | ✗ | + (G1,G2) / ✗ (G3) | ✗ |
-| **T6** Chia mảnh | + | · | ++ (G1,G2) / ✗ (G3) | + (G1) |
-| **T7** Kích hoạt trễ | + | · | ++ (G1,G2) / ✗ (G3) | + (G1) |
-| **T8** Che giấu tiếng Việt | + | + (NFKC bắt một phần) | ++ (G1,G2) / ✗ (G3) | + (G1) |
+Hai đọc hiểu định hướng giữ ở đây vì chúng là lý do tồn tại của T5 và G3:
 
-Hai đọc hiểu rút ra ngay, chưa cần số liệu:
-
-1. **Đường chéo trống ở góc dưới-trái.** Phòng thủ tầng ngữ cảnh (D1, D2) mạnh ở T1/T2/T4 và mất hiệu lực ở T3/T5. Nếu corpus chỉ gồm T1/T2 — như phần lớn benchmark văn bản — thì D1/D2 sẽ được **báo cáo là gần như đủ dùng**.
-2. **Cột G3 trống trên toàn bộ D3/D4.** Đây là lý do G3 tồn tại.
-
-Ô `T5 × G3` được dự đoán là ô thủng của cả bốn cơ chế. Nếu kết quả xác nhận, kết luận không phải *"D1–D4 giảm ASR xuống x%"* mà là *"D1–D4 giảm ASR xuống x% **trên lớp tấn công có chỉ thị**, và không tác động lên lớp tấn công bằng dữ liệu sai"* — một phát biểu mạnh hơn nhiều.
+1. Phòng thủ tầng ngữ cảnh (D1, D2) cần payload trông như chỉ thị. Corpus chỉ gồm T1/T2 — như phần lớn benchmark văn bản —
+   sẽ báo cáo D1/D2 gần như đủ dùng.
+2. Phòng thủ tầng hành động (D3, D4) cần một tool-call để nhìn. G3 không sinh tool-call nào.
 
 ---
 
@@ -627,7 +617,7 @@ Những mục này phải được xử lý trong bản dựng lại, không man
 **Cần làm trước khi chạy thực nghiệm:**
 
 4. `blocked_by` và `technique T1..T8` phải có trong DDL trace ngay từ bản đầu.
-5. Ma trận dự đoán kỹ thuật × phòng thủ phải nằm **một chỗ duy nhất** và đủ 9 hàng; ma trận chỉ có giá trị nếu ghi trước thực nghiệm.
+5. Ma trận dự đoán kỹ thuật × phòng thủ phải nằm **một chỗ duy nhất** (`docs/04. Design/05. Ma trận dự đoán.md`) và đủ 8 hàng T1–T8; ma trận chỉ có giá trị nếu ghi trước thực nghiệm.
 6. Bốn con số trong đoạn lập luận về định nghĩa `pass` phải lấy đúng theo mục 12.3 của file này.
 7. Chốt bộ model đích và khóa `v-models-1.0`; gỡ mọi cấu hình target đã ngoài phạm vi.
 8. Điền bảng giá thật và hạn mức chi phí; không chạy lô nào khi còn TODO.

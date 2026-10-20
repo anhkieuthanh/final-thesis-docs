@@ -3,6 +3,18 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-20
+- `docs/04. Design/05. Ma trận dự đoán.md` — tạo mới (STT-21): giao thức ghi trước, đại lượng `r = 1 − ASR(d_only)/ASR(off)`,
+  thang bốn băng có ngưỡng số, quy tắc phân xử (ô đo được khi `ASR(off) ≥ 0,20` và `N ≥ 30`; CI bootstrap), tách **ô cấu trúc**
+  (`≡` luật chặn tất định, `∅` không có hook, `—` không dựng) khỏi ô thực nghiệm; D1/D2 theo kỹ thuật × kênh, D3/D4 theo chín
+  lát cắt mục tiêu × bồn S1–S7; khung bản TA để trống; bảng phụ thuộc chưa chốt. Lý do: STT-21; ma trận nháp cũ không có
+  ngưỡng số nên không bác được, và lệch đặc tả STT-20 ở D3/D4 (`final_answer` không qua hook; R4 chặn mọi lời gọi ghi/ra ngoài).
+- `docs/04. Design/05a. Dự đoán độc lập của Claude.md` — tạo mới: bản dự đoán của Claude, niêm phong bằng SHA-256 ghi ở file
+  chính mục 6. Lý do: quy trình STT-21 — TA điền trước, so hai bản độc lập.
+- `Y_TUONG_DU_AN.md` — mục 7.3: thay bảng ma trận bằng con trỏ tới file mới, giữ hai đọc hiểu định hướng; mục 18 việc 5:
+  "đủ 9 hàng" → "đủ 8 hàng T1–T8". Lý do: một chỗ duy nhất; T9 đã gộp vào T1 từ 2026-10-05.
+- `docs/01. Đề bài/01. Mô tả bài toán.md`, `docs/04. Design/02. Threat Model.md` mục 5, `docs/03. Khảo sát/KHAO_SAT_PHONG_THU.md`,
+  `docs/06. Track/Lộ trình triển khai code.md` — sửa con trỏ ma trận dự đoán về file mới. Lý do: con trỏ cũ trỏ sai
+  (`payload_taxonomy.md`, `Y_TUONG_DU_AN.md` mục 7.3).
 - `docs/04. Design/payload_taxonomy.md` — chốt schema STT-20 (bước 1). (a) `goal_binding` chuyển từ trường bổ sung sang
   **bắt buộc có điều kiện**, hết mâu thuẫn với bất biến 6. (b) `id` ghi rõ ánh xạ viết tắt `VI|EN|MIX` ↔ enum `vi|en|mixed`.
   (c) `base_frame`: **giữ**, bắt buộc với T8 (có đối chứng cùng khung — mục 6.6), khuyến nghị với T6/T7; thêm bất biến 10.

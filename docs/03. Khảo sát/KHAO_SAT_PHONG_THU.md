@@ -16,7 +16,7 @@ Vị trí cắm dùng năm giai đoạn của `Y_TUONG_DU_AN.md` mục 7.1: (1) 
 
 ## 2. Ba nhận xét cho thiết kế D1–D4
 
-1. **Hai nhóm đọc nội dung, hai nhóm đọc hành vi.** D1, D2 xét văn bản trước khi model suy luận; D3, D4 xét hành động sau khi model quyết định. Nhóm đầu thua khi payload không trông như chỉ thị (T5); nhóm sau thua khi tấn công không sinh hành động (G3). Đây là cơ sở của ô `T5 × G3` trong ma trận dự đoán (mục 7.3).
+1. **Hai nhóm đọc nội dung, hai nhóm đọc hành vi.** D1, D2 xét văn bản trước khi model suy luận; D3, D4 xét hành động sau khi model quyết định. Nhóm đầu thua khi payload không trông như chỉ thị (T5); nhóm sau thua khi tấn công không sinh hành động (G3). Đây là cơ sở của ô `T5 × G3` trong ma trận dự đoán (`docs/04. Design/05. Ma trận dự đoán.md`).
 2. **Chỉ D1 phụ thuộc mức tuân thủ của model.** D2 (họ tất định), D3, D4 chạy ngoài LLM nên kẻ tấn công biết cơ chế vẫn phải đổi hành vi thật, không chỉ đổi câu chữ. Đây là cơ sở của giả thuyết H5.
 3. **Chi phí chính không phải token mà là dương tính giả.** D3 và D4 rẻ về tính toán nhưng chặn nhầm đúng nhóm tác vụ có giá trị nhất (hành động ra ngoài hợp lệ). Vì vậy mỗi cấu hình phải đo kèm USR/FRR (giả thuyết H4).
 
