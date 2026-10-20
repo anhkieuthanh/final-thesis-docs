@@ -3,6 +3,17 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-20
+- `docs/04. Design/07. Chỉ số đo.md` — tạo mới (STT-97): ký hiệu đếm ánh xạ sang vị từ trên cột `runs`; `ASR_e2e`,
+  `ASR_cond` (trường hợp biên, tách G1 theo bồn, quy tắc gộp ô); Wilson 95% kèm tính tay và bảng đối chiếu Wald; DSR và CI
+  lật; USR, FRR, `model_fail_rate` và kiểm tra chéo; TCP (nguồn `required` cho run benign là `expected_tool_calls`);
+  refusal_rate; SUS, ARR; loại run; cổng 8/8 với trace dựng tay và đáp án đủ trường từng ca; ba việc chốt trước STT-36.
+  Đặt số `07` thay vì `03` như kế hoạch ghi vì `03.` đã là "Kiến trúc testbed và interface". Lý do: STT-97, làm trước
+  STT-36 và STT-67.
+- `docs/01. Đề bài/01. Mô tả bài toán.md` (đầu file, mục 11), `docs/04. Design/04. Trace schema.md` (đầu file),
+  `docs/04. Design/06. Giao thức thực nghiệm.md` (đầu file) — trỏ công thức chỉ số sang `07. Chỉ số đo.md`. Lý do: file
+  đặc tả đã có, bỏ ghi chú "chưa soạn".
+- `docs/04. Design/04. Trace schema.md` mục 4 — sửa "DSR tính từ chênh lệch `ASR_e2e` giữa bật và tắt phòng thủ" thành
+  `DSR = 1 − ASR_e2e` khi bật, in cạnh `ASR_e2e` khi tắt. Lý do: câu cũ lệch công thức đã chốt ở `Y_TUONG_DU_AN.md` mục 12.2.
 - `docs/04. Design/06. Giao thức thực nghiệm.md` — tạo mới (STT-24): bảng biến (độc lập, đơn vị lấy mẫu lồng, phụ thuộc,
   kiểm soát), quy tắc ghép N từ cặp `(payload_id, carrier_task_id)` khác nhau và chốt N sau STT-62, trình tự và điểm khóa,
   thủ tục hiệu chỉnh (cổng tính riêng từng target B1, một cấu hình cho mọi target), thứ tự chạy, quy tắc dừng, cắt giảm;
