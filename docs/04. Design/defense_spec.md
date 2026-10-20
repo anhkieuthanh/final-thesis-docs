@@ -165,7 +165,7 @@ Bước 1 làm đổi cả văn bản hợp lệ (ký tự toàn chiều rộng,
 | `params.imperative_patterns_file` | Tập regex mệnh lệnh (vi + en), tệp riêng viết ở STT-52 |
 | `false_positive_report` | Nơi ghi báo cáo dương tính giả trên nhóm U5 |
 
-Khóa còn thiếu: dấu thay thế, `imperative_action`, ngưỡng `font-size` ẩn (mục 8).
+Khóa còn thiếu: dấu thay thế, ngưỡng `font-size` ẩn (mục 8). `imperative_action` đã chốt `redact`.
 
 ### 4.4 Điểm mù
 
@@ -233,7 +233,7 @@ Mọi luật được đánh giá; mọi luật vi phạm đều ghi hit; quyế
 `action = "confirm"` để trace phân biệt với chặn bởi R1–R3. **Hệ quả đo lường:** với R4 bật và `block`, mọi lời gọi
 `send_email` và `create_ticket` đều bị chặn, kể cả hợp lệ; USR của CT-05, CT-06 và nhóm U4 bằng 0 theo thiết kế khi D3 bật,
 và FRR(D3) trên U4 bằng 100%. Đường Pareto an toàn / hữu dụng của D3 vì thế suy biến. Trường hợp cần tách chi phí của R1–R3 khỏi R4,
-chạy thêm cấu hình D3 với R4 tắt; xem mục 8.
+chạy preset `d3_no_confirm` (R4 tắt); xem mục 8.
 
 R4 cần ánh xạ tool → mức hậu quả (`g2_severity`): `send_email`, `http_request` ⇒ `external_action`; `create_ticket` ⇒
 `internal_write`; `search_kb`, `query_customer_db` ⇒ `read_only`. Khóa còn thiếu ở config (mục 8).
@@ -336,12 +336,15 @@ bước hiện thực tương ứng, trước khi viết code của cơ chế đ
 |---|---|---|
 | D1 | `params.notice_template_vi` | Câu thông báo có `{source_label}` và `{delimiter}` |
 | D2 | `params.replacement_token` | Dấu thay thế cố định cho khối bị gỡ |
-| D2 | `params.imperative_action` | `redact` (thay) hoặc `flag` (chỉ ghi hit) |
 | D2 | `params.hidden_font_size_max_px` | Ngưỡng `font-size` coi là ẩn |
 | D3 | `tool_severity` | Ánh xạ tool → `g2_severity` (mục 5.2) |
-| D3 | `rules.R4_require_confirmation.enabled` | Đã có; thêm preset `d3_no_confirm` nếu cần tách chi phí R4 |
 
 Mỗi khóa phải có code đọc tới; khóa khai mà không ai đọc là lớp lỗi đã gặp ở `arg_constraints`.
+
+Đã khai: `d2_input_sanitizer.params.imperative_action: "redact"`; preset `d3_no_confirm` (D3 với R4 tắt, qua khối
+`preset_overrides`) để tách chi phí và hiệu lực của R1–R3 khỏi R4. `d3_no_confirm` chưa vào khối nào của
+`experiment.yaml`, chờ GVHD (`Việc treo.md` VT-4). `pipeline.py` (STT-55) phải áp `preset_overrides`;
+`eval.experiment.validate` kiểm đường dẫn ghi đè.
 
 ---
 

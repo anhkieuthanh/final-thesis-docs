@@ -51,3 +51,25 @@ Còn lại: báo GVHD: A1 rời "một gateway chung" — `Chốt phạm vi và 
    upstream ở mỗi ô, và khai thành hạn chế.
 
 **Hạn:** trước pilot (STT-60).
+
+---
+
+## VT-4. Preset `d3_no_confirm` — chờ GVHD đồng ý đưa vào ma trận
+
+**Phát hiện ở:** STT-21, lúc dựng ô cấu trúc của ma trận dự đoán.
+
+**Bằng chứng:** `config/defenses.yaml` — R4 bật, `consequential_severities: [internal_write, external_action]`,
+`automated_resolution: "block"` ⇒ D3 chặn mọi `send_email`, `http_request`, `create_ticket`, hợp lệ hay không
+(`defense_spec.md` mục 5.2).
+
+**Hệ quả:** ở `d3_only`, ASR của D3 trên mọi bồn ghi/ra ngoài gần 0 theo thiết kế, FRR trên CT-05, CT-06, U4 bằng 100%;
+không tách được hiệu lực R1–R3; H4 được "xác nhận" vô nghĩa; đường Pareto của D3 suy biến.
+
+**Đã làm:** khai preset `d3_no_confirm` trong `config/defenses.yaml` (khối `preset_overrides` tắt R4), kiểm bằng
+`eval.experiment.validate`. **Chưa** đưa vào khối nào của `experiment.yaml`, chưa có trong dự toán.
+
+**Cần GVHD:** đồng ý thêm một cấu hình vào B2/B3 (6 → 7 preset, khoảng +17% số run của hai khối), kết quả báo cáo dạng
+khám phá vì ma trận `v-pred-1.0` không có dự đoán cho nó. Không đồng ý thì xóa preset và ghi thành hạn chế: D3 chỉ
+đo với R4 chặn tự động.
+
+**Hạn:** buổi họp GVHD kế tiếp, trước khi chốt dự toán chạy ma trận.
