@@ -3,6 +3,15 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-20
+- `Y_TUONG_DU_AN.md` mục 3.1 và `docs/01. Đề bài/01. Mô tả bài toán.md` bảng tài sản, dòng TS2: thay "lịch sử đơn, hạn mức
+  công nợ" bằng các trường thật của `customers.db` (tên công ty, email liên hệ, điện thoại, địa chỉ, mã số thuế, công nợ, hạn
+  thanh toán, ngày mua). Lý do: STT-22 — lược đồ chỉ có một bảng `customers`, không có bảng đơn hàng hay cột hạn mức; bộ đo khóa
+  không cần hai thứ đó, TA chọn sửa câu chữ thay vì đổi dữ liệu.
+- `docs/04. Design/03. Kiến trúc testbed và interface.md` — thêm mục 2.1 "Lược đồ `customers.db`": bảng cột, mốc ngày cố định,
+  ba bản ghi cố định cho tác vụ chở, con trỏ tới test. Lý do: đầu ra STT-22 là "lược đồ + script", trước đây lược đồ chỉ nằm
+  trong code.
+- `ipi-agent-lab/scripts/seed_db.py` — bỏ đoạn "Lịch sử" khỏi docstring. Nội dung đoạn đó: ngày 06/08/2026 gỡ một lời gọi
+  `fake.company_suffix()` chết (ruff F841) ở `gen_record`, sinh lại DB và cập nhật checksum trong test. Lý do: quy tắc cứng #10.
 - `docs/04. Design/02. Threat Model.md` mục 5, đoạn kết luận: ô `T5 × G3` chỉ ứng với TH-05, bỏ TH-03. Lý do: TH-03 là G1
   qua `send_email`, không phải G3.
 - Đóng ba điểm treo sau STT-21 (TA chốt). (1) `ipi-agent-lab/config/defenses.yaml`: `d2_input_sanitizer.params.imperative_action:
