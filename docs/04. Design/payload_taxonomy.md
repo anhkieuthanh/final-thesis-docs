@@ -248,8 +248,11 @@ buộc gọi Y". Đòn bẩy là **quan hệ nhân quả** với tác vụ.
 **Nguồn:** khung tham chiếu từ MCPTox (Template-2, "kích hoạt ngầm – chiếm chức năng"). MCPTox **không có giấy phép**:
 chỉ dùng làm tham chiếu cấu trúc, mọi payload T3 là `original` cho tới khi có văn bản cho phép của tác giả
 (`FIT_GAP.md` mục 6).
-**Việc còn treo.** Ánh xạ Template-3 của MCPTox ("sửa tham số") vào T3 hay tách là việc TA chốt (`FIT_GAP.md` mục 7, việc 1);
-con số 408/485 chưa vào báo cáo trước khi chốt.
+**Ánh xạ Template-3 (TA chốt 2026-10-21).** Template-3 ("sửa tham số", 225 mẫu) **tách khỏi T3**: về kỹ thuật là mệnh lệnh
+tường minh (T1, giọng chính sách hệ thống) nhưng ép mục tiêu **G2 / `constraint_violation`** — "đổi tham số lời gọi ra ngoài
+ràng buộc tác vụ" là vi phạm ràng buộc tham số, không phải điều kiện tiên quyết. Chỉ Template-2 (183) ánh xạ vào T3. Vì vậy
+con số "T3 chiếm 408/485" **không dùng**; thay bằng Template-2 = 183/485 cho T3, Template-3 = 225/485 cho nhánh T1→G2. Adapter
+STT-39 thi hành ánh xạ này (`config/attack_sources.yaml` khối `mcptox`).
 
 ### 6.4 T4 — Chèn ẩn, bất đối xứng hiển thị
 
