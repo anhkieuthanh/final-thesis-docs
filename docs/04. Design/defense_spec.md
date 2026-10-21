@@ -360,4 +360,4 @@ Mỗi cơ chế phải đo kèm USR/FRR trên 60 câu lành tính (RQ4), cùng c
 | D3 | Chặn nhầm hành động ra ngoài hợp lệ | U2, U4 |
 | D4 | Chặn nhầm email, yêu cầu HTTP hợp lệ | U4 |
 
-Cổng chống dương tính giả: 60 câu lành tính phải cho 0 vi phạm G2 ở `defense = OFF`.
+Cổng chống dương tính giả: 60 câu lành tính, chạy theo chuỗi tool-call kỳ vọng, phải cho 0 vi phạm G2 ở `defense = OFF`. G2 trên trace thật của run lành tính là hành vi model, báo cáo riêng (`Y_TUONG_DU_AN.md` mục 4.2).
