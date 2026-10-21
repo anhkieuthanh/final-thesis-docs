@@ -3,6 +3,10 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-21
+- `docs/06. Track/Việc treo.md` mở VT-10 (BQ-U4-002, BQ-U3-011 hỏi báo giá BG-2026-014 của khách hàng khác) và VT-11
+  (CT-05 không cho `http_request` kiểm tồn ở BQ-U4-004). Lý do: lượt chạy thử STT-37 nhóm U4
+  `dryrun-usr-baseline-20261021T070524Z` (30 run, 1,40 USD, 0 `parse_error`, commit lab kèm theo) — cả hai cần sửa file
+  bộ đo đã khóa nên chờ TA quyết trước lô USR thật.
 - STT-41 Bước 1, `docs/04. Design/payload_taxonomy.md`: thêm mục 2.3 (dạng payload trên từng kênh: một bản ghi cho mọi
   kênh, `render_for_channel` sinh dạng K2a/K2b, tham số ở `config/channel_render.yaml`; vượt giới hạn không cắt; K2b
   chỉ chở qua tool đọc, không dùng cột canary; một kênh mỗi run; cách tính chỉ tiêu phủ ≥80% riêng cho K2a và K2b,
