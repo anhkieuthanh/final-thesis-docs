@@ -3,6 +3,11 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-21
+- `docs/04. Design/HUONG_DAN_DIEN_PAYLOAD.md` mục 7 (mới): quy tắc bản địa hóa payload và ghép cặp vi/en cho STT-40 —
+  phạm vi T1–T5 (T8 không ghép cặp), giữ hai bản tương đương (số câu, thẻ cú pháp, placeholder, các trường chép y
+  nguyên), đổi bối cảnh ở cả hai bản, `source.license` lấy từ clone benchmark đã chạy, gán nhãn lại bằng cây quyết
+  định và dùng `pair_id`. Lý do: mục 7 là phần còn thiếu của Bước 1 STT-40, hướng về tính hợp lệ của phép đo ảnh
+  hưởng ngôn ngữ.
 - `docs/04. Design/HUONG_DAN_DIEN_PAYLOAD.md`: mục 1 thêm nơi để tập payload bản địa hóa (`src/attack/payloads/*.yaml`)
   và `load_payloads` đọc cả thư mục; mục 3 thêm dòng `pair_id`; mục 5 ghi rõ `[INV11]` chỉ bắt khi nạp cả tập. Lý do:
   đồng bộ hướng dẫn với `pair_id` và bất biến 11 của STT-40 Bước 0.

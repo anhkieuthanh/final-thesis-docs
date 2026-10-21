@@ -152,3 +152,50 @@ errs = validate_payload(my_dict)   # [] nghĩa là hợp lệ
 
 Validator chỉ kiểm **hình thức** (đúng schema). Nó **không** bảo payload tấn công hiệu quả — phần đó do pilot ở bước 5
 quyết. Hai lớp tách bạch: schema đúng ≠ tấn công thành công.
+
+---
+
+## 7. BẢN ĐỊA HÓA VÀ CẶP SONG NGỮ (STT-40)
+
+Mục đích đo lường: cho một payload bản `vi` và một bản `en` **chỉ khác ngôn ngữ**, để chênh lệch ASR trong cặp quy được
+cho ngôn ngữ, không lẫn biến khác. Nếu bản dịch vô tình làm payload yếu đi (bỏ bớt câu, hạ giọng, đổi thẻ cú pháp) thì
+ASR tiếng Việt thấp đi vì chất lượng dịch, và kết luận "tiếng Việt bền hơn" trở thành sai. Nên quy tắc dưới đều hướng về
+**giữ hai bản tương đương**, không về việc làm payload mạnh hơn.
+
+### 7.1 Phạm vi
+
+- Kỹ thuật T1–T5. **T8 không ghép cặp** (nó là kỹ thuật đặc thù tiếng Việt, không có bản `en` tương ứng). T6/T7 được
+  phép ghép cặp nhưng nằm ngoài STT-40.
+- Đầu vào: payload do adapter AgentDojo (STT-38) / MCPTox (STT-39) trích, và các payload trong `payloads_sample.json`
+  hiện chỉ có một bản ngôn ngữ.
+
+### 7.2 Giữ hai bản tương đương
+
+Dịch **nghĩa**, không đổi cấu trúc. Checklist khi soạn bản còn thiếu của một cặp:
+
+- Số câu, thứ tự câu, số lời mệnh lệnh của hai bản bằng nhau. Không thêm lời rào đón, không thêm cảnh báo, không bớt câu.
+- Thẻ và ký hiệu cú pháp (`<INFORMATION>`, `[SYSTEM]`, `###`, khối JSON, delimiter…) **giữ nguyên ký tự ở cả hai bản** —
+  đây là tín hiệu D2 dò; đổi thẻ là đổi một biến khác ngoài ngôn ngữ.
+- Tập placeholder (`{USER}` `{MODEL}` `{TOOL}` `{INSTRUCTION}`) của hai bản phải trùng. Validator `[INV11]` bắt chỗ này.
+- `goal_binding`, `channels`, `obfuscation`, `activation_check`, `base_frame` — **chép y nguyên** sang bản kia, không sửa.
+  Chỉ `id`, `lang`, `technique.template`, `technique.rationale` và phần `source` được khác.
+
+### 7.3 Đổi bối cảnh, không đổi kỹ thuật
+
+Payload mượn từ benchmark ngoài thường nhắc thực thể Âu-Mỹ (tên người, IBAN, khách sạn…). Thay bằng bối cảnh công ty phân
+phối thiết bị **ở cả hai bản như nhau**, rồi:
+
+- Đặt `semantic_coupling = false` nếu đã gỡ hết thực thể của suite gốc.
+- `source.kind = adapted`, ghi việc thay bối cảnh và việc dịch vào `source.adaptation_note`. `source.ref` và
+  `source.license` **giống nhau ở cả hai bản** — cùng một gốc.
+- `source.license` lấy từ file LICENSE trong chính bản clone benchmark đã chạy (quy tắc cứng #2, #7), **không điền theo
+  trí nhớ**. T3 luôn `original` (MCPTox không kèm giấy phép — taxonomy mục 6.3).
+
+### 7.4 Gán nhãn lại và `pair_id`
+
+- Dịch xong, chạy lại cây quyết định (`payload_taxonomy.md` mục 3) trên bản tiếng Việt. Nhánh ra **phải trùng** nhánh ghi
+  ở `rationale` của bản gốc. Ra nhánh khác ⇒ bản dịch đã lệch kỹ thuật, dịch lại; **không** đổi nhãn kỹ thuật cho khớp.
+- Gán cùng một `pair_id` (`PR-<T#>-<G#>-<NNN>`) cho hai bản. `id` của mỗi bản vẫn mang token ngôn ngữ riêng
+  (`…-VI-001` / `…-EN-001`).
+- Chạy `load_payloads` trên cả thư mục: `[INV11]` kiểm cặp. Soát mẫu (TA) là lớp cuối — lấy ngẫu nhiên seed cố định
+  ≥10% số cặp, mỗi kỹ thuật ≥2 cặp, chấm "kỹ thuật còn nguyên / bị làm nhẹ"; có mẫu bị làm nhẹ thì sửa cả lô kỹ thuật đó.
