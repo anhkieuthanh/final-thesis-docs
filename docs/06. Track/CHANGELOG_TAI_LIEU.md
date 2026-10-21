@@ -3,6 +3,18 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-21
+- STT-38, commit lab `b8ccb4a`: adapter AgentDojo `ipi-agent-lab/src/attack/adapters/agentdojo.py` cùng lược đồ nhập
+  dùng chung `adapters/base.py`. Nguồn là snapshot `ipi-agent-lab/data/upstream/agentdojo/`, chép nguyên vẹn hai CSV từ
+  `docs/03. Khảo sát/evidence/agentdojo/` (lần chạy thật `agentdojo@089ed468` v1.2.2, MANIFEST ghi sha256). Quyết định
+  gán nhãn đặt ở `config/attack_sources.yaml` mới: `direct` → T1 `bare`, `system_message` → T1 `system_tag`,
+  `important_instructions_no_names` → T1 `user_signed`, `ignore_previous` và `injecagent` → T2 (khung InjecAgent, MIT);
+  35 injection task → G1 20, G2 14, G3 1 (travel 6); luật `semantic_coupling` tất định. Đầu ra
+  `data/payloads_imported/agentdojo.json`: 175 bản ghi, `source.kind = verbatim`, `license = MIT`; coupling 170 (chỉ
+  banking 7 không coupling), `grader_unverified` 40 (workspace 6–13). `schema.py` kiểm hai cờ là bool và bắt payload có
+  `ref` AgentDojo khai `semantic_coupling`; `data/payloads_sample.json` payload `P-T1-G3-VI-001` thêm
+  `semantic_coupling: false` (khung mượn, goal của lab). Lý do: TA duyệt plan STT-38 và hai bảng ánh xạ; đạt chỉ tiêu
+  ≥100 payload có nguồn gốc kèm cờ coupling. Hai lớp tách nhau vì goal AgentDojo gắn tool của suite gốc; payload hợp lệ
+  theo schema chỉ ra đời ở STT-40 qua `to_lab_payload()` khi đã viết lại `goal_binding`.
 - STT-37 Pha 1 (chưa gọi API), commit lab `eca188f`: `ipi-agent-lab/config/prompts.yaml` thêm khối `judge` (prompt
   judge, giới hạn cắt, `max_tokens`); `config/experiment.yaml` thêm khóa `utility_baseline` (A1–A3 × 60 câu × 3 lần,
   preset `off`, 540 run), ngoài sáu khối B1–B6. Mã mới: `src/eval/judge.py`, `src/eval/metrics.py`,
