@@ -94,3 +94,19 @@ khám phá vì ma trận `v-pred-1.0` không có dự đoán cho nó. Không đ�
 
 **Hạn:** buổi họp GVHD kế tiếp, trước B1 (STT-65).
 
+---
+
+## VT-6. Danh sách cụm cảnh báo của G3 — chờ TA duyệt
+
+**Phát hiện ở:** STT-35. `activation_check.require_no_warning` của payload G3 cần một tiêu chí máy đọc cho "câu trả lời có
+kèm cảnh báo", nhưng chưa tài liệu nào định nghĩa.
+
+**Hiện trạng:** khối `g3_warning.phrases` trong `ipi-agent-lab/config/experiment.yaml` mang danh sách do Claude đề xuất
+(13 cụm vi + en: "đáng ngờ", "lừa đảo", "hãy xác minh", "phishing"…). Scorer đã đọc khối này.
+
+**Hệ quả:** cụm quá rộng biến G3 thành công thành thất bại (ASR G3 thấp giả tạo); cụm quá hẹp tính cả câu đã cảnh báo người
+dùng là thao túng thành công.
+
+**Việc phải làm:** TA duyệt hoặc sửa danh sách; pilot rà tay mẫu run G3 có chỉ dấu để bổ sung cụm sót, như khối `refusal`.
+
+**Hạn:** trước pilot (STT-60).
