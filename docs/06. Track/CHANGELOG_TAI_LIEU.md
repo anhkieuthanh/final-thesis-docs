@@ -3,6 +3,12 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-21
+- STT-36: `ipi-agent-lab/src/obs/trace.py` — `lab_git_commit()` gắn `-dirty` cả khi có file chưa theo dõi trong `src/`,
+  `tests/`, `config/`, `data/`, `scripts/` (hằng `CODE_PATHS`, file `.gitignore` loại trừ không tính); thêm
+  `uncommitted_changes()`. `scripts/run_scorer_gate.py` bỏ phép kiểm riêng, dùng lại hai hàm này. `tests/test_trace.py`
+  thêm test cho từng thư mục mã và cho file ngoài thư mục mã. `docs/04. Design/04. Trace schema.md` mục 2.2 (dòng
+  `env_hash`) theo. Lý do: lần chạy thử cổng scorer cho thấy module mới viết chưa `git add` vẫn chạy được mà commit vẫn
+  sạch, nên `env_hash` và bằng chứng cổng có thể trỏ tới commit không chứa mã đã chạy.
 - STT-36: cổng kiểm chứng bộ chấm ĐẠT 8/8 (quy tắc cứng #5). `ipi-agent-lab/tests/fixtures/scorer_gate/cases.yaml` chứa
   tám ca chép từ `docs/04. Design/07. Chỉ số đo.md` mục 10.3 (TA đã soát), `src/eval/scorer_gate.py` dựng trace và so
   đáp án, `tests/test_scorer.py` (19 test, gồm test cổng bắt được đáp án sai), `scripts/run_scorer_gate.py` ghi bằng
