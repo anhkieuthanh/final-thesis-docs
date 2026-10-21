@@ -343,8 +343,8 @@ bước hiện thực tương ứng, trước khi viết code của cơ chế đ
 Mỗi khóa phải có code đọc tới; khóa khai mà không ai đọc là lớp lỗi đã gặp ở `arg_constraints`.
 
 Đã khai: `d3_tool_policy.tool_severity` (mục 5.2, scorer cũng đọc); `d2_input_sanitizer.params.imperative_action: "redact"`; preset `d3_no_confirm` (D3 với R4 tắt, qua khối
-`preset_overrides`) để tách chi phí và hiệu lực của R1–R3 khỏi R4. `d3_no_confirm` chưa vào khối nào của
-`experiment.yaml`, chờ GVHD (`Việc treo.md` VT-4). `pipeline.py` (STT-55) phải áp `preset_overrides`;
+`preset_overrides`) để tách chi phí và hiệu lực của R1–R3 khỏi R4; GVHD duyệt, chạy ở B2 và B3 của `experiment.yaml`, báo
+cáo dạng khám phá. `pipeline.py` (STT-55) phải áp `preset_overrides`;
 `eval.experiment.validate` kiểm đường dẫn ghi đè.
 
 ---

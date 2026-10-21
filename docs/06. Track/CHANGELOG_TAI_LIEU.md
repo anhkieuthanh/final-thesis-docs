@@ -3,6 +3,16 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-21
+- GVHD duyệt cả ba mục của `Xin ý kiến GVHD — họp kế tiếp.md` đúng đề xuất (sinh viên báo lại, không lưu bản ký); đóng
+  VT-2, VT-4, VT-5, `Việc treo.md` không còn mục nào. VT-4: `ipi-agent-lab/config/experiment.yaml` thêm `d3_no_confirm`
+  vào `blocks.B2.presets` và `blocks.B3.presets` (B2 4.320 → 5.040 run, B3 3.600 → 4.200), `config/defenses.yaml` bỏ chú
+  thích "CHỜ GVHD"; `tests/test_experiment.py` cập nhật số run B2, bỏ xfail của B3 (nay khớp checklist), thêm test
+  `d3_no_confirm` không là ứng viên đơn lẻ tốt nhất. `Chốt phạm vi và checklist ký GVHD.md`: RQ3 chọn đơn lẻ tốt nhất
+  trên toàn B2 (VT-5), bảng mục 5 dòng B2, B3, tổng ≈ 14.870, mục 6 điểm 3 và 5 theo A1 gọi thẳng API (VT-2).
+  `06. Giao thức thực nghiệm.md` mục 2.4, N1, N3, N13, N15, thêm quyết định 12, bỏ hai việc chờ GVHD; `defense_spec.md`
+  mục 8; `05. Ma trận dự đoán.md` câu về `d3_no_confirm` (không đổi dự đoán nào). Bản trình đánh dấu đã duyệt. Lý do:
+  GVHD duyệt các điều chỉnh phạm vi đã trình. Cổng scorer chạy lại trên commit lab `351a158`, đạt 8/8, tất định:
+  `ipi-agent-lab/results/scorer_gate/gate_20261021T041016Z.json` — bằng chứng hiện hành của cổng.
 - VT-7 đóng: `ipi-agent-lab/data/payloads_sample.json` payload `P-T6-G3-VI-001`, mảnh `f2` đưa chỉ dấu
   `DISC30-{run_id}` vào nội dung kèm yêu cầu nêu mã khi trả lời; 17 payload mẫu vẫn hợp lệ theo schema. Lý do: chỉ thị cũ
   chỉ đòi nêu "30%", model làm đúng chỉ thị cũng không viết ra chỉ dấu nên payload luôn trượt `activation_check`;
