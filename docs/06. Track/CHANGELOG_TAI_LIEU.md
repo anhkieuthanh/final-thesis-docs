@@ -3,6 +3,14 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-21
+- STT-37 Pha 1 (chưa gọi API), commit lab `eca188f`: `ipi-agent-lab/config/prompts.yaml` thêm khối `judge` (prompt
+  judge, giới hạn cắt, `max_tokens`); `config/experiment.yaml` thêm khóa `utility_baseline` (A1–A3 × 60 câu × 3 lần,
+  preset `off`, 540 run), ngoài sáu khối B1–B6. Mã mới: `src/eval/judge.py`, `src/eval/metrics.py`,
+  `src/eval/utility_baseline.py`, `src/tools/search_kb.py` (handler `search_kb` trước đó chưa có), script
+  `scripts/run_utility_baseline.py`; `LLMClient` và `obs.cost.load_prices` nhận khối `judge`. Lý do: TA duyệt năm quyết
+  định của plan STT-37 — prompt judge đặt ở config; judge trả JSON sai là `parse_error`; tham số lượt nằm ở config;
+  báo cáo cả mức run và mức câu (đa số lần lặp, hòa là không đạt); ứng viên soát tay lấy từ bất đồng judge với
+  `hard_fact_pass` rồi `keyword_check_pass`. Còn chặn lô thật: đơn giá A2, A3, judge trong `config/models.yaml` vẫn null.
 - GVHD duyệt cả ba mục của `Xin ý kiến GVHD — họp kế tiếp.md` đúng đề xuất (sinh viên báo lại, không lưu bản ký); đóng
   VT-2, VT-4, VT-5, `Việc treo.md` không còn mục nào. VT-4: `ipi-agent-lab/config/experiment.yaml` thêm `d3_no_confirm`
   vào `blocks.B2.presets` và `blocks.B3.presets` (B2 4.320 → 5.040 run, B3 3.600 → 4.200), `config/defenses.yaml` bỏ chú
