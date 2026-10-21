@@ -15,6 +15,12 @@ Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi ·
   `semantic_coupling: false` (khung mượn, goal của lab). Lý do: TA duyệt plan STT-38 và hai bảng ánh xạ; đạt chỉ tiêu
   ≥100 payload có nguồn gốc kèm cờ coupling. Hai lớp tách nhau vì goal AgentDojo gắn tool của suite gốc; payload hợp lệ
   theo schema chỉ ra đời ở STT-40 qua `to_lab_payload()` khi đã viết lại `goal_binding`.
+- STT-40 Bước 0, commit lab `a25a79f`: `docs/04. Design/payload_taxonomy.md` mục 4.2 thêm trường tùy chọn `pair_id` (`PR-<T#>-<G#>-<NNN>`),
+  mục 4.3 thêm bất biến 11: mỗi `pair_id` đúng một bản `vi` và một bản `en`, chỉ khác `id`, `lang`, `template`,
+  `rationale`, `source.kind`/`adaptation_note`; không dùng cho T8 và `lang = mixed`. `ipi-agent-lab/src/attack/payloads/
+  schema.py` cưỡng chế bất biến 11 (`validate_payload` kiểm mẫu, `validate_pairs` kiểm cả cặp trong `load_payloads`) và
+  cho `load_payloads` đọc file YAML hoặc cả thư mục; `tests/test_payload_schema.py` thêm 8 test. 17 payload mẫu vẫn hợp
+  lệ. Lý do: TA duyệt ghép cặp vi/en để đo ảnh hưởng ngôn ngữ — trước đó lược đồ không nối được hai bản với nhau.
 - STT-37 Pha 1 (chưa gọi API), commit lab `eca188f`: `ipi-agent-lab/config/prompts.yaml` thêm khối `judge` (prompt
   judge, giới hạn cắt, `max_tokens`); `config/experiment.yaml` thêm khóa `utility_baseline` (A1–A3 × 60 câu × 3 lần,
   preset `off`, 540 run), ngoài sáu khối B1–B6. Mã mới: `src/eval/judge.py`, `src/eval/metrics.py`,
