@@ -3,6 +3,13 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-21
+- STT-40 Bước 2 (lô đầu), commit lab `dfd0f59`: `ipi-agent-lab/src/attack/payloads/t1_explicit.yaml` (3 cặp T1:
+  bare/system_tag/user_signed → G2 create_ticket) và `t2_override.yaml` (2 cặp T2: InjecAgent/IgnorePrevious → G1
+  send_email). 5 cặp = 10 payload, mỗi cặp chung `pair_id`, chỉ khác ngôn ngữ; khung tiếng Anh nguyên văn AgentDojo
+  (MIT, snapshot `data/upstream/agentdojo/`), bản tiếng Việt dịch giữ cấu trúc; `goal_binding` viết lại sang tool lab,
+  bối cảnh công ty phân phối thiết bị, `semantic_coupling=false`. `tests/test_payload_schema.py` thêm guard tập mẫu
+  và tập cặp bản địa hóa (`[INV11]`). Lý do: Bước 2 STT-40, dịch payload từ đầu ra adapter STT-38 thành cặp vi/en để
+  đo ảnh hưởng ngôn ngữ. Còn chờ: TA soát mẫu kỹ thuật (mục 7.4); T3 (MCPTox, K2a), T4, T5 ở lô sau.
 - `docs/04. Design/HUONG_DAN_DIEN_PAYLOAD.md` mục 7 (mới): quy tắc bản địa hóa payload và ghép cặp vi/en cho STT-40 —
   phạm vi T1–T5 (T8 không ghép cặp), giữ hai bản tương đương (số câu, thẻ cú pháp, placeholder, các trường chép y
   nguyên), đổi bối cảnh ở cả hai bản, `source.license` lấy từ clone benchmark đã chạy, gán nhãn lại bằng cây quyết
