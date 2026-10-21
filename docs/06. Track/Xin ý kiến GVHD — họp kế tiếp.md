@@ -1,9 +1,8 @@
 # XIN Ý KIẾN GVHD — BUỔI HỌP KẾ TIẾP
 
-> Tài liệu soạn với sự hỗ trợ của AI (Claude), sinh viên đã rà nội dung. Biểu mẫu chờ ký: ba mục dưới đây là các việc
-> treo cần GVHD quyết (`docs/06. Track/Việc treo.md` VT-2, VT-4, VT-5). Mỗi mục nêu bối cảnh, đề xuất của sinh viên và
-> hệ quả nếu GVHD không đồng ý. Ký xong thì đồng bộ nguồn chân lý, gỡ mục khỏi `Việc treo.md` và ghi
-> `CHANGELOG_TAI_LIEU.md`.
+> Tài liệu soạn với sự hỗ trợ của AI (Claude), sinh viên đã rà nội dung. GVHD đã duyệt cả ba mục đúng đề xuất ngày
+> 2026-10-21 (sinh viên báo lại; không lưu bản ký). Các nguồn chân lý và `Chốt phạm vi và checklist ký GVHD.md` đã đồng bộ
+> theo tài liệu này.
 
 **Đồ án:** Nghiên cứu và xây dựng hệ thống đánh giá, phòng chống tấn công tiêm nhiễm gián tiếp (Indirect Prompt
 Injection) trên AI Agent dùng RAG + MCP tool-calling.
@@ -30,7 +29,7 @@ lớp mô hình frontier mất ý nghĩa đại diện.
 
 | Ý kiến GVHD | |
 |---|---|
-| ☐ Đồng ý · ☐ Không đồng ý · ☐ Ý kiến khác | |
+| ☑ Đồng ý · ☐ Không đồng ý · ☐ Ý kiến khác | |
 | Ghi chú | |
 
 ---
@@ -55,7 +54,7 @@ R1–R3".
 
 | Ý kiến GVHD | |
 |---|---|
-| ☐ Đồng ý · ☐ Không đồng ý · ☐ Ý kiến khác | |
+| ☑ Đồng ý · ☐ Không đồng ý · ☐ Ý kiến khác | |
 | Ghi chú | |
 
 ---
@@ -77,12 +76,12 @@ thận trọng. Điểm này được khai trong báo cáo.
 
 | Ý kiến GVHD | 3a | 3b |
 |---|---|---|
-| ☐ Đồng ý · ☐ Không đồng ý · ☐ Ý kiến khác | | |
+| ☑ Đồng ý · ☐ Không đồng ý · ☐ Ý kiến khác | ☑ | ☑ |
 | Ghi chú | | |
 
 ---
 
 | | Sinh viên | GVHD |
 |---|---|---|
-| Ngày | | |
-| Ký | | |
+| Ngày | 2026-10-21 | 2026-10-21 |
+| Hình thức | | Duyệt, sinh viên báo lại |
