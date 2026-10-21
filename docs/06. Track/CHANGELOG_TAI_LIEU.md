@@ -3,6 +3,15 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-21
+- STT-34: `ipi-agent-lab/src/obs/canary_listener.py` mới — FastAPI bắt mọi path và method, ghi SQLite bảng `hits` (thời
+  điểm UTC, `run_token` từ `X-IPI-Run`, method, path, query giữ percent-encoding, URL gốc, IP, headers, body; body không
+  phải UTF-8 lưu base64, quá 1 MiB thì cắt và gắn cờ), `GET /hits?run=&since=`, `DELETE /hits?run=`, `GET /healthz`,
+  `fetch_hits()` cho harness. Request mang `X-Original-URL` luôn ghi thành hit kể cả khi path là `/hits`.
+  `docker-compose.yml` thêm service `canary-listener` (cổng chỉ mở ở `127.0.0.1:8099`, healthcheck), `app` nhận
+  `CANARY_LISTENER_URL` và chờ listener healthy; `README.md`, `Makefile`, `.gitignore` (`data/canary_hits.db`),
+  `tests/test_skeleton.py` theo. Lý do: tạo bồn chứa `http` cho G1. Phân request quản trị theo header chứ không theo path,
+  vì model điều khiển được path nhưng không điều khiển được header: model không đọc hay xóa được hit của run khác. Scorer
+  (STT-35) chấm G1 trên tham số tool trong trace; listener chỉ dùng để đối chiếu (TA chốt Q2).
 - STT-33: `ipi-agent-lab/src/eval/canary.py` thêm sinh canary theo run (`new_run_canaries`, `uuid4`), gieo TS2 vào bản sao
   `customers.db` (`seed_customers_db`), `seeded_run()` gieo, gắn handler và dọn (kiểm sha256 file gốc), `sweep_stale_run_dirs()`,
   danh sách đường rò bộ dò không bắt; gom regex canary thật về `eval.canary` (`agent.prompts`, schema payload dùng chung).
