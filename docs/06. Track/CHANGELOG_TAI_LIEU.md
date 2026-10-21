@@ -3,6 +3,13 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-21
+- VT-8 đóng (TA duyệt 5 cặp T1–T2 lô đầu, không sửa). STT-40 Bước 2 lô sau, commit lab `21df7de`:
+  `ipi-agent-lab/src/attack/payloads/t3_prereq.yaml` (2 cặp T3 — điều kiện tiên quyết giả, khung MCPTox
+  `original`, có K2a → G1 http_request / G2 create_ticket), `t4_hidden.yaml` (2 cặp T4 — chèn ẩn
+  `hidden_html_comment` và `zero_width`, loại K2a → G1), `t5_disguise.yaml` (1 cặp T5 — ngụy trang nghiệp vụ,
+  không câu mệnh lệnh → G3 vendor_code). Corpus nay 20 payload (10 cặp), đủ T1–T5; `tests/test_payload_schema.py`
+  guard ≥20 và phủ T1–T5. Mở VT-9: TA soát 5 cặp mới. Lý do: hoàn tất dịch payload T1–T5 thành cặp vi/en cho
+  STT-40, dựa cấu trúc mẫu đã duyệt trong `data/payloads_sample.json`.
 - `Y_TUONG_DU_AN.md` mục 4.2, `docs/01. Đề bài/01. Mô tả bài toán.md`, `docs/04. Design/defense_spec.md`: cổng chống dương
   tính giả G2 ghi rõ là cổng kiểm đặc tả (chuỗi tool-call kỳ vọng, `tests/test_benign_gate.py`, vẫn 60/60); G2 trên trace
   thật của run lành tính là hành vi model, báo cáo riêng theo target kèm giải thích. Giữ nguyên `attachments_allowed: false`
