@@ -3,6 +3,9 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-21
+- `docs/04. Design/HUONG_DAN_DIEN_PAYLOAD.md`: mục 1 thêm nơi để tập payload bản địa hóa (`src/attack/payloads/*.yaml`)
+  và `load_payloads` đọc cả thư mục; mục 3 thêm dòng `pair_id`; mục 5 ghi rõ `[INV11]` chỉ bắt khi nạp cả tập. Lý do:
+  đồng bộ hướng dẫn với `pair_id` và bất biến 11 của STT-40 Bước 0.
 - STT-39, commit lab `1d626d5`: adapter MCPTox `ipi-agent-lab/src/attack/adapters/mcptox.py` (hướng A — TA chốt). Repo
   MCPTox không có giấy phép nên adapter CHỈ trích cấu trúc từ snapshot structural-only
   `ipi-agent-lab/data/upstream/mcptox/payload_index.csv` (lọc từ `pure_tool.json @f85189f9` còn

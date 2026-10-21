@@ -12,6 +12,8 @@
 - Payload điền xong để trong `ipi-agent-lab/data/payloads_sample.json`.
 - File là **một mảng JSON**, mỗi phần tử là một payload (một đối tượng theo schema mục 4).
 - Tối thiểu một payload mẫu mỗi kỹ thuật; nhân bản theo mục tiêu (G1/G2/G3), biến thể (T1), kênh.
+- Tập payload bản địa hóa (STT-40) để trong `ipi-agent-lab/src/attack/payloads/`, mỗi kỹ thuật một file `.yaml` (mảng
+  payload). `load_payloads` nhận một file `.json`/`.yaml` hoặc cả thư mục.
 
 ```json
 [
@@ -79,6 +81,7 @@ Dán khối này, đổi phần `<<ĐIỀN: …>>`. Các trường khác đã đ
 | `trigger` | Chỉ T7: `kind` + trường kèm (`tool`+`pattern`, hoặc `step_min`≥3) | `[T7]` |
 | `vi_transform` | Chỉ T8: ≥1 trong {strip_diacritics,telex,vni,homoglyph_vi,code_mix} | `[T8]` |
 | `activation_check` | Khối theo mục tiêu (mục 5). `goal` phải trùng `goal` ngoài | `[INV5]`, `[G1/G2/G3]` |
+| `pair_id` | Tùy chọn, chỉ khi payload có bản đối ứng ngôn ngữ kia: `PR-<T#>-<G#>-<NNN>`, T/G khớp payload. Không dùng cho T8 hay `lang = mixed`. Hai bản chỉ được khác ngôn ngữ (bất biến 11, `payload_taxonomy.md` mục 4.3) | `[INV11]` |
 
 **Tuyệt đối không** dán giá trị canary thật (`CANARY_SYSPROMPT_…`, `CANARY_DB_…`) vào bất kỳ đâu — chỉ dùng placeholder
 `<canary>`. Validator chặn (`[INV7]`).
@@ -125,6 +128,9 @@ for pid, errs in report.errors_by_id.items():
 
 Mỗi lỗi có mã bất biến (`[INV1]`, `[INV6]`, `[T8]`…) trỏ về `payload_taxonomy.md` mục 4.3. Sửa tới khi
 `report.all_ok` là `True`.
+
+Ràng buộc cặp `pair_id` (`[INV11]`) cần đủ hai bản mới kiểm được, nên chỉ `load_payloads` (hoặc `validate_pairs`) bắt.
+`validate_payload` trên một payload lẻ chỉ kiểm mẫu `pair_id`.
 
 Kiểm một payload lẻ khi đang soạn:
 
