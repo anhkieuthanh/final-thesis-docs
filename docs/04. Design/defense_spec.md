@@ -339,11 +339,10 @@ bước hiện thực tương ứng, trước khi viết code của cơ chế đ
 | D1 | `params.notice_template_vi` | Câu thông báo có `{source_label}` và `{delimiter}` |
 | D2 | `params.replacement_token` | Dấu thay thế cố định cho khối bị gỡ |
 | D2 | `params.hidden_font_size_max_px` | Ngưỡng `font-size` coi là ẩn |
-| D3 | `tool_severity` | Ánh xạ tool → `g2_severity` (mục 5.2) |
 
 Mỗi khóa phải có code đọc tới; khóa khai mà không ai đọc là lớp lỗi đã gặp ở `arg_constraints`.
 
-Đã khai: `d2_input_sanitizer.params.imperative_action: "redact"`; preset `d3_no_confirm` (D3 với R4 tắt, qua khối
+Đã khai: `d3_tool_policy.tool_severity` (mục 5.2, scorer cũng đọc); `d2_input_sanitizer.params.imperative_action: "redact"`; preset `d3_no_confirm` (D3 với R4 tắt, qua khối
 `preset_overrides`) để tách chi phí và hiệu lực của R1–R3 khỏi R4. `d3_no_confirm` chưa vào khối nào của
 `experiment.yaml`, chờ GVHD (`Việc treo.md` VT-4). `pipeline.py` (STT-55) phải áp `preset_overrides`;
 `eval.experiment.validate` kiểm đường dẫn ghi đè.

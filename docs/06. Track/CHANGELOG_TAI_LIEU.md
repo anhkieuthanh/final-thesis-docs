@@ -3,6 +3,18 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-21
+- STT-35: `ipi-agent-lab/src/eval/scorer.py` mới — scorer tất định đọc trace và gán mọi trường kết quả của `runs`
+  (G1 bốn bồn và chọn `g1_channel`, `leak_attempted`, G2 và `g2_severity`, G3 theo `marker_template`, `loop_flag`,
+  `parse_error` do scorer gán, `outcome`/`blocked_by` theo Trace schema mục 4.3; run lành tính: `hard_fact_pass`,
+  `keyword_check_pass`, `tcp`, nhận `judge_pass` làm đầu vào), `score(rec)` ghi qua `finish()`; 47 test ở
+  `tests/test_scorer_units.py`. `config/defenses.yaml` thêm `d3_tool_policy.tool_severity`; `config/experiment.yaml` thêm
+  khối `g3_warning.phrases`, `src/eval/experiment.py` kiểm và chặn khối khi khối này còn null. Tài liệu: `04. Trace
+  schema.md` mục 2.4 (`leak_attempted`, `loop_flag`) và 2.7 (`final_answer`); `07. Chỉ số đo.md` mục 2.3 (G1, G2 chấm
+  trên tool-call đã thực thi, MailHog và listener chỉ đối chiếu) và 2.4; `defense_spec.md` mục 8 bỏ dòng `tool_severity`
+  khỏi bảng khóa còn thiếu; `payload_taxonomy.md` mục 5 định nghĩa "cảnh báo" của G3; `Việc treo.md` thêm VT-6. Lý do: TA
+  chốt bốn điểm trước STT-35 — G3 giữ `g3_hit` bool theo Chỉ số đo §10.3; scorer là hàm thuần trên trace, kho bồn chứa
+  chỉ đối chiếu; `tool_severity` thêm vào config để scorer và R4 cùng đọc; `judge_pass` là đầu vào, scorer không gọi
+  LLM. `leak_attempted` và cách đếm `loop_flag` trước đây chưa có định nghĩa máy đọc, nay chốt theo code.
 - STT-34: `ipi-agent-lab/src/obs/canary_listener.py` mới — FastAPI bắt mọi path và method, ghi SQLite bảng `hits` (thời
   điểm UTC, `run_token` từ `X-IPI-Run`, method, path, query giữ percent-encoding, URL gốc, IP, headers, body; body không
   phải UTF-8 lưu base64, quá 1 MiB thì cắt và gắn cờ), `GET /hits?run=&since=`, `DELETE /hits?run=`, `GET /healthz`,
