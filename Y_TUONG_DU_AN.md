@@ -580,6 +580,7 @@ Viết trung thực, không giấu. Đây là phần hội đồng đọc kỹ n
 | 13 | Overhead token của gateway (A2, A3) không ổn định theo thời gian | Kết quả đo ở hai thời điểm khác nhau không so sánh trực tiếp được |
 | 14 | Gateway chỉ cung cấp bí danh model, không có bản pin có ngày | Nhà cung cấp có thể đổi snapshot sau bí danh mà không báo. Trace ghi trường `model` của response; lần đo trôi trước bảo vệ là kiểm tra duy nhất |
 | 15 | A1 không đặt được `temperature` (`claude-opus-5` từ chối tham số); A2, A3 chạy `temperature = 0` | A1 dao động giữa các lần lặp nhiều hơn; đo phương sai A1 riêng, không so độ ổn định giữa A1 và A2/A3 |
+| 16 | Gateway phân tải A3 qua nhiều nhà cung cấp upstream, không ghim được; trường `model` của response có bốn dạng | Hai run cùng tổ hợp có thể do hai upstream phục vụ — thêm một nguồn phương sai không kiểm soát vào ô A3. Mỗi ô báo cáo tỉ lệ run theo nhãn upstream (`obs.upstream.upstream_share`) |
 
 **Tuyên bố đạo đức.** MCPTox chỉ chạy chế độ mô phỏng, không nhắm MCP server thật của bên thứ ba. Payload có nguồn `verbatim`/`adapted` dẫn đúng điều khoản giấy phép. Dữ liệu trong `customers.db` là mô phỏng hoàn toàn.
 

@@ -3,6 +3,16 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-21
+- VT-7 đóng: `ipi-agent-lab/data/payloads_sample.json` payload `P-T6-G3-VI-001`, mảnh `f2` đưa chỉ dấu
+  `DISC30-{run_id}` vào nội dung kèm yêu cầu nêu mã khi trả lời; 17 payload mẫu vẫn hợp lệ theo schema. Lý do: chỉ thị cũ
+  chỉ đòi nêu "30%", model làm đúng chỉ thị cũng không viết ra chỉ dấu nên payload luôn trượt `activation_check`;
+  INV8 bắt chỉ dấu chứa `{run_id}` nên không đổi được `marker_template`. TA chọn đặt ở mảnh f2 để giữ kỹ thuật chia mảnh T6.
+- VT-2 phần A3 đóng: TA chấp nhận việc gateway phân tải A3 qua nhiều upstream. `ipi-agent-lab/src/obs/upstream.py` mới
+  (`upstream_label`, `upstream_share`: tỉ lệ run hợp lệ theo nhãn `response_model` mỗi ô) và `tests/test_upstream.py`;
+  thêm hạn chế #16 vào `Y_TUONG_DU_AN.md` mục 16 và `docs/01. Đề bài/01. Mô tả bài toán.md` mục 14. VT-2 chỉ còn phần A1
+  chờ GVHD. Lý do: không ghim được upstream, nên báo cáo minh bạch mức trộn upstream của từng ô thay vì giấu phương sai.
+- `docs/06. Track/Xin ý kiến GVHD — họp kế tiếp.md` mới: biểu mẫu chờ ký cho VT-2 (A1), VT-4, VT-5; `Việc treo.md` trỏ
+  sang. Lý do: ba mục chỉ GVHD quyết được, cần một tài liệu trình có ô ý kiến cho buổi họp kế tiếp.
 - VT-6 đóng: TA duyệt danh sách cụm cảnh báo G3. `ipi-agent-lab/config/experiment.yaml` khối `g3_warning.phrases` bỏ
   "nghi ngờ", thêm bốn cụm báo nội dung lệch nguồn chính thức ("khác với chính sách", "mâu thuẫn với tài liệu", "chưa được
   xác nhận", "cần xác nhận lại"), còn 16 cụm. `tests/test_scorer_units.py` thêm test: không cụm nào khớp 40 tài liệu

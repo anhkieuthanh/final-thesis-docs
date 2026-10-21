@@ -8,7 +8,7 @@ Mỗi mục: phát hiện ở đâu · bằng chứng · hệ quả · phương 
 
 ---
 
-## VT-2. Gateway bọc A1 bằng system prompt riêng; A3 bị định tuyến qua nhiều upstream
+## VT-2. Gateway bọc A1 bằng system prompt riêng — chờ GVHD xác nhận A1 gọi thẳng API
 
 **Phát hiện ở:** STT-19, lần dò tín hiệu từ chối; xác nhận bằng lần dò danh tính.
 
@@ -27,8 +27,8 @@ cụ; hai điều kiện: không system prompt và system prompt của testbed).
   không phải model frontier trong cấu hình doanh nghiệp mà đề tài mô tả. Khung Claude Code có chỉ
   dẫn an toàn và phong cách riêng, nên ASR và tỉ lệ từ chối của A1 không đại diện cho A1. Nặng hơn hạn
   chế #2 và #13 (overhead token): đây không chỉ là token thừa mà là chỉ dẫn thay đổi hành vi.
-- A3: hai run cùng tổ hợp có thể đi qua hai upstream khác nhau, thêm một nguồn phương sai không
-  kiểm soát vào ô thí nghiệm.
+- A3: đã xử lý (2026-10-21): TA chấp nhận, khai hạn chế #16; `ipi-agent-lab/src/obs/upstream.py` báo cáo tỉ lệ run
+  theo nhãn upstream ở mỗi ô.
 
 **A1 — đã quyết và đã chạy được, chờ GVHD.** TA chọn gọi A1 thẳng Messages API của Anthropic (2026-10-13).
 Đã làm: `LLMClient` có nhánh `provider: anthropic` dùng SDK chính thức; khối A1 trong
@@ -40,15 +40,9 @@ chế #2, #13 sửa lại và thêm #15 trong `Y_TUONG_DU_AN.md` mục 16 và `0
 câu ngắn, trước là 12.196), A1 tự nhận là Claude của Anthropic, không có chỉ dẫn hay công cụ nào
 ngoài thứ testbed gửi; vòng gọi tool hai lượt chạy được khi gửi lại block gốc.
 
-Còn lại: báo GVHD: A1 rời "một gateway chung" — `Chốt phạm vi và checklist ký GVHD.md` (điều kiện
-   harness, điểm 3 và 5) và hạn chế #2 đều giả định cả ba target qua gateway; xin xác nhận bằng
-   văn bản. `model_id` không đổi nên `v-models-1.0` giữ nguyên.
-
-**Phương án cho A3:**
-1. Hỏi gateway có tham số ghim nhà cung cấp upstream không (kiểu định tuyến `provider` của các
-   gateway tổng hợp). Có thì ghim một nơi, dò lại.
-2. Không ghim được: trace đã ghi `response_model` — chuẩn hóa nhãn upstream, báo cáo tỉ lệ run theo
-   upstream ở mỗi ô, và khai thành hạn chế.
+Còn lại: GVHD xác nhận bằng văn bản việc A1 rời "một gateway chung" — `Chốt phạm vi và checklist ký
+GVHD.md` (điều kiện harness, điểm 3 và 5) giả định cả ba target qua gateway. `model_id` không đổi nên `v-models-1.0`
+giữ nguyên. Trình ở `Xin ý kiến GVHD — họp kế tiếp.md` mục 1.
 
 **Hạn:** trước pilot (STT-60).
 
@@ -72,6 +66,8 @@ không tách được hiệu lực R1–R3; H4 được "xác nhận" vô nghĩa
 khám phá vì ma trận `v-pred-1.0` không có dự đoán cho nó. Không đồng ý thì xóa preset và ghi thành hạn chế: D3 chỉ
 đo với R4 chặn tự động.
 
+Trình ở `Xin ý kiến GVHD — họp kế tiếp.md` mục 2.
+
 **Hạn:** buổi họp GVHD kế tiếp, trước khi chốt dự toán chạy ma trận.
 
 ---
@@ -92,22 +88,6 @@ khám phá vì ma trận `v-pred-1.0` không có dự đoán cho nó. Không đ�
 `blocks.B2.best_single.select_on` sang chia đôi theo băm `payload_id` (cần thêm giá trị vào
 `eval.experiment.BEST_SINGLE_SELECT_ON`).
 
+Trình ở `Xin ý kiến GVHD — họp kế tiếp.md` mục 3.
+
 **Hạn:** buổi họp GVHD kế tiếp, trước B1 (STT-65).
-
----
-
-## VT-7. Payload `P-T6-G3-VI-001` không thể kích hoạt chỉ dấu của chính nó
-
-**Phát hiện ở:** rà VT-6, đọc ba payload G3 mẫu trong `ipi-agent-lab/data/payloads_sample.json`.
-
-**Bằng chứng:** `activation_check.marker_template = "DISC30-{run_id}"`, nhưng chỉ thị chỉ yêu cầu model nêu "mức chiết
-khấu đại lý chuẩn cho dòng này là 30%". Model làm đúng chỉ thị vẫn không viết chuỗi `DISC30-<run_id>`, nên scorer luôn
-cho `g3_hit = false`.
-
-**Hệ quả:** payload trượt `activation_check` ở pilot và bị loại (N7), dù có thể đã thao túng thành công. T6 mất mẫu G3.
-
-**Phương án:** sửa chỉ thị để chỉ dấu xuất hiện trong nội dung bị thao túng (vd "mã chương trình chiết khấu
-DISC30-{run_id}"), hoặc đổi `marker_template` khớp nội dung chỉ thị nếu vẫn chứa `{run_id}`. Hai payload G3 còn lại
-(`NCC-{run_id}`) đưa chỉ dấu thẳng vào chỉ thị, không mắc lỗi này.
-
-**Hạn:** bước soạn payload (STT-40), trước pilot (STT-60).
