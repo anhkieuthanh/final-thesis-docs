@@ -3,6 +3,10 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-21
+- VT-9 đóng: soát 5 cặp T3–T5 (STT-40 Bước 2 lô sau), 4/5 kỹ thuật còn nguyên. Sửa PR-T4-G1-002
+  (commit lab `0c7e3f1`): template zero-width chỉ bọc {INSTRUCTION}, lọc ký tự Cf thì chỉ thị vẫn hiện → không
+  đạt T4; thay bằng `hidden_css` (`<span style="display:none">`) giấu thật trong K1, `source.ref` sửa thành
+  'MCP-Poison-Bench (khuôn chèn ẩn…)'. 20 payload vẫn hợp lệ. Lý do: soát mẫu bắt kỹ thuật bị làm nhẹ (mục 7.4).
 - VT-8 đóng (TA duyệt 5 cặp T1–T2 lô đầu, không sửa). STT-40 Bước 2 lô sau, commit lab `21df7de`:
   `ipi-agent-lab/src/attack/payloads/t3_prereq.yaml` (2 cặp T3 — điều kiện tiên quyết giả, khung MCPTox
   `original`, có K2a → G1 http_request / G2 create_ticket), `t4_hidden.yaml` (2 cặp T4 — chèn ẩn
