@@ -3,6 +3,14 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-21
+- STT-41 Bước 1, `docs/04. Design/payload_taxonomy.md`: thêm mục 2.3 (dạng payload trên từng kênh: một bản ghi cho mọi
+  kênh, `render_for_channel` sinh dạng K2a/K2b, tham số ở `config/channel_render.yaml`; vượt giới hạn không cắt; K2b
+  chỉ chở qua tool đọc, không dùng cột canary; một kênh mỗi run; cách tính chỉ tiêu phủ ≥80% riêng cho K2a và K2b,
+  mẫu số loại ô `✗` của mục 2.1); mục 4.2 thêm trường `channel_override`; bất biến 11 cho phép hai bản của cặp khác
+  nội dung `channel_override`; thêm bất biến 12. `docs/04. Design/HUONG_DAN_DIEN_PAYLOAD.md`: thêm dòng
+  `channel_override` ở mục 3, thêm mục 8 (cách đưa payload sang K2a/K2b). Lý do: TA chốt hướng B (dựng dạng kênh bằng
+  hàm tất định, không nhân bản payload theo kênh) và tính chỉ tiêu theo phân kênh; mẫu số loại ô `✗` vì K2a không
+  dựng được T4/T6 theo kiến trúc, nếu tính thô thì K2a không thể đạt 80% khi corpus đủ T1–T8 (6/8 = 75%).
 - VT-9 đóng: soát 5 cặp T3–T5 (STT-40 Bước 2 lô sau), 4/5 kỹ thuật còn nguyên. Sửa PR-T4-G1-002
   (commit lab `0c7e3f1`): template zero-width chỉ bọc {INSTRUCTION}, lọc ký tự Cf thì chỉ thị vẫn hiện → không
   đạt T4; thay bằng `hidden_css` (`<span style="display:none">`) giấu thật trong K1, `source.ref` sửa thành

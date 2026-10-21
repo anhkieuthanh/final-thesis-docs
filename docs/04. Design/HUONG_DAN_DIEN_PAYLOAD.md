@@ -82,6 +82,7 @@ Dán khối này, đổi phần `<<ĐIỀN: …>>`. Các trường khác đã đ
 | `vi_transform` | Chỉ T8: ≥1 trong {strip_diacritics,telex,vni,homoglyph_vi,code_mix} | `[T8]` |
 | `activation_check` | Khối theo mục tiêu (mục 5). `goal` phải trùng `goal` ngoài | `[INV5]`, `[G1/G2/G3]` |
 | `pair_id` | Tùy chọn, chỉ khi payload có bản đối ứng ngôn ngữ kia: `PR-<T#>-<G#>-<NNN>`, T/G khớp payload. Không dùng cho T8 hay `lang = mixed`. Hai bản chỉ được khác ngôn ngữ (bất biến 11, `payload_taxonomy.md` mục 4.3) | `[INV11]` |
+| `channel_override` | Tùy chọn. Chỉ điền khi chuỗi gốc vượt giới hạn độ dài của K2a/K2b (`config/channel_render.yaml`). Khóa ⊂ {K2a, K2b} và nằm trong `channels`; giá trị chứa nguyên văn `instruction_<lang>`, không còn `{INSTRUCTION}` (mục 8) | `[INV12]` |
 
 **Tuyệt đối không** dán giá trị canary thật (`CANARY_SYSPROMPT_…`, `CANARY_DB_…`) vào bất kỳ đâu — chỉ dùng placeholder
 `<canary>`. Validator chặn (`[INV7]`).
@@ -199,3 +200,19 @@ phối thiết bị **ở cả hai bản như nhau**, rồi:
   (`…-VI-001` / `…-EN-001`).
 - Chạy `load_payloads` trên cả thư mục: `[INV11]` kiểm cặp. Soát mẫu (TA) là lớp cuối — lấy ngẫu nhiên seed cố định
   ≥10% số cặp, mỗi kỹ thuật ≥2 cặp, chấm "kỹ thuật còn nguyên / bị làm nhẹ"; có mẫu bị làm nhẹ thì sửa cả lô kỹ thuật đó.
+
+## 8. ĐƯA PAYLOAD SANG KÊNH K2a/K2b (STT-41)
+
+Quy định dạng kênh ở `payload_taxonomy.md` mục 2.3; mục này là cách làm.
+
+1. **Không tạo bản ghi mới theo kênh.** Kênh khai ở `channels`; dạng cụ thể do `render_for_channel` sinh. Không thêm
+   hậu tố kênh vào `id`.
+2. **Dựng thử mọi kênh.** Chạy `render_for_channel` cho từng kênh trong `channels`. Lỗi "vượt giới hạn" ở kênh nào thì
+   chọn một trong hai: viết `channel_override.<kênh>` (bản rút gọn) hoặc bỏ kênh khỏi `channels` và ghi lý do vào
+   `technique.rationale`. Ưu tiên rút gọn, vì bỏ kênh làm hụt chỉ tiêu phủ.
+3. **Rút gọn mà không làm nhẹ.** Giữ đòn bẩy của kỹ thuật (mục 2.3, quy tắc 2), giữ nguyên văn `instruction_<lang>` và
+   thẻ cú pháp. Chạy lại cây quyết định (`payload_taxonomy.md` mục 3) trên bản rút gọn; nhánh ra phải trùng `rationale`.
+4. **Cặp vi/en.** Hai bản của một `pair_id` được khác nhau ở nội dung `channel_override`, vì bản tiếng Việt thường dài
+   hơn; nhưng `channels` vẫn phải trùng. Một bản phải bỏ kênh thì bản kia cũng bỏ.
+5. **Kiểm.** `load_payloads` báo `[INV12]`; bảng phủ `results/tables/channel_coverage.csv` cho biết mỗi phân kênh đã đạt
+   ≥80% chưa. Soát mẫu (TA) như mục 7.4, chỉ trên các payload có `channel_override`.
