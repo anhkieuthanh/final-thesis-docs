@@ -68,7 +68,7 @@ Ký hiệu: **Có** · **Một phần** · **Không**. Ô chỉ dựa trên bài
 
 ## 5. Đối chiếu với khẳng định đang có trong `Y_TUONG_DU_AN.md`
 
-- Mục 6.1 ghi "T3 là dạng thống trị trong MCPTox (408/485 payload)". Lần chạy xác nhận **con số**: Template-2 (183) + Template-3 (225) = 408/485 [E-4]. Nhưng theo bài báo [P], Template-2 là "kích hoạt ngầm – chiếm chức năng" (khớp T3 "điều kiện tiên quyết giả"), còn Template-3 là "kích hoạt ngầm – **sửa tham số**" — có thể là một mục tiêu (G2) hơn là một kỹ thuật. **Cần TA chốt** Template-3 xếp vào T3 hay tách, trước khi con số 408/485 vào báo cáo.
+- Mục 6.1 ghi "T3 là dạng thống trị trong MCPTox (408/485 payload)". Lần chạy xác nhận **con số**: Template-2 (183) + Template-3 (225) = 408/485 [E-4]. Theo bài báo [P], Template-2 là "kích hoạt ngầm – chiếm chức năng" (khớp T3 "điều kiện tiên quyết giả"), còn Template-3 là "kích hoạt ngầm – **sửa tham số**" — bản chất là một mục tiêu (G2) hơn là một kỹ thuật. TA chốt (2026-10-21): chỉ **Template-2 = 183/485** ánh xạ vào T3; Template-3 = 225/485 tách sang nhánh kỹ thuật T1 ép mục tiêu G2/`constraint_violation`. Báo cáo dùng 183/485 cho T3, **không** dùng 408/485.
 - Mục 6.1 dẫn "ASR kênh mô tả công cụ trong y văn cao tới 72,8%". Đây là số tác giả MCPTox công bố [P], **không tái tính được** từ dữ liệu phát hành (phát hiện 4, [E-4]). Khi viết báo cáo phải ghi là số công bố.
 - Mục 6.2 ghi T6 "không có trong ba benchmark đã chạy". Sau lần chạy này: không benchmark nào trong sáu có payload chia mảnh qua nhiều tài liệu, vì không benchmark nào có kênh K1 (hàng R1 của ma trận).
 
@@ -89,6 +89,4 @@ Không mượn InjecAgent làm nguồn payload chính: môi trường một bư�
 
 ## 7. Việc còn mở
 
-1. TA chốt ánh xạ Template-3 của MCPTox (mục 5).
-2. TA quyết có liên hệ tác giả MCPTox xin phép dùng payload hay không (R10).
-3. Chạy L3 theo `evidence/RUN_WITH_LLM.md` khi đã có hạn mức trong `cost_budget.md`; chỉ sau đó mới được so bậc độ lớn ASR với số công bố (task 69 trong kế hoạch).
+1. Chạy L3 theo `evidence/RUN_WITH_LLM.md` khi đã có hạn mức trong `cost_budget.md`; chỉ sau đó mới được so bậc độ lớn ASR với số công bố (task 69 trong kế hoạch).

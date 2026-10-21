@@ -3,6 +3,19 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-21
+- STT-39, commit lab `1d626d5`: adapter MCPTox `ipi-agent-lab/src/attack/adapters/mcptox.py` (hướng A — TA chốt). Repo
+  MCPTox không có giấy phép nên adapter CHỈ trích cấu trúc từ snapshot structural-only
+  `ipi-agent-lab/data/upstream/mcptox/payload_index.csv` (lọc từ `pure_tool.json @f85189f9` còn
+  `[id, server_name, tool_name, paradigm, security_risk]`, KHÔNG chứa `tool_content`; MANIFEST ghi commit nguồn). Mỗi
+  bản ghi nhập là `original`, `source.ref = mcptox:<id>`, không `license`, khung và goal_text do lab tự soạn (không chép
+  văn bản MCPTox). Ánh xạ ở `config/attack_sources.yaml` khối `mcptox`: Template-1 → T1, Template-2 → T3,
+  Template-3 → T1 ép G2/`constraint_violation`; `security_risk` → G1/G2/G3; `security_risk = "Other"` bị loại. Đầu ra
+  `data/payloads_imported/mcptox.json`: 484 bản ghi K2a (loại 1 "Other"), T1=302 T3=182, G1=106 G2=336 G3=42 — đạt
+  ngưỡng ≥50 K2a (STT-39). Test `tests/test_adapter_mcptox.py` dùng fixture tự viết (không chép dữ liệu MCPTox thật);
+  toàn bộ suite 880 passed / 26 skipped, ruff sạch. Việc soạn do AI (Claude) hỗ trợ.
+- STT-39 chốt ánh xạ Template-3 (đóng việc treo `FIT_GAP.md` mục 7 việc 1 và R10 việc 2): Template-3 tách khỏi T3 →
+  T1 ép G2/`constraint_violation`; T3 chỉ nhận Template-2 (183/485). Cập nhật `payload_taxonomy.md` 6.3, `FIT_GAP.md`
+  mục 5 và mục 7. Con số "T3 = 408/485" bị bác; báo cáo dùng 183/485.
 - STT-38, commit lab `b8ccb4a`: adapter AgentDojo `ipi-agent-lab/src/attack/adapters/agentdojo.py` cùng lược đồ nhập
   dùng chung `adapters/base.py`. Nguồn là snapshot `ipi-agent-lab/data/upstream/agentdojo/`, chép nguyên vẹn hai CSV từ
   `docs/03. Khảo sát/evidence/agentdojo/` (lần chạy thật `agentdojo@089ed468` v1.2.2, MANIFEST ghi sha256). Quyết định
