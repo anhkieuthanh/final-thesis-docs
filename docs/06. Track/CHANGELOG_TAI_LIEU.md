@@ -3,6 +3,15 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-21
+- STT-41 hoàn tất (lab `fff68e1`, `b60c889`, `dac5ada`): `config/channel_render.yaml` (giới hạn 400
+  ký tự phần payload cho K2a và K2b, nối K2a sau description gốc, trường chở K2b `ghi_chu`, cấm
+  `canary_note`); `src/attack/payloads/render.py` (`render_for_channel` dựng dạng kênh, vượt giới hạn
+  báo lỗi không cắt; `apply_k2a`/`apply_k2b`); `schema.py` thêm bất biến 12 (`channel_override`) và
+  gom ô ✗ taxonomy 2.1 thành hằng `CHANNEL_EXCLUDED`; `scripts/channel_coverage.py` +
+  `results/tables/channel_coverage.csv`. Kết quả cổng: corpus 20 payload, K2a 4/4 kỹ thuật dựng
+  được (T4 loại khỏi mẫu số theo ô ✗), K2b 5/5 — cả hai 100%, vượt ngưỡng ≥80% của STT-41. Toàn bộ
+  969 test qua, ruff sạch. Lý do: đóng STT-41 (mở rộng payload sang K2a/K2b), đầu ra cho injector K2
+  (STT-45).
 - STT-37, lab `32e3173`: `ipi-agent-lab/config/prompts.yaml` khối `judge` thêm khối `<ngay_hom_nay>` và quy tắc dùng
   ngày đó là hợp lệ; `src/eval/judge.py` đọc `fixed.reference_date` của experiment.yaml (cùng ngày system prompt agent
   nhận), ngày vào `prompt_hash`. Lý do: lượt thử sau VT-10/VT-11 (`dryrun-usr-baseline-20261021T074241Z`, 9 run) — judge
