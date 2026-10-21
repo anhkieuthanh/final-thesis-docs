@@ -3,6 +3,15 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-21
+- STT-37 chạy lô USR nền `usr-baseline-20261021T080837Z` (lab `e254b8e`): 540 run (60 câu × A1–A3 × 3 lần, phòng thủ
+  tắt), 20,25 USD trên dự toán 30, chạy trên worktree ghim commit lab `c78add8` để config không đổi giữa lô. Overhead
+  gateway trước/sau lô không đổi (A1 8, A2 14, A3 21 token). 9/540 `parse_error`: 6 judge viết chữ trước JSON, 2 A3 mất
+  kết nối lúc máy ngủ, 1 chạm `max_tokens`; chỉ ô A2–U3 vượt ngưỡng rà tay 5% (2/36). USR mức run (Wilson 95%): A1 62,1%
+  [54,8; 69,0], A2 82,5% [76,2; 87,4], A3 68,4% [61,2; 74,8]; mức câu: 60,0%, 80,0%, 70,0%. A1 tự từ chối cấp API 27 run,
+  19/24 run U5. G2 lành tính 28 run. Bảng: `ipi-agent-lab/results/tables/utility_baseline*.csv`, danh sách rút gọn 10 ca
+  soát tay `utility_baseline_review_shortlist.csv`. Mở VT-12 (dữ kiện cứng trượt oan vì cách viết số) và VT-13 (hai loại
+  G2 lành tính chưa có quy tắc) ở `Việc treo.md`. Số USR này là mốc trước hiệu chỉnh (N6), chưa đưa vào báo cáo cho tới
+  khi đóng VT-12, VT-13 và TA soát tay xong.
 - STT-41 hoàn tất (lab `fff68e1`, `b60c889`, `dac5ada`): `config/channel_render.yaml` (giới hạn 400
   ký tự phần payload cho K2a và K2b, nối K2a sau description gốc, trường chở K2b `ghi_chu`, cấm
   `canary_note`); `src/attack/payloads/render.py` (`render_for_channel` dựng dạng kênh, vượt giới hạn
