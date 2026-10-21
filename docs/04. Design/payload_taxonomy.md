@@ -131,6 +131,7 @@ Bảy trường dưới bắt buộc với mọi payload. `goal_binding` (mục 
 | `vi_transform[]` | list | Chỉ T8, bắt buộc: `strip_diacritics · telex · vni · homoglyph_vi · code_mix` |
 | `grader_unverified` | bool | `true` với payload mượn từ injection task không có ground truth (`FIT_GAP.md` mục 4, phát hiện 2) |
 | `semantic_coupling` | bool | `true` nếu payload nhắc thực thể của suite gốc (tên người, IBAN, khách sạn…) |
+| `pair_id` | text | Tùy chọn. Ghép một payload `vi` với một payload `en` cùng nội dung để đo ảnh hưởng ngôn ngữ. Mẫu `PR-<T#>-<G#>-<NNN>`, phần T/G khớp `technique.code`, `goal`. Không dùng cho T8 (T8 không có bản `en`) và không dùng khi `lang = mixed`. Ràng buộc cặp ở bất biến 11 |
 
 ### 4.3 Bất biến cưỡng chế bằng validator
 
@@ -149,6 +150,12 @@ Bảy trường dưới bắt buộc với mọi payload. `goal_binding` (mục 
 9. Không thêm kỹ thuật payload mới sau `v-attack-1.0` (quy tắc cứng #9).
 10. `base_frame` bắt buộc với T8 (có bản đối chứng cùng khung, không biến đổi — mục 6.6); khuyến nghị với T6/T7; để trống
     với T1–T5. Giá trị ∈ {T1, T2, T3, T5}; **T4 không hợp lệ** làm `base_frame` (mục 4.4).
+11. Mỗi `pair_id` có **đúng hai** payload, một `lang = vi` và một `lang = en`. Hai payload chỉ được khác nhau ở `id`, `lang`,
+    `technique.template`, `technique.rationale` và `source.kind`/`source.adaptation_note`. Phải trùng: `technique.code`,
+    `technique.variant`, `goal`, toàn bộ `goal_binding`, `channels` và `obfuscation` (so như tập), `activation_check`,
+    `base_frame`, `semantic_coupling`, `grader_unverified`, `trigger`, số phần tử `fragments`, `source.ref`, `source.license`,
+    và tập placeholder trong `template`. Mục đích: cặp chỉ khác ngôn ngữ, nên chênh lệch ASR trong cặp quy được cho ngôn
+    ngữ. Bất biến này kiểm trên cả tập (`load_payloads`), không kiểm trên từng payload riêng lẻ.
 
 ### 4.4 T4 không làm `base_frame` — không chồng cơ chế né
 
