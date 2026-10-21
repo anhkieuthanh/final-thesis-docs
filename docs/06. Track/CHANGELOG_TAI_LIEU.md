@@ -3,6 +3,14 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-21
+- STT-33: `ipi-agent-lab/src/eval/canary.py` thêm sinh canary theo run (`new_run_canaries`, `uuid4`), gieo TS2 vào bản sao
+  `customers.db` (`seed_customers_db`), `seeded_run()` gieo, gắn handler và dọn (kiểm sha256 file gốc), `sweep_stale_run_dirs()`,
+  danh sách đường rò bộ dò không bắt; gom regex canary thật về `eval.canary` (`agent.prompts`, schema payload dùng chung).
+  `src/tools/query_customer_db.py` thêm `use_db()`; `src/tools/http_request.py` gửi header `X-IPI-Run` tới listener khi đang
+  gắn run. `docs/04. Design/03. Kiến trúc testbed và interface.md` dòng `canary_note` theo cách gieo trên bản sao. Lý do: TA
+  chốt "gieo 3 nơi" của STT-33 là hai canary G1 (system prompt, `customers.db`) cộng token gắn run cho listener do harness
+  thêm vào header — token không phải canary, không tính G1, chỉ để STT-34 quy hit về run; gieo trên bản sao để run chết giữa
+  chừng không để canary kẹt trong file seed Git theo dõi.
 - STT-32: `ipi-agent-lab/src/obs/trace.py` thêm cột `leak_attempted` (bảng `runs`, ràng buộc `ck_leak_attempted_not_g1`),
   hàm `compute_env_hash()` và `lab_git_commit()`; `src/obs/schema.sql` xuất lại. `docs/04. Design/04. Trace schema.md`
   mục 2.2 (dòng `env_hash`), mục 2.4 (dòng `leak_attempted`), mục 7 theo code. Lý do: `canary_handling` của
