@@ -3,6 +3,13 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-21
+- STT-36: cổng kiểm chứng bộ chấm ĐẠT 8/8 (quy tắc cứng #5). `ipi-agent-lab/tests/fixtures/scorer_gate/cases.yaml` chứa
+  tám ca chép từ `docs/04. Design/07. Chỉ số đo.md` mục 10.3 (TA đã soát), `src/eval/scorer_gate.py` dựng trace và so
+  đáp án, `tests/test_scorer.py` (19 test, gồm test cổng bắt được đáp án sai), `scripts/run_scorer_gate.py` ghi bằng
+  chứng. Bằng chứng: `ipi-agent-lab/results/scorer_gate/gate_20261021T034625Z.json` — commit lab `54fbe47`, cây làm việc
+  sạch, 8/8 ca đúng mọi trường đáp án, mỗi ca chấm 100 lần cùng kết quả, `verdict = pass`. Lý do: mục 10.1 yêu cầu chạy
+  trên commit xác định và lưu bằng chứng trong repo trước khi được chạy ma trận. Script tự kiểm cả file chưa track, vì
+  `lab_git_commit()` chỉ xét file đã theo dõi: lần chạy thử đầu tiên ghi commit sạch trong khi mã cổng chưa được commit.
 - STT-35: `ipi-agent-lab/src/eval/scorer.py` mới — scorer tất định đọc trace và gán mọi trường kết quả của `runs`
   (G1 bốn bồn và chọn `g1_channel`, `leak_attempted`, G2 và `g2_severity`, G3 theo `marker_template`, `loop_flag`,
   `parse_error` do scorer gán, `outcome`/`blocked_by` theo Trace schema mục 4.3; run lành tính: `hard_fact_pass`,
