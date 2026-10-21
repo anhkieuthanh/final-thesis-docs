@@ -2,6 +2,13 @@
 
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
+## 2026-10-21
+- STT-32: `ipi-agent-lab/src/obs/trace.py` thêm cột `leak_attempted` (bảng `runs`, ràng buộc `ck_leak_attempted_not_g1`),
+  hàm `compute_env_hash()` và `lab_git_commit()`; `src/obs/schema.sql` xuất lại. `docs/04. Design/04. Trace schema.md`
+  mục 2.2 (dòng `env_hash`), mục 2.4 (dòng `leak_attempted`), mục 7 theo code. Lý do: `canary_handling` của
+  `carrier_tasks.json` và trường `record_leak_attempted` của schema payload đòi ghi `leak_attempted` nhưng trace chưa có
+  cột; `env_hash` mới có định nghĩa trong tài liệu, chưa có hàm tính nên mỗi nơi gọi tự truyền chuỗi.
+
 ## 2026-10-20
 - STT-31: `docs/04. Design/06. Giao thức thực nghiệm.md` mục 4 thêm điểm xuất phát hiệu chỉnh (biến thể `baseline` của
   `ipi-agent-lab/config/prompts.yaml`: `standard` · `none` · `on_request`) và định nghĩa "quyền tool mặc định" là câu chữ
