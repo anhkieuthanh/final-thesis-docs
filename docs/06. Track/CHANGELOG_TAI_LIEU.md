@@ -3,6 +3,19 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-22
+- STT-42 mở. Mới: `ipi-agent-lab/config/t4_formatting.yaml`, `scripts/make_hidden_pdf.py`,
+  `tests/test_hidden_docs.py` (bộ tạo tài liệu chèn ẩn payload T4 trên kênh K1: PDF chữ trắng 1pt /
+  footer / metadata, HTML comment / alt-text; kiểm bằng pdftotext, 12 test). **Đổi tên đầu ra so với
+  sheet**: sheet STT-42 ghi "Kỹ thuật T5 / `t5_formatting.yaml`" nhưng mô tả (chèn ẩn, bất đối xứng
+  hiển thị) chính là **T4** theo taxonomy đã khóa (`docs/04. Design/taxonomy.md` dòng 157); T5 = ngụy
+  trang nghiệp vụ đã xong STT-40. Nhãn T5 trong sheet là nhãn cũ ⇒ đổi về T4 + đổi tên file, theo quy
+  tắc cứng #5 (một ký hiệu một khái niệm). **Không thêm mã obfuscation mới** (giữ `v-attack-1.0`, quy
+  tắc #9): mỗi bề mặt ánh xạ về mã có sẵn trong `schema.py:OBFUSCATION` — chữ trắng 1pt → `hidden_css`
+  (ẩn bằng kiểu trình bày), metadata/alt-text → `hidden_attribute`, HTML comment →
+  `hidden_html_comment`; diễn giải mở rộng ghi trong `t4_formatting.yaml`. Thân tài liệu chở là nguồn
+  chân lý nội dung; PDF tái lập byte-identical (creation date cố định, font DejaVu như
+  `gen_corpus_pdfs.py`). Bộ đo đã khóa (`benign_queries.json`, `carrier_tasks.json`) không đụng; schema
+  payload không đụng.
 - STT-37 đóng. `ipi-agent-lab/results/tables/utility_baseline_rescored_review_shortlist.csv` (lab `c40220d`): TA đổi
   kết luận dòng 1 (A1 BQ-U1-006) và dòng 2 (A1 BQ-U1-008) từ "judge sai" thành "judge đúng". Kết luận cũ dựa trên lý do
   judge viết lúc chỉ thấy kết quả tool cắt ở 3.000 ký tự ("chi tiết bị cắt nên là bịa"); sau VT-14 judge thấy trọn kết
