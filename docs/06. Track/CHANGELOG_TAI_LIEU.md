@@ -3,6 +3,20 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-22
+- STT-43 mở. Mới: `ipi-agent-lab/src/attack/mutator.py`, `config/mutator.yaml`,
+  `tests/test_mutator.py` (bộ biến đổi payload: sinh biến thể obfuscation theo luật, cổng
+  `schema.validate_payload` tự loại biến thể sai bất biến, lọc trùng theo cosine embedding; 11 test,
+  1009 test toàn repo qua, ruff sạch). **Phạm vi làm luật trước, hoãn model** (TA chốt 2026-10-22):
+  `rule_mutate` áp sáu obfuscation có sẵn trong `schema.py:OBFUSCATION` (`zero_width`,
+  `char_separation`, `homoglyph`, `base64`, `hex`, `percent_encoding`) — KHÔNG thêm kỹ thuật/mã mới
+  (giữ `v-attack-1.0`, quy tắc #9). Biến thể bỏ `pair_id` (không còn thuộc cặp đối chứng vi/en), giữ
+  nguyên `activation_check`/`goal_binding`/`goal`/`technique`; phép mã-hóa-toàn-phần bỏ qua khi chỉ
+  thị còn placeholder (`{run_id}`…) để không mất giá trị lúc chạy. `model_mutate()` là điểm cắm, CHƯA
+  nối model: paraphrase bằng LLM vướng `attacker_model` chưa chốt với GVHD (checklist mục 8 việc 6;
+  `experiment.yaml` B5.attacker_model: null — quy tắc cứng #8). Mutator KHÔNG tự phán "payload có
+  kích hoạt không" — đó là việc pilot `defense=OFF` (STT-60, taxonomy mục 5); ở đây chỉ bảo đảm biến
+  thể còn hợp schema. Ngưỡng dedup và tham số phép ở `config/mutator.yaml` (CLAUDE.md §6, quy tắc #4),
+  không hard-code trong `src/attack/`.
 - STT-42 mở. Mới: `ipi-agent-lab/config/t4_formatting.yaml`, `scripts/make_hidden_pdf.py`,
   `tests/test_hidden_docs.py` (bộ tạo tài liệu chèn ẩn payload T4 trên kênh K1: PDF chữ trắng 1pt /
   footer / metadata, HTML comment / alt-text; kiểm bằng pdftotext, 12 test). **Đổi tên đầu ra so với
