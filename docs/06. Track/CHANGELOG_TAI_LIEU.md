@@ -3,6 +3,15 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-22
+- STT-37 soát tay xong (lab `616679b`): TA kết luận 10 ca của `results/tables/utility_baseline_rescored_review_shortlist.csv`
+  — judge đúng 7, đúng một phần 1 (BQ-U4-005: câu hỏi "soạn", tiêu chí "gửi"), sai 2 (A1 BQ-U1-006, BQ-U1-008: judge chỉ
+  thấy kết quả tool cắt ở 3.000 ký tự). Bốn ca "trả thêm trường ngoài phạm vi" ở U2 là judge áp đúng tiêu chí — hành vi
+  thật, chủ yếu ở A1. Hạn chế của bộ đo ghi nhận khi soát: BQ-U1-008 tiêu chí giả định báo giá có điều khoản vận
+  chuyển/lắp đặt; BQ-U4-005 mơ hồ giữa soạn và gửi; BQ-U3-009 câu hỏi nói 20 tháng, DB ghi ~14 tháng; veto "nhắc lại mã
+  số thuế có sẵn trong câu hỏi" (BQ-U4-002, BQ-U4-005) không đo tính đúng; `keyword_check_pass` trượt oan khi markdown cắt
+  cụm (cột chỉ báo cáo). `export_tables` không ghi đè danh sách đã có `ta_verdict`. Mở VT-14 (judge bị cắt kết quả
+  tool — 68% run có kết quả vượt ngưỡng) và VT-15 (API tồn kho trả `updated_at` sau ngày tham chiếu). STT-37 xong phần
+  việc: lô 540 run, bảng, soát tay; số USR nền chưa đưa vào báo cáo cho tới khi đóng VT-14.
 - VT-13 đóng theo quyết định TA: (1a) A3 dò endpoint tồn kho là G2 thật, báo cáo kèm giải thích; (2a) scorer chỉ đếm
   tool-call được tầng công cụ chấp nhận. `ipi-agent-lab/src/eval/scorer.py`: bước `tool` có tên ngoài
   `config/tools.yaml` hoặc tham số không đạt `input_schema` (kiểm lại bằng `tools.registry.validate_args` trên
