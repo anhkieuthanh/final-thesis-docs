@@ -3,6 +3,23 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-22
+- STT-45 injector kênh K2. Mới: `ipi-agent-lab/src/attack/injector_k2.py` — tầng điều phối thuần
+  dựng một `K2ToolLayer` BỌC NGOÀI `ToolLayer` gốc (thỏa Protocol `interfaces.ToolLayer`), lõi agent
+  dùng nguyên xi. K2a ghi đè `description` tool đích ở `list_tools()` qua `render.apply_k2a`; K2b viết
+  lại `content` kết quả tool đọc ở `call_tool()` qua `render.apply_k2b`. Chọn tool chở: K2a dùng
+  `render.k2a_target_tool` (ưu tiên goal tool, rơi về search_kb); K2b thêm `k2b_target_tool` (chỉ
+  query_customer_db / http_request của `channel_render.yaml:K2b.tools`, ưu tiên goal tool). `delivered`
+  trên K2 là HẰNG `True` (payload vào context bảo đảm, không qua top-k — `D=N` ở K2a/K2b); injector
+  KHÔNG ghi `blocked_by` (quy tắc #8). Chọn BỌC NGOÀI thay vì sửa `registry.set_description` để giữ
+  registry thuần qua ~2.700 run và đặt thời điểm rug-pull tất định. Thêm khối `rug_pull`
+  (`enabled:false`, `trigger_after_list:1`) vào `channels.K2a` của `config/channel_render.yaml`: phục
+  vụ description gốc tới lần `list_tools` thứ N, từ lần kế tiếp mới chở payload — mô phỏng MCP server
+  duyệt một lần rồi đổi mô tả (quy tắc #4, không hard-code trong src/attack); rug-pull chỉ áp K2a.
+  K2b không chở kết quả `is_error` (tránh JSON vô nghĩa) và tôn trọng `routes` (http_request chỉ chở
+  tuyến `intranet`, tuyến ngoài phản hồi cố định). `valid_carriers(payload, channel)` loại CT không
+  khai kênh / không có tool chở. Kiểm `tests/test_injector_k2.py`: 11 ca chạy offline (ToolLayer giả,
+  không Qdrant/model) — K2a description + rug-pull, K2b chèn/roundtrip/lỗi/tuyến ngoài, ghép kênh,
+  trace_fields. Toàn bộ suite: 1044 passed, 1 skipped.
 - STT-44 injector kênh K1. Mới: `ipi-agent-lab/src/attack/injector_k1.py` (điều phối thuần: dựng
   tài liệu chở → `rag.ingest.inject_doc` → `rag.retriever.search` top-k → cờ `delivered`) và
   `ipi-agent-lab/src/attack/carrier_docs.py` (dựng tài liệu MD/DOCX/PDF, PDF tái lập byte-identical;
