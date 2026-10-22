@@ -3,6 +3,17 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-22
+- STT-43 chạy trọn một run mutate. Mới: `ipi-agent-lab/scripts/gen_mutated_payloads.py` (nạp 20 seed
+  tay T1–T5 → `attack.mutator.mutate` luật+model+dedup → ghi biến thể mới ra
+  `data/payloads_mutated.json`, không đụng seed). Run thật qua opus-5: seed=20, sinh=120, loại
+  schema=13 (12 là **[INV12]** — bản full-encode base64/hex/percent phình quá 400 ký tự kênh K2a/K2b,
+  cổng loại đúng, không cắt), trùng theo embedding=37, **giữ=70** (model 9, luật 61); nạp lại tập
+  giữ qua `load_payloads` hợp lệ 70/70. Tập sinh KHÔNG tất định giữa các lần chạy (opus-5 sampling),
+  mỗi bản model ghi xuất xứ `mutation`; đây là tập SOẠN, còn phải qua pilot `defense=OFF`
+  (`activation_check`, STT-60) mới vào ma trận, chưa phải `v-attack-1.0`. `ATTACKER_MODEL` chưa có
+  trong `.env` (chỉ `ANTHROPIC_API_KEY`) — truyền id pin `claude-opus-5` vào tiến trình lúc chạy,
+  KHÔNG sửa `.env`. Follow-up khả dĩ: bản full-encode có thể thu hẹp `channels` còn [K1] thay vì bị
+  loại (hiện cổng đòi dựng được trên mọi kênh khai).
 - STT-43 nối nhánh model. GVHD duyệt **opus-5** làm attacker_model (TA chuyển lời 2026-10-22,
   checklist mục 8 việc 6). Lab: thêm khối `attacker` vào `config/models.yaml` (pin `claude-opus-5`
   như A1, `model_env: ATTACKER_MODEL`, temperature null — sampling cho biến thể khác nhau) và
