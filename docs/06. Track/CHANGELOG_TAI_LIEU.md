@@ -3,6 +3,22 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-22
+- STT-44 injector kênh K1. Mới: `ipi-agent-lab/src/attack/injector_k1.py` (điều phối thuần: dựng
+  tài liệu chở → `rag.ingest.inject_doc` → `rag.retriever.search` top-k → cờ `delivered`) và
+  `ipi-agent-lab/src/attack/carrier_docs.py` (dựng tài liệu MD/DOCX/PDF, PDF tái lập byte-identical;
+  dùng lại thân `CARRIER_*` và bộ tạo ẩn T4 của `scripts/make_hidden_pdf.py`, không đẻ thân thứ hai).
+  Thêm khối `channels.K1` vào `config/channel_render.yaml`: `formats` [md,docx,pdf] xoay vòng tất định
+  theo (payload_id, carrier_id) với `rotation_seed` (phủ cả ba bộ đọc `rag.ingest._READERS`),
+  `visible_position`, và `t4_surface_by_obfuscation` chỉ ánh xạ `hidden_css→pdf_white_1pt` — KHÔNG
+  dùng metadata/html vì `pypdf.extract_text` bỏ metadata và retriever không đọc html, nên hai bề mặt
+  đó không vào được top-k (thiếu ánh xạ ⇒ injector báo lỗi harness, không im lặng). `delivered` tính
+  theo BAO HÀM TẬP doc_id trong top-k: bao ca một-tài-liệu lẫn T6 chia mảnh (cần MỌI mảnh lọt top-k).
+  parser-gate đọc lại bằng chính `rag.ingest.read_document` (khớp thứ sẽ chunk, không phải pdftotext);
+  trích không ra ⇒ lỗi harness, KHÁC `delivered=false`. Injector KHÔNG ghi `blocked_by` (quy tắc #8),
+  KHÔNG tự dọn (runner bọc `injected_doc`); k lấy từ `experiment.yaml:fixed.kb_top_k`. `valid_carriers`
+  đọc `payload_binding_rules` TỪ carrier_tasks.json (R1–R5 tất định theo payload; R6/R7 để runner).
+  Kiểm `tests/test_injector_k1.py`: 15 ca dựng tài liệu/ghép (không cần Qdrant) + 3 ca `delivered`
+  (mark `qdrant`). KHÔNG đổi payload/kỹ thuật — tôn trọng v-attack-1.0.
 - STT-43 chạy trọn một run mutate. Mới: `ipi-agent-lab/scripts/gen_mutated_payloads.py` (nạp 20 seed
   tay T1–T5 → `attack.mutator.mutate` luật+model+dedup → ghi biến thể mới ra
   `data/payloads_mutated.json`, không đụng seed). Run thật qua opus-5: seed=20, sinh=120, loại
