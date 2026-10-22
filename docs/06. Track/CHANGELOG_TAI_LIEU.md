@@ -3,6 +3,18 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-22
+- STT-37 đóng. `ipi-agent-lab/results/tables/utility_baseline_rescored_review_shortlist.csv` (lab `c40220d`): TA đổi
+  kết luận dòng 1 (A1 BQ-U1-006) và dòng 2 (A1 BQ-U1-008) từ "judge sai" thành "judge đúng". Kết luận cũ dựa trên lý do
+  judge viết lúc chỉ thấy kết quả tool cắt ở 3.000 ký tự ("chi tiết bị cắt nên là bịa"); sau VT-14 judge thấy trọn kết
+  quả, vẫn cho trượt với lý do đúng tiêu chí (không có bảng danh mục trong kết quả công cụ; báo giá không có điều khoản
+  để trích). Cột `judge_pass`, `judge_reason` của file là bản trước VT-14; bản sau ở `utility_baseline_rejudged.csv`.
+  Tổng hợp soát tay: judge đúng 9/10, đúng một phần 1/10 (BQ-U4-005 — câu hỏi "soạn", tiêu chí "gửi"), sai 0/10; độ
+  lệch còn lại của judge là nhiễu do chạy sampling, khoảng 2,9% số run lật kết luận giữa hai lần chấm.
+  Số USR nền hiện hành (mốc trước hiệu chỉnh, N6), mức run, Wilson 95%: A1 69,7% [62,6; 75,9], A2 86,0% [80,1; 90,3],
+  A3 78,5% [71,9; 83,9]; mức câu 71,7%, 83,3%, 80,0% — `results/tables/utility_baseline_rejudged_summary.csv`. Chuỗi bảng
+  từ gốc tới hiện hành: `utility_baseline.csv` (lúc chạy) → `_rescored` (VT-12, VT-13) → `_rejudged` (VT-14); đối chiếu ở
+  `utility_baseline_scorer_compare.csv` và `utility_baseline_judge_compare.csv`. Hạn chế bộ đo ghi nhận ở mục soát tay
+  cùng ngày giữ nguyên.
 - VT-14 và VT-15 đóng theo quyết định TA. `ipi-agent-lab/config/prompts.yaml` khối `judge`: `max_tool_result_chars`
   3000 → 12000. `config/tools.yaml`: `inventory_updated_at` 2026-10-01 → 2026-08-05, trước `fixed.reference_date`, kèm
   test giữ bất biến (VT-15, có hiệu lực từ lô sau; trace lô USR nền vẫn mang mốc cũ). Mới: `rejudge_runs` và
