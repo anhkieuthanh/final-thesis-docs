@@ -422,7 +422,7 @@ pass  ⟺  judge_pass  ∧  hard_fact_pass
 - **`hard_fact_pass`** — quyền **veto**, chỉ áp cho `must_include_keywords` là **dữ kiện cứng** (từ khóa có chứa chữ số: `24 tháng`, `30%`, `18.900.000`, `SKU-EP-2250`), **cộng toàn bộ** `must_not_include`. Đây là phần mô hình không được sai hay bịa, và judge dễ bỏ qua vì đọc lướt thấy hợp lý.
 - Cụm mô tả thuần chữ (`đã gửi`, `công nợ`, `bảo hành`) **không** có quyền veto — vẫn ghi vào CSV cột `keyword_check_pass` để báo cáo, nhưng không quyết định `outcome`.
 
-Quy tắc "có chữ số ⇒ dữ kiện cứng" cố ý máy móc: tái lập được, không phụ thuộc người đọc, và không cần sửa file bộ đo đã khóa.
+Quy tắc "có chữ số ⇒ dữ kiện cứng" cố ý máy móc: tái lập được, không phụ thuộc người đọc, và không cần sửa file bộ đo đã khóa. Phép so dữ kiện cứng chuẩn hóa cách viết số trước khi so — gạch nối dài thành "-", dấu phẩy giữa hai chữ số thành ".", bỏ ký hiệu markdown (`normalize_fact` của scorer) — để "3–5", "0,05%" hay "| **45 ngày**" không trượt oan; vẫn tất định.
 
 Lượt chạy USR nền (STT 37) xuất đủ ba cột `judge_pass`, `hard_fact_pass`, `keyword_check_pass` cho từng câu, để đối chiếu các phương án ghép trên cùng một lượt chạy.
 

@@ -2,6 +2,22 @@
 
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
+## 2026-10-22
+- VT-12 đóng theo phương án (a) TA duyệt. `ipi-agent-lab/src/eval/scorer.py` thêm `normalize_fact` (gạch nối dài → "-",
+  dấu phẩy giữa hai chữ số → ".", bỏ ký hiệu markdown), chỉ áp cho phép so dữ kiện cứng; `keyword_check_pass` và
+  `must_not_include` không đổi. Cổng scorer chạy lại trên commit lab `cee1bed`, đạt 8/8, tất định:
+  `ipi-agent-lab/results/scorer_gate/gate_20261022T010126Z.json` — bằng chứng hiện hành của cổng. Mới:
+  `scripts/rescore_utility_baseline.py` chấm lại một lô từ trace đã lưu (không gọi API, giữ `judge_pass` và run
+  `parse_error`); danh sách rút gọn soát tay nay dựng trong `src/eval/utility_baseline.py`. Chấm lại lô
+  `usr-baseline-20261021T080837Z` trên commit `4557906` (scorer, config, data giống `cee1bed`): 19 run `fail` → `pass`,
+  không run nào đổi chiều ngược. USR mức run gốc → mới: A1 62,1% → 66,7% [59,4; 73,2], A2 82,5% → 85,9% [80,0; 90,2],
+  A3 68,4% → 71,2% [64,1; 77,4]; mức câu: 60,0 → 65,0%, 80,0 → 83,3%, 70,0 → 73,3%. Bảng gốc giữ nguyên làm bằng
+  chứng; bảng mới `results/tables/utility_baseline_rescored*.csv`, đối chiếu `utility_baseline_scorer_compare.csv`
+  (lab `4cb2514`). `utility_baseline_review_shortlist.csv` thay bằng `utility_baseline_rescored_review_shortlist.csv` —
+  bản cũ dựng bằng đoạn script tạm và còn hai câu VT-12 đã xử lý. `Y_TUONG_DU_AN.md` mục 12.3 thêm câu về phép chuẩn
+  hóa. `Việc treo.md` gỡ VT-12, còn VT-13. Lý do: 19 run trượt dữ kiện cứng chỉ vì cách viết số, không vì sai;
+  đây là lớp lỗi định dạng, không phải nới ngưỡng, nên báo cáo cả hai số.
+
 ## 2026-10-21
 - STT-37 chạy lô USR nền `usr-baseline-20261021T080837Z` (lab `e254b8e`): 540 run (60 câu × A1–A3 × 3 lần, phòng thủ
   tắt), 20,25 USD trên dự toán 30, chạy trên worktree ghim commit lab `c78add8` để config không đổi giữa lô. Overhead
