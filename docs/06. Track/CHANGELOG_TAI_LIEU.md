@@ -3,6 +3,19 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-22
+- STT-43 nối nhánh model. GVHD duyệt **opus-5** làm attacker_model (TA chuyển lời 2026-10-22,
+  checklist mục 8 việc 6). Lab: thêm khối `attacker` vào `config/models.yaml` (pin `claude-opus-5`
+  như A1, `model_env: ATTACKER_MODEL`, temperature null — sampling cho biến thể khác nhau) và
+  `config/prompts.yaml` (prompt paraphrase: giữ nghĩa, giữ nguyên token `{…}`); `ATTACKER_MODEL`
+  thêm vào `.env.example` (KHÔNG đụng `.env`). `llm_client.py` nhận khối `attacker` (hằng
+  `ATTACKER_ID`, gộp với `judge` thành `_NON_TARGET_BLOCKS` — pin như target nhưng runner không
+  chạy); `prompts.py` thêm `attacker` vào `_TOP_KEYS`. `mutator.py`: `model_mutate` sinh biến thể
+  paraphrase qua `Paraphraser` tiêm vào (`LLMParaphraser` dùng opus-5; test tiêm bản giả, không
+  mạng) — giữ `activation_check`/`goal_binding`, `obfuscation` vẫn [none], bỏ `pair_id`, ghi xuất
+  xứ vào `mutation`; **loại** biến thể model trả rỗng/trùng/làm vỡ placeholder `{…}`. Bật
+  `model.enabled: true` trong `config/mutator.yaml`. CHƯA chạy sinh thật qua API (bước lô, cần `.env`
+  + kiểm ngân sách). 1015 test qua, ruff sạch. Lưu ý phân biệt: đây là nguồn SINH payload ở bước
+  soạn, KHÁC trục `attacker_mode: adaptive` của vòng B5 (runner, `experiment.yaml`).
 - STT-43 mở. Mới: `ipi-agent-lab/src/attack/mutator.py`, `config/mutator.yaml`,
   `tests/test_mutator.py` (bộ biến đổi payload: sinh biến thể obfuscation theo luật, cổng
   `schema.validate_payload` tự loại biến thể sai bất biến, lọc trùng theo cosine embedding; 11 test,
