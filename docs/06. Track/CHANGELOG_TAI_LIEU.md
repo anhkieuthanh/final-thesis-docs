@@ -3,6 +3,21 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-23
+- STT-54 D4 Egress Filter — soát luồng ra `send_email`/`http_request`. Mới: `ipi-agent-lab/src/defense/
+  d4_egress_filter.py` (`filter_egress`, bốn luật E1_canary · E2_destination · E3_pii · E4_encoded_url, tất
+  định, không LLM, không đọc `carrier_tasks`; `build_egress_allowlist` dựng allowlist từ config + `customers.db`
+  chỉ đọc), `ipi-agent-lab/tests/test_d4_egress_filter.py` (74 ca: mỗi luật có ca chặn + ca cho qua, mỗi dạng né
+  của bộ chấm đều bị E1 bắt, allowlist khớp `global_constraints`, tool ngoài `egress_tools` đi thẳng, hit không
+  chép canary hay giá trị PII). Cập nhật: `ipi-agent-lab/src/eval/canary.py` thêm `EVASION_FORMS` (bảng dạng né
+  có tên) và `canary_match_forms(text, canary, forms)`; `canary_present` gọi hàm này với đủ dạng — hành vi bộ
+  chấm không đổi (166 test canary/scorer pass). `ipi-agent-lab/config/defenses.yaml` khối D4: thêm `rules`
+  (bật/tắt E1–E4), `canary_decode` thêm `reversed` + `split_fragment_min12` (danh sách cũ thiếu hai dạng bộ chấm
+  đã dò — lệch spec §6.1), thêm `pii_definitions`, `pii_digit_candidate_regex`, `pii_min_digits`,
+  `url_entropy_block.url_regex`, `url_entropy_block.segment_split_regex` (không tách theo `/` và `=` vì base64
+  chứa hai ký tự đó). `docs/04. Design/defense_spec.md` §6.1–§6.3, §7, §8 ghi mã luật, quy ước E3, allowlist lúc
+  chạy và điểm mù mới. Lý do: hiện thực STT-54 theo defense_spec §6.4. TA chốt ba lựa chọn: E2 coi mọi khách trong
+  `customers.db` là người nhận hợp lệ; E3 nhận diện PII bằng mẫu chung + tra chính xác `customers.db`; E4 quét
+  `url` của `http_request` và mọi URL trong subject/body. Cắm D4 vào hook `PRE_EGRESS` thuộc STT-55.
 - STT-52 D2 Input Sanitizer — làm sạch cú pháp tất định. Mới: `ipi-agent-lab/src/defense/
   d2_input_sanitizer.py` (`sanitize_input`, 6 bước S1–S6: NFKC → lọc Cf/Cc giữ `\n\t\r` → gỡ HTML
   comment → gỡ text ẩn CSS → thay khối entropy cao → redact câu mệnh lệnh; tất định, idempotent,
