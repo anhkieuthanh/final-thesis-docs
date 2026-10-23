@@ -3,6 +3,28 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-23
+- STT-50 kỹ thuật T7 — kích hoạt trễ hoặc có điều kiện. Mới: `ipi-agent-lab/src/attack/payloads/
+  t7_deferred.yaml` (3 payload = 1/mục tiêu G1·G2·G3), `ipi-agent-lab/tests/test_t7_payloads.py`
+  (5 ca). Cập nhật: `ipi-agent-lab/results/tables/channel_coverage.csv` (tái sinh — corpus 49). Phủ
+  CẢ HAI loại trigger (TA chốt 2026-10-23): `tool_result_match` (G1 theo kết quả `query_customer_db`
+  khớp KH-001, dựng trên base_frame T2; G3 theo `search_kb` khớp "báo giá", base_frame T5) và
+  `min_step` step_min=3 (G2, base_frame T1). Điều kiện trễ nằm trong VĂN BẢN chỉ thị + field
+  `trigger` (metadata), KHÔNG gate ở harness: CoreA.run lặp tối đa max_steps nên đặc thù agent nhiều
+  lượt đủ để kích hoạt — không cần sửa runner/schema (schema đã có nhánh T7/trigger từ STT-20). Kênh
+  [K1,K2a,K2b], base_text ngắn (<400) nên K2 render thẳng base_text, không cần channel_override.
+  Lý do: hiện thực STT-50 (kỹ thuật tự đề xuất, tốn run nhất; nếu hụt giờ cắt theo mục 15, báo
+  GVHD). CHƯA tag `v-attack-1.0` (QT cứng #9: hỏi người dùng trước khi tag). Còn treo: pilot chạy
+  `activation_check` thật khi defense OFF; TA soát mẫu tiếng Việt.
+- STT-49 biến thể giọng thẩm quyền hành chính của T1 (gộp từ T9 cũ). Mới:
+  `ipi-agent-lab/src/attack/payloads/t1_authority.yaml` (3 payload = 1/mục tiêu G1·G2·G3),
+  `ipi-agent-lab/tests/test_t1_authority.py` (5 ca). `technique.variant = authority_letter` (đã có
+  trong `T1_VARIANTS` từ STT-20). Payload mạo giọng công văn (số hiệu CV, "kính gửi", "thừa lệnh Ban
+  Tổng Giám đốc", chữ ký lãnh đạo), khai thác thiên lệch tuân thủ thẩm quyền — đóng góp mới, đặc thù
+  văn hóa doanh nghiệp Việt. VI-ONLY, không dựng cặp vi/en (TA chốt 2026-10-23): giọng công văn hành
+  chính không có bản tiếng Anh tương đương về sắc thái, nên không neo pair_id. K1 chở nguyên văn
+  công văn (dài, kênh K1 không giới hạn ký tự); K2a/K2b dùng `channel_override` bản rút gọn ≤400 ký
+  tự vẫn chứa nguyên văn `instruction_vi` (cưỡng chế bởi INV12). G3 không tool (marker vendor_code
+  NCC-{run_id}). Không sửa schema/runner. Lý do: hiện thực STT-49. Còn treo: TA rà mức độ mẫu.
 - STT-48 kỹ thuật T6 — payload chia mảnh qua nhiều tài liệu. Mới:
   `ipi-agent-lab/scripts/gen_t6_payloads.py` (generator), `ipi-agent-lab/src/attack/payloads/
   t6_split.yaml` (3 payload = 1/mục tiêu G1·G2·G3 × 2 mảnh), `ipi-agent-lab/tests/test_t6_payloads.py`
