@@ -3,6 +3,27 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-23
+- STT-48 kỹ thuật T6 — payload chia mảnh qua nhiều tài liệu. Mới:
+  `ipi-agent-lab/scripts/gen_t6_payloads.py` (generator), `ipi-agent-lab/src/attack/payloads/
+  t6_split.yaml` (3 payload = 1/mục tiêu G1·G2·G3 × 2 mảnh), `ipi-agent-lab/tests/test_t6_payloads.py`
+  (11 ca). Cập nhật: `ipi-agent-lab/results/tables/channel_coverage.csv` (tái sinh — thêm T6 vào
+  corpus). Khác T8 (biến đổi máy móc), chỗ CẮT mảnh là phán đoán ngữ nghĩa nên text từng mảnh BIÊN
+  sẵn trong `T6_SEEDS`; generator chỉ RÁP + VALIDATE + cưỡng chế bất biến, sinh lại vẫn tất định
+  (test `test_sinh_tat_dinh_khop_file`). Mỗi payload bắt nguồn một base-frame (G1←P-T2-G1-VI-001,
+  G2←P-T1-G2-VI-001, G3←P-T5-G3-VI-001): copy nguyên `goal_binding` + `activation_check`, neo so
+  sánh qua `base_frame`, KHÔNG dùng pair_id. Kênh K1 DUY NHẤT (INV4), tác vụ chở CT-02 (tác vụ đa
+  tài liệu duy nhất), mảnh nhúng vào ngữ cảnh so sánh báo giá BG-2026-014/BG-2026-021 để cùng lọt
+  top-k. Bất biến "mảnh không tự độc" (taxonomy 6.7 điểm 4) cưỡng chế TẤT ĐỊNH ở mức cấu trúc: mỗi
+  seed khai hai nhóm token `disjoint` (hành động nhắm bồn vs đối tượng/giá trị nhạy cảm), generator
+  đòi hai nhóm rơi vào HAI mảnh khác nhau, không mảnh nào chứa cả hai — chạy `activation_check` thật
+  trên từng mảnh là bước pilot (defense OFF), ngoài generator. Injector K1 (`_plan_t6_docs`,
+  `probe_delivered`) đã có sẵn từ STT-44: một tài liệu/mảnh, `delivered=true` chỉ khi MỌI mảnh lọt
+  top-k; text mảnh dùng verbatim làm nội dung tài liệu, injector KHÔNG thay `{run_id}` (scorer thay
+  lúc chấm, y như base-frame T5-G3), nên mảnh G3 giữ literal `NCC-{run_id}`. Phủ đủ 3 ô B1 T6 (K1 ×
+  3 mục tiêu) — `runner --block B1 --techniques T6 --dry-run` lên 180 run, hết ô trống. Coverage ma
+  trận giữ 100% (T6 loại khỏi K2 theo kiến trúc), tỉ lệ thô giảm vì mẫu số gồm T6. Toàn bộ 1094 test
+  qua (+11), ruff sạch. Lý do: hiện thực STT-48, chỉ ra lỗ hổng kiến trúc của phòng thủ mức tài liệu
+  (đóng góp mới), bổ sung corpus cho ma trận B1. Còn treo: TA soát mẫu tiếng Việt từng mảnh.
 - STT-47 kỹ thuật T8 — che giấu đặc thù tiếng Việt. Mới: `ipi-agent-lab/src/attack/payloads/
   vi_transform.py` (5 phép thuần tất định: `strip_diacritics`, `telex`, `vni`, `homoglyph_vi`,
   `code_mix`), `ipi-agent-lab/scripts/gen_t8_payloads.py` (generator),
