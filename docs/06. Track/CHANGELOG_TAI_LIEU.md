@@ -3,6 +3,23 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-23
+- STT-47 kỹ thuật T8 — che giấu đặc thù tiếng Việt. Mới: `ipi-agent-lab/src/attack/payloads/
+  vi_transform.py` (5 phép thuần tất định: `strip_diacritics`, `telex`, `vni`, `homoglyph_vi`,
+  `code_mix`), `ipi-agent-lab/scripts/gen_t8_payloads.py` (generator),
+  `ipi-agent-lab/src/attack/payloads/t8_vietnamese.yaml` (20 payload = 5 phép × 4 seed),
+  `ipi-agent-lab/tests/test_vi_transform.py` (18 ca) + `ipi-agent-lab/tests/test_t8_payloads.py`
+  (7 ca). `apply(name, text, protect=…)` chỉ biến phần ngôn ngữ tự nhiên, GIỮ NGUYÊN `{INSTRUCTION}`,
+  `{run_id}`, `<canary>` và mọi literal `protect` (marker `NCC-{run_id}`, mã khách `KH-001`, giá trị
+  `goal_binding.arguments`) — tool vẫn chạy, scorer vẫn khớp mục tiêu. Mỗi payload T8 bắt nguồn từ một
+  base-frame sẵn có (G1←P-T2-G1 + P-T3-G1, G2←P-T1-G2, G3←P-T5-G3): copy nguyên `goal_binding` và
+  `activation_check`, chỉ áp vi_transform lên template + instruction_vi; neo so sánh "ảnh hưởng ngôn
+  ngữ" qua trường `base_frame`, KHÔNG dùng pair_id (INV11: T8 không có bản en). `variant` để `none`
+  (INV3), phép biến ghi ở `vi_transform`; `code_mix` → lang `mixed`. Generator validate từng bản bằng
+  `validate_payload` + render K2a/K2b, sai một bản là dừng không ghi; chạy lại cho ra y hệt (test
+  `test_sinh_tat_dinh_khop_file`). Phủ đủ 9 ô B1 T8 (3 kênh × 3 goal) — `runner plan B1 --techniques
+  T8` hết ô trống; T8 vào `channel_coverage` (K2a 5/5, K2b 6/6). Toàn bộ 1083 test qua, ruff sạch.
+  Lý do: hiện thực STT-47, biến luận cứ "bối cảnh tiếng Việt" thành số liệu (đóng góp mới), bổ sung
+  corpus cho ma trận B1.
 - STT-46 bộ chạy ma trận tấn công. Mới: `ipi-agent-lab/src/attack/runner.py` (engine) +
   `ipi-agent-lab/scripts/run_matrix.py` (CLI mỏng) + `ipi-agent-lab/tests/test_attack_runner.py`
   (14 ca offline). Một lô = một khối. `plan_block` đọc khối qua `eval.experiment`, sinh ô theo
