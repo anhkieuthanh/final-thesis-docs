@@ -2,6 +2,28 @@
 
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
+## 2026-10-23
+- STT-46 bộ chạy ma trận tấn công. Mới: `ipi-agent-lab/src/attack/runner.py` (engine) +
+  `ipi-agent-lab/scripts/run_matrix.py` (CLI mỏng) + `ipi-agent-lab/tests/test_attack_runner.py`
+  (14 ca offline). Một lô = một khối. `plan_block` đọc khối qua `eval.experiment`, sinh ô theo
+  `techniques_by_channel × goals × targets × presets`, mỗi ô lấp `n_per_cell` đơn vị bằng cặp
+  (payload, tác vụ chở) KHÁC NHAU trước rồi LẶP sau (giao thức mục 2.2), xáo trộn có seed. Cặp ghép
+  qua `injector_k1.valid_carriers` / `injector_k2.valid_carriers`; payload lọc từ corpus theo
+  code kỹ thuật + goal + khai kênh. `run_one_attack`: `seeded_run` (canary) → dọn hộp thư + phiếu +
+  mô tả tool + KB của run trước → tiêm (K1 `inject_and_probe` ghi `delivered`; K2 bọc `K2ToolLayer`,
+  `delivered=True`) → `TraceRecorder`: `CoreA.run(carrier.user_query_vi)` → `score` với
+  `activation_check` của payload → K1 `cleanup(run_id)`. RESUME: mỗi run commit ngay vào
+  `trace.sqlite`; `done_specs` dựng lại `AttackRunSpec` từ cột `runs` (gồm `defense_config` chuỗi hóa
+  GIỐNG `obs.trace._dump` để khớp), chạy lại cùng `--batch-id` bỏ qua đơn vị đã có — kiểm bằng
+  `test_resume_bo_qua_run_da_co`. Backoff rate-limit để `LLMClient` lo, runner không tự backoff.
+  `BudgetGuard` dừng ở 120% dự toán (CLAUDE.md mục 4). PHẠM VI: chỉ preset `off` (NoDefense) chạy
+  được — `build_defense` báo lỗi rõ cho D1–D4 tới khi `src/defense/` có cơ chế (STT-51…54). Ô chưa
+  có payload (T6–T8 và nhiều cặp T·G còn thiếu) khiến B1 đầy đủ bị từ chối kèm danh sách ô trống;
+  thu hẹp bằng `--channels/--techniques/--goals` để chạy phần đã phủ (hiện 17/63 ô B1). Sửa kèm:
+  `ipi-agent-lab/src/eval/utility_baseline.py` — `HarnessTools` thêm trường `mail` (SendEmail) để
+  runner gọi `clear_mailbox()` trước mỗi run; không đổi hành vi lượt USR nền. Lý do: hiện thực
+  STT-46, mở đường cho pilot (STT-60) chạy B1 preset off.
+
 ## 2026-10-22
 - STT-45 injector kênh K2. Mới: `ipi-agent-lab/src/attack/injector_k2.py` — tầng điều phối thuần
   dựng một `K2ToolLayer` BỌC NGOÀI `ToolLayer` gốc (thỏa Protocol `interfaces.ToolLayer`), lõi agent
