@@ -3,6 +3,16 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-23
+- STT-53 D3 Tool-call Policy — máy trạng thái ngoài LLM. Mới: `ipi-agent-lab/src/defense/
+  d3_tool_policy.py` (`check_tool_call`, R1–R4 tra bảng trên tool-call + `session.history`, không
+  import `re`, không đọc `carrier_tasks`), `ipi-agent-lab/tests/test_d3_tool_policy.py` (33 ca: mỗi
+  luật có ca chặn + ca cho qua, `task_type=None` bị chặn kể cả khi R1 tắt, hit R4 mang `confirm`,
+  kiểm đồ thị import). Cập nhật: `ipi-agent-lab/config/defenses.yaml` thêm
+  `R3_egress_rate_limit.applies_to_egress_tools` (R3 trước đó không có danh sách egress để đếm);
+  `docs/04. Design/defense_spec.md` §5.2 ghi tham số mới và bốn quy ước hiện thực ("đã thực thi" =
+  qua gate kể cả tool lỗi; R3 danh sách egress riêng; tool bịa tên ⇒ R4 thất bại về phía đóng;
+  `task_type` lạ ⇒ ném lỗi). Lý do: hiện thực STT-53 theo defense_spec §5.5. Pipeline cắm D3 vào
+  hook `PRE_TOOL_EXECUTION` thuộc STT-55.
 - STT-50 kỹ thuật T7 — kích hoạt trễ hoặc có điều kiện. Mới: `ipi-agent-lab/src/attack/payloads/
   t7_deferred.yaml` (3 payload = 1/mục tiêu G1·G2·G3), `ipi-agent-lab/tests/test_t7_payloads.py`
   (5 ca). Cập nhật: `ipi-agent-lab/results/tables/channel_coverage.csv` (tái sinh — corpus 49). Phủ
