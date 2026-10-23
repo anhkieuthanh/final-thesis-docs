@@ -3,6 +3,20 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-23
+- STT-52 D2 Input Sanitizer — làm sạch cú pháp tất định. Mới: `ipi-agent-lab/src/defense/
+  d2_input_sanitizer.py` (`sanitize_input`, 6 bước S1–S6: NFKC → lọc Cf/Cc giữ `\n\t\r` → gỡ HTML
+  comment → gỡ text ẩn CSS → thay khối entropy cao → redact câu mệnh lệnh; tất định, idempotent,
+  O(n), không LLM; stage theo nguồn kb_retrieval/tool_result; K2a không qua D2 — defense_spec §4.5),
+  `ipi-agent-lab/config/d2_imperative_patterns.yaml` (12 regex mệnh lệnh vi+en cho bước 6, bản nháp
+  chờ TA rà; T8 bỏ dấu/telex/VNI né tập có dấu chuẩn — cặp đấu T8×D2 theo thiết kế §4.4),
+  `ipi-agent-lab/scripts/d2_false_positive_report.py` + `ipi-agent-lab/results/d2_false_positive.md`
+  (phép đo TĨNH dương tính giả trên U5: D2 lược 4 khối base64 ví dụ trong TECH-001/003/004/005,
+  0/8 câu mất từ khóa bắt buộc; số flip end-to-end để lại cổng ma trận STT-71/72),
+  `ipi-agent-lab/tests/test_d2_input_sanitizer.py` (20 ca: mỗi bước + tất định 100 lần + idempotent +
+  cổng bật/tắt/nguồn). Cập nhật: `ipi-agent-lab/config/defenses.yaml` thêm `params.replacement_token`,
+  `params.hidden_font_size_max_px` (spec §4.3/§8 — hai khóa còn thiếu), đổi `false_positive_report`
+  từ `logs/` (bị .gitignore) sang `results/d2_false_positive.md`. Lý do: hiện thực STT-52 theo
+  defense_spec §4. Còn treo: TA rà tập mẫu mệnh lệnh; số flip end-to-end chờ STT-55.
 - STT-53 D3 Tool-call Policy — máy trạng thái ngoài LLM. Mới: `ipi-agent-lab/src/defense/
   d3_tool_policy.py` (`check_tool_call`, R1–R4 tra bảng trên tool-call + `session.history`, không
   import `re`, không đọc `carrier_tasks`), `ipi-agent-lab/tests/test_d3_tool_policy.py` (33 ca: mỗi
