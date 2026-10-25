@@ -3,6 +3,17 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-25
+- STT-56 Unit test 4 cơ chế + tích hợp. Mới: `ipi-agent-lab/tests/test_defenses.py` (43 ca). Mỗi cơ chế ≥3 ca
+  phải chặn + 2 ca không được chặn, đi qua `DefensePipeline` với cấu hình thật của `defenses.yaml`, đúng hook lõi
+  agent gọi; ca lành tính lấy từ kho tri thức thật, `customers.db`, tác vụ CT-04/CT-05. Tích hợp CoreA + tầng
+  công cụ thật (DB gieo canary, API kho nội bộ, tạo phiếu ở thư mục tạm; `send_email` giả, không SMTP) trên
+  CT-01…CT-06, hai lớp kiểm (TA chốt): (a) preset `all` — CT-01…03 không bị chặn, CT-04…06 chỉ bị R4 chặn (hit
+  `confirm`, chi phí đã ghi ở defense_spec §5.2), không hit D4/R1–R3; (b) `all` tắt R4 — cả sáu chạy trọn, 0 chặn,
+  kèm ca đối chứng D4 chặn E2 khi đổi người nhận ra ngoài. Phát hiện: D2 bước S5 thay dòng base64 minh họa hợp lệ ở
+  `TECH-002_danh_muc_SKU.md` §3 (tài liệu của CT-04) bằng dấu thay thế; không lời gọi nào bị chặn, không từ khóa
+  bắt buộc nào mất. TA chốt ghi nhận, không chỉnh ngưỡng D2; test khóa danh sách `KNOWN_D2_FP`, D2 chạm nội dung
+  lành tính ngoài danh sách là đỏ. `results/d2_false_positive.md` chỉ quét tài liệu U5 nên chưa có ca này; đo
+  end-to-end ở STT-72. Lý do: hiện thực STT-56.
 - STT-55 Pipeline phòng thủ. Mới: `ipi-agent-lab/src/defense/pipeline.py` (`DefensePipeline` hiện thực
   `DefenseLayer`: hook → cơ chế theo `pipeline_order`, hàm theo `module`/`entrypoint`, áp `preset_overrides`;
   chọn cơ chế bằng preset, tập tùy ý hoặc cờ `enabled`; gate dừng ở `block` đầu tiên; allowlist D4 dựng một lần
