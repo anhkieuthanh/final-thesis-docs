@@ -3,6 +3,15 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-25
+- STT-58 IPI Guard Console — giao diện web thay dashboard Streamlit (lab `50a469c`, `1192f13`). TA
+  yêu cầu giao diện mức thương mại hóa; chọn phương án FastAPI + React. Mới: `ipi-agent-lab/src/
+  console/` (API JSON trên trace store, chỉ đọc, chỉ phục vụ localhost, từ chối Host lạ; lượt demo
+  nền một lúc một lượt, mở khi `DEMO_LIVE=1`), `ipi-agent-lab/web/` (Vite + React + TypeScript +
+  Tailwind + Recharts, bảy màn hình: Tổng quan · Lô · Tấn công · Phòng thủ · Điều tra run · Phòng
+  thí nghiệm · Cấu hình), `tests/test_console.py` (14 ca). Target `make console` / `console-build`
+  / `console-dev`. Mọi số liệu (ASR/DSR/USR/FRR, Wilson, tô màu bước) lấy từ hàm mà scorer và
+  dashboard dùng, không tính lại. Dashboard Streamlit (STT-58 cũ) giữ lại để đối chiếu. 53 test
+  console/demo/dashboard qua. Lý do: nâng giao diện cho demo GVHD và đánh giá người dùng ND6.
 - STT-82 Demo trực tiếp (lab `7237fd6`). Mới: `ipi-agent-lab/dashboard/demo.py`,
   `dashboard/pages/0_Demo_truc_tiep.py`, `tests/test_demo.py` (13 ca), target `make demo`
   (Streamlit trên host, chỉ `127.0.0.1`, nút chạy mở khi `DEMO_LIVE=1`). Chạy thật một kịch bản
