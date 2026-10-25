@@ -626,7 +626,7 @@ Những mục này phải được xử lý trong bản dựng lại, không man
 
 **Cần GVHD:**
 
-10. Phụ lục điều chỉnh phạm vi (mở tập kỹ thuật lên 9, đổi lớp mô hình đích, thêm phần harness và RQ6, ngân sách phân tầng) cần chữ ký. Chưa ký thì phần phạm vi của báo cáo phải viết theo bản đã ký, và **không viết cứng** phần phạm vi trước khi có chữ ký.
+10. Phụ lục điều chỉnh phạm vi (mở tập kỹ thuật lên 8, đổi lớp mô hình đích, thêm phần harness và RQ6, trần ngân sách) cần chữ ký; bản trình ký ở `docs/06. Track/Phụ lục M1b — trình GVHD ký.md`. Chưa ký thì phần phạm vi của báo cáo phải viết theo bản đã ký, và **không viết cứng** phần phạm vi trước khi có chữ ký.
 
 ---
 
