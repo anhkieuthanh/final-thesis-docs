@@ -116,7 +116,7 @@ Ràng buộc phải ghi trước khi chạy:
 | 3 | Sửa hướng dẫn dự án trong Cowork (đang ghi 8 tuần, cổng 6/6, changelog trong file JSON) cho khớp CLAUDE.md | ☐ |
 | 4 | Chạy thử HN-CC và HN-OW theo mục 6 | ☐ |
 | 5 | Điền bảng giá thật và trần ngân sách ở mục 5 | ☐ |
-| 6 | Chốt model sinh payload thích ứng cho RQ5 | ☐ |
+| 6 | Chốt model sinh payload thích ứng cho RQ5 | ☑ (opus-5, 2026-10-25) |
 
 ## 9. Checklist ký
 
@@ -134,7 +134,7 @@ Ràng buộc phải ghi trước khi chạy:
 | 10 | Thiết kế phân khối | Khối B1–B6, quy tắc chọn S_def và S_adp (mục 5) | ☑ | |
 | 11 | Ngân sách | Trần: 100 USD ; dừng khi vượt 120% dự toán | ☑ | |
 | 12 | Cổng nghiệm thu | Scorer 8/8 · ASR pilot 20–80% theo giao thức hiệu chỉnh | ☑ | |
-| 13 | Kẻ tấn công thích ứng | PH1 · ≤ 3 vòng · G cố định · model sinh payload: chưa chốt | ☑ | |
+| 13 | Kẻ tấn công thích ứng | PH1 · ≤ 3 vòng · G cố định · model sinh payload: `claude-opus-5` (chốt 2026-10-25) | ☑ | |
 | 14 | Harness | **Thêm RQ6 với 2 harness × 3 model**: HN-OW trên A1, A2, A3 · HN-CC trên A1 và có điều kiện trên A2, A3 · 50 mẫu mỗi nhánh, D=OFF, cấu hình quyền theo mục 6 | ☑ | |
 | 15 | Đạo đức và phát hành | Mục 7 | ☑ | |
 | 16 | Lịch và mốc | M0–M8 theo `Y_TUONG_DU_AN.md` mục 15 | ☑ | |

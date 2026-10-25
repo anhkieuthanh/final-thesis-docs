@@ -3,6 +3,31 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-25
+- STT-57 Pipeline tấn công thích ứng B5 (RQ5). Mới: `ipi-agent-lab/src/attack/adaptive.py`,
+  `ipi-agent-lab/tests/test_adaptive.py` (25 ca). Một **chuỗi** chạy ≤3 vòng trên cùng tổ hợp cố
+  định (tác vụ chở, kênh, model, cấu hình phòng thủ, mục tiêu); giữa các vòng kẻ tấn công viết lại
+  câu chữ payload, giữ cố định tool/đối số/`activation_check` nên phép chấm không đổi. `run_chain`
+  điều phối ba điều kiện dừng (đạt mục tiêu · hết ba vòng · `model_refusal` hai vòng liên tiếp →
+  `refusal_wall`, quy tắc cứng #8); đơn vị tính ASR là chuỗi (chuỗi thành công nếu bất kỳ vòng nào
+  đạt). `run_round` chạy+chấm một vòng, ghi trace với hai trường mới. Hai chiến lược viết lại:
+  `ScriptedAttacker` (test, không mạng) và `LLMAdaptiveAttacker` (opus-5; vòng đầu dùng payload gốc,
+  vòng sau mới gọi model). **Ba quyết định (TA chốt 2026-10-25):**
+  (1) **Phản hồi giữa vòng = PH1** (Threat Model §2.2, GVHD ký checklist mục 13): kẻ tấn công chỉ
+  thấy `final_answer` + nội dung bồn chứa nó sở hữu, KHÔNG đọc trace/`blocked_by`. Cưỡng chế bằng mã
+  — hàm viết lại chỉ nhận `ProposeContext` gồm `Observation` (không có trường `blocked_by`/`outcome`,
+  không mang `Run`); điều phối đọc trace để quyết dừng nhưng tín hiệu đó không chảy vào `propose`;
+  test `test_attacker_khong_bao_gio_thay_blocked_by` + `test_observation_khong_co_truong_trace` khóa
+  ranh giới (Threat Model mục 6 việc treo 4). (2) **Model attacker = opus-5** cho cả B5, mở rộng từ
+  phê duyệt opus-5 cho paraphrase offline; `config/experiment.yaml` `B5.attacker_model: attacker`
+  (trỏ khối `attacker` đã pin), checklist mục 8 việc 6 xong. (3) **NL3 = mô tả cơ chế + tham số
+  preset công khai**: `defense_brief` dựng từ `config_snapshot()` (có `delimiter_length`, KHÔNG có
+  giá trị delimiter/canary lúc chạy), lược khóa ồn ào. Cập nhật: `src/obs/trace.py` + `src/obs/
+  schema.sql` thêm `adaptive_chain_id`, `adaptive_round` (Threat Model mục 4; CHECK bất biến 1 +
+  round∈{1,2,3}; validator `check_adaptive_invariants` cho bất biến 2,3 chéo-hàng), `config/
+  prompts.yaml` thêm khối `attacker_adaptive` (+ `_TOP_KEYS` trong `src/agent/prompts.py`),
+  `tests/test_experiment.py` (B5 còn chặn bởi `cells.selected`, attacker_model đã chốt). 1362 test
+  qua, ruff sạch. CHƯA chạy thật qua API (bước lô B5, cần `.env` + chọn S_adp sau B2 + kiểm ngân
+  sách). Lý do: hiện thực STT-57.
 - STT-56 Unit test 4 cơ chế + tích hợp. Mới: `ipi-agent-lab/tests/test_defenses.py` (43 ca). Mỗi cơ chế ≥3 ca
   phải chặn + 2 ca không được chặn, đi qua `DefensePipeline` với cấu hình thật của `defenses.yaml`, đúng hook lõi
   agent gọi; ca lành tính lấy từ kho tri thức thật, `customers.db`, tác vụ CT-04/CT-05. Tích hợp CoreA + tầng
