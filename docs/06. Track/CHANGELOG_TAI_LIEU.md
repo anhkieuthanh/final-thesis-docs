@@ -2,6 +2,23 @@
 
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
+## 2026-10-25
+- STT-55 Pipeline phòng thủ. Mới: `ipi-agent-lab/src/defense/pipeline.py` (`DefensePipeline` hiện thực
+  `DefenseLayer`: hook → cơ chế theo `pipeline_order`, hàm theo `module`/`entrypoint`, áp `preset_overrides`;
+  chọn cơ chế bằng preset, tập tùy ý hoặc cờ `enabled`; gate dừng ở `block` đầu tiên; allowlist D4 dựng một lần
+  mỗi lô; `end_run` dọn delimiter D1; cấu hình sai bị từ chối lúc dựng; `config_snapshot` ghi preset, cơ chế
+  bật, override, tham số hiệu lực, sha256 file regex D2, preset `off` trùng `NoDefense`),
+  `ipi-agent-lab/tests/test_pipeline.py` (48 ca: mọi preset, 16 tổ hợp bật/tắt, override, định tuyến hook, thứ
+  tự D2→D1 và D3→D4, ảnh chụp, lỗi cấu hình, tích hợp CoreA). Cập nhật: `ipi-agent-lab/src/attack/runner.py`
+  (`build_defense` dựng pipeline cho mọi preset chạy được; `build_defenses` + `RunContext.defenses` tra tầng
+  phòng thủ theo `defense_config` của spec; run tấn công khai `task_type` theo `matches_carrier_tasks`, trước đó
+  là `None` nên bật D3 sẽ chặn mọi tool-call), `ipi-agent-lab/scripts/run_matrix.py`, chú thích
+  `matches_carrier_tasks` trong `ipi-agent-lab/config/defenses.yaml`, `docs/04. Design/defense_spec.md` §2
+  (pipeline), §5.1 (`task_type` của run tấn công), §8. Lý do: hiện thực STT-55. Ba lựa chọn: `task_type` của run
+  tấn công đi theo tác vụ chở (khớp giả định của Threat Model TH-01/TH-03); có preset thì preset quyết, không có
+  thì đọc cờ `enabled`; ảnh chụp `off` giữ nguyên để store B1 resume được. Bench lành tính
+  (`eval/utility_baseline.py`) vẫn chạy `NoDefense`; nối preset cho bench thuộc STT-72.
+
 ## 2026-10-23
 - STT-54 D4 Egress Filter — soát luồng ra `send_email`/`http_request`. Mới: `ipi-agent-lab/src/defense/
   d4_egress_filter.py` (`filter_egress`, bốn luật E1_canary · E2_destination · E3_pii · E4_encoded_url, tất

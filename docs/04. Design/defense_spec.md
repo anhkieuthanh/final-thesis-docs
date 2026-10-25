@@ -62,6 +62,19 @@ Hệ quả của thứ tự:
 | D1 | có | có | có |
 | D3, D4 | có | có | có |
 
+**Pipeline** (`src/defense/pipeline.py`, `DefensePipeline`). Hiện thực `DefenseLayer`, đọc toàn bộ hành vi từ
+`defenses.yaml`:
+
+- Hook → cơ chế lấy từ `pipeline_order`; hàm lấy từ `module` + `entrypoint` của khối; tham số là nguyên khối của cơ chế.
+- Chọn cơ chế bật theo một trong ba cách: tên preset (áp cả `preset_overrides` của preset đó); một tập cơ chế bất kỳ
+  (đủ 16 tổ hợp, không override); hoặc cờ `enabled` của từng khối.
+- Hook transform chạy nối tiếp mọi cơ chế đã xếp vào hook. Hook gate dừng ở cơ chế đầu tiên trả `block`.
+- Allowlist của D4 dựng một lần cho mỗi lô. Delimiter D1 được dọn sau mỗi run.
+- Cấu hình sai bị từ chối ngay lúc dựng, không để hỏng giữa lô: preset lạ, override trỏ khóa không có, stage lạ, cơ
+  chế bật mà không nằm ở stage nào, entrypoint không có, khối D3/D4 không qua kiểm.
+- `config_snapshot()` ghi vào `runs.defense_config` và là danh tính resume của runner. Nội dung: preset, cơ chế bật,
+  override, tham số hiệu lực, sha256 của file regex D2. Preset `off` trả đúng ảnh chụp của `NoDefense`.
+
 ---
 
 ## 3. D1 — SPOTLIGHTING
@@ -212,6 +225,8 @@ reason, hits)`.
 Câu lành tính lấy `task_type` theo quy tắc "loại tác vụ nhân viên thật sẽ chọn" (checklist mục 4, RQ4), gán một lần ở
 `config/experiment.yaml` khóa `benign_task_types`. 50 câu trùng với tra theo cột "tác vụ chở khớp"; 10 câu CT-04 hỏi hoặc kiểm
 tồn kho qua `http_request` là `LOOKUP`, vì nhân viên chọn "Tra cứu" — R1 chặn nhầm ở 10 câu này, và đó là FRR cần đo ở RQ4.
+Run tấn công lấy `task_type` theo cột "tác vụ chở khớp" (khóa `matches_carrier_tasks`): tác vụ chở là việc nhân viên
+đang làm, nên loại tác vụ đi cùng tác vụ chở, không suy ra từ câu hỏi hay payload. Runner đọc khóa này, D3 thì không.
 Phiên không khai `task_type` mà D3 bật ⇒ `block`, không đoán.
 
 `REPORT` cho phép cả `http_request` và `create_ticket` chỉ vì hai tác vụ chở CT-04, CT-06 được gom chung; allowlist rộng hơn
@@ -367,7 +382,7 @@ Mỗi khóa phải có code đọc tới; khóa khai mà không ai đọc là l�
 
 Đã khai: `d4_egress_filter.rules` (E1–E4 bật/tắt riêng), `params.pii_definitions`, `params.pii_digit_candidate_regex`, `params.pii_min_digits`, `url_entropy_block.url_regex`, `url_entropy_block.segment_split_regex` (mục 6.1); `d3_tool_policy.tool_severity` (mục 5.2, scorer cũng đọc); `d2_input_sanitizer.params.imperative_action: "redact"`; preset `d3_no_confirm` (D3 với R4 tắt, qua khối
 `preset_overrides`) để tách chi phí và hiệu lực của R1–R3 khỏi R4; GVHD duyệt, chạy ở B2 và B3 của `experiment.yaml`, báo
-cáo dạng khám phá. `pipeline.py` (STT-55) phải áp `preset_overrides`;
+cáo dạng khám phá. `pipeline.py` áp `preset_overrides` (mục 2);
 `eval.experiment.validate` kiểm đường dẫn ghi đè.
 
 ---
