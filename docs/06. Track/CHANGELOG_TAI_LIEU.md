@@ -3,6 +3,15 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-25
+- M1b Hồ sơ trình ký. Mới: `docs/06. Track/Phụ lục M1b — trình GVHD ký.md` — tình trạng bốn
+  điều kiện M1b (tag `v-models-1.0` đã có tại `d84c9c4`; đơn giá hết `null`; hạn mức `.env` do TA
+  tự xác nhận; chữ ký còn thiếu), gom các điều chỉnh phạm vi chưa có bản ký (checklist hạng mục 5,
+  6, 13, 14 và ba mục GVHD duyệt miệng 2026-10-21), dự toán chi phí B1–B6 từ token/run thật của lô
+  STT-37 (`trace.sqlite` + `manifest.json`): ≈ 305 USD, ≈ 400 USD có hệ số 1,3 — vượt trần 100 USD
+  của checklist hạng mục 11; ba phương án trần để GVHD chọn. Sửa `Y_TUONG_DU_AN.md` mục 18 việc 10:
+  "lên 9" → "lên 8" (T9 đã gộp vào T1), "ngân sách phân tầng" → "trần ngân sách", trỏ tới bản
+  trình ký. Lý do: đóng mốc M1b; bảng dự toán checklist mục 5 còn trống trái quy tắc "không chạy lô
+  nào khi còn ô chi phí trống".
 - STT-57 Pipeline tấn công thích ứng B5 (RQ5). Mới: `ipi-agent-lab/src/attack/adaptive.py`,
   `ipi-agent-lab/tests/test_adaptive.py` (25 ca). Một **chuỗi** chạy ≤3 vòng trên cùng tổ hợp cố
   định (tác vụ chở, kênh, model, cấu hình phòng thủ, mục tiêu); giữa các vòng kẻ tấn công viết lại
