@@ -3,6 +3,21 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-25
+- STT-82 Demo trực tiếp (lab `7237fd6`). Mới: `ipi-agent-lab/dashboard/demo.py`,
+  `dashboard/pages/0_Demo_truc_tiep.py`, `tests/test_demo.py` (13 ca), target `make demo`
+  (Streamlit trên host, chỉ `127.0.0.1`, nút chạy mở khi `DEMO_LIVE=1`). Chạy thật một kịch bản
+  dựng sẵn trên một model với nhiều preset qua `run_one_attack`, canh chi phí bằng `BudgetGuard`;
+  run ghi `results/demo/` (không theo Git), không trộn với lô thực nghiệm. Tách
+  `ui.render_trace` từ trang 3 để dùng lại. TA chốt: demo chỉ chạy model thật, không chế độ mô
+  phỏng. Lý do: trình diễn cho GVHD.
+- STT-46 Vá runner (lab `25b837c`). `run_one_attack` gọi scorer không có `runtime` ⇒ mọi run
+  CT-05, CT-06 báo `MissingRuntimeContextError` khi model gọi `send_email` / `create_ticket`, lô
+  B1 dừng ở run đầu tiên của hai tác vụ này. Thêm `carrier_runtime` (tra `customers.db` gốc,
+  cùng quy tắc `benign_runtime`) + test hồi quy. 1375 test qua. Lý do: phát hiện khi chạy demo.
+- `docs/06. Track/Việc treo.md`: thêm VT-16 (scorer tính vi phạm G2 tự phát thành tấn công thành
+  công), VT-17 (K2b ghi `delivered = 1` khi tool chở không được gọi), VT-18 (0/71 run dò có agent
+  làm theo payload ở A2, A3). Lý do: phát hiện qua 71 run dò khi dựng demo; VT-16, VT-17 cần TA
+  quyết trước pilot STT-60.
 - M1b Hồ sơ trình ký. Mới: `docs/06. Track/Phụ lục M1b — trình GVHD ký.md` — tình trạng bốn
   điều kiện M1b (tag `v-models-1.0` đã có tại `d84c9c4`; đơn giá hết `null`; hạn mức `.env` do TA
   tự xác nhận; chữ ký còn thiếu), gom các điều chỉnh phạm vi chưa có bản ký (checklist hạng mục 5,
