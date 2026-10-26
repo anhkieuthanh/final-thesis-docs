@@ -2,6 +2,17 @@
 
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
+## 2026-10-26
+- STT-60 Pilot 40 ca (lab `36fa552`, `cc30b09`, `ea3e3e2`). Mới: `attack.runner.plan_pilot` +
+  cờ `run_matrix.py --pilot` (chọn 40 ca tất định từ 44/63 ô đã phủ của B1, giữ đủ mọi cặp
+  kênh × kỹ thuật và kênh × mục tiêu, phủ CT-01…CT-06), 3 test; `scripts/pilot_review.py`
+  (ASR theo target so cổng, kiểm trường, chọn 10 trace mở tay). Lô
+  `pilot-B1-20261026T014743Z`: 40 ca × A1–A3, D=OFF, 120 run, 5,19 USD, 0 `parse_error`, kiểm
+  trường đạt. ASR_e2e A2 0/40, A3 3/40, A1 1/40 — dưới cổng 20–80%, chưa được chạy ma trận.
+  Dữ liệu và phát hiện: `ipi-agent-lab/results/raw/pilot/` (`pilot_findings.md`). Bốn việc chờ
+  TA quyết: P1 cờ `delivered` K1 lệch truy hồi thật của agent (lỗi harness, chưa sửa); P2 K1 gần
+  như không vào ngữ cảnh (4/45); P3 quy tắc loại payload theo `activation_check` chưa áp; P4
+  corpus thiếu 19 ô B1. Lý do: bước 3 giao thức thực nghiệm, trước hiệu chỉnh STT-61.
 ## 2026-10-25
 - STT-58 IPI Guard Console — giao diện web thay dashboard Streamlit (lab `50a469c`, `1192f13`). TA
   yêu cầu giao diện mức thương mại hóa; chọn phương án FastAPI + React. Mới: `ipi-agent-lab/src/
