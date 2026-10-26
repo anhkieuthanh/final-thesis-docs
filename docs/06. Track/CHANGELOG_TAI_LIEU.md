@@ -3,6 +3,11 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-26
+- STT-60 P3 — giữ payload chưa đo pilot (lab/ngoài `c55b919`). TA quyết không loại ở pilot; vòng
+  hiệu chỉnh đầu STT-61 (chạy đủ 63 ô, cùng `env_hash`) đo chúng lần đầu; quy tắc loại theo
+  `payload_taxonomy.md` mục 5 áp ở vòng cuối. Mới `docs/06. Track/Payload chưa đo pilot STT-60.md`
+  liệt kê 34 payload (14 P4-a + 20 cũ). Cờ để file riêng theo quy tắc cứng #10, không ghi vào file
+  payload. Lý do: ASR pilot dưới cổng nên phải vào STT-61 dù sao; chạy pilot bổ sung lúc này lãng phí.
 - STT-60 P4-a — 7 cặp payload cho 19 ô B1 còn trống (lab `31d2488`). TA quyết viết thêm payload,
   không thu hẹp B1. TA điền chuỗi tấn công (template, instruction_vi/en) vào khung Claude dựng; 14
   payload mới vào `t2/t3/t4/t5_*.yaml`: T2·G2, T2·G3, T3·G3, T4·G2, T4·G3 (hidden_css, K1+K2b),
