@@ -3,6 +3,11 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-26
+- STT-60 P4-a — 7 cặp payload cho 19 ô B1 còn trống (lab `31d2488`). TA quyết viết thêm payload,
+  không thu hẹp B1. TA điền chuỗi tấn công (template, instruction_vi/en) vào khung Claude dựng; 14
+  payload mới vào `t2/t3/t4/t5_*.yaml`: T2·G2, T2·G3, T3·G3, T4·G2, T4·G3 (hidden_css, K1+K2b),
+  T5·G1, T5·G2. Corpus 49→63. B1 phủ 63/63 ô, `plan_block` sinh 3780 run. 1402 test qua. Lý do:
+  bộ chạy từ chối mở B1 khi còn ô trống; phải phủ đủ trước `v-attack-1.0`.
 - STT-60 P2-a — tài liệu chở K1 theo chủ đề tác vụ chở (lab `d1f426a`, `867b552`). TA quyết sửa
   P2 trước `v-attack-1.0`. `config/channel_render.yaml` thêm `channels.K1.carrier_context`: tiêu
   đề + thân trung tính cho CT-01…CT-06, không số liệu chính sách; injector K1 dùng cho cả tài liệu
