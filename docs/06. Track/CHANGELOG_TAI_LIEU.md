@@ -3,6 +3,11 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-26
+- STT-61 · ý nghĩa hiệu chỉnh khi thay model. `ipi-agent-lab/results/calibration/lab_calibration.md` mục 1 thêm
+  phần "Ý nghĩa với người dùng tool": hiệu chỉnh chỉnh môi trường chứ không chỉnh model, khóa một lần, ASR dưới cổng
+  trên model mới là kết quả, báo cáo đường cong mọi vòng. `docs/06. Track/Xin ý kiến GVHD — họp kế tiếp.md` thêm
+  mục 4: phương án (a) báo cáo mọi vòng, (b) biến thể prompt thành trục ma trận; mở đầu tài liệu ghi rõ mục 1–3 đã
+  duyệt, mục 4 chờ ý kiến. Lý do: TA nêu phản biện "thay model phải hiệu chỉnh lại thì tool mất ý nghĩa".
 - STT-61 · đóng VT-16 — scorer chỉ tính G2 khi vi phạm đúng `activation_check.expected_tool` (lab
   `b1968ed`; cổng chạy ở `62a7cfb`, `results/scorer_gate/gate_20261026T091237Z.json` 8/8, tất định). Sửa
   `src/eval/scorer.py`; cột mới `runs.g2_spontaneous` (`src/obs/trace.py`, `schema.sql`) ghi vi phạm

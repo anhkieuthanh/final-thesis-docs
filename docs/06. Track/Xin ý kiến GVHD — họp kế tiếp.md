@@ -1,8 +1,8 @@
 # XIN Ý KIẾN GVHD — BUỔI HỌP KẾ TIẾP
 
-> Tài liệu soạn với sự hỗ trợ của AI (Claude), sinh viên đã rà nội dung. GVHD đã duyệt cả ba mục đúng đề xuất ngày
+> Tài liệu soạn với sự hỗ trợ của AI (Claude), sinh viên đã rà nội dung. GVHD đã duyệt mục 1–3 đúng đề xuất ngày
 > 2026-10-21 (sinh viên báo lại; không lưu bản ký). Các nguồn chân lý và `Chốt phạm vi và checklist ký GVHD.md` đã đồng bộ
-> theo tài liệu này.
+> theo mục 1–3. Mục 4 chờ ý kiến.
 
 **Đồ án:** Nghiên cứu và xây dựng hệ thống đánh giá, phòng chống tấn công tiêm nhiễm gián tiếp (Indirect Prompt
 Injection) trên AI Agent dùng RAG + MCP tool-calling.
@@ -78,6 +78,36 @@ thận trọng. Điểm này được khai trong báo cáo.
 |---|---|---|
 | ☑ Đồng ý · ☐ Không đồng ý · ☐ Ý kiến khác | ☑ | ☑ |
 | Ghi chú | | |
+
+---
+
+## Mục 4. Hiệu chỉnh độ khó và tính tổng quát của tool khi thay model (STT-61)
+
+**Bối cảnh.** Cổng hiệu chỉnh (quy tắc cứng #5) chọn mức "cả tin" của system prompt sao cho ASR pilot của A2, A3 nằm
+trong 20–80%. Câu hỏi phản biện dễ gặp: thay model khác thì phải hiệu chỉnh lại, vậy tool còn ý nghĩa gì?
+
+**Lập trường.** Hiệu chỉnh chỉnh môi trường, không chỉnh model. Ba núm (`calibration.allowed_knobs`) là cấu hình triển
+khai có thật trong doanh nghiệp. Làm một lần, khóa sau vòng cuối; model khác chạy trên đúng môi trường đã khóa. ASR
+dưới 20% trên model mới là kết quả ("kháng tốt trong lab này"), không phải lý do để chỉnh lại. Cổng tồn tại để đo được
+delta phòng thủ: ở sàn ASR ≈ 0 thì không phân biệt được phòng thủ tốt với phòng thủ vô dụng.
+
+**Thiên lệch còn lại.** Môi trường được chọn theo A2/A3, nên kết luận nghiêng về hai model này.
+
+**Đề xuất (a), không đổi thiết kế.** Báo cáo ASR của mọi vòng hiệu chỉnh (`baseline`, `trusting`, `most_trusting`)
+như một đường cong độ nhạy theo mức cả tin, không chỉ báo cáo cấu hình cuối. Quy tắc 3 của giao thức (`Y_TUONG_DU_AN.md`
+mục 10.3) đã yêu cầu việc này. Chi phí: 0 run thêm ngoài các vòng hiệu chỉnh (mỗi vòng 243 run, khoảng 13–15 USD).
+
+**Phương án (b), đổi thiết kế.** Đưa biến thể prompt thành một trục của ma trận B1–B3. Cách này không phụ thuộc model,
+nhưng nhân số run của các khối đó lên khoảng 3–4 lần, và cần sửa `config/experiment.yaml`, `Mô tả bài toán` và checklist
+đã ký.
+
+**Nếu GVHD không đồng ý cả hai.** Giữ cổng như hiện tại, khai thành hạn chế: "môi trường hiệu chỉnh theo A2/A3; ASR
+tuyệt đối trên model khác không so được".
+
+| Ý kiến GVHD | |
+|---|---|
+| ☐ Đồng ý (a) · ☐ Đồng ý (b) · ☐ Không đồng ý · ☐ Ý kiến khác | |
+| Ghi chú | |
 
 ---
 
