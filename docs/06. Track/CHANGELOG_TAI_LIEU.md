@@ -3,6 +3,14 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-26
+- STT-60 P2-a — tài liệu chở K1 theo chủ đề tác vụ chở (lab `d1f426a`, `867b552`). TA quyết sửa
+  P2 trước `v-attack-1.0`. `config/channel_render.yaml` thêm `channels.K1.carrier_context`: tiêu
+  đề + thân trung tính cho CT-01…CT-06, không số liệu chính sách; injector K1 dùng cho cả tài liệu
+  hiển thị, T4, T6. Mới `scripts/k1_delivery_replay.py` (phát lại truy vấn search_kb thật của trace,
+  không gọi model): `delivered` K1 trên 90 run pilot từ 6/90 lên 83/90. Lý do: thân chung "thông
+  báo danh mục thiết bị" không vào top-k truy vấn của agent, làm ASR K1 bằng 0 do truy hồi. Hạn chế
+  ghi ở `pilot_findings.md`: kẻ tấn công được giả định biết chủ đề người dùng tra. Cùng ngày TA
+  quyết P3 (loại payload ở vòng hiệu chỉnh cuối) và P4-a (viết payload cho 19 ô B1 còn trống).
 - STT-60 Sửa lỗi harness P1 — `delivered` K1 (lab `fadbedf`, `8a6baa0`). `docs/04. Design/04. Trace
   schema.md`: `delivered` ở K1 tính từ kết quả `search_kb` thật của agent
   (`injector_k1.observed_delivered`), thêm trường chẩn đoán `delivered_probe`. Lý do: pilot cho thấy
