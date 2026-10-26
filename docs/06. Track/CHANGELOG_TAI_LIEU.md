@@ -3,6 +3,14 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-26
+- STT-61 · payload T4 `hidden_html_comment` bỏ kênh K1 (lab `2a3eea8`). `P-T4-G1-VI-001`, `P-T4-G1-EN-001`
+  (`src/attack/payloads/t4_hidden.yaml`) và hai bản cùng lỗi trong `data/payloads_sample.json`
+  (`P-T4-G1-VI-001`, `P-T4-G2-VI-001`) chỉ còn K2b. Kiểm `[INV12]` (`src/attack/payloads/render.py`) thêm
+  điều kiện: payload T4 khai K1 phải có obfuscation trong `channels.K1.t4_surface_by_obfuscation`.
+  `results/tables/channel_coverage.csv` sinh lại (K1·T4 dựng được 8 → 6). Lý do: K1 chỉ giao được
+  `hidden_css`; injector dừng lô vòng 0 ở 84/243 run. Không thêm kỹ thuật nên `v-attack-1.0` giữ
+  nguyên. Lô hủy `calib-r0-B1-20261026T091819Z` lưu làm bằng chứng; vòng 0 chạy lại từ đầu trên commit mới
+  (`lab_calibration.md` mục 5).
 - STT-61 · ý nghĩa hiệu chỉnh khi thay model. `ipi-agent-lab/results/calibration/lab_calibration.md` mục 1 thêm
   phần "Ý nghĩa với người dùng tool": hiệu chỉnh chỉnh môi trường chứ không chỉnh model, khóa một lần, ASR dưới cổng
   trên model mới là kết quả, báo cáo đường cong mọi vòng. `docs/06. Track/Xin ý kiến GVHD — họp kế tiếp.md` thêm
