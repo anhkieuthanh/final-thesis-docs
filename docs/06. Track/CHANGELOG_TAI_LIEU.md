@@ -2,6 +2,15 @@
 
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
+## 2026-10-27
+- STT-61 · vòng 0 hiệu chỉnh xong (lab `calib-r0-B1-20261026T160343Z`, commit `c683b18`, 243 run, 10,73 USD).
+  ASR_e2e: A1 0/81, A2 0/81, A3 1/81; payload tới ngữ cảnh 232/243. Kết quả ghi ở
+  `ipi-agent-lab/results/calibration/lab_calibration.md` mục 5. `docs/06. Track/Xin ý kiến GVHD — họp kế tiếp.md`
+  thêm mục 5: hướng đi tiếp khi hết núm mà A2/A3 vẫn dưới cổng (chế độ sàn + kẻ tấn công thích ứng). Lý do: quy tắc
+  cứng #5 và `Y_TUONG_DU_AN.md` mục 10.3 chưa khớp nhau ở trường hợp này.
+- Gỡ `docs/06. Track/Payload chưa đo pilot STT-60.md`. Điều kiện gỡ ghi trong file đã đạt: vòng 0 phủ 63/63 payload.
+  Quy tắc loại theo `activation_check` vẫn áp ở vòng hiệu chỉnh cuối (P3).
+
 ## 2026-10-26
 - STT-61 · payload T4 `hidden_html_comment` bỏ kênh K1 (lab `2a3eea8`). `P-T4-G1-VI-001`, `P-T4-G1-EN-001`
   (`src/attack/payloads/t4_hidden.yaml`) và hai bản cùng lỗi trong `data/payloads_sample.json`

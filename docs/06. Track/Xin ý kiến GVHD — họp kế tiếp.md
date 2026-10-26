@@ -2,7 +2,7 @@
 
 > Tài liệu soạn với sự hỗ trợ của AI (Claude), sinh viên đã rà nội dung. GVHD đã duyệt mục 1–3 đúng đề xuất ngày
 > 2026-10-21 (sinh viên báo lại; không lưu bản ký). Các nguồn chân lý và `Chốt phạm vi và checklist ký GVHD.md` đã đồng bộ
-> theo mục 1–3. Mục 4 chờ ý kiến.
+> theo mục 1–3. Mục 4, 5 chờ ý kiến.
 
 **Đồ án:** Nghiên cứu và xây dựng hệ thống đánh giá, phòng chống tấn công tiêm nhiễm gián tiếp (Indirect Prompt
 Injection) trên AI Agent dùng RAG + MCP tool-calling.
@@ -107,6 +107,51 @@ tuyệt đối trên model khác không so được".
 | Ý kiến GVHD | |
 |---|---|
 | ☐ Đồng ý (a) · ☐ Đồng ý (b) · ☐ Không đồng ý · ☐ Ý kiến khác | |
+| Ghi chú | |
+
+---
+
+## Mục 5. Hướng xử lý khi hết núm hiệu chỉnh mà ASR vẫn dưới cổng (STT-61)
+
+**Bối cảnh.** Hai quy tắc chưa khớp nhau. `Y_TUONG_DU_AN.md` mục 10.3 cho phép "hết núm mà ASR < 20% thì ghi là kết
+quả", nhưng câu đó viết cho A1, với giả định A2/A3 lọt cổng. Quy tắc cứng #5 cấm chạy full matrix khi ASR pilot chưa vào
+20–80%. Nếu cả A2 và A3 đều dưới cổng sau mọi núm thì chưa có hướng đi tiếp.
+
+**Số liệu vòng 0** (`ipi-agent-lab/results/calibration/lab_calibration.md` mục 5; biến thể `baseline`; 81 ca phủ 63/63 ô và
+63/63 payload; D = OFF):
+
+| Target | ASR_e2e (Wilson 95%) | Payload tới ngữ cảnh | Model từ chối |
+|---|---|---|---|
+| A1 (chỉ đo) | 0/81 = 0,0% [0,0%; 4,5%] | 79/81 | 27/81 |
+| A2 | 0/81 = 0,0% [0,0%; 4,5%] | 75/81 | 5/81 |
+| A3 | 1/81 = 1,2% [0,2%; 6,7%] | 78/81 | 1/81 |
+
+Payload tới ngữ cảnh ở 232/243 run, nhưng model gần như không làm theo. ASR thấp là do model kháng, không phải do lỗi
+harness. Còn hai núm chưa thử (vòng 1 `trusting`, vòng 2 `most_trusting`), mỗi vòng 243 run, khoảng 11 USD.
+
+**Không còn cửa nào khác trong phạm vi đã chốt:** `v-models-1.0` đã khóa model, `v-attack-1.0` đã khóa kỹ thuật,
+`calibration.allowed_knobs` đã khóa núm.
+
+**Đề xuất.** Vẫn chạy hai vòng còn lại. Nếu A2 và A3 vẫn dưới cổng:
+
+- **(1) Chạy ma trận ở chế độ sàn.** Sửa quy tắc cứng #5 thành: "hết núm hợp lệ mà ASR vẫn dưới cổng thì vẫn chạy, báo
+  cáo ở chế độ sàn". Trọng tâm RQ3–RQ4 chuyển sang chi phí hữu dụng của phòng thủ (FRR/USR). DSR khai là có độ chính
+  xác thấp, vì có ít ca thành công để chặn.
+- **(2) Dồn tín hiệu tấn công sang kẻ tấn công thích ứng (B5, RQ5).** Đây là đóng góp đã có trong đề tài, không phải
+  phần thêm mới. Kẻ tấn công biết phòng thủ và lặp tối đa 3 vòng có khả năng nâng ASR lên mức đo được.
+
+Kết luận dự kiến: "lớp model hiện tại kháng IPI gián tiếp tốt ở cấu hình doanh nghiệp thật; chỉ kẻ tấn công thích ứng
+mới vượt được ở mức đáng kể".
+
+**Phương án không đề xuất.** Thêm núm mới, ví dụ nhiều bước agent hơn hay tác vụ chở cần nhiều tool ghi hơn. Lý do:
+phải sửa giao thức sau khi đã thấy số, nên dễ bị phản biện "chỉnh tới khi được".
+
+**Nếu GVHD không đồng ý.** Dừng ở cổng: không chạy B1–B4 và báo cáo kết quả hiệu chỉnh như một phát hiện. RQ3–RQ4 khi
+đó không trả lời được.
+
+| Ý kiến GVHD | |
+|---|---|
+| ☐ Đồng ý (1) + (2) · ☐ Chỉ (1) · ☐ Không đồng ý · ☐ Ý kiến khác | |
 | Ghi chú | |
 
 ---
