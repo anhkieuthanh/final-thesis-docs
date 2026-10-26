@@ -3,6 +3,14 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-26
+- STT-60 Sửa lỗi harness P1 — `delivered` K1 (lab `fadbedf`, `8a6baa0`). `docs/04. Design/04. Trace
+  schema.md`: `delivered` ở K1 tính từ kết quả `search_kb` thật của agent
+  (`injector_k1.observed_delivered`), thêm trường chẩn đoán `delivered_probe`. Lý do: pilot cho thấy
+  probe bằng câu hỏi gốc lệch với truy hồi thật (agent tự viết lại truy vấn). Code: runner, adaptive,
+  `obs.trace` (cột mới; `open_store` thêm cột NULL được cho store cũ), `run_matrix --pilot
+  --channels`, `pilot_review` đọc chỉ đọc + đối chiếu độc lập; 1394 test qua. Chạy lại 15 ca K1 ×
+  A1–A3 (`pilot-B1-20261026T034810Z`, 2,31 USD): `delivered` thật 3/45, probe cũ 9/45, không trùng
+  run nào; ASR_e2e K1 vẫn 0. `pilot_findings.md` cập nhật P1 đã sửa, P2 xác nhận.
 - STT-60 Pilot 40 ca (lab `36fa552`, `cc30b09`, `ea3e3e2`). Mới: `attack.runner.plan_pilot` +
   cờ `run_matrix.py --pilot` (chọn 40 ca tất định từ 44/63 ô đã phủ của B1, giữ đủ mọi cặp
   kênh × kỹ thuật và kênh × mục tiêu, phủ CT-01…CT-06), 3 test; `scripts/pilot_review.py`
