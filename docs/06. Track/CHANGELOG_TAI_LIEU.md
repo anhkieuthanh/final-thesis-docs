@@ -3,6 +3,10 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-27
+- STT-61 · vòng 2 hiệu chỉnh: `ipi-agent-lab/config/prompts.yaml` đổi `active` từ `trusting` sang `most_trusting`,
+  đổi một núm `system_prompt_detail` (`standard` → `minimal`). Diff system prompt ghi ở `lab_calibration.md` mục 7.
+  Mục này cũng khai các commit sandbox STT-82 nằm giữa vòng 1 và vòng 2, không đổi request tới A1–A3. Lý do: TA
+  quyết chạy núm cuối theo lộ trình.
 - STT-61 · vòng 1 hiệu chỉnh xong (lab `calib-r1-B1-20261027T005540Z`, commit `8b06d3b`, 243 run, 10,78 USD).
   ASR_e2e: A1 0/81, A2 0/81, A3 2/81. A1 từ chối 27 → 38/81. Kết quả ghi ở `lab_calibration.md` mục 6.
   `Xin ý kiến GVHD — họp kế tiếp.md` mục 5 thêm số vòng 1. Lý do: hoàn tất vòng 1 theo lộ trình núm.
