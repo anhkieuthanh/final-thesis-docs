@@ -3,6 +3,16 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-27
+- `docs/07. Báo cáo/Chuong2.tex`, `Chuong3.tex`: đồng bộ với trạng thái lab. Chương 2: giả định kẻ tấn công
+  biết chủ đề tra cứu (K1, P2-a); kẻ tấn công thích ứng chỉ thấy câu trả lời cuối và bồn chứa của mình (PH1), viết
+  lại câu chữ giữ nguyên tool/đối số/`activation_check`, dừng khi từ chối hai vòng liên tiếp, đơn vị là chuỗi; ba
+  núm hiệu chỉnh và nguyên tắc khóa môi trường; G2 chỉ tính đúng `expected_tool`, luồng phát sinh vi phạm tự phát
+  (VT-16); bộ đo hữu dụng dùng mô hình chấm (không tất định) kèm veto dữ kiện cứng; xáo trộn thứ tự run có seed;
+  giao diện web thay Streamlit, chỉ phục vụ localhost; "kiểm tra kiểu mã" → "kiểm tra quy chuẩn mã"; thêm điểm
+  xác nhận (3) về Phụ lục M1b chưa ký. Chương 3: phiên bản MCP SDK 2.3, anthropic 1.13, fastembed 0.8; canary
+  listener đã có trong Compose (bốn dịch vụ); mô hình chấm và mô hình sinh payload; danh sách dạng giải mã của D4
+  thêm đảo chuỗi, cắt mảnh; mục mới 3.6.4 Giao diện web (FastAPI + React). Lý do: bản nháp viết 2026-10-20, lệch
+  các quyết định STT-57, STT-58, STT-60, STT-61.
 - STT-61 · vòng 1 hiệu chỉnh: `ipi-agent-lab/config/prompts.yaml` đổi `active` từ `baseline` sang `trusting`, đổi
   một núm `default_tool_permissions` (`on_request` → `autonomous`). Diff system prompt ghi ở `lab_calibration.md`
   mục 6. `tests/test_prompts.py` không ghim tên biến thể active nữa. Lý do: TA quyết chạy vòng 1 theo lộ trình núm
