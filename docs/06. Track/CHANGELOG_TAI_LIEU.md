@@ -3,6 +3,10 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-27
+- STT-61 · vòng 1 hiệu chỉnh: `ipi-agent-lab/config/prompts.yaml` đổi `active` từ `baseline` sang `trusting`, đổi
+  một núm `default_tool_permissions` (`on_request` → `autonomous`). Diff system prompt ghi ở `lab_calibration.md`
+  mục 6. `tests/test_prompts.py` không ghim tên biến thể active nữa. Lý do: TA quyết chạy vòng 1 theo lộ trình núm
+  trước khi họp GVHD.
 - STT-61 · vòng 0 hiệu chỉnh xong (lab `calib-r0-B1-20261026T160343Z`, commit `c683b18`, 243 run, 10,73 USD).
   ASR_e2e: A1 0/81, A2 0/81, A3 1/81; payload tới ngữ cảnh 232/243. Kết quả ghi ở
   `ipi-agent-lab/results/calibration/lab_calibration.md` mục 5. `docs/06. Track/Xin ý kiến GVHD — họp kế tiếp.md`
