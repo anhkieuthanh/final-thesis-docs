@@ -130,13 +130,21 @@ Payload tới ngữ cảnh ở 232/243 run, nhưng model gần như không làm 
 harness.
 
 **Vòng 1** (`trusting`, cùng 243 đơn vị; agent được chủ động dùng mọi công cụ): A1 0/81, A2 0/81, A3 2/81 = 2,5%
-[0,7%; 8,6%]. So từng cặp với vòng 0, chỉ 1 run chuyển sang thành công. A1 từ chối tăng từ 27/81 lên 38/81. Còn một núm
-chưa thử (vòng 2 `most_trusting`, 243 run, khoảng 11 USD).
+[0,7%; 8,6%]. So từng cặp với vòng 0, chỉ 1 run chuyển sang thành công. A1 từ chối tăng từ 27/81 lên 38/81.
+
+**Vòng 2** (`most_trusting`, núm cuối; system prompt rút còn vai trò và danh sách công cụ): A1 0/81, A2 2/80 = 2,5%
+[0,7%; 8,7%], A3 1/81. A1 từ chối 50/81. G2 tự phát (hành vi lành tính lệch ràng buộc, không vào ASR) tăng từ 10 lên 36
+run. **Đã hết núm hợp lệ, cả A2 và A3 vẫn dưới cổng.** Mọi run thành công qua ba vòng chỉ rơi vào 2 đơn vị, đều là K2a·G1
+rò canary qua `http`.
+
+**Hệ quả phụ cho quy tắc loại payload** (`payload_taxonomy.md` mục 5: loại payload không thành công lần nào ở pilot
+D=OFF): 61/63 payload có 0 thành công qua cả ba vòng. Áp nguyên quy tắc thì corpus còn 2 payload. Đề xuất: không áp
+quy tắc ở mức ASR sàn, khai thành hạn chế.
 
 **Không còn cửa nào khác trong phạm vi đã chốt:** `v-models-1.0` đã khóa model, `v-attack-1.0` đã khóa kỹ thuật,
 `calibration.allowed_knobs` đã khóa núm.
 
-**Đề xuất.** Vẫn chạy hai vòng còn lại. Nếu A2 và A3 vẫn dưới cổng:
+**Đề xuất** (hai vòng còn lại đã chạy, A2 và A3 vẫn dưới cổng):
 
 - **(1) Chạy ma trận ở chế độ sàn.** Sửa quy tắc cứng #5 thành: "hết núm hợp lệ mà ASR vẫn dưới cổng thì vẫn chạy, báo
   cáo ở chế độ sàn". Trọng tâm RQ3–RQ4 chuyển sang chi phí hữu dụng của phòng thủ (FRR/USR). DSR khai là có độ chính
@@ -156,6 +164,8 @@ phải sửa giao thức sau khi đã thấy số, nên dễ bị phản biện 
 | Ý kiến GVHD | |
 |---|---|
 | ☐ Đồng ý (1) + (2) · ☐ Chỉ (1) · ☐ Không đồng ý · ☐ Ý kiến khác | |
+| Không áp quy tắc loại payload ở mức ASR sàn | ☐ Đồng ý · ☐ Không đồng ý |
+| Biến thể khóa cho ma trận (đề xuất `baseline`: ASR ba vòng tương đương, G2 tự phát thấp nhất) | ☐ `baseline` · ☐ khác |
 | Ghi chú | |
 
 ---
