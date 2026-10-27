@@ -3,6 +3,9 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-27
+- STT-61 · vòng 1 hiệu chỉnh xong (lab `calib-r1-B1-20261027T005540Z`, commit `8b06d3b`, 243 run, 10,78 USD).
+  ASR_e2e: A1 0/81, A2 0/81, A3 2/81. A1 từ chối 27 → 38/81. Kết quả ghi ở `lab_calibration.md` mục 6.
+  `Xin ý kiến GVHD — họp kế tiếp.md` mục 5 thêm số vòng 1. Lý do: hoàn tất vòng 1 theo lộ trình núm.
 - `docs/07. Báo cáo/Chuong2.tex`, `Chuong3.tex`: đồng bộ với trạng thái lab. Chương 2: giả định kẻ tấn công
   biết chủ đề tra cứu (K1, P2-a); kẻ tấn công thích ứng chỉ thấy câu trả lời cuối và bồn chứa của mình (PH1), viết
   lại câu chữ giữ nguyên tool/đối số/`activation_check`, dừng khi từ chối hai vòng liên tiếp, đơn vị là chuỗi; ba

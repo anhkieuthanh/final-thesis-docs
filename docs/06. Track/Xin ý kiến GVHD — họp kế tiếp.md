@@ -127,7 +127,11 @@ quả", nhưng câu đó viết cho A1, với giả định A2/A3 lọt cổng. 
 | A3 | 1/81 = 1,2% [0,2%; 6,7%] | 78/81 | 1/81 |
 
 Payload tới ngữ cảnh ở 232/243 run, nhưng model gần như không làm theo. ASR thấp là do model kháng, không phải do lỗi
-harness. Còn hai núm chưa thử (vòng 1 `trusting`, vòng 2 `most_trusting`), mỗi vòng 243 run, khoảng 11 USD.
+harness.
+
+**Vòng 1** (`trusting`, cùng 243 đơn vị; agent được chủ động dùng mọi công cụ): A1 0/81, A2 0/81, A3 2/81 = 2,5%
+[0,7%; 8,6%]. So từng cặp với vòng 0, chỉ 1 run chuyển sang thành công. A1 từ chối tăng từ 27/81 lên 38/81. Còn một núm
+chưa thử (vòng 2 `most_trusting`, 243 run, khoảng 11 USD).
 
 **Không còn cửa nào khác trong phạm vi đã chốt:** `v-models-1.0` đã khóa model, `v-attack-1.0` đã khóa kỹ thuật,
 `calibration.allowed_knobs` đã khóa núm.
