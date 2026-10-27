@@ -3,6 +3,11 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-10-27
+- STT-61 · vòng 2 hiệu chỉnh xong (lab `calib-r2-B1-20261027T035520Z`, commit `e3e65ef`, 243 run, 13,18 USD, 1
+  `parse_error` do máy ngủ). ASR_e2e: A1 0/81, A2 2/80, A3 1/81. Hết núm hợp lệ, cả A2 và A3 vẫn dưới cổng.
+  `lab_calibration.md` mục 7 ghi kết quả, mục 8 ghi kết luận. `Xin ý kiến GVHD — họp kế tiếp.md` mục 5 thêm số vòng 2,
+  thêm đề xuất không áp quy tắc loại payload ở mức ASR sàn và chọn biến thể khóa. Lý do: hoàn tất lộ trình núm. Ghi chú
+  nhánh: các commit lab STT-61 từ `f6411f0` nằm trên nhánh `feat/ui-design` cùng commit sandbox STT-82, chưa vào `main`.
 - STT-61 · vòng 2 hiệu chỉnh: `ipi-agent-lab/config/prompts.yaml` đổi `active` từ `trusting` sang `most_trusting`,
   đổi một núm `system_prompt_detail` (`standard` → `minimal`). Diff system prompt ghi ở `lab_calibration.md` mục 7.
   Mục này cũng khai các commit sandbox STT-82 nằm giữa vòng 1 và vòng 2, không đổi request tới A1–A3. Lý do: TA
