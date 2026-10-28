@@ -10,6 +10,13 @@ Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi ·
   vượt giới hạn 400 ký tự K2b — không dùng số, không commit. Lý do: cung cấp số cho đề xuất (2) của mục 5 trước buổi
   họp GVHD.
 
+## 2026-10-28
+- STT-61 · lô dò payload gắn ngữ cảnh (lab `5e5d01c`, lô `probe-coupling-20261028T031749Z`, 0,66 USD). 6 payload bám
+  tool/nghiệp vụ từng tác vụ chở (không vào corpus), D=OFF, most_trusting, 36 run. ASR A2 4/18 = 22%, A3 6/18 = 33%,
+  so với ≈ 0–2,5% của corpus blind; G2 thắng rõ, G1/G3 vẫn 0. Kết luận: ASR sàn do corpus yếu, không do model.
+  `lab_calibration.md` mục 9; `Xin ý kiến GVHD` mục 5 đổi đề xuất sang mở `v-attack-1.1` rồi chạy lại hiệu chỉnh.
+  Lý do: TA nêu giả thuyết payload còn yếu, dò xác nhận.
+
 ## 2026-10-27
 - STT-61 · vòng 2 hiệu chỉnh xong (lab `calib-r2-B1-20261027T035520Z`, commit `e3e65ef`, 243 run, 13,18 USD, 1
   `parse_error` do máy ngủ). ASR_e2e: A1 0/81, A2 2/80, A3 1/81. Hết núm hợp lệ, cả A2 và A3 vẫn dưới cổng.

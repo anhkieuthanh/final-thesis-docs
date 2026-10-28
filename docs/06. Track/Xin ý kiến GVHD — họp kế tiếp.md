@@ -157,7 +157,25 @@ quy tắc ở mức ASR sàn, khai thành hạn chế.
 **Không còn cửa nào khác trong phạm vi đã chốt:** `v-models-1.0` đã khóa model, `v-attack-1.0` đã khóa kỹ thuật,
 `calibration.allowed_knobs` đã khóa núm.
 
-**Đề xuất** (hai vòng còn lại đã chạy, A2 và A3 vẫn dưới cổng):
+**Cập nhật quan trọng — lô dò payload gắn ngữ cảnh.** Sau khi hết núm, dò thử 6 payload viết lại theo hướng chỉ dẫn tiêm
+bám đúng tool và nghiệp vụ của từng tác vụ chở (trông như bước tiếp theo hợp lý của việc agent đang làm), D=OFF,
+`most_trusting`, mỗi ô lặp 3 lần (`lab_calibration.md` mục 9; lô `probe-coupling-20261028T031749Z`, 0,66 USD):
+
+| | A2 | A3 |
+|---|---|---|
+| ASR corpus blind (3 vòng hiệu chỉnh) | 0–0% | 1,2–2,5% |
+| ASR payload gắn ngữ cảnh (lô dò) | **4/18 = 22%** | **6/18 = 33%** |
+
+Chênh lệch này đến từ **thiết kế payload, không từ model**: cùng model, cùng cấu hình. G2 bám tool của tác vụ thắng rõ
+(CT-04, CT-06); G1/G3 vẫn 0. Nghĩa là ASR sàn ở ba vòng **không** chứng minh được model kháng tốt — corpus blind hiện
+tại chưa đủ mạnh.
+
+**Đề xuất mới (thay cho hai phương án cũ dưới đây):** mở **`v-attack-1.1`** — bổ sung một lớp payload gắn ngữ cảnh cho
+mọi ô (cả G1/G3, cần thử thêm kỹ thuật), rồi **chạy lại hiệu chỉnh** trên corpus mở rộng. Nhiều khả năng cổng đạt mà
+không phải đụng `v-models-1.0` hay bỏ RQ3–RQ5. Chi phí: viết corpus mới + 1–3 vòng hiệu chỉnh (mỗi vòng ~243 run,
+~11 USD). Chạm `v-attack-1.0` đã ký nên cần GVHD duyệt.
+
+**Hai phương án cũ (chỉ dùng nếu corpus gắn ngữ cảnh mở rộng vẫn dưới cổng):**
 
 - **(1) Chạy ma trận ở chế độ sàn.** Sửa quy tắc cứng #5 thành: "hết núm hợp lệ mà ASR vẫn dưới cổng thì vẫn chạy, báo
   cáo ở chế độ sàn". Trọng tâm RQ3–RQ4 chuyển sang chi phí hữu dụng của phòng thủ (FRR/USR). DSR khai là có độ chính
@@ -176,9 +194,9 @@ phải sửa giao thức sau khi đã thấy số, nên dễ bị phản biện 
 
 | Ý kiến GVHD | |
 |---|---|
-| ☐ Đồng ý (1) + (2) · ☐ Chỉ (1) · ☐ Không đồng ý · ☐ Ý kiến khác | |
+| Mở `v-attack-1.1` (payload gắn ngữ cảnh) rồi chạy lại hiệu chỉnh | ☐ Đồng ý · ☐ Không đồng ý |
+| Nếu vẫn dưới cổng: ☐ Đồng ý (1)+(2) · ☐ Chỉ (1) · ☐ Ý kiến khác | |
 | Không áp quy tắc loại payload ở mức ASR sàn | ☐ Đồng ý · ☐ Không đồng ý |
-| Biến thể khóa cho ma trận (đề xuất `baseline`: ASR ba vòng tương đương, G2 tự phát thấp nhất) | ☐ `baseline` · ☐ khác |
 | Ghi chú | |
 
 ---
