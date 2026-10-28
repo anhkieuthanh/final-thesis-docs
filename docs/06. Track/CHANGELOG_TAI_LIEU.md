@@ -2,6 +2,14 @@
 
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
+## 2026-10-28
+- STT-61 · `docs/06. Track/Xin ý kiến GVHD — họp kế tiếp.md` mục 5: thêm số lô dò kẻ tấn công thích ứng D=OFF (lab
+  `probe-adaptive-20261028T000233Z`, dữ liệu commit `70ecb65`, mã commit `2b0c6ad`; 12 đơn vị × A2/A3, tối đa 3 vòng,
+  1,69 USD). A2 0/12, A3 0/12 chuỗi thành công; payload tới ngữ cảnh 70/72 run. Hai lô dò trước
+  (`…20261027T161855Z`, `…20261027T164844Z`) dừng giữa chừng — lô đầu do tiến trình bị kill, lô sau do attacker viết lại
+  vượt giới hạn 400 ký tự K2b — không dùng số, không commit. Lý do: cung cấp số cho đề xuất (2) của mục 5 trước buổi
+  họp GVHD.
+
 ## 2026-10-27
 - STT-61 · vòng 2 hiệu chỉnh xong (lab `calib-r2-B1-20261027T035520Z`, commit `e3e65ef`, 243 run, 13,18 USD, 1
   `parse_error` do máy ngủ). ASR_e2e: A1 0/81, A2 2/80, A3 1/81. Hết núm hợp lệ, cả A2 và A3 vẫn dưới cổng.
