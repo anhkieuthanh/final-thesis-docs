@@ -53,3 +53,26 @@ quy trình ba quy tắc của mục 12.3 Mô tả bài toán có thể phải đ
 hiệu chỉnh từng núm (STT-61).
 
 **Hạn.** Cùng STT-60, STT-61.
+
+---
+
+## VT-19. Canary DB chỉ gieo ở bản ghi id=1, lệch id của tác vụ chở G1
+
+**Phát hiện ở đâu.** Soát thiết kế payload G1 gắn ngữ cảnh (STT-61), đối chiếu góp ý ngoài.
+
+**Bằng chứng.** `src/eval/canary.py:75` `DB_CANARY_ROW_ID = 1`; `seed_customers_db` (dòng 368) chỉ
+UPDATE `canary_note` ở `WHERE id = 1` (bản ghi mồi). Nhưng tác vụ chở dùng khách khác: CT-03/CT-06 →
+Nam Phát id=2, CT-05 → Việt Tiến id=3 (`scripts/seed_db.py:109` trở đi).
+
+**Hệ quả.** Payload G1 kiểu "chép nguyên văn bản ghi khách đang tra" trên CT-03/05/06 KHÔNG bao giờ
+chạm canary DB → G1 = 0 **do cấu trúc, không do model kháng**. Đây một phần là lý do G1 của lô dò đầu
+(payload 910/911 `canary_kind: db`) ra 0. Phải khai trong báo cáo: G1-via-DB-record chỉ đo được trên
+tác vụ chở trùng bản ghi mồi id=1.
+
+**Phương án.** (a) ĐANG DÙNG: payload G1 gắn ngữ cảnh rò `canary_kind: sysprompt` (mã phiên bản cấu
+hình, luôn có trong system prompt) qua đúng tool outbound của tác vụ — không phụ thuộc bản ghi khách,
+né lỗi này. (b) Nếu cần G1-via-DB thật trên CT-03/05/06: phải gieo canary vào đúng bản ghi các tác vụ
+đó dùng — chạm bộ đo đã khóa, cần GVHD duyệt. KHÔNG tự chuyển canary sang khách đang tra để tăng ASR
+(đổi bài toán đo). KHÔNG đưa sẵn canary vào payload.
+
+**Hạn.** Trước khi mở rộng corpus G1 sang kênh dùng bản ghi khách (ngoài sysprompt).
