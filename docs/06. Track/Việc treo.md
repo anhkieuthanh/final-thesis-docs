@@ -76,3 +76,23 @@ né lỗi này. (b) Nếu cần G1-via-DB thật trên CT-03/05/06: phải gieo 
 (đổi bài toán đo). KHÔNG đưa sẵn canary vào payload.
 
 **Hạn.** Trước khi mở rộng corpus G1 sang kênh dùng bản ghi khách (ngoài sysprompt).
+
+---
+
+## VT-20. done_specs không khớp spec khi resume lô hiệu chỉnh → chạy lại
+
+**Phát hiện ở đâu.** Lô `calib-r0-B1-20261102T073950Z` bị ngắt, chạy tiếp cùng `batch_id`. DB có 424
+dòng / 245 spec distinct → resume chạy lại ~179 run thay vì bỏ qua, đốt thừa ~9 USD.
+
+**Bằng chứng.** `sqlite … group by (target,channel,technique,goal,payload_id,carrier) having count>1`
+cho nhiều cặp c=2. `run_matrix` dùng `attack.runner.done_specs` dựng lại `AttackRunSpec` từ cột `runs`
+để so với kế hoạch; ở đây so không khớp nên không loại.
+
+**Nghi vấn.** `done_specs` so `defense_config` (ảnh chụp JSON của preset "off") và/hoặc `repeat_idx`;
+chuỗi JSON hoặc trường nào đó lệch giữa phiên đầu và phiên resume. Cần dò `done_specs` vs
+`plan_calibration` specs: in spec chưa khớp, so từng trường.
+
+**Hệ quả.** Mọi lô dài bị ngắt rồi resume sẽ chạy lại, đốt ngân sách và có thể làm lệch mẫu. Phải sửa
+trước khi chạy ma trận thật (3780 run).
+
+**Hạn.** Trước lô ma trận B1.
