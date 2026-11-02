@@ -63,7 +63,7 @@ Hệ thống được đánh giá là trợ lý nội bộ của một công ty 
 
 Mô hình đe dọa xác định ba tài sản cần bảo vệ. TS1 là chỉ thị hệ thống của tác tử, chứa quy tắc nghiệp vụ và ràng buộc an toàn. TS2 là cơ sở dữ liệu khách hàng, mà rò rỉ thuộc phạm vi điều chỉnh của Nghị định 13/2023/NĐ-CP~\cite{nd13-2023}. TS3 là quyền gọi ba công cụ có tác dụng ra ngoài. TS1 và TS2 là bí mật, mất một lần là mất; TS3 là năng lực hành động, chiếm được thì dùng lặp lại được và mọi hậu quả đều mang danh nghĩa hợp lệ của công ty. Tương ứng, đồ án xét ba mục tiêu tấn công: rò rỉ dữ liệu ra ngoài (G1), chiếm quyền hành động (G2) và thao túng câu trả lời tới người dùng (G3).
 
-Kẻ tấn công được giả định không truy cập được hạ tầng, mã nguồn hay trọng số mô hình, mà chỉ đặt được văn bản vào nơi tác tử sẽ đọc. Điều này khả thi vì ba giả định vận hành phổ biến: kho tri thức được nạp tự động từ thư điện tử và tệp tải lên mà không qua kiểm duyệt nội dung; danh sách công cụ MCP được lấy về lúc chạy từ máy chủ bên thứ ba mà không ghim phiên bản hay kiểm chữ ký; và kết quả trả về của công cụ được tác tử tin ở mức dữ liệu nghiệp vụ. Với kênh tài liệu, kẻ tấn công được giả định biết chủ đề mà nhân viên hay tra cứu, chẳng hạn bảng giá hay điều khoản giao hàng, nên viết được tài liệu mang payload có tiêu đề và thân bài cùng chủ đề; thiếu giả định này thì tài liệu gần như không bao giờ được truy hồi và kênh tài liệu không đo được. Kẻ tấn công được xét ở hai mức năng lực. Ở mức mù, kẻ tấn công không biết cơ chế phòng thủ nào đang bật. Ở mức thích ứng, kẻ tấn công biết cơ chế phòng thủ cùng tham số công khai của nó, và được viết lại câu chữ payload tối đa ba vòng; giữa hai vòng, kẻ tấn công chỉ thấy những gì một kẻ tấn công thật thấy được, là câu trả lời cuối và nội dung các bồn chứa do mình sở hữu, chứ không đọc được vết chạy hay biết lượt trước bị chặn ở đâu.
+Kẻ tấn công được giả định không truy cập được hạ tầng, mã nguồn hay trọng số mô hình, mà chỉ đặt được văn bản vào nơi tác tử sẽ đọc. Điều này khả thi vì ba giả định vận hành phổ biến: kho tri thức được nạp tự động từ thư điện tử và tệp tải lên mà không qua kiểm duyệt nội dung; danh sách công cụ MCP được lấy về lúc chạy từ máy chủ bên thứ ba mà không ghim phiên bản hay kiểm chữ ký; và kết quả trả về của công cụ được tác tử tin ở mức dữ liệu nghiệp vụ. Kẻ tấn công còn được giả định biết nghiệp vụ của doanh nghiệp ở mức một nhân viên hay đối tác thường biết: chủ đề nhân viên hay tra cứu, chẳng hạn bảng giá hay điều khoản giao hàng, và công cụ mà từng loại tác vụ thường dùng. Nhờ đó kẻ tấn công viết được tài liệu mang payload cùng chủ đề với câu hỏi nghiệp vụ, và viết được chỉ thị trông như bước tiếp theo hợp lý của việc tác tử đang làm. Thiếu giả định thứ nhất thì tài liệu gần như không bao giờ được truy hồi và kênh tài liệu không đo được; thiếu giả định thứ hai thì payload đòi một hành động lạc đề mà mô hình dễ dàng bỏ qua, và tỷ lệ tấn công thành công đo được phản ánh độ yếu của payload chứ không phản ánh độ bền của tác tử. Kẻ tấn công được xét ở hai mức năng lực. Ở mức mù, kẻ tấn công không biết cơ chế phòng thủ nào đang bật. Ở mức thích ứng, kẻ tấn công biết cơ chế phòng thủ cùng tham số công khai của nó, và được viết lại câu chữ payload tối đa ba vòng; giữa hai vòng, kẻ tấn công chỉ thấy những gì một kẻ tấn công thật thấy được, là câu trả lời cuối và nội dung các bồn chứa do mình sở hữu, chứ không đọc được vết chạy hay biết lượt trước bị chặn ở đâu.
 
 Bảng~\ref{tab:kenh} phân loại các kênh đưa nội dung không tin cậy vào cửa sổ ngữ cảnh theo vị trí của kênh trong vòng đời một lượt suy luận. Kênh tài liệu K1 chỉ gây hại khi đoạn chứa payload được truy hồi, nên kẻ tấn công phải tối ưu cả độ tương đồng ngữ nghĩa lẫn nội dung độc. Kênh công cụ K2 không có ràng buộc đó: mô tả công cụ (K2a) có mặt trong ngữ cảnh ở mọi lượt, cùng vùng với chỉ thị hệ thống, còn kết quả công cụ (K2b) xuất hiện giữa chuỗi suy luận, ngay trước bước quyết định hành động. Khác biệt này là lý do hệ thống phải đo hai kênh trên cùng một thang đo. Ba kênh K3--K5 được mô tả để hoàn chỉnh phân loại nhưng nằm ngoài thực nghiệm, vì kênh web không tái lập được, còn kênh bộ nhớ và kênh liên tác tử đòi dựng thêm thành phần ngoài kiến trúc RAG và MCP tối thiểu.
 
@@ -249,7 +249,7 @@ Hình~\ref{fig:uc-chaythucnghiem} phân rã UC04. Người đánh giá có sáu 
 \subsection{Biểu đồ use case phân rã Quản lý payload}
 \label{subsection:2.2.3}
 
-Hình~\ref{fig:uc-payload} phân rã UC02. Người đánh giá \textit{nhập payload từ bộ đo ngoài}, chẳng hạn payload kênh kết quả công cụ của AgentDojo; khi payload gốc gắn với bối cảnh của bộ đo nguồn, người đánh giá có thể \textit{bản địa hóa payload} sang bối cảnh công ty phân phối và tiếng Việt. Người đánh giá cũng \textit{soạn payload mới}, chủ yếu cho ba kỹ thuật mở rộng T6--T8. Mọi payload nhập hay soạn đều phải qua \textit{kiểm tra hợp lệ}: đủ bảy trường bắt buộc, đúng một kỹ thuật theo cây quyết định có thứ tự cố định, nguồn gốc và giấy phép hợp lệ, và có điều kiện kích hoạt kiểm được bằng chương trình. Sau khi soạn xong, người đánh giá \textit{khóa tập payload} bằng một nhãn phiên bản trong Git; sau mốc này không thêm kỹ thuật mới.
+Hình~\ref{fig:uc-payload} phân rã UC02. Người đánh giá \textit{nhập payload từ bộ đo ngoài}, chẳng hạn payload kênh kết quả công cụ của AgentDojo; khi payload gốc gắn với bối cảnh của bộ đo nguồn, người đánh giá có thể \textit{bản địa hóa payload} sang bối cảnh công ty phân phối và tiếng Việt. Người đánh giá cũng \textit{soạn payload mới}, cho ba kỹ thuật mở rộng T6--T8 và cho lớp payload gắn ngữ cảnh, tức payload có mục tiêu bám đúng công cụ và nghiệp vụ của tác vụ chở. Mọi payload nhập hay soạn đều phải qua \textit{kiểm tra hợp lệ}: đủ bảy trường bắt buộc, đúng một kỹ thuật theo cây quyết định có thứ tự cố định, nguồn gốc và giấy phép hợp lệ, và có điều kiện kích hoạt kiểm được bằng chương trình. Sau khi soạn xong, người đánh giá \textit{khóa tập payload} bằng một nhãn phiên bản trong Git; sau mốc này không thêm kỹ thuật mới. Bổ sung payload cho các kỹ thuật đã có vẫn được phép, nhưng phải được GVHD duyệt và khóa bằng một nhãn phiên bản mới, để mọi lượt chạy truy được về đúng tập payload đã dùng.
 
 \begin{figure}[htbp]
 	\centering
@@ -306,11 +306,11 @@ Hình~\ref{fig:uc-phantich} phân rã UC05. Người phụ trách an toàn \text
 \subsection{Quy trình nghiệp vụ đánh giá một bộ cấu hình phòng thủ}
 \label{subsection:2.2.5}
 
-Nghiệp vụ chính của hệ thống là đánh giá một bộ cấu hình phòng thủ trên một mô hình đích, kết hợp UC02, UC03, UC04 và UC05 theo thứ tự ở Hình~\ref{fig:hoatdong}. Quy trình có hai cổng chặn. Cổng thứ nhất là kiểm chứng bộ chấm: bộ chấm phải chấm đúng cả tám ca thử, sai một ca là chưa đạt và không được chạy ma trận, vì toàn bộ số liệu của đồ án là đầu ra của bộ chấm. Cổng thứ hai là hiệu chỉnh độ khó: tỷ lệ tấn công thành công của lần chạy thử phải nằm trong khoảng 20--80\% thì chênh lệch giữa các cấu hình mới quan sát được. Việc hiệu chỉnh chỉ được chỉnh ba yếu tố cấu hình có thật trong doanh nghiệp: mức chi tiết của chỉ thị hệ thống, câu nhắc cảnh giác với nội dung lấy từ kho tri thức và công cụ, và quyền mặc định của trợ lý với công cụ có tác dụng ra ngoài, từ chỉ dùng khi người dùng yêu cầu tới chủ động dùng để làm trọn việc. Mỗi vòng hiệu chỉnh đổi đúng một yếu tố theo hướng cả tin hơn, và mọi vòng đều ghi lại phần chỉ thị hệ thống thay đổi cùng tỷ lệ trước và sau. Cấu hình được khóa sau vòng cuối, và mô hình đích khác được đo trên đúng môi trường đã khóa đó; nói cách khác, hiệu chỉnh là chỉnh môi trường triển khai chứ không chỉnh theo từng mô hình. Nếu đã chỉnh hết các yếu tố hợp lệ mà tỷ lệ vẫn dưới 20\%, kết quả này được ghi nhận như một phát hiện về mức chống chịu của mô hình, không chỉnh tiếp để lấy số liệu đẹp.
+Nghiệp vụ chính của hệ thống là đánh giá một bộ cấu hình phòng thủ trên một mô hình đích, kết hợp UC02, UC03, UC04 và UC05 theo thứ tự ở Hình~\ref{fig:hoatdong}. Quy trình có hai cổng chặn. Cổng thứ nhất là kiểm chứng bộ chấm: bộ chấm phải chấm đúng cả tám ca thử, sai một ca là chưa đạt và không được chạy ma trận, vì toàn bộ số liệu của đồ án là đầu ra của bộ chấm. Cổng thứ hai là hiệu chỉnh độ khó: tỷ lệ tấn công thành công của lần chạy thử phải nằm trong khoảng 20--80\% thì chênh lệch giữa các cấu hình mới quan sát được. Việc hiệu chỉnh chỉ được chỉnh ba yếu tố cấu hình có thật trong doanh nghiệp: mức chi tiết của chỉ thị hệ thống, câu nhắc cảnh giác với nội dung lấy từ kho tri thức và công cụ, và quyền mặc định của trợ lý với công cụ có tác dụng ra ngoài, từ chỉ dùng khi người dùng yêu cầu tới chủ động dùng để làm trọn việc. Mỗi vòng hiệu chỉnh đổi đúng một yếu tố theo hướng cả tin hơn, và mọi vòng đều ghi lại phần chỉ thị hệ thống thay đổi cùng tỷ lệ trước và sau. Cấu hình được khóa sau vòng cuối, và mô hình đích khác được đo trên đúng môi trường đã khóa đó; nói cách khác, hiệu chỉnh là chỉnh môi trường triển khai chứ không chỉnh theo từng mô hình. Nếu đã chỉnh hết các yếu tố hợp lệ mà tỷ lệ vẫn dưới 20\%, chưa được kết luận ngay là mô hình chống chịu tốt, vì tỷ lệ thấp có thể do tập payload yếu. Người đánh giá chạy một lô dò nhỏ với payload gắn ngữ cảnh trên cùng mô hình và cùng cấu hình. Nếu lô dò cho tỷ lệ cao hơn rõ rệt thì tập payload là nguyên nhân: tập payload được mở rộng theo quy tắc của UC02, khóa nhãn phiên bản mới, và hiệu chỉnh chạy lại từ đầu. Nếu không, tỷ lệ thấp được ghi nhận như một phát hiện về mức chống chịu của mô hình, không chỉnh tiếp để lấy số liệu đẹp.
 
 \begin{figure}[htbp]
 	\centering
-	\begin{tikzpicture}[font=\small, node distance=5mm]
+	\begin{tikzpicture}[font=\small, node distance=5mm, scale=0.88, transform shape]
 		\node[circle, fill, inner sep=3pt] (start) {};
 		\node[act, below=of start] (b1) {Khóa bộ đo, tập payload và bộ mô hình đích};
 		\node[act, below=of b1] (b2) {Kiểm chứng bộ chấm trên tám ca thử};
@@ -320,7 +320,9 @@ Nghiệp vụ chính của hệ thống là đánh giá một bộ cấu hình p
 		\node[dec, below=of b3] (d2) {Tỷ lệ tấn công thành công trong 20--80\%?};
 		\node[dec, right=8mm of d2, text width=2.6cm] (d3) {Còn yếu tố hiệu chỉnh hợp lệ?};
 		\node[act, above=of d3, text width=2.8cm] (f2) {Hiệu chỉnh, ghi lại thay đổi};
-		\node[act, below=of d3, text width=2.8cm] (f3) {Ghi nhận mức chống chịu của mô hình};
+		\node[dec, below=of d3, text width=2.6cm] (d4) {Lô dò cho thấy tập payload yếu?};
+		\node[act, right=8mm of d4, text width=2.6cm] (f4) {Mở rộng tập payload, khóa nhãn mới};
+		\node[act, below=of d4, text width=2.8cm] (f3) {Ghi nhận mức chống chịu của mô hình};
 		\node[act, below=10mm of d2] (b4) {Chạy ma trận kẻ tấn công mù và bộ đo hữu dụng};
 		\node[act, below=of b4] (b5) {Chạy tấn công thích ứng trên các cơ chế còn hiệu lực};
 		\node[act, below=of b5] (b6) {Tổng hợp chỉ số kèm khoảng tin cậy Wilson 95\%};
@@ -337,7 +339,10 @@ Nghiệp vụ chính của hệ thống là đánh giá một bộ cấu hình p
 		\draw[flow] (d2) -- node[above] {không} (d3);
 		\draw[flow] (d3) -- node[right] {có} (f2);
 		\draw[flow] (f2) |- (b3);
-		\draw[flow] (d3) -- node[right] {không} (f3);
+		\draw[flow] (d3) -- node[right] {không} (d4);
+		\draw[flow] (d4) -- node[above] {có} (f4);
+		\draw[flow] (f4) |- (f2);
+		\draw[flow] (d4) -- node[right] {không} (f3);
 		\draw[flow] (f3) |- (b4);
 		\draw[flow] (d2) -- node[right] {có} (b4);
 		\draw[flow] (b4) -- (b5);
@@ -460,7 +465,8 @@ Loại tác vụ ở luồng phát sinh 3b là thông tin người dùng chọn 
 		(5) Hệ thống ghi mã chuỗi, số thứ tự vòng và mức năng lực kẻ tấn công là thích ứng vào vết của từng lượt chạy; chuỗi được tính là thành công nếu bất kỳ vòng nào đạt mục tiêu. \\ \hline
 		\textbf{Luồng phát sinh} &
 		(4a) Mô hình đích tự từ chối ở hai vòng liên tiếp: dừng chuỗi, ghi lý do dừng là mô hình từ chối. \newline
-		(4b) Chi phí vượt 120\% dự toán: dừng lô ngay. \\ \hline
+		(4b) Payload viết lại vượt giới hạn độ dài của kênh: hệ thống báo giới hạn cho mô hình sinh payload và cho viết lại một lần; vẫn vượt thì dừng chuỗi với nhãn lỗi dựng payload. \newline
+		(4c) Chi phí vượt 120\% dự toán: dừng lô ngay. \\ \hline
 		\textbf{Hậu điều kiện} & Có tỷ lệ phòng thủ với kẻ tấn công thích ứng trên cùng ô thí nghiệm với kẻ tấn công mù, đủ để tính tỷ lệ giữ hiệu lực. \\ \hline
 	\end{tabular}
 \end{table}

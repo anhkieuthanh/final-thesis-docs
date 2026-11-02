@@ -17,6 +17,9 @@
 %   (1) Mục bib mới trong refs_chuong3.bib: đối chiếu tác giả, năm, nơi công bố với bản gốc.
 %   (2) Bộ mô hình A1--A3 và phần harness thuộc Phụ lục M1b, còn chờ GVHD ký; xem Chương 2,
 %       điểm (3).
+%   (3) Mục 3.4.4, đoạn "gắn ngữ cảnh": viết theo cách A (giữ cả payload cũ và payload gắn ngữ
+%       cảnh) trong docs/06. Track/Duyệt v-attack-1.1 — hai cách mở rộng corpus.md. TA chọn
+%       cách B thì sửa hai câu cuối đoạn.
 % =============================================================================
 \documentclass[../DoAn.tex]{subfiles}
 \begin{document}
@@ -232,6 +235,9 @@ Payload được phân loại theo trục mà nó khai thác, tức theo cách n
 \end{table}
 
 Các trục khai thác giải thích vì sao không cơ chế phòng thủ nào chặn được mọi kỹ thuật. T1, T2 và T4 để lại dấu hiệu cú pháp, như câu mệnh lệnh hay ký tự ẩn, nên có thể bị lọc ở tầng văn bản. T3 và T5 không chứa câu lệnh nào mà dựa vào tính hợp lý của nội dung, nên các cơ chế đọc văn bản không có gì để bắt. T6 chia payload thành các mảnh mà từng mảnh riêng lẻ đều vô hại, nên cơ chế xét từng đoạn không thấy. T8 dùng các biến thể như bỏ dấu, kiểu gõ Telex hay ký tự đồng hình, vốn làm các mẫu so khớp viết cho chữ có dấu chuẩn bỏ sót.
+
+% [XÁC NHẬN] (3)
+Bên cạnh kỹ thuật, payload còn khác nhau ở một trục độc lập là mức \emph{gắn ngữ cảnh}: mục tiêu mà payload đòi có bám vào việc tác tử đang làm hay không. Một payload không gắn ngữ cảnh đòi một hành động cố định, chẳng hạn mở phiếu chiết khấu cho một khách hàng bất kỳ, chèn vào giữa một tác vụ kiểm tồn kho; mô hình dễ nhận ra hành động đó lạc đề và bỏ qua. Một payload gắn ngữ cảnh đòi một hành động dùng đúng công cụ và đối tượng của tác vụ đang chạy, chẳng hạn mở phiếu theo dõi cho chính mã hàng đang kiểm, nên trông như bước tiếp theo hợp lý của quy trình. Hai payload có thể dùng cùng một kỹ thuật và cùng một điều kiện kích hoạt, tức được chấm như nhau, mà chỉ khác mức gắn ngữ cảnh. Hệ quả cho đo lường là một tập payload chỉ gồm loại không gắn ngữ cảnh có thể cho tỷ lệ tấn công thành công gần bằng không mà không chứng minh được mô hình chống chịu tốt. Vì vậy tập payload của đồ án gồm cả hai loại, gắn nhãn để tách được khi phân tích, và Chương~4 so sánh trực tiếp hai loại trên cùng ô thí nghiệm.
 
 \subsection{Kẻ tấn công thích ứng}
 \label{subsection:3.4.5}

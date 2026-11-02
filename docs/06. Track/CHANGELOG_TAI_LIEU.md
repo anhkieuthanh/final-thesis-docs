@@ -2,6 +2,15 @@
 
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
+## 2026-11-02
+- `docs/07. Báo cáo/Chuong2.tex`, `Chuong3.tex`: đồng bộ với việc GVHD duyệt mở `v-attack-1.1` (2026-10-30) và
+  sửa STT-57 `2b0c6ad`. Chương 2: giả định kẻ tấn công biết công cụ từng loại tác vụ dùng (payload gắn ngữ cảnh);
+  UC02 cho bổ sung payload kỹ thuật đã có khi có GVHD duyệt và nhãn phiên bản mới; hết núm mà dưới cổng thì dò
+  sức mạnh tập payload trước khi kết luận mô hình chống chịu — hình hoạt động thêm nút quyết định và nhánh mở rộng
+  tập payload; UC04.4 thêm luồng phát sinh vượt giới hạn độ dài kênh. Chương 3: mục 3.4.4 thêm trục "gắn ngữ cảnh"
+  độc lập với kỹ thuật, điểm xác nhận (3) chờ TA chọn cách A/B. Lý do: ba vòng hiệu chỉnh dưới cổng và lô dò gắn
+  ngữ cảnh cho thấy ASR sàn do tập payload yếu, mâu thuẫn câu "ghi nhận như phát hiện về mức chống chịu".
+
 ## 2026-10-28
 - STT-61 · `docs/06. Track/Xin ý kiến GVHD — họp kế tiếp.md` mục 5: thêm số lô dò kẻ tấn công thích ứng D=OFF (lab
   `probe-adaptive-20261028T000233Z`, dữ liệu commit `70ecb65`, mã commit `2b0c6ad`; 12 đơn vị × A2/A3, tối đa 3 vòng,
