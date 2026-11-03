@@ -1,8 +1,18 @@
 # CHANGELOG TÀI LIỆU
 
+
+## 2026-11-03 — Soát trace đối chứng payload (Codex)
+
+- `ipi-agent-lab/results/calibration/lab_calibration.md`, mục 13.1: bổ sung phân tích 12 run G2–K2b và T2–G1; phân biệt ảnh hưởng lên câu trả lời với hành động đạt goal, ghi nhận URL tồn kho trả 404 và bước xác minh CT-04 trước calibration. Lý do: tránh diễn giải 0/6 thành model kháng payload hoặc chỉnh payload khi ngữ cảnh môi trường chưa được kiểm soát.
+
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-11-03
+- `ipi-agent-lab/results/calibration/lab_calibration.md`: thêm mục 13.1 soát trace hai nhóm 0/6 của lô đối chứng
+  (G2–K2b: không gọi `create_ticket`, chỉ đề xuất mở phiếu; T2–G1: chỉ GET, không POST rò) và ghi lỗi môi trường
+  URL tồn kho: mô tả tool `http_request` không nêu dạng `/api/inventory/<SKU>`, A2/A3 gọi `?sku=` → 404 ở cả lô
+  lành tính lẫn calibration. Lý do: phân biệt thất bại do model, do payload hay do môi trường trước khi chạy lại
+  calibration; giữ nguyên nhãn và payload.
 - `ipi-agent-lab/results/calibration/lab_calibration.md`: mục 10–11 đổi kết luận G3 từ "model bền, không phải
   payload yếu" thành "hai khung đã thử chưa thành công, chưa tách được model bền hay payload yếu"; mục 12 tính lại
   trên 318 spec distinct của 497 bản ghi (A2 7/103, A3 5/109, coupled 11/125, non-coupled 1/193) thay cho 245 spec
