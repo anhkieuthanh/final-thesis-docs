@@ -1,5 +1,11 @@
 # CHANGELOG TÀI LIỆU
 
+## 03/11/2026 — Điền chương 2–3 và rà soát chương 1 trên Overleaf
+
+- File: `docs/07. Báo cáo/Chuong1.tex`, `Chuong2.tex`, `Chuong3.tex`, `refs_chuong1.bib`; năm tệp tương ứng trên Overleaf (gồm preamble và thư mục tài liệu tham khảo).
+- Thay đổi: điền hai chương còn là mẫu; thêm hai hình tổng hợp có nguồn ở chương 1; đồng bộ phạm vi và giao diện; sửa diễn đạt về rò rỉ, phân biệt dữ liệu/chỉ thị và truy hồi; cập nhật dẫn chiếu Luật 91/2025/QH15; điều chỉnh bố cục sơ đồ và phụ thuộc LaTeX.
+- Lý do: yêu cầu người dùng hoàn thiện chương 2–3 và review chương 1. Các mục còn treo và giới hạn biên dịch ghi ở `Rà soát Overleaf chương 1–3.md`.
+
 
 ## 2026-11-03 — Soát trace đối chứng payload (Codex)
 
@@ -8,6 +14,10 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-11-03
+- `ipi-agent-lab/config/models.yaml` (khối `targets.A3`), tag `v-models-1.1`: A3 đổi từ `glm-5.3-flash` sang
+  `deepseek-v4.1-flash-1017`, GVHD duyệt 2026-11-03. Đơn giá A3 tạm dùng giá cũ (input 0,60 · output 1,80 USD/Mtok)
+  cho tới khi có giá dashboard gateway. Lý do: A3 cũ timeout và 429 liên tục trên gateway, không đo được. Mọi số liệu
+  A3 trước `v-models-1.1` (USR baseline, calibration, lô dò) không so trực tiếp với A3 mới.
 - `ipi-agent-lab/config/tools.yaml` (mô tả tool `http_request`) và `ipi-agent-lab/results/calibration/lab_calibration.md`
   mục 13.1: mô tả nêu rõ `GET http://intranet.local/api/inventory/<SKU>`; ghi kết quả lô thử lành tính A2 (20/20 URL đúng,
   judge 20/20). Lý do: A2/A3 đoán `?sku=` gây 404 ở cả lô lành tính và lô tấn công. Mô tả tool thuộc `env_hash`: USR
