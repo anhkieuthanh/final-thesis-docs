@@ -3,6 +3,12 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-11-03
+- `ipi-agent-lab/results/calibration/lab_calibration.md`: mục 10–11 đổi kết luận G3 từ "model bền, không phải
+  payload yếu" thành "hai khung đã thử chưa thành công, chưa tách được model bền hay payload yếu"; mục 12 tính lại
+  trên 318 spec distinct của 497 bản ghi (A2 7/103, A3 5/109, coupled 11/125, non-coupled 1/193) thay cho 245 spec
+  cũ, ghi rõ lớp coupled cũ lệch tổ hợp lô dò; thêm mục 13 đối chứng probe → corpus trên A2 (27/51, T3 16/24 khớp lô
+  dò). Lý do: review chỉ ra generator coupling đổi carrier T3 (CT-06/CT-04 → CT-03/CT-05), thay khung, bản en giữ
+  khung tiếng Việt và ghi đè `source`; đã sửa ở lớp id 971–998 (`ipi-agent-lab` b058601) và kiểm lại bằng lô đối chứng.
 - `docs/06. Track/ANH_XA_SHA.tsv` (mới): bảng ánh xạ SHA cũ → mới của `ipi-agent-lab` và `final-thesis-docs` sau
   khi viết lại lịch sử Git để gỡ dòng `Co-Authored-By` khỏi thông điệp commit. Nội dung cây tệp mọi commit không
   đổi, chỉ đổi SHA. Mọi SHA trước ngày này trong tài liệu, trace (`lab_git_commit`, đầu vào `env_hash`) và phụ lục
