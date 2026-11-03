@@ -2,6 +2,13 @@
 
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
+## 2026-11-03
+- `docs/06. Track/ANH_XA_SHA.tsv` (mới): bảng ánh xạ SHA cũ → mới của `ipi-agent-lab` và `final-thesis-docs` sau
+  khi viết lại lịch sử Git để gỡ dòng `Co-Authored-By` khỏi thông điệp commit. Nội dung cây tệp mọi commit không
+  đổi, chỉ đổi SHA. Mọi SHA trước ngày này trong tài liệu, trace (`lab_git_commit`, đầu vào `env_hash`) và phụ lục
+  M1b tra sang SHA mới qua bảng này; 37/37 SHA trong trace đã kiểm có trong bảng. Tag `v-models-1.0`,
+  `v-attack-1.0`, `legacy-pre-cleanup`, `v-pred-1.0` đã trỏ sang commit mới tương ứng.
+
 ## 2026-11-02
 - `docs/07. Báo cáo/Chuong2.tex`, `Chuong3.tex`: đồng bộ với việc GVHD duyệt mở `v-attack-1.1` (2026-10-30) và
   sửa STT-57 `2b0c6ad`. Chương 2: giả định kẻ tấn công biết công cụ từng loại tác vụ dùng (payload gắn ngữ cảnh);
