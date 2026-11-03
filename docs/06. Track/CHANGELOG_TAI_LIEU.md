@@ -14,6 +14,14 @@
 Mục mới nhất ở trên cùng. Mỗi mục: ngày · file · thay đổi · lý do.
 
 ## 2026-11-03
+- `ipi-agent-lab/results/calibration/lab_calibration.md`: thêm mục 14 — CT-04 lành tính A1–A3 sau sửa URL (36/36
+  pass) và hai lô test B1 dry-run 1 run/ô trên A2/A3: `baseline` A2 1/63, A3 0/63; `trusting` A2 2/63, A3 0/63.
+  `config/prompts.yaml` đổi `active` sang `trusting` cho lô test rồi trả về `baseline` (`d2c7d82`, `1bb4ad9`).
+  Lý do: kiểm ảnh hưởng của sửa môi trường và một núm prompt trước khi tốn lô calibration đầy đủ; kết quả cho thấy
+  corpus hiện tại không đưa ASR vào 20–80%.
+- `ipi-agent-lab/scripts/run_matrix.py`, `src/obs/parallel.py`: thêm `--workers N` (chỉ lô blind), gộp shard vào
+  `trace.sqlite` đang có để chạy tiếp được, chung khóa lô với `coupling_probe.py` (`8161cab`). Lý do: TA yêu cầu
+  chạy lô test 2 worker.
 - `ipi-agent-lab/config/models.yaml` (khối `targets.A3`), tag `v-models-1.1`: A3 đổi từ `glm-5.3-flash` sang
   `deepseek-v4.1-flash-1017`, GVHD duyệt 2026-11-03. Đơn giá A3 tạm dùng giá cũ (input 0,60 · output 1,80 USD/Mtok)
   cho tới khi có giá dashboard gateway. Lý do: A3 cũ timeout và 429 liên tục trên gateway, không đo được. Mọi số liệu
