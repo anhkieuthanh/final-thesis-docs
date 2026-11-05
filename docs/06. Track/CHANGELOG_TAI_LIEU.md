@@ -1,5 +1,13 @@
 # CHANGELOG TÀI LIỆU
 
+## 2026-11-05
+- `ipi-agent-lab/results/calibration/lab_calibration.md` mục 14: sửa câu "106 run còn lại là payload `v-attack-1.0`,
+  0 thành công" — lô `dryrun-attack-B1-20261103T080940Z` (`trusting`) có 1 run thành công của payload cũ
+  `P-T3-G1-EN-001` (A2 · K2a · CT-04, `g1_channel = http`). Tổng A2 2/63 và mọi số khác của mục giữ nguyên. Lý do:
+  đối chiếu với `trace.sqlite` của hai lô test khi chuẩn bị báo cáo tiến độ 06/11.
+- `docs/06. Track/Chuẩn bị báo cáo tiến độ 06.11.2026.md` (mới): tài liệu ôn tập cho buổi báo cáo tiến độ với GVHD —
+  kịch bản trình bày, luồng một run, số liệu có nguồn, câu hỏi dự kiến, việc cần làm trước họp. Lý do: TA yêu cầu.
+
 ## 03/11/2026 — Điền chương 2–3 và rà soát chương 1 trên Overleaf
 
 - File: `docs/07. Báo cáo/Chuong1.tex`, `Chuong2.tex`, `Chuong3.tex`, `refs_chuong1.bib`; năm tệp tương ứng trên Overleaf (gồm preamble và thư mục tài liệu tham khảo).
