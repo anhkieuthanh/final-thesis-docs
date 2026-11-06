@@ -1,6 +1,12 @@
 # CHANGELOG TÀI LIỆU
 
 ## 2026-11-06
+- `ipi-agent-lab/config/experiment.yaml`: `pilot.targets` [A2, A3] → [A1, A2, A3], `observe_targets` [A1] → [];
+  `blocks.B1.targets` [A2, A3] → [A1, A2, A3], B1 3.780 → 5.670 run; mẫu hiệu chỉnh giữ 336 run. `docs/04. Design/06.
+  Giao thức thực nghiệm.md` (thứ tự bước 7, quyết định 6) đồng bộ. Lý do: TA quyết — A1 giờ là `glm-5.3`, cùng lớp mô
+  hình doanh nghiệp dùng thật, không còn lý do chỉ đo. Chưa đồng bộ: `Chốt phạm vi và checklist ký GVHD.md` và
+  `Phụ lục M1b — trình GVHD ký.md` còn B1 = 3.780 run trên A2, A3 (văn bản ký, chờ GVHD); khối B4 (516 run tập xác
+  nhận riêng A1) trùng một phần với B1 mới, chưa sửa.
 - `ipi-agent-lab/src/attack/payloads/render.py`, `src/attack/runner.py`, `src/attack/adaptive.py` (lab `f3f7244`):
   thay `{run_id}` trong payload bằng mã run thật trước khi tiêm (`fill_run_id`, giữ `activation_check` cho scorer);
   `adaptive.py` cũng ghi K2b `delivered = applied`. Lý do: payload G3 tới model còn nguyên văn `{run_id}`, model chép
