@@ -1,5 +1,23 @@
 # CHANGELOG TÀI LIỆU
 
+## 2026-11-06
+- `ipi-agent-lab/config/models.yaml` (khối `targets.A1`), tag `v-models-1.2`: A1 đổi từ `claude-opus-5` (Anthropic
+  trực tiếp, sampling mặc định) sang `glm-5.3` qua gateway, `temperature` 0 như A2/A3; GVHD duyệt 2026-11-06. Đơn giá
+  A1 tạm dùng giá glm-5.2 (input 2,10 · output 6,60 USD/Mtok) cho tới khi có giá dashboard gateway. Judge
+  (`claude-sonnet-5-5`) và attacker (`claude-opus-5`) giữ nguyên. Nhãn ba target chỉ còn `A1`/`A2`/`A3`, bỏ mô tả
+  "frontier", "lớp doanh nghiệp Việt", "lớp rẻ" ở `models.yaml`, trang Cấu hình và bảng thuật ngữ console. Đồng bộ
+  `.env.example`, `config/mutator.yaml`, `tests/test_llm_client.py` (nhánh provider anthropic kiểm qua khối `attacker`).
+  Lý do: doanh nghiệp Việt thực tế không dùng claude-opus-5. Mọi số liệu A1 trước `v-models-1.2` (USR baseline,
+  calibration vòng 0–2, lô dò) không so trực tiếp với A1 mới; USR baseline chạy lại trên `v-models-1.2`.
+- `ipi-agent-lab/src/obs/cost.py`: `spend_from_log` tính mỗi dòng log theo đơn giá của `model` ghi trong dòng đó
+  (nếu model còn trong `models.yaml`), không theo giá hiện hành của target; `load_prices` nhận cả khối `attacker`.
+  `scripts/adaptive_probe.py` lấy giá attacker từ khối của nó thay vì mượn giá A1; `src/console/data.py` trang tổng
+  quan báo lỗi thay vì sập khi target thiếu đơn giá. Lý do: sau khi đổi model A1, lời gọi claude-opus-5 cũ sẽ bị tính
+  lại theo giá glm-5.3, làm sai tổng chi phí và hạn mức tổng.
+- `ipi-agent-lab/scripts/run_utility_baseline.py`: thêm `--workers N` (cơ chế `obs.parallel` như `run_matrix.py`),
+  mỗi con ghi `trace-s<i>.sqlite` + `judge-s<i>.jsonl`, mẹ gộp; lô USR giữ khóa `logs/batch.lock`. Lý do: TA yêu
+  cầu chạy lại USR 540 run song song.
+
 ## 2026-11-05
 - `ipi-agent-lab/results/calibration/lab_calibration.md` mục 14: sửa câu "106 run còn lại là payload `v-attack-1.0`,
   0 thành công" — lô `dryrun-attack-B1-20261103T080940Z` (`trusting`) có 1 run thành công của payload cũ
