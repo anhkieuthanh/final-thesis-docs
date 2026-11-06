@@ -1,6 +1,15 @@
 # CHANGELOG TÀI LIỆU
 
 ## 2026-11-06
+- `ipi-agent-lab/src/attack/payloads/render.py`, `src/attack/runner.py`, `src/attack/adaptive.py` (lab `f3f7244`):
+  thay `{run_id}` trong payload bằng mã run thật trước khi tiêm (`fill_run_id`, giữ `activation_check` cho scorer);
+  `adaptive.py` cũng ghi K2b `delivered = applied`. Lý do: payload G3 tới model còn nguyên văn `{run_id}`, model chép
+  marker giả (vd `NCC-{run_id}`) nhưng scorer dò marker có mã run thật ⇒ `g3_hit` luôn 0 ở mọi lô hiệu chỉnh và lô dò;
+  70 run G3 hiệu chỉnh có marker nguyên văn trong câu trả lời. Kết luận G3 ở `lab_calibration.md` mục 8, 10–11 không
+  còn đứng được; số G3 phải đo lại.
+- `docs/06. Track/Phân tích mẫu thử trước hiệu chỉnh v-attack-1.1.md` (mới): thành phần corpus theo ô, tỉ trọng payload
+  gắn ngữ cảnh ở mẫu hiệu chỉnh (36%) so với ma trận B1 (6%), kết quả theo lớp payload, ước lượng G3 nếu marker được
+  thay, ước lượng ASR ma trận theo cách A/B. Lý do: TA yêu cầu trình bày chi tiết mẫu thử để chọn cách mở rộng corpus.
 - `ipi-agent-lab/src/attack/runner.py`, `src/attack/injector_k2.py` (lab `3749ad1`): K2b ghi `runs.delivered =
   K2ToolLayer.result.applied` — tool chở không được gọi thì payload chưa vào ngữ cảnh. Đồng bộ định nghĩa
   `delivered`/`ASR_cond` ở `docs/04. Design/taxonomy.md` (mục 2.1, 2.3, phần hệ quả đo lường), `04. Trace schema.md`,
