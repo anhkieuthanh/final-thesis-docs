@@ -1,6 +1,13 @@
 # CHANGELOG TÀI LIỆU
 
 ## 2026-11-06
+- `ipi-agent-lab/config/models.yaml` (khối A1, A2), `src/agent/llm_client.py`: thêm khóa `reasoning_effort`, A1 và A2
+  đặt `medium` (gửi kèm mọi request, provider openai); A3 không đặt. Manifest USR ghi `reasoning_effort` từng target.
+  Lý do: TA quyết sau lời gọi dò cùng một request USR (A1 132 s → 8 s, A2 48 s → 6 s; một lần gọi mỗi cấu hình). Áp
+  cho mọi lô sau của A1/A2; số đo A1/A2 trước thay đổi này không so trực tiếp.
+- `ipi-agent-lab/config/experiment.yaml` (khóa `utility_baseline`): `targets` từ `[A1, A2, A3]` còn `[A1, A2]`, lượt
+  USR chạy lại 360 run. Lý do: lô thử `dryrun-usr-baseline-20261106T024827Z` (15 run, 3 tiến trình) — gateway trả lời
+  A3 (`deepseek-v4.1-flash-1017`) 75–81 s, vượt timeout 60 s, 4/5 run A3 `parse_error`; TA quyết bỏ A3 khỏi lượt này.
 - `ipi-agent-lab/config/models.yaml` (khối `targets.A1`), tag `v-models-1.2`: A1 đổi từ `claude-opus-5` (Anthropic
   trực tiếp, sampling mặc định) sang `glm-5.3` qua gateway, `temperature` 0 như A2/A3; GVHD duyệt 2026-11-06. Đơn giá
   A1 tạm dùng giá glm-5.2 (input 2,10 · output 6,60 USD/Mtok) cho tới khi có giá dashboard gateway. Judge
