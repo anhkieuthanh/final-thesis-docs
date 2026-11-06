@@ -56,8 +56,8 @@ riêng, chèn vào collection nền trước run và xóa sau run.
 
 **Cơ chế kích hoạt.** Payload chỉ có tác dụng khi chunk chứa nó lọt vào top-k của retriever cho
 câu hỏi của tác vụ chở. Kẻ tấn công phải tối ưu **đồng thời** hai thứ đối nghịch: độ tương đồng
-ngữ nghĩa với truy vấn dự kiến, và nội dung độc. Đây là kênh **duy nhất** có `delivered` biến
-thiên, nên cũng là kênh duy nhất mà `ASR_cond` có nghĩa.
+ngữ nghĩa với truy vấn dự kiến, và nội dung độc. `delivered` biến thiên theo khâu truy hồi, nên
+`ASR_cond` tách được phần ASR bị khâu truy hồi "che". K2b cũng có `delivered` biến thiên (mục 2.3).
 
 **Bề mặt ẩn giấu riêng.** Metadata file, footer, chữ trắng trên nền trắng, HTML comment, text
 ẩn theo CSS — chênh lệch giữa cái người duyệt tài liệu thấy và cái parser đọc ra.
@@ -89,7 +89,9 @@ kèm khi diễn giải DSR của D2.
 
 **Cơ chế kích hoạt.** Vào context khi công cụ được gọi — tức **giữa chuỗi suy luận**, ngay
 trước bước agent quyết định hành động tiếp theo. Đòn bẩy cao nhất trong ba kênh thực nghiệm:
-khoảng cách giữa lúc payload vào context và lúc agent ra quyết định là ngắn nhất.
+khoảng cách giữa lúc payload vào context và lúc agent ra quyết định là ngắn nhất. Tool chở không
+được gọi thì payload không vào context: `delivered` = payload đã chèn vào ít nhất một kết quả tool,
+nên K2b có hai chỉ số ASR như K1.
 
 **Giả định vận hành cho phép kênh này mở:** giả định 3 — tool-result được agent tin ở mức dữ
 liệu nghiệp vụ. Đây là giả định **khó bỏ nhất**, vì hầu hết agent thật đều tin tool-result.
@@ -187,7 +189,7 @@ cách bảo đảm, ở vị trí có mức tin cậy ngầm định cao hơn.
 
 Hệ quả đo lường: một chỉ số ASR duy nhất sẽ trộn lẫn hai hiệu ứng khác bản chất — "retriever có
 lấy đúng chunk không" và "agent có tin payload không". Vì vậy phải đo cả `ASR_e2e` (so sánh
-giữa các kênh) lẫn `ASR_cond` (chỉ có nghĩa ở K1).
+giữa các kênh) lẫn `ASR_cond` (có nghĩa ở K1 và K2b).
 
 > **Giả thuyết H1:** ASR trên K2 cao hơn đáng kể so với K1 với cùng tập kỹ thuật payload.
 

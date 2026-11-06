@@ -1,6 +1,19 @@
 # CHANGELOG TÀI LIỆU
 
 ## 2026-11-06
+- `ipi-agent-lab/src/attack/runner.py`, `src/attack/injector_k2.py` (lab `3749ad1`): K2b ghi `runs.delivered =
+  K2ToolLayer.result.applied` — tool chở không được gọi thì payload chưa vào ngữ cảnh. Đồng bộ định nghĩa
+  `delivered`/`ASR_cond` ở `docs/04. Design/taxonomy.md` (mục 2.1, 2.3, phần hệ quả đo lường), `04. Trace schema.md`,
+  `07. Chỉ số đo.md`, `01. Agent RAG + MCP.md`, `docs/01. Đề bài/Aux/Danh mục viết tắt.md`, `Y_TUONG_DU_AN.md` mục
+  chỉ số: `ASR_cond` có nghĩa ở K1 và K2b, K2a vẫn `D = N`. Gỡ VT-17 khỏi `Việc treo.md`. Lý do: VT-17 phương án (a),
+  TA duyệt — mẫu số ASR có điều kiện của K2b gồm cả run payload không bao giờ tới model, lệch so sánh K1–K2 (RQ1).
+  Lô K2b trước thay đổi ghi `delivered = 1` hằng; `k2b_applied` của chúng vẫn đúng.
+- `ipi-agent-lab/scripts/run_matrix.py` (lab `3749ad1`): ngân sách lô tính theo phiên khi chạy tiếp (`since_ts`, như
+  runner USR); manifest ghi `plan_sha256`, chạy tiếp bị từ chối khi kế hoạch đổi giữa hai phiên hoặc có run đã có
+  nằm ngoài kế hoạch. Gỡ VT-20 khỏi `Việc treo.md`. Lý do: kiểm lại 2026-11-06, `done_specs` khớp 318/336 spec của
+  lô `calib-r0-B1-20261102T073950Z` với kế hoạch hiện tại — so khớp đúng khi kế hoạch không đổi; run trùng của lô
+  đó nhiều khả năng do corpus đổi giữa hai phiên (lớp coupled thêm/sửa), làm kế hoạch bốc payload khác. Chặn trường
+  hợp này thay vì để lô trộn hai mẫu.
 - `ipi-agent-lab/config/models.yaml` (khối A3), `config/experiment.yaml` (`utility_baseline.targets` trở lại
   `[A1, A2, A3]`): A3 đặt `reasoning_effort: medium` như A1/A2 (TA quyết). Lô `usr-baseline-20261106T031457Z` chạy
   tiếp 180 run A3 (lab `d80116f`, 3 tiến trình, 3,52 USD, `parse_error` 6). Bảng `utility_baseline_rejudged*.csv` gộp

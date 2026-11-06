@@ -28,7 +28,7 @@
 |---|---|---|
 | ASR | Attack Success Rate | Tỷ lệ tấn công thành công |
 | ASR_e2e | ASR đầu-cuối | `S / N` — mẫu số là toàn bộ run hợp lệ |
-| ASR_cond | ASR có điều kiện | `S / D` — chỉ run payload đã vào được context (chỉ có nghĩa ở K1) |
+| ASR_cond | ASR có điều kiện | `S / D` — chỉ run payload đã vào được context (có nghĩa ở K1 và K2b) |
 | DSR | Defense Success Rate | `1 − ASR_e2e(defense=on)` |
 | USR | Utility Success Rate | Tỷ lệ hoàn thành tác vụ trên tập run sạch |
 | FRR | False Refusal Rate | Tỷ lệ từ chối sai — agent đúng nhưng phòng thủ vẫn chặn |
