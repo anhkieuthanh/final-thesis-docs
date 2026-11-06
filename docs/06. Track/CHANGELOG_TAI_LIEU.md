@@ -1,6 +1,12 @@
 # CHANGELOG TÀI LIỆU
 
 ## 2026-11-06
+- `ipi-agent-lab/results/tables/utility_baseline*.csv`: thay bằng số của lô `usr-baseline-20261106T031457Z` (lab
+  `86dee68`, mã `fba5a1a`, 360 run A1/A2 × 60 câu × 3 lần, `reasoning_effort` medium, 3 tiến trình, 9,71 USD,
+  `parse_error` A1 2 · A2 6). USR mức run: A1 `glm-5.3` 86,5% (154/178, Wilson 80,7–90,8%), A2 `glm-5.2` 87,9%
+  (153/174, 82,3–92,0%); mức câu A1 56/60, A2 52/60; FRR 0 cả hai. Bảng không còn dòng A3; số A3 và số của lô
+  `usr-baseline-20261021T080837Z` (A1 `claude-opus-5`) xem trong lịch sử Git, không so trực tiếp. Lý do: chạy lại USR
+  sau khi đổi A1 sang `glm-5.3` (`v-models-1.2`).
 - `ipi-agent-lab/config/models.yaml` (khối A1, A2), `src/agent/llm_client.py`: thêm khóa `reasoning_effort`, A1 và A2
   đặt `medium` (gửi kèm mọi request, provider openai); A3 không đặt. Manifest USR ghi `reasoning_effort` từng target.
   Lý do: TA quyết sau lời gọi dò cùng một request USR (A1 132 s → 8 s, A2 48 s → 6 s; một lần gọi mỗi cấu hình). Áp
