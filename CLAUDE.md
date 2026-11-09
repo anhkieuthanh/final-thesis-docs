@@ -15,6 +15,11 @@ Bốn đóng góp cốt lõi: testbed agent doanh nghiệp Việt có kiểm so�
 lặp lại được · bốn cơ chế phòng thủ D1–D4 đánh giá theo cặp an toàn/hữu dụng · đo độ bền
 trước kẻ tấn công thích ứng.
 
+Định hướng hoàn thiện (GVHD): đồ án chứng minh sinh viên có làm và có nghiên cứu; kết quả thấp
+vẫn là kết quả nếu giải thích được. Thực nghiệm chạy quy mô rút gọn; trọng tâm báo cáo là
+Chương 5 — đóng góp cá nhân C1–C8, mỗi mục có bằng chứng trong repo
+(`docs/06. Track/Kế hoạch hoàn thiện sau góp ý GVHD 08.11.2026.md`).
+
 ## 2. Nguồn chân lý — không có nguồn nào khác
 
 | Hỏi về | Đọc |
@@ -52,8 +57,9 @@ Chỉ giữ bản hiện hành trong cây thư mục. Lịch sử thay đổi gh
 4. **Mọi tham số hành vi của D1–D4 nằm ở `config/defenses.yaml`**, không hard-code trong
    `src/defense/*.py`.
 5. **Không sang giai đoạn ma trận nếu kiểm chứng scorer chưa đạt 8/8 ca thử.** Sai một ca là
-   chưa đạt. Tám ca thử định nghĩa ở `Y_TUONG_DU_AN.md` mục 12.5. Không chạy full matrix nếu
-   hiệu chỉnh độ khó chưa đưa ASR pilot vào 20–80%.
+   chưa đạt. Tám ca thử định nghĩa ở `Y_TUONG_DU_AN.md` mục 12.5. Không chạy ma trận khi chưa đi
+   hết giao thức hiệu chỉnh (`Y_TUONG_DU_AN.md` mục 10.3); hết núm hợp lệ mà ASR vẫn dưới 20%
+   thì chạy ở chế độ sàn và báo cáo mọi vòng — không chỉnh tiếp để lấy số đẹp.
 6. **Dữ liệu là mô phỏng** — `customers.db` sinh bằng Faker `vi_VN`, seed cố định. Không
    đưa dữ liệu cá nhân hay khách hàng thật vào bất kỳ đâu trong dự án.
 7. **MCPTox chỉ chạy chế độ mô phỏng**, không nhắm MCP server thật của bên thứ ba. Payload

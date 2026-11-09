@@ -308,7 +308,7 @@ Giải pháp: trace bắt buộc có `blocked_by ∈ {defense, model_refusal, ha
 
 Nếu coi "agent" chỉ là vòng lặp LLM + tool thì bỏ sót một lớp: doanh nghiệp **không dùng LLM trần**, họ chạy LLM bên trong harness có sẵn nhiều lớp kiểm soát — xin phép trước khi gọi tool, allowlist công cụ, sandbox, giới hạn miền mạng, tóm tắt context. Nhiều thứ trùng chức năng D1–D4. Không nói tới harness là hở đúng một câu phản biện: *"những gì anh xây, harness thương mại đã có sẵn."*
 
-Phạm vi giới hạn có chủ ý: **hai harness — HN-CC (Claude Code) và HN-OW (OpenWork, lõi opencode) — trên A1, A2, A3, 50 mẫu mỗi nhánh, chỉ D=OFF**. HN-CC trên A2, A3 là nhánh có điều kiện: chạy thử không đạt thì bỏ, không cần ký lại. Mọi nhánh của cùng một model chạy trong cùng một lô, và chỉ so trong cùng một model. Phiên bản harness phải **pin và ghi vào trace** (Claude Code; OpenWork và opencode). Hạn chế phải khai: harness có phòng thủ riêng **không tắt được**, nên không phân tách hoàn toàn được đóng góp D1–D4; HN-CC trên A2, A3 có thể mất tính năng khi dịch API; RQ6 là **chỉ dấu** trên hai harness, không phải kết luận tổng quát.
+Phạm vi giới hạn có chủ ý: **bảng đối chiếu D1–D4 ↔ lớp kiểm soát của harness là phần chính; phần đo là tùy chọn — một harness HN-OW (OpenWork, lõi opencode) trên A2, 20 mẫu, chỉ D=OFF, so với vòng lặp trần cùng model trong cùng lô**. Cắm HN-OW tốn quá 8 giờ thì bỏ phần đo, RQ6 trả lời bằng bảng đối chiếu. Phiên bản harness phải **pin và ghi vào trace**. Hạn chế phải khai: harness có phòng thủ riêng **không tắt được**, nên không phân tách hoàn toàn được đóng góp D1–D4; RQ6 là **chỉ dấu** trên một harness, không phải kết luận tổng quát.
 
 ---
 
@@ -344,7 +344,7 @@ Hạn chế phải khai: A2 và A3 đi qua **một gateway chung** ⇒ không đ
 | Mức attacker | 2 | A-blind · A-adaptive (≤3 vòng) | Checklist chốt phạm vi |
 | Tác vụ chở | 6 | CT-01 … CT-06 | Quy tắc cứng #1 |
 | Câu hỏi lành tính | 60 | Đo hồi quy tính hữu dụng | Quy tắc cứng #1 |
-| Harness | 2 | HN-CC · HN-OW; mỗi harness trên A1, A2, A3 (HN-CC trên A2, A3 có điều kiện); 50 mẫu mỗi nhánh, chỉ D=OFF | Pin version cả hai, ghi vào trace |
+| Harness | 1 (tùy chọn) | Bảng đối chiếu D1–D4 ↔ harness bắt buộc; đo HN-OW trên A2, 20 mẫu, chỉ D=OFF | Pin version, ghi vào trace |
 | Đánh giá người dùng | 3–5 người | Đồng nghiệp làm an toàn thông tin hoặc vận hành trợ lý AI, GVHD; dùng thử dashboard và demo theo kịch bản; thang Likert + câu hỏi mở; không thu thập thông tin định danh | Phiếu giao nhiệm vụ, Nội dung 6 |
 
 Phạm vi **không mở rộng** trong suốt 17 tuần. Mọi ý tưởng phát sinh ghi vào mục "Hướng phát triển" của báo cáo, không đưa vào thực nghiệm.
@@ -359,7 +359,9 @@ Với model frontier, tình huống thật khả năng cao là **ASR < 20%** ⇒
 2. Ghi toàn bộ **diff system prompt + ASR trước/sau** ở **mỗi** lần chỉnh.
 3. Báo cáo công khai **cả** cấu hình trước và sau, không chỉ cấu hình cuối.
 
-Nếu chỉnh hết các núm hợp lệ mà A1 vẫn cho ASR < 20%: **đó là kết quả, không phải thất bại.** Báo cáo "lớp frontier chống IPI ở mức cao trong lab này" và dồn phân tích đánh đổi sang A2/A3. **Không chỉnh tiếp để lấy số đẹp.**
+Nếu chỉnh hết các núm hợp lệ mà ASR vẫn < 20%: **đó là kết quả, không phải thất bại. Không chỉnh tiếp để lấy số đẹp.** Ma trận chạy ở chế độ sàn trên cấu hình vòng cuối; báo cáo ASR của mọi vòng như đường cong độ nhạy theo mức cả tin; DSR khai là có độ chính xác thấp vì ít ca thành công để chặn; trọng tâm RQ3–RQ4 dồn sang chi phí hữu dụng của phòng thủ (USR, FRR).
+
+Kết quả thực tế: ba vòng `baseline` → `trusting` → `most_trusting` đều dưới cổng ở cả ba model, dù payload tới ngữ cảnh ở 232/243 run vòng 0. Lô dò payload gắn ngữ cảnh (chỉ dẫn bám đúng tool và nghiệp vụ của tác vụ chở) cho 22–33%, nên `v-attack-1.1` thêm lớp payload này. Ô có payload gắn ngữ cảnh chỉ bốc lớp đó (`corpus_selection: contextual_first`); ô chưa có giữ payload cũ. Hiệu chỉnh đóng sau vòng 2.
 
 ---
 
@@ -519,7 +521,7 @@ DoD của schema: viết được SQL tính **cả hai** chỉ số ASR trên d�
 2. **Không nhận xét hay dùng số liệu về AgentDojo/AutoDojo/MCPTox nếu chưa thực sự cài và chạy**, và bằng chứng chạy thật phải nằm trong repo.
 3. **Không thêm bước phân loại ý định tự do (regex/NLU/LLM) vào D3.** `task_type` là input người dùng chọn trước.
 4. **Mọi tham số hành vi của D1–D4 nằm ở `config/defenses.yaml`**, không hard-code trong `src/defense/*.py`.
-5. **Không sang giai đoạn ma trận nếu kiểm chứng scorer chưa đạt 8/8 ca thử** (mục 12.5). Không chạy full matrix nếu hiệu chỉnh độ khó chưa đưa ASR pilot vào 20–80%.
+5. **Không sang giai đoạn ma trận nếu kiểm chứng scorer chưa đạt 8/8 ca thử** (mục 12.5). Không chạy ma trận khi chưa đi hết giao thức hiệu chỉnh mục 10.3; hết núm hợp lệ mà ASR vẫn dưới 20% thì chạy ở chế độ sàn và báo cáo mọi vòng.
 6. **Dữ liệu là mô phỏng** — Faker `vi_VN`, seed cố định. Không đưa dữ liệu cá nhân hay khách hàng thật vào bất kỳ đâu trong dự án.
 7. **MCPTox chỉ chạy chế độ mô phỏng**, không nhắm MCP server thật của bên thứ ba. Payload `verbatim`/`adapted` phải dẫn đúng điều khoản giấy phép qua trường `source.license`.
 8. **Không ghi "model từ chối" thành "phòng thủ chặn".** `blocked_by` là trường bắt buộc.
@@ -532,7 +534,7 @@ Thêm hai quy tắc vận hành: kiểm chi phí API mỗi 2 giờ trong 4 giờ
 
 ## 15. LỘ TRÌNH VÀ MỐC
 
-Khung thời gian theo phiếu giao nhiệm vụ: 17 tuần, 07/09/2026 → 08/01/2027, chia sáu Nội dung (ND). Nhịp 20 giờ/tuần × 17 tuần = 340 giờ; phiếu quy định tối thiểu 18 tiết/tuần. Khối lượng ước tính của các đầu việc còn lại là 392 giờ (sheet "Khối lượng giờ" của `Kế hoạch thực hiện.xlsx`), vượt sức chứa 52 giờ, dồn ở ND4 và ND6; bù bằng nhịp 24 giờ/tuần từ Tuần 4. Các đầu việc STT 10, 11, 23, 69, 89 đã cắt (trạng thái "Đã cắt" trong sheet "Kế hoạch chi tiết"); STT 5, 58, 88 đã rút gọn; STT 97 thêm mới (đặc tả chỉ số đo). Báo cáo viết dần 2 giờ/tuần, không dồn cuối.
+Khung thời gian theo phiếu giao nhiệm vụ: 17 tuần, 07/09/2026 → 08/01/2027, chia sáu Nội dung (ND). Nhịp 20 giờ/tuần × 17 tuần = 340 giờ; phiếu quy định tối thiểu 18 tiết/tuần. Khối lượng ước tính của các đầu việc còn lại là 392 giờ (sheet "Khối lượng giờ" của `Kế hoạch thực hiện.xlsx`), vượt sức chứa 52 giờ, dồn ở ND4 và ND6; bù bằng nhịp 24 giờ/tuần từ Tuần 4. Từ Tuần 10, sức chứa còn lại 8 tuần × 20 giờ = 160 giờ, khớp khối lượng sau khi rút gọn thực nghiệm. Các đầu việc STT 10, 11, 23, 69, 89 đã cắt (trạng thái "Đã cắt" trong sheet "Kế hoạch chi tiết"); STT 5, 58, 88 đã rút gọn; STT 97 thêm mới (đặc tả chỉ số đo). Báo cáo viết dần 2 giờ/tuần, không dồn cuối.
 
 | Nội dung (phiếu) | Tuần · thời gian | Việc chính | Mốc nghiệm thu |
 |---|---|---|---|
@@ -540,10 +542,27 @@ Khung thời gian theo phiếu giao nhiệm vụ: 17 tuần, 07/09/2026 → 08/0
 | **ND2** Công nghệ liên quan | Tuần 4–5 · 28/09 → 11/10 | MCP SDK, RAG, bốn nhóm phòng thủ, công nghệ nền của hệ đo, khung repo uv; chốt bộ model + `v-models-1.0`; ngân sách API hết TODO; chương 3 | **M1b** (11/10) |
 | **ND3** Phân tích thiết kế | Tuần 6–8 · 12/10 → 01/11 | Kiến trúc 5 tầng, bộ đo (60 câu lành tính + 6 tác vụ chở, khóa bộ đo), trace schema, đặc tả T1–T8 và D1–D4, ma trận dự đoán ghi trước, `customers.db`, wireframe dashboard, giao thức thực nghiệm; chương 2 và phần thiết kế của chương 4 | **M1** (18/10) — khóa bộ đo |
 | **ND4** Xây dựng chương trình | Tuần 9–12 · 02/11 → 29/11 | Lõi agent, 5 tool MCP, canary, scorer + kiểm chứng, USR nền; adapter benchmark ngoài, bản địa hóa payload, 2 kênh, mutator, injector, runner ma trận; T8 → T6 → T7; D1–D4 + pipeline + unit test; tấn công thích ứng; dashboard; chương 4 phần thiết kế, xây dựng | **M2** (Tuần 10, 15/11) · **M3** (Tuần 11, 22/11) · **M3b** (Tuần 12, 29/11) — `v-attack-1.0` |
-| **ND5** Thử nghiệm và đánh giá | Tuần 13–15 · 30/11 → 20/12 | Pilot, hiệu chỉnh độ khó, phương sai, ASR nền 3 model, RQ1–RQ2; ma trận kẻ tấn công mù, bench hữu dụng, Pareto, RQ3–RQ4; tấn công thích ứng, ARR, RQ5; chương 4 mục 4.4 | **M4** (Tuần 14, 13/12) · **M5** (Tuần 15, 20/12) |
-| **ND6** Triển khai thực tế, phản hồi người dùng | Tuần 16–17 · 21/12 → 08/01/2027 | Cắm hai harness, đối chiếu D1–D4 ↔ harness, RQ6, kịch bản demo, đóng gói một lệnh, demo 90 giây + video; đánh giá với 3–5 người dùng thực; ráp báo cáo 6 chương, slide, 15 câu phản biện, dọn repo; nộp quyển và bảo vệ | **M6** · **M7** (Tuần 16, 27/12) · **M8** (Tuần 17, 08/01/2027) |
+| **ND5** Thử nghiệm và đánh giá | Tuần 13–15 · 30/11 → 20/12 | Pilot, hiệu chỉnh độ khó, ASR nền 3 model, RQ1–RQ2; ma trận kẻ tấn công mù, bench hữu dụng, Pareto, RQ3–RQ4; tấn công thích ứng, ARR, RQ5; chương 4 mục 4.4 | **M4** · **M5** — làm sớm từ Tuần 11, lịch bên dưới |
+| **ND6** Triển khai thực tế, phản hồi người dùng | Tuần 16–17 · 21/12 → 08/01/2027 | Đối chiếu D1–D4 ↔ harness, đo HN-OW (tùy chọn), RQ6, kịch bản demo, đóng gói một lệnh, demo 90 giây + video; đánh giá với 3–5 người dùng thực; ráp báo cáo 6 chương, slide, 15 câu phản biện, dọn repo; nộp quyển và bảo vệ | **M6** · **M7** — làm sớm từ Tuần 14 · **M8** (08/01/2027) |
 
-Xử lý khi trượt mốc: trượt M4 thì kích hoạt danh sách cắt giảm **ngay trong ngày**, không đợi. Thứ tự cắt: Core-B; HN-CC trên A2, A3; giảm N hoặc S_def; kỹ thuật T7 (cần báo GVHD vì phiếu ghi ba kỹ thuật tự đề xuất). Không cắt: bench hữu dụng của mọi cấu hình và bảng đối chiếu D1–D4 ↔ harness. Thiếu utility ở M5 là **không chấp nhận** — cắt cấu hình, giữ yêu cầu hai số.
+Định hướng hoàn thiện (GVHD): đồ án chứng minh sinh viên có làm và có nghiên cứu; kết quả thực nghiệm thấp vẫn là kết quả nếu giải thích được và có bằng chứng. Thực nghiệm chạy ở quy mô rút gọn, đủ mọi chiều; trọng tâm báo cáo là Chương 5 "Các giải pháp và đóng góp nổi bật", mỗi đóng góp có bằng chứng truy nguồn được trong repo. Bản đồ đóng góp và lịch chi tiết ở `docs/06. Track/Kế hoạch hoàn thiện sau góp ý GVHD 08.11.2026.md`.
+
+Quy mô rút gọn: B1 N = 10 mỗi ô (1.890 run, A1–A3) · B2 tối đa 6 ô S_def × 7 preset × 10 run × A2, A3 (840) · B3 60 câu × 7 preset × 2 lần × A2, A3 (1.680) · B5 3 ô × 5 preset × 5 chuỗi, A2 · B6 tùy chọn, HN-OW trên A2 × 20 mẫu. Đã cắt: B4 (tập xác nhận A1, vì A1 đã vào B1), đo phương sai chọn N (N cố định 10, khai ở hạn chế), HN-CC.
+
+Lịch thực hiện từ Tuần 10:
+
+| Tuần | Việc chính | Mốc |
+|---|---|---|
+| Tuần 10 · 09/11 → 15/11 | Đóng hiệu chỉnh, khóa `v-attack-1.1`; khung Chương 5 | — |
+| Tuần 11 · 16/11 → 22/11 | B1; bộ chỉ số ASR/DSR/ARR | **M4** |
+| Tuần 12 · 23/11 → 29/11 | B2 + B3; bảng, biểu đồ; Chương 3 hoàn tất | — |
+| Tuần 13 · 30/11 → 06/12 | B5; Pareto; nháp RQ1–RQ5 | **M5** |
+| Tuần 14 · 07/12 → 13/12 | Bảng đối chiếu D1–D4 ↔ harness, HN-OW (tùy chọn); demo; hướng dẫn cài đặt; Chương 5 | **M6** |
+| Tuần 15 · 14/12 → 20/12 | Đánh giá với 3–5 người dùng; dọn repo | **M7** |
+| Tuần 16 · 21/12 → 27/12 | Kiểm trôi model; ráp 6 chương, gửi GVHD bản đủ | — |
+| Tuần 17 · 28/12 → 08/01/2027 | Đệm; sửa theo góp ý; slide; phản biện; nộp | **M8** |
+
+Xử lý khi trượt mốc: kích hoạt danh sách cắt giảm **ngay trong ngày**, không đợi. Thứ tự cắt còn lại: Core-B; kỹ thuật T7 (cần báo GVHD vì phiếu ghi ba kỹ thuật tự đề xuất). Không cắt: bench hữu dụng của mọi cấu hình, bảng đối chiếu D1–D4 ↔ harness, đánh giá người dùng. Thiếu utility ở M5 là **không chấp nhận** — cắt cấu hình, giữ yêu cầu hai số.
 
 ### 15.1 Sản phẩm bàn giao
 
@@ -573,7 +592,7 @@ Viết trung thực, không giấu. Đây là phần hội đồng đọc kỹ n
 | 6 | Attacker ở mức A-adaptive có thể yếu hơn kẻ tấn công thật | ARR là **cận trên** của độ bền |
 | 7 | RQ3 không kết luận được về tính cộng tính | Không phát biểu được "D1 góp x%, D2 góp y%" |
 | 8 | A1 chỉ chạy tập con xác nhận (~500 run) vì ràng buộc chi phí | Phải ghi rõ đây là **lựa chọn có chủ ý**, kèm số liệu chứng minh |
-| 9 | Harness: 2 cái, 50 mẫu mỗi nhánh, chỉ D=OFF | RQ6 là **chỉ dấu**. Harness có phòng thủ riêng không tắt được; HN-CC trên A2, A3 có thể mất tính năng khi dịch API |
+| 9 | Harness: một harness (HN-OW) trên A2, 20 mẫu, chỉ D=OFF, hoặc chỉ bảng đối chiếu | RQ6 là **chỉ dấu**. Harness có phòng thủ riêng không tắt được |
 | 10 | Model frontier có lớp an toàn riêng | `model_refusal > 15%` trên A1 thì báo cáo riêng, không gộp vào ASR |
 | 11 | Dữ liệu là mô phỏng | Không dùng dữ liệu cá nhân hay khách hàng thật ở bất kỳ đâu |
 | 12 | Core-B là hạng mục có thể cắt | Cắt thì không kết luận được về ảnh hưởng của lớp abstraction framework |

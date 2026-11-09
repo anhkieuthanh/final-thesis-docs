@@ -105,7 +105,7 @@ không thêm kỹ thuật nữa (quy tắc cứng #9).
 |---|---|
 | Notebook bảng, biểu đồ | STT-68 |
 | Dashboard 4 trang | STT-58 |
-| Tích hợp HN-CC, HN-OW vào MCP server, pin phiên bản | STT-79 |
+| Tích hợp HN-OW vào MCP server, pin phiên bản (tùy chọn) | STT-79 |
 | Đóng gói một lệnh `docker compose up`, test máy sạch | STT-83 |
 
 ## 3. Cổng chặn — không được vượt

@@ -36,7 +36,7 @@ Phân biệt bắt buộc: **nhân viên kinh doanh** là người dùng *mô ph
 | Mức attacker | 2 | A-blind · A-adaptive (mức phản hồi PH1, tối đa 3 vòng) | Checklist này |
 | Tác vụ chở | 6 | CT-01 … CT-06 | Quy tắc cứng #1 |
 | Câu hỏi lành tính | 60 | U1–U5 | Quy tắc cứng #1 |
-| Harness | 2 | HN-CC Claude Code · HN-OW OpenWork (lõi opencode) · mỗi harness trên A1, A2, A3 · 50 mẫu mỗi nhánh, D=OFF (mục 6) | Pin version cả hai, ghi vào trace |
+| Harness | 1 (tùy chọn) | Bảng đối chiếu D1–D4 ↔ harness bắt buộc; đo HN-OW OpenWork (lõi opencode) trên A2, 20 mẫu, D=OFF (mục 6) | Pin version, ghi vào trace |
 
 Phạm vi không mở rộng trong 17 tuần; ý tưởng phát sinh ghi vào "Hướng phát triển" của báo cáo.
 
@@ -48,31 +48,30 @@ Tập kỹ thuật chung của ba phân kênh (loại T4 vì không dựng đư�
 
 | Mã | Câu hỏi | Giả thuyết ghi trước | Lát cắt | Tiêu chí trả lời (đề xuất) |
 |---|---|---|---|---|
-| **RQ1** | Ở D=OFF, A-blind, trên T_chung, ASR của K2 khác K1 bao nhiêu — đo bằng `ASR_e2e` và bằng phép so `ASR(K2)` với `ASR_cond(K1)`? | **H1:** `ASR_e2e(K2) > ASR_e2e(K1)`, và phần chênh **không** chỉ đến từ khâu truy hồi: `ASR(K2) > ASR_cond(K1)` | D=OFF · A-blind · A2, A3 đầy đủ; A1 tập xác nhận | Kết luận "khác" khi khoảng Wilson 95% của hai nhóm không chồng; chồng thì báo cáo là xu hướng |
+| **RQ1** | Ở D=OFF, A-blind, trên T_chung, ASR của K2 khác K1 bao nhiêu — đo bằng `ASR_e2e` và bằng phép so `ASR(K2)` với `ASR_cond(K1)`? | **H1:** `ASR_e2e(K2) > ASR_e2e(K1)`, và phần chênh **không** chỉ đến từ khâu truy hồi: `ASR(K2) > ASR_cond(K1)` | D=OFF · A-blind · A1, A2, A3 | Kết luận "khác" khi khoảng Wilson 95% của hai nhóm không chồng; chồng thì báo cáo là xu hướng |
 | **RQ2** | Ở D=OFF, trên từng kênh, nhóm kỹ thuật nào mạnh nhất, và thứ hạng có ổn định khi đổi lớp mô hình? | **H2:** T3 thuộc nhóm mạnh nhất trên K2a; T5 thuộc nhóm mạnh nhất trên K1 | Như RQ1, đủ kỹ thuật của từng kênh | "Nhóm mạnh nhất" = các kỹ thuật có cận trên CI ≥ cận dưới CI của kỹ thuật đứng đầu. "Ổn định" = Kendall τ ≥ 0,6 giữa A2 và A3; A1 chỉ kiểm tra thành viên top-3 |
 | **RQ3** | Tổ hợp bốn cơ chế có hơn cơ chế đơn lẻ tốt nhất không, hơn bao nhiêu? | **H3:** Không cộng tính. D1 và D2 chồng nhau ở T1/T2/T4; phần tăng thêm chủ yếu từ D3 | Preset trong `config/defenses.yaml` (`off`, `d1_only`…`d4_only`, `all`; `d3_no_confirm` báo cáo khám phá) · tập ô S_def (mục 5) | Cơ chế đơn lẻ tốt nhất chọn **theo từng G**, trên toàn B2 (gộp A2, A3); thiên lệch ngược H3, khai ở báo cáo. "Hơn" khi Δ`ASR_e2e` ≥ 10 điểm % và CI không chồng |
-| **RQ4** | Cái giá về tính hữu dụng của từng cơ chế: USR, FRR, TCP, độ trễ, chi phí? | **H4:** D3 có FRR cao nhất, chặn nhầm hành động hợp lệ ở U4 và CT-05, CT-06 | 60 câu × 5 lặp × 7 preset | Độ trễ báo cáo p50/p95 từ trường `latency`; chi phí = token/run (trường `tokens`) quy đổi theo bảng giá đã điền. `task_type` của 60 câu gán **một lần trước thực nghiệm** theo quy tắc "loại tác vụ nhân viên thật sẽ chọn", lưu ở `config/`, không sửa file bộ đo đã khóa |
+| **RQ4** | Cái giá về tính hữu dụng của từng cơ chế: USR, FRR, TCP, độ trễ, chi phí? | **H4:** D3 có FRR cao nhất, chặn nhầm hành động hợp lệ ở U4 và CT-05, CT-06 | 60 câu × 2 lặp × 7 preset | Độ trễ báo cáo p50/p95 từ trường `latency`; chi phí = token/run (trường `tokens`) quy đổi theo bảng giá đã điền. `task_type` của 60 câu gán **một lần trước thực nghiệm** theo quy tắc "loại tác vụ nhân viên thật sẽ chọn", lưu ở `config/`, không sửa file bộ đo đã khóa |
 | **RQ5** | Phòng thủ còn hiệu quả bao nhiêu khi kẻ tấn công biết trước cơ chế? | **H5:** D1 và D2 sụp gần hết; D3 và D4 giữ được | A-adaptive · PH1 · ≤3 vòng · tập ô S_adp (mục 5) | Mục tiêu G **cố định** suốt chuỗi thích ứng. Model sinh payload thích ứng pin và ghi vào trace. `ARR = DSR(adaptive) / DSR(blind)`; `DSR(blind)` gần 0 thì không chia, báo cáo hai số |
-| **RQ6** | (6a) Mỗi harness giảm ASR bao nhiêu so với vòng lặp trần **trên cùng một model**? (6b) Trên cùng một model, hai harness khác nhau bao nhiêu, và chênh lệch đó có giữ chiều khi đổi model? (6c) Lớp kiểm soát của từng harness tương ứng với những lớp nào của D1–D4? | **H6:** Harness bao phủ phần lớn D3 nhưng không bao phủ D1, D2, D4 | 50 mẫu cố định · D=OFF · mọi nhánh của cùng một model chạy trong cùng một lô | 6a và 6b định lượng kèm Wilson CI; chỉ so trong cùng một model, không so chéo model. 6c là bảng ánh xạ định tính, đối chiếu tài liệu harness với các run `blocked_by = harness` |
+| **RQ6** | (6a) Harness giảm ASR bao nhiêu so với vòng lặp trần **trên cùng một model**? (6c) Lớp kiểm soát của harness tương ứng với những lớp nào của D1–D4? | **H6:** Harness bao phủ phần lớn D3 nhưng không bao phủ D1, D2, D4 | HN-OW · A2 · 20 mẫu cố định · D=OFF · cùng một lô với vòng lặp trần | 6c là phần chính: bảng ánh xạ định tính, đối chiếu tài liệu harness với các run `blocked_by = harness`. 6a định lượng kèm Wilson CI, tùy chọn — cắm harness tốn quá 8 giờ thì bỏ |
 
-RQ3 không kết luận được về tính cộng tính — không phát biểu "D1 góp x%, D2 góp y%". RQ6 là chỉ dấu trên hai harness, không phải kết luận tổng quát về harness thương mại.
+RQ3 không kết luận được về tính cộng tính — không phát biểu "D1 góp x%, D2 góp y%". RQ6 là chỉ dấu trên một harness, không phải kết luận tổng quát về harness thương mại.
 
 ## 5. Thiết kế phân khối — ước tính số run
 
-Ma trận đủ mọi chiều khoảng 1.500 ô, không khả thi. Mỗi RQ dùng một lát cắt. Số dưới đây lấy **N = 30 run mỗi ô làm giả định lập kế hoạch**; N thật quyết sau pilot ở M4.
+Ma trận đủ mọi chiều khoảng 1.500 ô, không khả thi. Mỗi RQ dùng một lát cắt. Quy mô rút gọn: **N = 10 run mỗi ô** ở B1, B2, cố định; đủ cho bảng mô tả kèm Wilson CI, khai CI rộng ở hạn chế.
 
 | Khối | Phục vụ | Cách tính | Số run ước tính |
 |---|---|---|---:|
-| B1 — nền tấn công | RQ1, RQ2 | (8 kỹ thuật trên K1 + 6 trên K2a + 7 trên K2b) × 3 G × 2 model (A2, A3) × 30 | 3.780 |
-| B2 — phòng thủ, tấn công | RQ3 | S_def ≤ 12 ô × 7 preset (`off` đo lại cùng lô, 5 preset bật, `d3_no_confirm`) × 2 model × 30 | ≤ 5.040 |
-| B3 — phòng thủ, lành tính | RQ4 | 60 câu × 5 lặp × 7 preset (`off`, 5 preset bật, `d3_no_confirm`) × 2 model | 4.200 |
-| B4 — xác nhận A1 | RQ1–RQ4 | Tập con cố định | ~500 |
-| B5 — thích ứng | RQ5 | S_adp ≤ 6 ô × 5 preset × 10 chuỗi × ≤ 3 vòng, một model | ≤ 900 |
-| B6 — harness | RQ6 | 50 mẫu × 3 model × (HN-CC + HN-OW + vòng lặp trần) | 450 |
-| **Tổng** | | | **≈ 14.870** |
+| B1 — nền tấn công | RQ1, RQ2 | (8 kỹ thuật trên K1 + 6 trên K2a + 7 trên K2b) × 3 G × 3 model (A1, A2, A3) × 10 | 1.890 |
+| B2 — phòng thủ, tấn công | RQ3 | S_def ≤ 6 ô × 7 preset (`off` đo lại cùng lô, 5 preset bật, `d3_no_confirm`) × 2 model × 10 | ≤ 840 |
+| B3 — phòng thủ, lành tính | RQ4 | 60 câu × 2 lặp × 7 preset (`off`, 5 preset bật, `d3_no_confirm`) × 2 model | 1.680 |
+| B5 — thích ứng | RQ5 | S_adp ≤ 3 ô × 5 preset × 5 chuỗi × ≤ 3 vòng, một model | ≤ 225 |
+| B6 — harness (tùy chọn) | RQ6 | 20 mẫu × A2 × (HN-OW + vòng lặp trần) | 40 |
+| **Tổng** | | | **≈ 4.675** |
 
-- **S_def** = các ô (kỹ thuật × kênh × G) có cận dưới CI của `ASR_e2e(off)` ≥ 10% ở A2 hoặc A3, lấy tối đa 12 ô theo thứ tự ASR giảm dần. Không có ASR nền thì DSR vô nghĩa.
-- **S_adp** = các ô trong S_def có `DSR(blind)` ≥ 0,3 dưới ít nhất một preset đơn lẻ.
+- **S_def** = các ô (kỹ thuật × kênh × G) có cận dưới CI của `ASR_e2e(off)` ≥ 10% ở A2 hoặc A3, lấy tối đa 6 ô theo thứ tự ASR giảm dần. Ít hơn 6 ô đạt ngưỡng thì lấy 6 ô ASR cao nhất và khai. Không có ASR nền thì DSR vô nghĩa.
+- **S_adp** = các ô trong S_def có `DSR(blind)` ≥ 0,3 dưới ít nhất một preset đơn lẻ; thiếu thì lấy 3 ô DSR(blind) cao nhất.
 - Chi phí từng khối điền sau khi có bảng giá thật. **Không chạy lô nào khi còn ô chi phí trống.** Áp quy tắc vận hành: kiểm chi phí mỗi 2 giờ trong 4 giờ đầu, vượt 120% dự toán thì dừng.
 
 | Khối | Token/run (đo ở pilot) | Chi phí dự toán |
@@ -84,21 +83,18 @@ Ma trận đủ mọi chiều khoảng 1.500 ô, không khả thi. Mỗi RQ dùn
 
 | Mã | Harness | Chạy trên | Vai trò |
 |---|---|---|---|
-| **HN-CC** | Claude Code (CLI, chế độ không tương tác) | A1; A2, A3 qua `ANTHROPIC_BASE_URL` trỏ vào endpoint tương thích Anthropic — **có điều kiện** | Harness thương mại sát thực tế doanh nghiệp nhất; ví dụ GVHD đã nêu. Trên A2, A3 là cấu hình "Claude Code chạy model khác" mà doanh nghiệp dùng để giảm chi phí |
-| **HN-OW** | OpenWork, chạy tự động qua lõi opencode | A1, A2, A3 | Harness mã nguồn mở đa nhà cung cấp; GVHD đã nêu; phủ được lớp model doanh nghiệp Việt |
+| **HN-OW** | OpenWork, chạy tự động qua lõi opencode | A2 (tùy chọn) | Harness mã nguồn mở đa nhà cung cấp; GVHD đã nêu; phủ được lớp model doanh nghiệp Việt |
 
-Thiết kế đủ 2 harness × 3 model. Hai phép so hợp lệ, đều trong **cùng một model**: harness với vòng lặp trần (6a), HN-CC với HN-OW (6b). Không so một harness trên model này với nhánh bất kỳ trên model khác — chênh lệch đó lẫn model với harness.
+Phần bắt buộc của RQ6 là bảng đối chiếu D1–D4 ↔ lớp kiểm soát của harness (6c). Phần đo (6a) so HN-OW với vòng lặp trần trên **cùng một model**, cùng một lô. Cắm HN-OW tốn quá 8 giờ thì bỏ phần đo, không cần ký lại.
 
-Ràng buộc phải ghi trước khi chạy:
+Ràng buộc phải ghi trước khi chạy phần đo:
 
-1. **Cấu hình quyền là một biến, phải chốt trước.** Chạy tự động thì không có người bấm duyệt: để mặc định thì mọi tool-call outbound bị treo (ASR = 0 giả tạo), bỏ qua hết quyền thì harness không còn lớp kiểm soát nào. Cấu hình chốt cho cả hai harness: allowlist tool lấy đúng `allowed_tools` của từng tác vụ chở; mọi lượt harness dừng để xin duyệt ghi `blocked_by = harness`.
-2. Pin phiên bản và ghi vào `harness_version`: Claude Code; OpenWork **và** opencode. Báo cáo gọi tên "OpenWork (lõi opencode)" vì lớp kiểm soát được đo nằm ở opencode.
-3. Harness đi qua cùng đường gọi model với vòng lặp trần: A2, A3 qua gateway chung, A1 gọi thẳng API Anthropic. Nhánh nào không làm được thì khai vào phần hạn chế: khác nhau ở tầng hạ tầng.
-4. Mọi nhánh của cùng một model chạy trong cùng một lô, vì overhead token của gateway không ổn định theo thời gian.
-5. Model id dùng đúng ba id ghi trong `v-models-1.0`. Gateway (A2, A3) chỉ cung cấp bí danh, không có bản pin có ngày, nên mọi run ghi trường `model` trong response vào trace để phát hiện trôi model. Riêng HN-CC trên A2, A3: endpoint tương thích Anthropic của nhà cung cấp phải nhận đúng id đó.
-6. HN-CC trên A2, A3 có thể mất một phần tính năng khi dịch API (prompt caching, chế độ suy nghĩ) và prompt của harness được viết cho model Claude — khai vào phần hạn chế, ghi các tính năng quan sát được vào trace.
+1. **Cấu hình quyền là một biến, phải chốt trước.** Chạy tự động thì không có người bấm duyệt: để mặc định thì mọi tool-call outbound bị treo (ASR = 0 giả tạo), bỏ qua hết quyền thì harness không còn lớp kiểm soát nào. Cấu hình chốt: allowlist tool lấy đúng `allowed_tools` của từng tác vụ chở; mọi lượt harness dừng để xin duyệt ghi `blocked_by = harness`.
+2. Pin phiên bản OpenWork **và** opencode, ghi vào `harness_version`. Báo cáo gọi tên "OpenWork (lõi opencode)" vì lớp kiểm soát được đo nằm ở opencode.
+3. Harness đi qua cùng đường gọi model với vòng lặp trần (gateway chung của A2).
+4. Model id dùng đúng id đã pin; mọi run ghi trường `model` trong response vào trace để phát hiện trôi model.
 
-**Chạy thử trước khi ký**, lưu log vào repo làm bằng chứng. Điều kiện đạt cho từng harness: kết nối MCP server của lab và thấy đủ 5 tool · chạy không tương tác bằng script · đúng model id đã pin · ghi được phiên bản · cấu hình quyền ở điểm 1 hoạt động. Nhánh HN-CC trên A2, A3 là **có điều kiện**: nhánh nào không đạt thì bỏ, RQ6 trên model đó chỉ còn HN-OW, không cần ký lại. Nhánh HN-CC trên A1 hoặc HN-OW không đạt thì ký lại hạng mục 14.
+Điều kiện đạt khi chạy thử, lưu log vào repo: kết nối MCP server của lab và thấy đủ 5 tool · chạy không tương tác bằng script · đúng model id đã pin · ghi được phiên bản · cấu hình quyền ở điểm 1 hoạt động.
 
 ## 7. Đạo đức và phát hành
 
@@ -114,7 +110,7 @@ Ràng buộc phải ghi trước khi chạy:
 | 1 | Lập bảng 12 công trình đã khảo sát làm căn cứ cho đóng góp `blocked_by` | ☐ |
 | 2 | Rà mọi tham chiếu đường dẫn tài liệu, trỏ đúng cây thư mục hiện hành | ☑ |
 | 3 | Sửa hướng dẫn dự án trong Cowork (đang ghi 8 tuần, cổng 6/6, changelog trong file JSON) cho khớp CLAUDE.md | ☐ |
-| 4 | Chạy thử HN-CC và HN-OW theo mục 6 | ☐ |
+| 4 | Chạy thử HN-OW theo mục 6 (tùy chọn) | ☐ |
 | 5 | Điền bảng giá thật và trần ngân sách ở mục 5 | ☐ |
 | 6 | Chốt model sinh payload thích ứng cho RQ5 | ☑ (opus-5, 2026-10-25) |
 
@@ -131,11 +127,11 @@ Ràng buộc phải ghi trước khi chạy:
 | 7 | Phòng thủ, mục tiêu, tác vụ, câu lành tính | D1–D4 · G1–G3 · CT-01…CT-06 · 60 câu | ☑ | |
 | 8 | Ngoài phạm vi | Danh sách ở mục 3 | ☑ | |
 | 9 | Sáu RQ và H1–H6 | Bản ở mục 4, gồm tiêu chí trả lời ghi trước | ☑ | |
-| 10 | Thiết kế phân khối | Khối B1–B6, quy tắc chọn S_def và S_adp (mục 5) | ☑ | |
+| 10 | Thiết kế phân khối | Khối B1–B3, B5, B6 quy mô rút gọn, quy tắc chọn S_def và S_adp (mục 5) | ☑ | Rút gọn, cắt B4 — duyệt 2026-11-09 (`Kế hoạch hoàn thiện sau góp ý GVHD 08.11.2026.md` mục 6.3) |
 | 11 | Ngân sách | Trần: 100 USD ; dừng khi vượt 120% dự toán | ☑ | |
-| 12 | Cổng nghiệm thu | Scorer 8/8 · ASR pilot 20–80% theo giao thức hiệu chỉnh | ☑ | |
+| 12 | Cổng nghiệm thu | Scorer 8/8 · đi hết giao thức hiệu chỉnh; hết núm mà ASR dưới 20% thì chạy ở chế độ sàn, báo cáo mọi vòng | ☑ | Đóng hiệu chỉnh sau vòng 2 — duyệt 2026-11-09 (mục 6.1) |
 | 13 | Kẻ tấn công thích ứng | PH1 · ≤ 3 vòng · G cố định · model sinh payload: `claude-opus-5` (chốt 2026-10-25) | ☑ | |
-| 14 | Harness | **Thêm RQ6 với 2 harness × 3 model**: HN-OW trên A1, A2, A3 · HN-CC trên A1 và có điều kiện trên A2, A3 · 50 mẫu mỗi nhánh, D=OFF, cấu hình quyền theo mục 6 | ☑ | |
+| 14 | Harness | **RQ6**: bảng đối chiếu D1–D4 ↔ harness; đo HN-OW trên A2 × 20 mẫu, D=OFF, tùy chọn; cấu hình quyền theo mục 6 | ☑ | Bỏ HN-CC — duyệt 2026-11-09 (mục 6.4) |
 | 15 | Đạo đức và phát hành | Mục 7 | ☑ | |
 | 16 | Lịch và mốc | M0–M8 theo `Y_TUONG_DU_AN.md` mục 15 | ☑ | |
 

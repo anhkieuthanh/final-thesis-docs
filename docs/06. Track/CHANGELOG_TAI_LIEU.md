@@ -1,5 +1,26 @@
 # CHANGELOG TÀI LIỆU
 
+## 2026-11-09
+- `docs/06. Track/Kế hoạch hoàn thiện sau góp ý GVHD 08.11.2026.md` (mới): đề xuất đóng hiệu chỉnh STT-61, thu nhỏ
+  B1/B2/B3/B5, cắt B4, STT-62, HN-CC; lịch mới Tuần 10–17; bản đồ đóng góp cá nhân C1–C8 cho Chương 5; năm điểm
+  chờ GVHD xác nhận. Lý do: GVHD góp ý 08/11 — đồ án cần chứng minh sinh viên có làm và nghiên cứu, kết quả không
+  cần cao, phải chỉ rõ đóng góp cá nhân. GVHD duyệt cả năm điểm mục 6 ngày 2026-11-09.
+- `docs/06. Track/Xin ý kiến GVHD — họp kế tiếp.md` (Mục 4 chọn (a); Mục 5 đồng ý mở `v-attack-1.1`, nếu vẫn dưới cổng
+  chọn "Chỉ (1)"), `Duyệt v-attack-1.1 — hai cách mở rộng corpus.md` (chọn cách B): ghi ý kiến GVHD. Ô "không áp quy tắc
+  loại payload ở mức ASR sàn" chưa có ý kiến, để trống. Lý do: GVHD duyệt 2026-11-09.
+- `ipi-agent-lab/config/experiment.yaml`, `src/eval/experiment.py`, `src/attack/runner.py` (lab `22f9f7d`): B1, B2
+  `n_per_cell` 30 → 10; B2 `max_cells` 12 → 6; B3 `repeats` 5 → 2; cắt B4; B5 3 ô × 5 chuỗi; B6 bỏ HN-CC, HN-OW trên
+  A2 × 20 mẫu; `cut_order` bỏ mục đã áp; khóa mới `corpus_selection: contextual_first` — ô có payload `contextual: true`
+  chỉ bốc lớp đó, áp cho ma trận, pilot và hiệu chỉnh. Số run: B1 1.890 · B2 840 · B3 1.680 · B5 225 · B6 40. Lý do: GVHD
+  duyệt mục 6.2–6.4.
+- `Y_TUONG_DU_AN.md` (mục 9, 10.2, 10.3, 14 quy tắc 5, 15, 16 dòng 9), `CLAUDE.md` (đề tài, quy tắc cứng #5),
+  `docs/01. Đề bài/01. Mô tả bài toán.md` (harness, mục 12.3), `docs/04. Design/06. Giao thức thực nghiệm.md` (mục 1.1,
+  2.1, 2.3, 2.4, 3, 4 bước 6, 7, 9), `docs/06. Track/Chốt phạm vi và checklist ký GVHD.md` (mục 3, 4, 5, 6, 8, 9 hạng
+  mục 10, 12, 14), `docs/06. Track/Lộ trình triển khai code.md`: đóng hiệu chỉnh, chế độ sàn thay cổng 20–80%, quy mô
+  rút gọn, bỏ HN-CC, lịch mới Tuần 10–17, định hướng Chương 5 đóng góp cá nhân. Lý do: GVHD duyệt mục 6.1–6.5. Chưa
+  đồng bộ: `Phụ lục M1b — trình GVHD ký.md` (dự toán theo N = 30, ngân sách nay không giới hạn); `Kế hoạch thực
+  hiện.xlsx` do TA sửa theo mục 7 của kế hoạch hoàn thiện; các chương `.tex` sửa khi viết báo cáo.
+
 ## 2026-11-06
 - `ipi-agent-lab/config/experiment.yaml`: `pilot.targets` [A2, A3] → [A1, A2, A3], `observe_targets` [A1] → [];
   `blocks.B1.targets` [A2, A3] → [A1, A2, A3], B1 3.780 → 5.670 run; mẫu hiệu chỉnh giữ 336 run. `docs/04. Design/06.

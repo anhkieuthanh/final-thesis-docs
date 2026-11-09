@@ -106,7 +106,7 @@ tuyệt đối trên model khác không so được".
 
 | Ý kiến GVHD | |
 |---|---|
-| ☐ Đồng ý (a) · ☐ Đồng ý (b) · ☐ Không đồng ý · ☐ Ý kiến khác | |
+| ☑ Đồng ý (a) · ☐ Đồng ý (b) · ☐ Không đồng ý · ☐ Ý kiến khác | |
 | Ghi chú | |
 
 ---
@@ -194,8 +194,8 @@ phải sửa giao thức sau khi đã thấy số, nên dễ bị phản biện 
 
 | Ý kiến GVHD | |
 |---|---|
-| Mở `v-attack-1.1` (payload gắn ngữ cảnh) rồi chạy lại hiệu chỉnh | ☐ Đồng ý · ☐ Không đồng ý |
-| Nếu vẫn dưới cổng: ☐ Đồng ý (1)+(2) · ☐ Chỉ (1) · ☐ Ý kiến khác | |
+| Mở `v-attack-1.1` (payload gắn ngữ cảnh) rồi chạy lại hiệu chỉnh | ☑ Đồng ý · ☐ Không đồng ý |
+| Nếu vẫn dưới cổng: ☐ Đồng ý (1)+(2) · ☑ Chỉ (1) · ☐ Ý kiến khác | |
 | Không áp quy tắc loại payload ở mức ASR sàn | ☐ Đồng ý · ☐ Không đồng ý |
 | Ghi chú | |
 
