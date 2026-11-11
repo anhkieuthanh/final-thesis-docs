@@ -1,3 +1,4 @@
+% Preamble cần tikz, adjustbox; thư viện shapes.geometric, arrows.meta, positioning, fit, calc.
 % =============================================================================
 % CHƯƠNG 3 — NỀN TẢNG LÝ THUYẾT VÀ CÔNG NGHỆ
 % Nội dung soạn với sự hỗ trợ của AI (Claude). Sinh viên tự kiểm mọi trích dẫn
@@ -17,9 +18,6 @@
 %   (1) Mục bib mới trong refs_chuong3.bib: đối chiếu tác giả, năm, nơi công bố với bản gốc.
 %   (2) Bộ mô hình A1--A3 và phần harness thuộc Phụ lục M1b, còn chờ GVHD ký; xem Chương 2,
 %       điểm (3).
-%   (3) Mục 3.4.4, đoạn "gắn ngữ cảnh": viết theo cách A (giữ cả payload cũ và payload gắn ngữ
-%       cảnh) trong docs/06. Track/Duyệt v-attack-1.1 — hai cách mở rộng corpus.md. TA chọn
-%       cách B thì sửa hai câu cuối đoạn.
 % =============================================================================
 \documentclass[../DoAn.tex]{subfiles}
 \begin{document}
@@ -45,7 +43,7 @@ Chương~2 đã xác định yêu cầu đối với hệ thống đánh giá. C
 \subsection{Mô hình ngôn ngữ lớn và cơ chế gọi công cụ}
 \label{subsection:3.1.1}
 
-Mô hình ngôn ngữ lớn nhận đầu vào là một chuỗi token và sinh ra chuỗi token tiếp theo có xác suất cao nhất theo phân phối đã học. Toàn bộ thông tin mô hình dùng để quyết định nằm trong cửa sổ ngữ cảnh của lượt gọi đó, gồm chỉ thị hệ thống do nhà phát triển viết, lịch sử hội thoại, câu hỏi của người dùng và mọi nội dung được ghép thêm vào. Các giao diện lập trình hiện nay chia cửa sổ ngữ cảnh thành các thông điệp có vai trò, chẳng hạn chỉ thị hệ thống, người dùng, trợ lý và kết quả công cụ. Tuy nhiên, vai trò chỉ là quy ước định dạng mà mô hình được huấn luyện để tôn trọng; ở tầng tính toán, mọi thông điệp đều được nối thành một chuỗi token duy nhất. Hướng nghiên cứu phân cấp chỉ thị cố gắng huấn luyện mô hình ưu tiên chỉ thị có thẩm quyền cao hơn~\cite{wallace2024instruction}, nhưng mức ưu tiên đó là hành vi học được theo xác suất chứ không phải ranh giới được cưỡng chế.
+Mô hình ngôn ngữ lớn nhận đầu vào là một chuỗi token và sinh các token tiếp theo theo phân phối xác suất đã học và chiến lược giải mã được chọn. Toàn bộ thông tin mô hình dùng để quyết định nằm trong cửa sổ ngữ cảnh của lượt gọi đó, gồm chỉ thị hệ thống do nhà phát triển viết, lịch sử hội thoại, câu hỏi của người dùng và mọi nội dung được ghép thêm vào. Các giao diện lập trình hiện nay chia cửa sổ ngữ cảnh thành các thông điệp có vai trò, chẳng hạn chỉ thị hệ thống, người dùng, trợ lý và kết quả công cụ. Tuy nhiên, vai trò chỉ là quy ước định dạng mà mô hình được huấn luyện để tôn trọng; ở tầng tính toán, mọi thông điệp đều được nối thành một chuỗi token duy nhất. Hướng nghiên cứu phân cấp chỉ thị cố gắng huấn luyện mô hình ưu tiên chỉ thị có thẩm quyền cao hơn~\cite{wallace2024instruction}, nhưng mức ưu tiên đó là hành vi học được theo xác suất chứ không phải ranh giới được cưỡng chế.
 
 Gọi công cụ là khả năng để mô hình yêu cầu thực thi một hàm bên ngoài thay vì chỉ sinh văn bản. Ý tưởng mô hình tự quyết định khi nào gọi giao diện lập trình bên ngoài đã được chứng minh từ Toolformer~\cite{schick2023toolformer}, và nay được các nhà cung cấp hỗ trợ trực tiếp. Ứng dụng khai báo cho mô hình danh sách công cụ, mỗi công cụ gồm tên, mô tả bằng ngôn ngữ tự nhiên và lược đồ JSON của tham số. Khi cần, mô hình trả về một lời gọi công cụ có cấu trúc gồm tên công cụ và đối số. Ứng dụng thực thi lời gọi đó, rồi đưa kết quả trở lại mô hình dưới dạng một thông điệp mới. Điểm quan trọng với an toàn là mô hình không tự thực thi gì: mọi tác dụng ra ngoài đều đi qua mã của ứng dụng, nên ứng dụng có một điểm kiểm soát nằm ngoài mô hình giữa lúc mô hình đề xuất và lúc công cụ thực thi. Các cơ chế phòng thủ D3 và D4 ở mục~\ref{section:3.5} đặt tại đúng điểm này.
 
@@ -72,9 +70,9 @@ Mô hình nhúng ánh xạ một đoạn văn bản thành một vector số th�
 	\mathrm{sim}(\mathbf{q},\mathbf{d}) = \frac{\mathbf{q}\cdot\mathbf{d}}{\lVert\mathbf{q}\rVert\,\lVert\mathbf{d}\rVert}.
 	\label{eq:cosine}
 \end{equation}
-Với kho lớn, so sánh vét cạn với mọi đoạn là quá chậm, nên kho vector dùng chỉ mục lân cận gần đúng; Qdrant, kho vector mà đồ án sử dụng, dùng đồ thị HNSW cho mục đích này~\cite{qdrant}. Do kho tri thức của testbed nhỏ, sai số của tìm kiếm gần đúng không đáng kể so với các biến khác của thực nghiệm.
+Với kho lớn, so sánh vét cạn với mọi đoạn là quá chậm, nên kho vector dùng chỉ mục lân cận gần đúng; Qdrant, kho vector mà đồ án sử dụng, dùng đồ thị HNSW cho mục đích này~\cite{qdrant}. Ảnh hưởng của chỉ mục gần đúng cần được kiểm tra bằng phép đối chiếu truy hồi trên kho dữ liệu của testbed.
 
-Họ mô hình nhúng E5 đa ngữ được huấn luyện đối chiếu với hai tiền tố phân biệt vai trò, \texttt{query:} cho câu truy vấn và \texttt{passage:} cho đoạn tài liệu~\cite{wang2024e5}. Bỏ tiền tố thì mô hình vẫn sinh vector bình thường, không báo lỗi, nhưng chất lượng truy hồi giảm. Mô hình cũng có giới hạn độ dài đầu vào 512 token; đoạn dài hơn bị cắt âm thầm phần đuôi. Hai chi tiết này ảnh hưởng trực tiếp tới thực nghiệm, vì một payload nằm ở phần đuôi bị cắt sẽ không bao giờ được truy hồi, và kết quả đo khi đó phản ánh lỗi cấu hình chứ không phản ánh độ bền của tác tử.
+Họ mô hình nhúng E5 đa ngữ được huấn luyện đối chiếu với hai tiền tố phân biệt vai trò, \texttt{query:} cho câu truy vấn và \texttt{passage:} cho đoạn tài liệu~\cite{wang2024e5}. Bỏ tiền tố thì mô hình vẫn sinh vector bình thường, không báo lỗi, nhưng chất lượng truy hồi giảm. Mô hình cũng có giới hạn độ dài đầu vào 512 token; đoạn dài hơn bị cắt âm thầm phần đuôi. Hai chi tiết này ảnh hưởng trực tiếp tới thực nghiệm, vì phần payload bị cắt sẽ không được biểu diễn trong vector nhúng, dù văn bản gốc vẫn có thể được trả về khi đoạn được truy hồi, và kết quả đo khi đó phản ánh lỗi cấu hình chứ không phản ánh độ bền của tác tử.
 
 \subsection{Hệ quả đối với bề mặt tấn công}
 \label{subsection:3.2.3}
@@ -96,9 +94,9 @@ Thông điệp giữa client và server tuân theo JSON-RPC 2.0~\cite{jsonrpc2},
 
 Đồ án chỉ dùng nguyên thủy công cụ, vì đây là nguyên thủy được đặc tả gọi là do mô hình điều khiển: mô hình tự phát hiện và gọi công cụ dựa trên ngữ cảnh mà không cần người dùng chọn từng lần~\cite{mcp2025spec}. Client lấy danh sách công cụ bằng yêu cầu \texttt{tools/list}. Mỗi công cụ được mô tả bởi tên định danh \texttt{name}, mô tả bằng ngôn ngữ tự nhiên \texttt{description}, lược đồ JSON của tham số \texttt{inputSchema}, cùng các trường tùy chọn như tên hiển thị \texttt{title}, lược đồ đầu ra \texttt{outputSchema} và chú thích hành vi \texttt{annotations}. Host chuyển danh sách này cho mô hình dưới dạng khai báo công cụ. Khi mô hình chọn một công cụ, client gửi yêu cầu \texttt{tools/call} với tên công cụ và đối số. Kết quả trả về gồm trường \texttt{content} là danh sách khối nội dung có kiểu (văn bản, ảnh, âm thanh, liên kết tài nguyên hoặc tài nguyên nhúng), tùy chọn trường \texttt{structuredContent} chứa dữ liệu có cấu trúc, và cờ \texttt{isError} báo lỗi thực thi.
 
-Ba đặc điểm của nguyên thủy công cụ quyết định bề mặt tấn công mà đồ án nghiên cứu. Thứ nhất, trường \texttt{description} là văn bản tự do do server viết, và được ghép vào ngữ cảnh của mô hình ở mọi lượt, kể cả khi công cụ đó không bao giờ được gọi. Thứ hai, danh sách công cụ được lấy về lúc chạy; server khai năng lực \texttt{listChanged} có thể gửi thông báo \texttt{notifications/tools/list\_changed} để client lấy lại danh sách giữa phiên. Vì vậy bản mô tả mà người quản trị duyệt hôm nay không bảo đảm là bản mà tác tử đọc ngày mai, một kịch bản thường gọi là rug-pull. Thứ ba, nội dung văn bản trong kết quả công cụ không có kiểu ngữ nghĩa nào phân biệt dữ liệu với chỉ thị; nó được nối vào ngữ cảnh như mọi văn bản khác.
+Ba đặc điểm của nguyên thủy công cụ quyết định bề mặt tấn công mà đồ án nghiên cứu. Thứ nhất, trường \texttt{description} là văn bản tự do do server viết, và được ghép vào ngữ cảnh của mô hình ở mọi lượt, kể cả khi công cụ đó không bao giờ được gọi. Thứ hai, danh sách công cụ được lấy về lúc chạy; server khai năng lực \texttt{listChanged} có thể gửi thông báo \path{notifications/tools/list_changed} để client lấy lại danh sách giữa phiên. Vì vậy bản mô tả mà người quản trị duyệt hôm nay không bảo đảm là bản mà tác tử đọc ngày mai, một kịch bản thường gọi là rug-pull. Thứ ba, nội dung văn bản trong kết quả công cụ không có kiểu ngữ nghĩa nào phân biệt dữ liệu với chỉ thị; nó được nối vào ngữ cảnh như mọi văn bản khác.
 
-Bản thân đặc tả đã nhận diện một phần rủi ro này. Đặc tả khuyến nghị luôn có người trong vòng lặp với quyền từ chối lời gọi công cụ, yêu cầu client coi chú thích hành vi của công cụ là không tin cậy trừ khi đến từ server tin cậy, và khuyến nghị client hỏi xác nhận với thao tác nhạy cảm, kiểm kết quả công cụ trước khi đưa cho mô hình và ghi nhật ký sử dụng công cụ~\cite{mcp2025spec}. Các khuyến nghị này trùng một phần với cơ chế D3 (xác nhận hành động có hậu quả) và D2 (kiểm kết quả công cụ). Đồ án không coi các ý tưởng đó là đóng góp mới; phần đồ án bổ sung là đo định lượng mức hiệu quả và cái giá hữu dụng của chúng khi được hiện thực cụ thể. Đặc tả không quy định cách kiểm, và không có cơ chế nào bảo vệ trường \texttt{description}.
+Bản thân đặc tả đã nhận diện một phần rủi ro này. Đặc tả khuyến nghị luôn có người trong vòng lặp với quyền từ chối lời gọi công cụ, yêu cầu client coi chú thích hành vi của công cụ là không tin cậy trừ khi đến từ server tin cậy, và khuyến nghị client hỏi xác nhận với thao tác nhạy cảm, kiểm kết quả công cụ trước khi đưa cho mô hình và ghi nhật ký sử dụng công cụ~\cite{mcp2025spec}. Các khuyến nghị này trùng một phần với cơ chế D3 (xác nhận hành động có hậu quả) và D2 (kiểm kết quả công cụ). Đồ án không coi các ý tưởng đó là đóng góp mới; phần đồ án bổ sung là đo định lượng mức hiệu quả và cái giá hữu dụng của chúng khi được hiện thực cụ thể. Đặc tả không quy định cách kiểm, và không bảo đảm rằng mô hình sẽ bỏ qua mọi chỉ thị độc trong trường \texttt{description}.
 
 \subsection{Tác tử RAG kết hợp MCP}
 \label{subsection:3.3.3}
@@ -107,7 +105,8 @@ Hình~\ref{fig:c3-kientruc} tổng hợp kiến trúc của tác tử được n
 
 \begin{figure}[htbp]
 	\centering
-	\begin{tikzpicture}[node distance=7mm and 9mm]
+	\begin{adjustbox}{max totalsize={\linewidth}{0.8\textheight},center}
+\begin{tikzpicture}[node distance=7mm and 9mm]
 		% Hàng trên: nguồn ngoài vành đai
 		\node[c3atk, text width=3.0cm] (src) {Nguồn nạp tài liệu\\(thư, tệp tải lên)};
 		\node[c3atk, text width=3.0cm, right=32mm of src] (mcps) {Server MCP\\(năm công cụ)};
@@ -122,7 +121,7 @@ Hình~\ref{fig:c3-kientruc} tổng hợp kiến trúc của tác tử được n
 		\node[c3box, text width=2.4cm, below=of ctx] (llm) {Mô hình ngôn ngữ};
 		\node[c3box, text width=2.6cm, left=10mm of llm] (core) {Lõi tác tử\\(host + client MCP)};
 		\node[c3box, text width=1.8cm, left=8mm of core] (user) {Người dùng};
-		\node[c3box, text width=2.6cm, right=10mm of llm] (tools) {Thực thi công cụ\\(\texttt{tools/call})};
+		\node[c3box, text width=3.0cm, right=10mm of llm] (tools) {Thực thi công cụ\\(\texttt{tools/call})};
 		\node[c3db, text width=2.2cm, below=of tools] (db) {CSDL khách hàng};
 		\node[c3box, text width=2.6cm, right=8mm of db, fill=gray!12] (sink) {Bồn chứa ngoài\\thư, HTTP, phiếu};
 		% Luồng
@@ -142,6 +141,7 @@ Hình~\ref{fig:c3-kientruc} tổng hợp kiến trúc của tác tử được n
 		% Vùng
 		\node[c3zone, red!60!black, fit=(src)(mcps), label={[font=\footnotesize, red!60!black]above:Ngoài vành đai: kẻ tấn công đặt được văn bản}] {};
 	\end{tikzpicture}
+\end{adjustbox}
 	\caption{Kiến trúc tác tử RAG kết hợp MCP và ba phân kênh đưa nội dung không tin cậy vào cửa sổ ngữ cảnh}
 	\label{fig:c3-kientruc}
 \end{figure}
@@ -165,7 +165,8 @@ Một cuộc tấn công tiêm nhiễm gián tiếp trên tác tử RAG kết h�
 
 \begin{figure}[htbp]
 	\centering
-	\begin{tikzpicture}[node distance=5mm]
+	\begin{adjustbox}{max totalsize={\linewidth}{0.8\textheight},center}
+\begin{tikzpicture}[node distance=5mm]
 		\node[c3atk, text width=2.2cm, minimum height=14mm] (s1) {\textbf{1. Gieo}\\ngoài vành đai};
 		\node[c3box, text width=2.2cm, minimum height=14mm, right=of s1] (s2) {\textbf{2. Nạp}\\bất đồng bộ\\với phiên};
 		\node[c3box, text width=2.2cm, minimum height=14mm, right=of s2] (s3) {\textbf{3. Kích hoạt}\\vào cửa sổ\\ngữ cảnh};
@@ -185,6 +186,7 @@ Một cuộc tấn công tiêm nhiễm gián tiếp trên tác tử RAG kết h�
 		\draw[c3flow, blue!60!black] (d34) -- ++(0,7mm);
 		\node[font=\footnotesize, align=right, anchor=east] at ($(d2.west)+(-3mm,0)$) {Vị trí cắm\\của phòng thủ};
 	\end{tikzpicture}
+\end{adjustbox}
 	\caption{Năm giai đoạn của tấn công tiêm nhiễm gián tiếp và vị trí cắm của bốn cơ chế phòng thủ}
 	\label{fig:c3-giaidoan}
 \end{figure}
@@ -200,7 +202,8 @@ Hai kênh mà đồ án chạy thực nghiệm khác nhau về thời điểm v�
 	\centering
 	\caption{So sánh kênh tài liệu và kênh công cụ}
 	\label{tab:c3-kenh}
-	\begin{tabular}{|p{0.22\textwidth}|p{0.22\textwidth}|p{0.22\textwidth}|p{0.22\textwidth}|}
+	\setlength{\tabcolsep}{3pt}
+\begin{tabular}{|p{0.22\textwidth}|p{0.22\textwidth}|p{0.22\textwidth}|p{0.22\textwidth}|}
 		\hline
 		\textbf{Tiêu chí} & \textbf{K1: đoạn truy hồi} & \textbf{K2a: mô tả công cụ} & \textbf{K2b: kết quả công cụ} \\ \hline
 		Thời điểm vào ngữ cảnh & Sau khi tác tử gọi \texttt{search\_kb} & Trước câu hỏi, ở mọi lượt & Giữa chuỗi suy luận \\ \hline
@@ -220,7 +223,8 @@ Payload được phân loại theo trục mà nó khai thác, tức theo cách n
 	\centering
 	\caption{Tám kỹ thuật payload và trục khai thác}
 	\label{tab:c3-kythuat}
-	\begin{tabular}{|p{0.07\textwidth}|p{0.36\textwidth}|p{0.36\textwidth}|p{0.09\textwidth}|}
+	\setlength{\tabcolsep}{3pt}
+\begin{tabular}{|p{0.07\textwidth}|p{0.36\textwidth}|p{0.36\textwidth}|p{0.09\textwidth}|}
 		\hline
 		\textbf{Mã} & \textbf{Kỹ thuật} & \textbf{Trục khai thác} & \textbf{Loại} \\ \hline
 		T1 & Câu lệnh tường minh, giả mạo uy quyền & Nguồn phát của văn bản & Nền \\ \hline
@@ -236,8 +240,7 @@ Payload được phân loại theo trục mà nó khai thác, tức theo cách n
 
 Các trục khai thác giải thích vì sao không cơ chế phòng thủ nào chặn được mọi kỹ thuật. T1, T2 và T4 để lại dấu hiệu cú pháp, như câu mệnh lệnh hay ký tự ẩn, nên có thể bị lọc ở tầng văn bản. T3 và T5 không chứa câu lệnh nào mà dựa vào tính hợp lý của nội dung, nên các cơ chế đọc văn bản không có gì để bắt. T6 chia payload thành các mảnh mà từng mảnh riêng lẻ đều vô hại, nên cơ chế xét từng đoạn không thấy. T8 dùng các biến thể như bỏ dấu, kiểu gõ Telex hay ký tự đồng hình, vốn làm các mẫu so khớp viết cho chữ có dấu chuẩn bỏ sót.
 
-% [XÁC NHẬN] (3)
-Bên cạnh kỹ thuật, payload còn khác nhau ở một trục độc lập là mức \emph{gắn ngữ cảnh}: mục tiêu mà payload đòi có bám vào việc tác tử đang làm hay không. Một payload không gắn ngữ cảnh đòi một hành động cố định, chẳng hạn mở phiếu chiết khấu cho một khách hàng bất kỳ, chèn vào giữa một tác vụ kiểm tồn kho; mô hình dễ nhận ra hành động đó lạc đề và bỏ qua. Một payload gắn ngữ cảnh đòi một hành động dùng đúng công cụ và đối tượng của tác vụ đang chạy, chẳng hạn mở phiếu theo dõi cho chính mã hàng đang kiểm, nên trông như bước tiếp theo hợp lý của quy trình. Hai payload có thể dùng cùng một kỹ thuật và cùng một điều kiện kích hoạt, tức được chấm như nhau, mà chỉ khác mức gắn ngữ cảnh. Hệ quả cho đo lường là một tập payload chỉ gồm loại không gắn ngữ cảnh có thể cho tỷ lệ tấn công thành công gần bằng không mà không chứng minh được mô hình chống chịu tốt. Vì vậy tập payload của đồ án gồm cả hai loại, gắn nhãn để tách được khi phân tích, và Chương~4 so sánh trực tiếp hai loại trên cùng ô thí nghiệm.
+Bên cạnh kỹ thuật, payload còn khác nhau ở một trục độc lập là mức \emph{gắn ngữ cảnh}: mục tiêu mà payload đòi có bám vào việc tác tử đang làm hay không. Một payload không gắn ngữ cảnh đòi một hành động cố định, chẳng hạn mở phiếu chiết khấu cho một khách hàng bất kỳ, chèn vào giữa một tác vụ kiểm tồn kho; mô hình dễ nhận ra hành động đó lạc đề và bỏ qua. Một payload gắn ngữ cảnh đòi một hành động dùng đúng công cụ và đối tượng của tác vụ đang chạy, chẳng hạn mở phiếu theo dõi cho chính mã hàng đang kiểm, nên trông như bước tiếp theo hợp lý của quy trình. Hai payload có thể dùng cùng một kỹ thuật và cùng một điều kiện kích hoạt, tức được chấm như nhau, mà chỉ khác mức gắn ngữ cảnh. Hệ quả cho đo lường là một tập payload chỉ gồm loại không gắn ngữ cảnh có thể cho tỷ lệ tấn công thành công gần bằng không mà không chứng minh được mô hình chống chịu tốt. Vì vậy tập payload của đồ án gắn nhãn mức gắn ngữ cảnh cho từng payload. Ở ô thí nghiệm đã có payload gắn ngữ cảnh, ma trận chỉ dùng lớp payload này; các ô còn lại dùng payload không gắn ngữ cảnh. Phép so sánh trực tiếp hai loại được thực hiện ở một lô đối chứng riêng và trình bày ở Chương~4.
 
 \subsection{Kẻ tấn công thích ứng}
 \label{subsection:3.4.5}
@@ -286,7 +289,8 @@ Bốn nhóm trên có điểm mù bổ sung cho nhau: hai nhóm đầu đọc n�
 
 \begin{figure}[htbp]
 	\centering
-	\begin{tikzpicture}[node distance=6mm]
+	\begin{adjustbox}{max totalsize={\linewidth}{0.8\textheight},center}
+\begin{tikzpicture}[node distance=6mm]
 		\node[c3atk, text width=2.3cm] (in) {K1, K2a, K2b};
 		\node[c3def, text width=1.8cm, right=of in] (d2) {D2\\lọc đầu vào};
 		\node[c3def, text width=1.9cm, right=of d2] (d1) {D1\\đánh dấu\\ranh giới};
@@ -299,18 +303,19 @@ Bốn nhóm trên có điểm mù bổ sung cho nhau: hai nhóm đầu đọc n�
 		\draw[c3flow] (in) -- (d2);
 		\draw[c3flow] (d2) -- (d1);
 		\draw[c3flow] (d1) -- (llm);
-		\draw[c3flow] (llm) -- node[c3lbl, above] {lời gọi} (d3);
+		\draw[c3flow] (llm) -- node[c3lbl, above=3mm] {lời gọi} (d3);
 		\draw[c3flow] (d3) -- (eg);
 		\draw[c3flow] (eg) -- node[c3lbl, above] {không} (ex);
 		\draw[c3flow] (eg) -- node[c3lbl, right] {có} (d4);
 		\draw[c3flow] (d4) -| (ex);
-		\draw[c3flow] (llm) -- node[c3lbl, right, text width=3.2cm] {không qua cơ chế nào\\(điểm mù với G3)} (ans);
+		\draw[c3flow] (llm) -- node[c3lbl, right=2mm, text width=2.6cm] {không qua D3/D4} (ans);
 	\end{tikzpicture}
+\end{adjustbox}
 	\caption{Thứ tự ghép bốn cơ chế phòng thủ trong một lượt suy luận}
 	\label{fig:c3-pipeline}
 \end{figure}
 
-Hình~\ref{fig:c3-pipeline} làm lộ hai điểm mà một công cụ đánh giá phải xử lý. Thứ nhất, nhánh từ mô hình tới câu trả lời cuối không đi qua cơ chế nào, nên nếu bộ đo chỉ có G1 và G2 thì cấu hình D3 kết hợp D4 sẽ được báo cáo an toàn hơn thực tế; đây là lý do bộ đo bắt buộc có G3. Thứ hai, một lượt tấn công thất bại có thể do cơ chế phòng thủ chặn, do mô hình tự từ chối theo chính sách an toàn của nhà cung cấp, hoặc do lớp kiểm soát của harness; ba nguyên nhân cho cùng một kết quả quan sát được ở đầu ra. Nếu ghi lẫn mô hình từ chối thành phòng thủ chặn, tỷ lệ phòng thủ của D1--D4 sẽ bị thổi phồng một cách có hệ thống, mạnh nhất ở mô hình có lớp an toàn riêng tốt nhất. Vì vậy vết chạy của testbed bắt buộc ghi trường nguyên nhân chặn, và mỗi tác động của một cơ chế phòng thủ phải để lại bản ghi truy được tới cơ chế và luật cụ thể.
+Hình~\ref{fig:c3-pipeline} làm lộ hai điểm mà một công cụ đánh giá phải xử lý. Thứ nhất, nhánh từ mô hình tới câu trả lời cuối không đi qua D3 hoặc D4, nên nếu bộ đo chỉ có G1 và G2 thì cấu hình D3 kết hợp D4 sẽ được báo cáo an toàn hơn thực tế; đây là lý do bộ đo bắt buộc có G3. Thứ hai, một lượt tấn công thất bại có thể do cơ chế phòng thủ chặn, do mô hình tự từ chối theo chính sách an toàn của nhà cung cấp, hoặc do lớp kiểm soát của harness; ba nguyên nhân cho cùng một kết quả quan sát được ở đầu ra. Nếu ghi lẫn mô hình từ chối thành phòng thủ chặn, tỷ lệ phòng thủ của D1--D4 sẽ bị thổi phồng một cách có hệ thống, mạnh nhất ở mô hình có lớp an toàn riêng tốt nhất. Vì vậy vết chạy của testbed bắt buộc ghi trường nguyên nhân chặn, và mỗi tác động của một cơ chế phòng thủ phải để lại bản ghi truy được tới cơ chế và luật cụ thể.
 
 \section{Công nghệ nền của testbed}
 \label{section:3.6}
@@ -322,11 +327,12 @@ Bảng~\ref{tab:c3-congnghe} liệt kê các công nghệ được dùng để h
 	\centering
 	\caption{Công nghệ sử dụng trong testbed}
 	\label{tab:c3-congnghe}
-	\begin{tabular}{|p{0.18\textwidth}|p{0.32\textwidth}|p{0.42\textwidth}|}
+	\setlength{\tabcolsep}{3pt}
+\begin{tabular}{|p{0.18\textwidth}|p{0.32\textwidth}|p{0.42\textwidth}|}
 		\hline
 		\textbf{Tầng} & \textbf{Công nghệ} & \textbf{Vai trò} \\ \hline
 		Nền tảng & Python $\geq$ 3.10, uv & Ngôn ngữ hiện thực; quản lý phụ thuộc bằng tệp khóa \texttt{uv.lock} \\ \hline
-		Mô hình đích & SDK \texttt{anthropic} 1.13, SDK \texttt{openai} & Gọi A1, mô hình chấm và mô hình sinh payload qua Messages API của Anthropic; gọi A2, A3 qua cổng tương thích OpenAI \\ \hline
+		Mô hình đích & SDK \texttt{anthropic} 1.13, SDK \texttt{openai} & Gọi A1, A2, A3 qua cổng tương thích OpenAI; gọi mô hình chấm và mô hình sinh payload qua Messages API của Anthropic \\ \hline
 		Công cụ & MCP Python SDK 2.3 & Cung cấp năm công cụ của tác tử theo giao thức MCP \\ \hline
 		Kho tri thức & fastembed 0.8, \texttt{multilingual-e5-large}, Qdrant 1.19.2, pypdf, python-docx & Trích văn bản, nhúng 1024 chiều, lưu và truy hồi theo cosine \\ \hline
 		Dữ liệu mô phỏng & Faker (\texttt{vi\_VN}), SQLite & Sinh cơ sở dữ liệu khách hàng với hạt giống cố định \\ \hline
@@ -335,42 +341,12 @@ Bảng~\ref{tab:c3-congnghe} liệt kê các công nghệ được dùng để h
 		Trình bày & FastAPI; React 18, TypeScript, Vite, Tailwind CSS, Recharts & Giao diện web: giao diện lập trình chỉ đọc trên kho vết và ứng dụng một trang cho kết quả, vết chạy, trình diễn \\ \hline
 		Đóng gói & Docker, Docker Compose & Dựng toàn bộ hạ tầng bằng một lệnh \\ \hline
 		Chất lượng mã & pytest, ruff, pre-commit, GitHub Actions & Kiểm thử, kiểm tra quy chuẩn mã trước mỗi lần cam kết và ở mọi lần đẩy mã \\ \hline
-		Harness đối chiếu & Claude Code, OpenWork (lõi opencode) & Chạy tác tử qua lớp kiểm soát của harness thương mại \\ \hline
+		Harness đối chiếu & OpenWork (lõi opencode) & Chạy tác tử qua lớp kiểm soát của harness thương mại; phần đo là tùy chọn, trên tập con \\ \hline
 	\end{tabular}
 \end{table}
 
-\subsection{Mô hình đích và lớp gọi mô hình}
-\label{subsection:3.6.1}
+Cấu hình cụ thể của từng công nghệ trong testbed, gồm bộ mô hình đích và lớp gọi mô hình, kho tri thức, các bồn chứa, kho vết chạy, hạ tầng đóng gói và giao diện web, được trình bày ở mục~\ref{section:4.3} và mục~\ref{subsection:4.2.7} của Chương~4.
 
-Đồ án đánh giá ba mô hình đích đại diện cho ba lớp năng lực: A1 là mô hình frontier \texttt{claude-opus-5}, A2 là mô hình lớp doanh nghiệp Việt \texttt{glm-5.2}, và A3 là mô hình lớp rẻ \texttt{glm-5.3-flash} làm nhóm đối chiếu. Bộ mô hình được khóa bằng nhãn phiên bản \texttt{v-models-1.0} trong Git và không thay đổi sau đó. A1 được gọi thẳng qua Messages API của Anthropic bằng SDK chính thức thay vì qua cổng trung gian, vì kiểm tra thực tế cho thấy cổng trung gian tự bọc thêm chỉ thị hệ thống của riêng nó quanh yêu cầu, làm sai lệch ngữ cảnh mà thực nghiệm kiểm soát. A2 và A3 được gọi qua một cổng có giao diện tương thích OpenAI. Vì A2 và A3 dùng chung cổng này, hai mô hình không độc lập ở tầng hạ tầng, và chênh lệch giữa A1 với A2, A3 gồm cả phần khác biệt hạ tầng.
-
-Ngoài ba mô hình đích, testbed dùng hai mô hình phụ trợ, cũng được ghim định danh trong tệp cấu hình. Mô hình chấm \texttt{claude-sonnet-5-5} quyết định câu trả lời cho câu hỏi lành tính có đạt yêu cầu hay không; mô hình này nằm ngoài A1--A3 để không mô hình đích nào tự chấm chính nó. Mô hình sinh payload \texttt{claude-opus-5} viết lại câu chữ payload cho kẻ tấn công thích ứng và sinh biến thể diễn đạt lại khi soạn tập payload. Runner không bao giờ chạy tác vụ chở trên hai mô hình này.
-
-Lớp gọi mô hình chuẩn hóa hai định dạng phản hồi về một cấu trúc chung gồm văn bản, danh sách lời gọi công cụ, lý do dừng và số token. Lớp này cũng thực hiện ba việc phục vụ đo lường. Một là chỉ thử lại khi gặp lỗi hạ tầng như quá tải, lỗi máy chủ hay hết thời gian chờ, và không thử lại khi mô hình trả lời gọi công cụ sai định dạng, vì đó là hành vi cần đo. Hai là ghi nguyên văn yêu cầu và phản hồi để truy được vì sao một payload kích hoạt hay bị chặn. Ba là ghi trường định danh mô hình trong phản hồi vào vết chạy, để phát hiện trường hợp nhà cung cấp thay mô hình phía sau cùng một tên gọi. Nhiệt độ lấy mẫu đặt bằng 0 cho A2 và A3; riêng A1 dùng chế độ lấy mẫu mặc định do giao diện lập trình của mô hình này không nhận tham số nhiệt độ; khác biệt này được ghi vào vết chạy và tính đến khi so sánh giữa các mô hình.
-
-\subsection{Kho tri thức}
-\label{subsection:3.6.2}
-
-Kho tri thức gồm 40 tài liệu bối cảnh tiếng Việt, gồm 15 tệp PDF, 10 tệp DOCX và 15 tệp Markdown, được trích văn bản bằng pypdf và python-docx. Mô hình nhúng là \texttt{intfloat/multilingual-e5-large}~\cite{wang2024e5}, chạy cục bộ qua thư viện fastembed~\cite{fastembed} để không phụ thuộc dịch vụ ngoài và để kết quả nhúng tái lập được. Đồ án đã cân nhắc mô hình BGE-M3 nhưng phiên bản fastembed hiện hành không hỗ trợ mô hình này; \texttt{multilingual-e5-large} có cùng số chiều 1024 và cùng thuộc nhóm đa ngữ có tiếng Việt. Văn bản được cắt theo token của chính bộ tách từ của mô hình nhúng, mỗi đoạn tối đa 512 token với 64 token chồng lấn, để không đoạn nào bị cắt âm thầm như đã nêu ở mục~\ref{subsection:3.2.2}; tiền tố \texttt{query:} và \texttt{passage:} được thêm tự động.
-
-Vector được lưu trong Qdrant với độ đo cosine, khớp với cách mô hình E5 được huấn luyện. Tài liệu nền và tài liệu chứa payload của từng lượt chạy nằm chung một collection, phân biệt bằng trường nguồn trong siêu dữ liệu. Cách tổ chức này có chủ ý: nếu tách thành hai collection thì bộ truy hồi phải truy vấn hai nơi rồi trộn điểm, và top-$k$ không còn phản ánh đúng những gì tác tử thật nhận được. Kho nền chỉ dựng một lần; mỗi lượt chạy chỉ thêm và gỡ tài liệu của chính nó.
-
-\subsection{Bồn chứa, vết chạy và hạ tầng}
-\label{subsection:3.6.3}
-
-Ba công cụ có tác dụng ra ngoài được nối tới các bồn chứa chạy cục bộ để tác tử không bao giờ gửi dữ liệu ra mạng thật. \texttt{send\_email} gửi tới MailHog, một máy chủ SMTP giả lưu mọi thư nhận được và cho phép đọc lại qua giao diện lập trình. \texttt{http\_request} gửi tới một máy nghe chuỗi đánh dấu viết bằng FastAPI, ghi lại mọi yêu cầu để bộ chấm dò chuỗi đánh dấu. Cơ sở dữ liệu khách hàng là tệp SQLite sinh bằng Faker với ngôn ngữ \texttt{vi\_VN} và hạt giống cố định, nên dữ liệu hoàn toàn là mô phỏng và dựng lại được giống hệt.
-
-Vết chạy được lưu trong SQLite thông qua SQLModel, gồm một bảng cho lượt chạy và một bảng cho từng bước. SQLite được chọn vì là một tệp duy nhất, không cần máy chủ, dễ sao lưu cùng dữ liệu thô của mỗi cổng nghiệm thu, và đủ cho quy mô thực nghiệm của đồ án. Chỉ số được tổng hợp bằng truy vấn SQL và pandas, rồi hiển thị trên giao diện web trình bày ở mục~\ref{subsection:3.6.4}.
-
-Toàn bộ hạ tầng được mô tả trong một tệp Docker Compose gồm bốn dịch vụ: kho vector Qdrant, máy chủ thư giả MailHog, máy nghe chuỗi đánh dấu và vùng chứa ứng dụng. Cổng của máy nghe chuỗi đánh dấu chỉ mở trên địa chỉ nội bộ của máy chủ, không lộ ra mạng ngoài. Mọi ảnh bên thứ ba được ghim phiên bản cụ thể thay vì dùng nhãn \texttt{latest}, vì hạ tầng trôi phiên bản giữa các lô chạy làm số liệu mất khả năng so sánh. Vùng chứa ứng dụng chỉ khởi động khi các dịch vụ hạ tầng đã báo sẵn sàng qua kiểm tra sức khỏe, tránh trường hợp lỗi kết nối lúc khởi động bị ghi nhầm thành lỗi của lượt chạy. Mã nguồn được quản lý bằng uv với tệp khóa phụ thuộc, kiểm thử bằng pytest và kiểm tra quy chuẩn mã bằng ruff; hai bước này chạy tự động trên GitHub Actions ở mọi lần đẩy mã.
-
-\subsection{Giao diện web}
-\label{subsection:3.6.4}
-
-Giao diện web của hệ thống gồm hai phần. Phần máy chủ là một giao diện lập trình viết bằng FastAPI, đọc kho vết chạy ở chế độ chỉ đọc và trả dữ liệu dạng JSON. Phần máy khách là một ứng dụng một trang viết bằng React và TypeScript, đóng gói bằng Vite, định kiểu bằng Tailwind CSS và vẽ biểu đồ bằng Recharts. Cách tách này cho phép dựng các màn hình tương tác như lọc theo nhiều chiều thí nghiệm, phát lại từng bước của một vết chạy trên sơ đồ kiến trúc, hay bật tắt từng cơ chế phòng thủ để trình diễn, vốn khó làm với công cụ dựng bảng điều khiển dạng kịch bản.
-
-Hai ràng buộc thiết kế xuất phát từ yêu cầu phi chức năng ở mục~\ref{section:2.4}. Thứ nhất, mọi chỉ số hiển thị, gồm tỷ lệ tấn công thành công, tỷ lệ phòng thủ, tỷ lệ hữu dụng, tỷ lệ chặn nhầm và khoảng tin cậy Wilson, được lấy từ đúng các hàm mà bộ chấm và bộ tổng hợp dùng, không tính lại ở phía giao diện; nhờ đó con số trên màn hình và con số trong báo cáo không thể lệch nhau. Thứ hai, giao diện chỉ phục vụ trên địa chỉ nội bộ và từ chối yêu cầu mang tên máy khác, còn chức năng trình diễn trực tiếp chỉ mở khi được bật bằng biến môi trường, mỗi lúc chạy một lượt và ghi vào kho vết riêng, không trộn với dữ liệu thực nghiệm. Giao diện chạy trực tiếp trên máy chủ thay vì trong Docker Compose, vì nó cần tệp biến môi trường để gọi mô hình khi trình diễn.
-
-Chương này đã trình bày cơ chế vận hành của tác tử dựa trên mô hình ngôn ngữ lớn, cách RAG và MCP đưa nội dung bên ngoài vào cửa sổ ngữ cảnh, và chỉ ra rằng gốc của tấn công tiêm nhiễm gián tiếp là việc mô hình không có kênh xác thực nguồn phát. Từ năm giai đoạn của một cuộc tấn công, chương đã phân tích khác biệt giữa kênh tài liệu và kênh công cụ, tám họ kỹ thuật payload, và nguyên lý cùng điểm mù của bốn nhóm phòng thủ, dẫn tới yêu cầu đo phòng thủ theo cặp an toàn và hữu dụng, trước cả kẻ tấn công mù lẫn thích ứng, và tách nguyên nhân chặn trong vết chạy. Cuối cùng, chương đã giới thiệu các công nghệ nền được chọn theo yêu cầu tái lập và chạy cục bộ. Chương~4 sẽ trình bày thiết kế, xây dựng testbed trên nền tảng này và kết quả thực nghiệm.
+Chương này đã trình bày cơ chế vận hành của tác tử dựa trên mô hình ngôn ngữ lớn, cách RAG và MCP đưa nội dung bên ngoài vào cửa sổ ngữ cảnh, và chỉ ra rằng gốc của tấn công tiêm nhiễm gián tiếp là việc mô hình không được bảo đảm phân biệt dữ liệu với chỉ thị chỉ bằng nhãn nguồn. Từ năm giai đoạn của một cuộc tấn công, chương đã phân tích khác biệt giữa kênh tài liệu và kênh công cụ, tám họ kỹ thuật payload, và nguyên lý cùng điểm mù của bốn nhóm phòng thủ, dẫn tới yêu cầu đo phòng thủ theo cặp an toàn và hữu dụng, trước cả kẻ tấn công mù lẫn thích ứng, và tách nguyên nhân chặn trong vết chạy. Cuối cùng, chương đã giới thiệu các công nghệ nền được chọn theo yêu cầu tái lập và chạy cục bộ. Chương~4 sẽ trình bày thiết kế, xây dựng testbed trên nền tảng này và kết quả thực nghiệm.
 
 \end{document}

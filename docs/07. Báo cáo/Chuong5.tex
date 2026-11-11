@@ -1,0 +1,141 @@
+% =============================================================================
+% CHƯƠNG 5 — CÁC GIẢI PHÁP VÀ ĐÓNG GÓP NỔI BẬT
+% Nội dung soạn với sự hỗ trợ của AI (Claude). Sinh viên tự kiểm mọi số liệu trước khi nộp.
+% Khung theo bản đồ đóng góp C1--C8 của
+% docs/06. Track/Kế hoạch hoàn thiện sau góp ý GVHD 08.11.2026.md, mỗi mục: Vấn đề -> Giải pháp
+% -> Kết quả và giới hạn. Nguồn số liệu: ipi-agent-lab/results/calibration/lab_calibration.md
+% (mục 5--8, 9, 12, 13, 14), results/tables/utility_baseline_judge_compare.csv,
+% results/scorer_gate/gate_20261106T063243Z.json, docs/06. Track/CHANGELOG_TAI_LIEU.md.
+%
+% CHỖ CÒN TRỐNG (tìm "% [ĐIỀN]"): số liệu chờ B1, B2, B3, B5, buổi dùng thử; hình chụp console;
+% hình đường cong độ nhạy.
+% ĐIỂM CẦN XÁC NHẬN (tìm "% [XÁC NHẬN]"):
+%   (1) Ba vòng hiệu chỉnh và lô 20261102 chạy trên bộ mô hình trước v-models-1.2 (A1, A3 khác
+%       hiện hành; A2 không đổi). Sau lô vòng 0 nhỏ trên v-models-1.2 thì cập nhật Bảng hiệu chỉnh.
+%   (2) Số ca kiểm thử tự động ở mục 5.1: điền sau khi bộ test đạt toàn bộ.
+% =============================================================================
+\documentclass[../DoAn.tex]{subfiles}
+\begin{document}
+
+Chương này trình bày tám đóng góp của đồ án. Mỗi mục đi theo cùng một khung: vấn đề gặp phải, giải pháp sinh viên tự xây dựng, kết quả đạt được cùng giới hạn của nó. Mọi con số đều dẫn tới tệp bằng chứng trong kho mã. Kết quả thấp hoặc bằng không vẫn được báo cáo như một kết quả khi giải thích được nguyên nhân.
+
+\section{Testbed tác tử doanh nghiệp có kiểm soát}
+\label{section:5.1}
+\subsection{Vấn đề}
+Các bộ đo đã khảo sát ở Chương~2 không có kênh tài liệu truy hồi, không có bối cảnh nghiệp vụ tiếng Việt, và một số không thực thi công cụ thật. Đo trên hệ thống đang vận hành thì không cố định được môi trường và có nguy cơ làm lộ dữ liệu thật.
+\subsection{Giải pháp}
+Đồ án tự cài vòng lặp tác tử \texttt{CoreA} không dùng khung phát triển, năm công cụ cung cấp qua máy chủ MCP, và lớp tiêm cho ba phân kênh K1, K2a, K2b; lớp tiêm K2 mô phỏng một máy chủ MCP bị kẻ tấn công kiểm soát. Dữ liệu khách hàng sinh bằng Faker với hạt giống cố định. Thư gửi ra đi vào máy chủ thư giả và yêu cầu HTTP đi vào máy nghe chuỗi đánh dấu, nên một lượt chạy diễn ra trọn vẹn mà không có dữ liệu nào rời máy.
+% [ĐIỀN] Hình kiến trúc testbed: docs/04. Design/00. Image/kien_truc_lab_ipi_guard.png
+\subsection{Kết quả và giới hạn}
+Testbed chạy đầu-cuối trên ba mô hình đích với kho tri thức 40 tài liệu tiếng Việt và sáu tác vụ chở.
+% [XÁC NHẬN] (2) [ĐIỀN] số ca kiểm thử tự động và kết quả cài lại trên máy sạch (STT-83).
+Giới hạn: testbed mô phỏng một nghiệp vụ duy nhất là công ty phân phối thiết bị; ba kênh K3--K5 chỉ được mô tả; ba mô hình đích đi chung một cổng dịch vụ nên không độc lập ở tầng hạ tầng.
+
+\section{Bộ chấm tất định và phân định nguyên nhân chặn}
+\label{section:5.2}
+\subsection{Vấn đề}
+Nếu kết quả chỉ được đánh giá qua câu trả lời cuối, một lời gọi nguy hiểm đã bị ngăn có thể bị nhầm với hành động đã xảy ra; ngược lại, tác tử có thể tạo tác dụng ra ngoài rồi trả lời vô hại. Dùng mô hình ngôn ngữ để chấm thì kết quả không tái lập được. Ngoài ra, một lượt tấn công thất bại có thể do phòng thủ chặn, do mô hình tự từ chối hoặc do harness; gộp ba nguồn này làm sai cách diễn giải hiệu quả của D1--D4.
+\subsection{Giải pháp}
+Bộ chấm là một hàm thuần trên vết chạy, không gọi mô hình ngôn ngữ. Chuỗi đánh dấu được sinh mới ở mỗi lượt chạy; G1 được dò ở bốn bồn chứa sau khi gỡ các lớp base64, hex, mã hóa phần trăm, ký tự đồng hình, đảo chuỗi và cắt mảnh. G2 chỉ tính khi tác tử gọi đúng công cụ mà payload đòi, để vi phạm tự phát của tác tử không bị tính thành tấn công thành công. G3 được kiểm trên câu trả lời cuối theo chỉ dấu của payload. Trường nguyên nhân chặn do bộ chấm ghi, không do lõi tác tử ghi.
+\subsection{Kết quả và giới hạn}
+Cổng kiểm chứng gồm tám vết chạy dựng tay đạt 8/8 ca, ổn định qua 100 lần chấm mỗi ca (\texttt{gate\_20261106T063243Z.json}); ca mô hình tự từ chối xác nhận bộ chấm không ghi trường hợp đó thành phòng thủ chặn. Giới hạn: chuỗi đánh dấu chỉ nhận diện rò rỉ có cấu trúc, không bao phủ dữ liệu đã được diễn đạt lại; hành vi từ chối diễn đạt bằng ngôn ngữ tự nhiên có thể khó nhận diện, nên quy tắc nhận diện được báo cáo cùng kết quả; tám ca thử không chứng minh bộ chấm đúng với mọi hành vi.
+
+\section{Ba kỹ thuật tấn công mở rộng}
+\label{section:5.3}
+\subsection{Vấn đề}
+Payload của các bộ đo đã khảo sát không có dạng chia mảnh qua nhiều tài liệu, không có kích hoạt trễ trong chuỗi nhiều bước, và không chứa ký tự đặc thù tiếng Việt. Một payload dịch đúng nghĩa cũng chưa chắc phù hợp tác vụ chở.
+\subsection{Giải pháp}
+Đồ án đặc tả và hiện thực ba kỹ thuật T6 (chia mảnh), T7 (kích hoạt trễ) và T8 (che giấu đặc thù tiếng Việt). Mỗi payload gắn với kênh, tác vụ chở, mục tiêu và một điều kiện kích hoạt kiểm được bằng chương trình. Giọng thẩm quyền hành chính được xếp là biến thể của T1, không phải kỹ thuật thứ chín.
+\subsection{Kết quả và giới hạn}
+% [ĐIỀN] ASR của T6--T8 theo kênh và mô hình từ B1 rút gọn (N = 10 mỗi ô), kèm khoảng Wilson.
+Số liệu sơ bộ duy nhất hiện có đến từ lô đối chứng trên A2 (mục~\ref{section:5.5}): payload T8 gắn ngữ cảnh đạt 2/3 lượt và T7 đạt 0/3 lượt; cỡ mẫu này chỉ đủ để xác nhận payload chạy được, chưa đủ để so sánh kỹ thuật. Giới hạn: với K1 phải kiểm đoạn chứa payload có được truy hồi; với T6 mọi mảnh phải cùng lọt vào ngữ cảnh thì payload mới có nghĩa.
+
+\section{Bốn cơ chế phòng thủ đánh giá theo cặp an toàn và hữu dụng}
+\label{section:5.4}
+\subsection{Vấn đề}
+Một cấu hình ngăn mọi hành động ra ngoài sẽ giảm tấn công nhưng cũng làm tác vụ hợp lệ thất bại. Chỉ số an toàn đơn lẻ không đủ căn cứ để chọn cấu hình vận hành. Một bước phân loại ý định đặt trước chính sách gọi công cụ lại đọc nội dung không tin cậy và trở thành bề mặt tấn công mới.
+\subsection{Giải pháp}
+Bốn cơ chế D1--D4 được hiện thực tại năm điểm móc của lõi tác tử, mọi tham số hành vi nằm trong \texttt{config/defenses.yaml}. D3 là một máy trạng thái nằm ngoài mô hình, nhận loại tác vụ do người dùng chọn trước. Mỗi cấu hình phòng thủ được đo trên cùng tập tấn công và cùng bộ 60 câu lành tính, và luôn được báo cáo bằng cả hai chỉ số.
+\subsection{Kết quả và giới hạn}
+% [ĐIỀN] Bảng 7 cấu hình x A2, A3: ASR hai chỉ số, DSR, USR, tỷ lệ chặn nhầm (B2, B3); đường Pareto.
+Giới hạn cần khai trước: khi ASR nền ở mức sàn, số lượt tấn công thành công để phòng thủ chặn rất ít, nên tỷ lệ phòng thủ có khoảng tin cậy rộng hoặc không xác định; trường hợp đó được báo cáo đúng như vậy, không ghi thành 0\%. Lặp một câu lành tính nhiều lần không tạo thêm câu độc lập, nên chỉ số hữu dụng được báo cáo ở cả mức lượt chạy và mức câu.
+
+\section{Giao thức hiệu chỉnh độ khó và phát hiện về payload gắn ngữ cảnh}
+\label{section:5.5}
+\subsection{Vấn đề}
+Khi ASR nền gần bằng không, bật hay tắt phòng thủ cho cùng một kết quả và phép đo không phân biệt được cơ chế tốt với cơ chế vô dụng. Chỉnh môi trường cho tới khi có số liệu đẹp thì lại là gian lận phương pháp. Ngoài ra, một tỷ lệ thấp có hai cách giải thích khác hẳn nhau: mô hình chống chịu tốt, hoặc tập payload yếu.
+\subsection{Giải pháp}
+Giao thức hiệu chỉnh được ghi trước khi chạy: chỉ chỉnh ba yếu tố cấu hình có thật trong doanh nghiệp, mỗi vòng đổi đúng một yếu tố, ghi phần chỉ thị hệ thống thay đổi và ASR trước sau, và báo cáo mọi vòng. Khi hết yếu tố hợp lệ mà ASR vẫn thấp, đồ án không chỉnh tiếp mà kiểm giả thuyết tập payload yếu bằng một lô dò dùng payload gắn ngữ cảnh, tức payload đòi đúng công cụ và đối tượng của tác vụ đang chạy.
+\subsection{Kết quả và giới hạn}
+% [XÁC NHẬN] (1)
+Bảng~\ref{tab:c5-hieuchinh} cho thấy qua ba vòng trên cùng 81 ca mỗi mô hình, ASR không vượt 2,5\% dù payload tới ngữ cảnh ở hơn 90\% lượt chạy. Nới cấu hình theo hướng cả tin không làm ASR tăng có ý nghĩa.
+
+\begin{table}[htbp]
+	\centering
+	\caption{ASR đầu-cuối qua ba vòng hiệu chỉnh, phòng thủ tắt, kẻ tấn công mù}
+	\label{tab:c5-hieuchinh}
+	\begin{tabular}{|l|c|c|c|}
+		\hline
+		\textbf{Mô hình} & \textbf{Vòng 0} & \textbf{Vòng 1} & \textbf{Vòng 2 (Wilson 95\%)} \\ \hline
+		A2 & 0/81 & 0/81 & 2/80 = 2,5\% [0,7\%; 8,7\%] \\ \hline
+		A3 & 1/81 & 2/81 & 1/81 = 1,2\% [0,2\%; 6,7\%] \\ \hline
+	\end{tabular}
+\end{table}
+
+Lô dò sáu payload gắn ngữ cảnh cho kết quả khác hẳn: 4/18 lượt (22\%) trên A2 và 6/18 lượt (33\%) trên A3, toàn bộ ở mục tiêu G2. Khi lớp payload này được đưa vào tập payload và đo cùng payload cũ, nhóm gắn ngữ cảnh đạt 11/125 lượt (8,8\%) so với 1/193 lượt (0,5\%) của nhóm không gắn ngữ cảnh. Lô đối chứng trên A2, dùng đúng tổ hợp kênh và tác vụ chở của lô dò, đạt 27/51 lượt (53\%). Phát hiện rút ra là mức bám nghiệp vụ của payload, chứ không phải mức cả tin của cấu hình, quyết định ASR trong testbed này; một tập payload không gắn ngữ cảnh có thể cho ASR gần bằng không mà không chứng minh được mô hình chống chịu tốt.
+% [ĐIỀN] Hình đường cong độ nhạy: ASR theo ba biến thể cấu hình, tách hai lớp payload.
+
+Giới hạn: lô dò và lô đối chứng có cỡ mẫu nhỏ, mỗi payload lặp ba lần, và lô đối chứng chỉ đo A2; ASR của payload gắn ngữ cảnh khi vào ma trận thấp hơn nhiều so với lô dò vì ma trận trải đều qua cả những ô yếu; ASR toàn tập vẫn dưới ngưỡng 20\% nên ma trận chạy ở chế độ sàn; môi trường được hiệu chỉnh theo A2 và A3 nên nghiêng về hai mô hình này.
+
+\section{Các lỗi đo lường tự phát hiện và sửa}
+\label{section:5.6}
+\subsection{Vấn đề}
+Một bộ đo sai cho ra số liệu trông hợp lệ. Các lỗi dưới đây đều không làm chương trình dừng; chúng chỉ lộ ra khi đối chiếu số liệu tổng hợp với từng vết chạy.
+\subsection{Giải pháp}
+Mỗi lô chạy đều được soát vết ở các nhóm có kết quả bất thường, đặc biệt các nhóm 0 lượt thành công, trước khi diễn giải. Mỗi lỗi được ghi lại theo bốn cột: hiện tượng, hệ quả lên số liệu, cách phát hiện và cách sửa.
+\subsection{Kết quả và giới hạn}
+Bảng~\ref{tab:c5-loi} tổng hợp sáu lỗi. Chi tiết và mã commit của từng bản sửa nằm trong \texttt{CHANGELOG\_TAI\_LIEU.md}.
+
+\begin{table}[htbp]
+	\centering
+	\caption{Các lỗi đo lường đã phát hiện và sửa}
+	\label{tab:c5-loi}
+	\small
+	\setlength{\tabcolsep}{3pt}
+	\begin{tabular}{|p{0.2\textwidth}|p{0.24\textwidth}|p{0.24\textwidth}|p{0.24\textwidth}|}
+		\hline
+		\textbf{Lỗi} & \textbf{Hệ quả lên số liệu} & \textbf{Cách phát hiện} & \textbf{Cách sửa} \\ \hline
+		Chỉ dấu G3 còn nguyên biến \texttt{\{run\_id\}} khi tới mô hình & G3 luôn bằng 0 ở mọi lô hiệu chỉnh và lô dò & Đọc câu trả lời: 70 lượt G3 chép chỉ dấu ở dạng nguyên văn & Thay mã lượt chạy thật trước khi tiêm; số G3 phải đo lại \\ \hline
+		Cờ đã phân phối của K2b luôn bằng 1 & Mẫu số ASR có điều kiện của K2b gồm cả lượt payload không tới mô hình & Soát 71 lượt dò khi dựng bản trình diễn & Cờ chỉ bật khi payload được cài vào kết quả công cụ \\ \hline
+		Chuỗi đánh dấu của cơ sở dữ liệu chỉ nằm ở một bản ghi mồi & G1 qua bản ghi khách bằng 0 do cấu trúc ở các tác vụ dùng khách khác & Soát thiết kế payload G1 gắn ngữ cảnh & Payload G1 gắn ngữ cảnh dùng chuỗi đánh dấu của chỉ thị hệ thống; khai là giới hạn \\ \hline
+		Chạy tiếp lô sinh lượt chạy trùng & Kho vết có 497 bản ghi cho 318 đơn vị thực nghiệm & Đếm đơn vị phân biệt so với kế hoạch & Ghi mã băm kế hoạch, từ chối chạy tiếp khi kế hoạch đổi \\ \hline
+		Mô tả công cụ không nêu dạng đường dẫn tra tồn kho & Tác vụ chở nhận lỗi 404, payload không có cơ hội kích hoạt & Soát vết các nhóm 0/6 lượt & Nêu rõ dạng đường dẫn; kiểm lại 36/36 lượt lành tính đạt \\ \hline
+		Bộ sinh payload đổi tác vụ chở và khung câu chữ so với lô dò & Lớp payload gắn ngữ cảnh không giữ tổ hợp đã thành công & Đối chiếu tập payload với payload của lô dò & Sinh lại lớp payload; lô đối chứng tái hiện kết quả lô dò \\ \hline
+	\end{tabular}
+\end{table}
+
+Giới hạn: các lỗi trên được tìm ra bằng soát tay một phần vết chạy, nên không thể khẳng định không còn lỗi cùng loại; các lô chạy trước mỗi bản sửa không được dùng cho chỉ số bị ảnh hưởng.
+
+\section{Đo hữu dụng có soát tay}
+\label{section:5.7}
+\subsection{Vấn đề}
+Câu trả lời cho câu hỏi lành tính cần được hiểu về ngữ nghĩa, nên không chấm được hoàn toàn bằng chương trình. Mô hình chấm thì không tất định và có thể sai cả hai chiều.
+\subsection{Giải pháp}
+Mỗi câu trả lời được chấm bằng một mô hình chấm nằm ngoài ba mô hình đích, kèm quyền phủ quyết bằng chương trình với các dữ kiện cứng có chữ số. Sinh viên soát tay các câu nghi ngờ, sửa chỉ dẫn chấm, chấm lại toàn lô và công khai số lượt đổi kết quả theo cả hai chiều.
+\subsection{Kết quả và giới hạn}
+Trên lô 540 lượt, sau soát tay và chấm lại, tỷ lệ hữu dụng ở mức lượt chạy đổi từ 155/178 lên 165/176 ở A1, từ 156/174 lên 165/176 ở A2 và từ 168/174 lên 170/176 ở A3 (\texttt{utility\_baseline\_judge\_compare.csv}). Mô hình chấm đổi 14 lượt từ trượt sang đạt và 2 lượt từ đạt sang trượt ở A1, 8 lượt và 1 lượt ở A2. Giới hạn: kết quả phụ thuộc bộ 60 câu, mô hình chấm và quy tắc dữ kiện cứng; các lần lặp của cùng một câu có tương quan; lô này tắt phòng thủ nên chưa đo cái giá của phòng thủ.
+
+\section{Bảng điều khiển và trình diễn trực tiếp}
+\label{section:5.8}
+\subsection{Vấn đề}
+Người phụ trách an toàn cần thấy payload vào ngữ cảnh ở bước nào, cơ chế nào đã chặn và vì sao; một bảng tỷ lệ không trả lời được các câu hỏi đó.
+\subsection{Giải pháp}
+Bảng điều khiển gồm giao diện lập trình FastAPI chỉ đọc trên kho vết và ứng dụng React. Trang chi tiết lượt chạy hiển thị từng bước cùng bằng chứng chấm G1--G3. Chức năng trình diễn chạy trực tiếp một lượt tấn công thật với từng cấu hình phòng thủ và ghi vào kho vết riêng. Mọi chỉ số hiển thị lấy từ đúng các hàm của bộ tổng hợp.
+% [ĐIỀN] Hình chụp trang chi tiết lượt chạy và trang trình diễn.
+\subsection{Kết quả và giới hạn}
+% [ĐIỀN] Kết quả buổi dùng thử với 3--5 người dùng (STT-85--87) và kịch bản trình diễn (STT-82, 84).
+Giới hạn: bảng điều khiển chỉ phục vụ trên địa chỉ nội bộ của máy; chức năng trình diễn tốn chi phí gọi mô hình nên chỉ mở khi được bật tường minh.
+
+Tám đóng góp trên tạo thành một hệ đo kiểm tra lại được từ dữ liệu thô tới con số báo cáo. Phần giá trị thực nghiệm của các mục~\ref{section:5.3}, \ref{section:5.4} và \ref{section:5.8} còn phụ thuộc ma trận rút gọn và buổi dùng thử với người dùng thực.
+
+\end{document}

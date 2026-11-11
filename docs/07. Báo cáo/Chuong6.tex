@@ -1,0 +1,16 @@
+% Nội dung biên tập với sự hỗ trợ của AI (Codex).
+\documentclass[../DoAn.tex]{subfiles}
+\begin{document}
+
+\section{Kết luận}
+Đồ án xây dựng hệ thống đánh giá IPI trên tác tử doanh nghiệp mô phỏng dùng RAG và MCP. Phần hiện thực đã có lõi điều phối, năm công cụ, bộ tiêm nội dung, pipeline bốn cơ chế phòng thủ, kho vết và giao diện tra cứu. Việc tách dữ liệu quan sát khỏi phép chấm tạo khả năng kiểm lại kết quả và truy nguyên nguyên nhân chặn.
+
+Bằng chứng hiện có xác nhận bộ chấm đạt tám ca kiểm chứng dựng tay và đã có phép đo hữu dụng nền 540 lượt. So với hướng bộ đo công bố ở Chương~2, hệ thống tập trung vào bối cảnh tiếng Việt, nhiều kênh nội dung và khả năng theo dõi điều kiện kích hoạt. Đây là khác biệt về thiết kế; ưu thế về hiệu quả phòng thủ chưa được xác lập bằng ma trận thực nghiệm hoàn chỉnh.
+
+Các hạn chế chính gồm đo phân phối K2b còn cần rà soát, phạm vi canary cơ sở dữ liệu phụ thuộc bản ghi mồi và nguy cơ trùng lượt khi chạy tiếp lô. Kết quả hữu dụng còn phụ thuộc bộ câu hỏi, mô hình chấm và quy tắc dữ kiện cứng. Chưa có đủ bằng chứng để đưa ra kết luận cuối cho RQ1--RQ6 hoặc phản hồi người dùng thực.
+\section{Hướng phát triển}
+Bước tiếp theo là kiểm tra tính toàn vẹn của đơn vị thực nghiệm, điều kiện payload tới ngữ cảnh và quá trình chạy tiếp. Sau đó cần hoàn tất hiệu chỉnh theo giao thức đã ghi trước, khóa điều kiện đo và chạy tấn công cùng tác vụ lành tính cho từng cấu hình. Phân tích phải giữ nguyên số đếm, trường hợp lỗi và các giới hạn của khoảng tin cậy.
+
+Đối chiếu harness và đánh giá với người dùng được thực hiện sau khi có phiên bản đủ ổn định để cài lại. Các hướng mở rộng gồm đa dạng hóa nghiệp vụ tiếng Việt, kiểm tra trôi mô hình và phát triển bộ chấm phát hiện nhiều dạng rò rỉ hơn. Mỗi mở rộng cần một bộ điều kiện đo riêng để bảo toàn khả năng so sánh với kết quả hiện có.
+
+\end{document}

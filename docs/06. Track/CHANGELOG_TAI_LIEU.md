@@ -1,5 +1,29 @@
 # CHANGELOG TÀI LIỆU
 
+## 2026-11-11
+- `docs/07. Báo cáo/Chuong4.tex`: viết đủ phần thiết kế — năm tầng, năm điểm móc, đặc tả T6–T8, thiết kế D1–D4 (ba loại
+  tác vụ, luật R1–R4, E1–E4), quy tắc kết quả và nguyên nhân chặn, công thức ASR hai chỉ số, DSR, USR, FRR, ARR, Wilson;
+  thêm mục kiểm thử (bảng tám ca cổng scorer), thiết lập thực nghiệm (bảng khối B1–B6 rút gọn), khung kết quả theo RQ.
+  `Chuong3.tex`: bốn tiểu mục 3.6.1–3.6.4 chuyển sang Chương 4 (mục 4.3.1–4.3.3 và 4.2.7), để lại bảng công nghệ và một
+  đoạn dẫn; dấu `[XÁC NHẬN]` về nhãn lớp A1 đi theo sang Chương 4. Lý do: Chương 3 hứa định nghĩa chỉ số, đặc tả kỹ thuật
+  và thiết kế phòng thủ ở Chương 4 nhưng chương mới có khung; Chương 3 vượt số trang hướng dẫn. Chỗ chờ kết quả B1–B6,
+  hình, số ca kiểm thử đánh dấu `% [ĐIỀN]`.
+- `docs/07. Báo cáo/Chuong5.tex`: dựng lại theo tám mục C1–C8 (Vấn đề → Giải pháp → Kết quả và giới hạn), thay bốn mục
+  cũ; thêm bảng ASR ba vòng hiệu chỉnh (A2, A3), bảng sáu lỗi đo lường, số soát tay USR. Chỗ chờ số liệu B1–B5, hình và
+  buổi dùng thử đánh dấu `% [ĐIỀN]`. Lý do: GVHD duyệt mục 6.5 — Chương 5 trình bày đóng góp cá nhân. Chưa đồng bộ: ba
+  vòng hiệu chỉnh và lô `calib-r0-B1-20261102T073950Z` chạy trước `v-models-1.2`, cập nhật bảng sau lô vòng 0 nhỏ.
+- `docs/07. Báo cáo/Chuong3.tex` (mục 3.4.4, bảng công nghệ, mục 3.6.1): bộ mô hình theo `v-models-1.2` (A1 `glm-5.3`,
+  A2 `glm-5.2`, A3 `deepseek-v4.1-flash-1017`, cả ba qua gateway, temperature 0, suy luận medium), nêu hai lần đổi
+  model có GVHD duyệt; corpus cách B; harness còn OpenWork, phần đo tùy chọn. `Chuong4.tex`: cổng scorer dẫn
+  `gate_20261106T063243Z.json` (lab `5b43c815`); USR nền theo lô `usr-baseline-20261106T031457Z` và
+  `utility_baseline_rejudged_summary.csv` (A1 165/176, A2 165/176, A3 170/176); K2b `delivered` và chạy tiếp lô ghi là
+  lỗi đã sửa. `Chuong1.tex`: phạm vi một harness, mô tả Chương 5 theo C1–C8, sửa dấu câu. `Chuong2.tex`: một harness,
+  cỡ mẫu N = 10 ở đoạn Wilson. Lý do: rà soát 2026-11-11 thấy các chương lệch `config/models.yaml`, bảng USR hiện hành
+  và phạm vi GVHD duyệt 2026-11-09. Chưa đồng bộ: nhãn lớp "frontier" của A1 (chờ TA và GVHD chốt, đánh dấu
+  `[XÁC NHẬN] (3)` ở Chương 3); `Y_TUONG_DU_AN.md` (bảng biến dòng `v-models-1.0`, hạn chế #15), `01. Mô tả bài toán.md`
+  (hạn chế #2, #10) còn mô tả A1 gọi thẳng API Anthropic; `CLAUDE.md` quy tắc cứng #9 còn ghi `v-models-1.0`; tóm tắt
+  Việt/Anh; `Chuong6.tex` còn số lô USR cũ.
+
 ## 2026-11-09
 - `docs/06. Track/Kế hoạch hoàn thiện sau góp ý GVHD 08.11.2026.md` (mới): đề xuất đóng hiệu chỉnh STT-61, thu nhỏ
   B1/B2/B3/B5, cắt B4, STT-62, HN-CC; lịch mới Tuần 10–17; bản đồ đóng góp cá nhân C1–C8 cho Chương 5; năm điểm
