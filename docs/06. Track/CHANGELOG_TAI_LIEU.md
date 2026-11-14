@@ -1,6 +1,10 @@
 # CHANGELOG TÀI LIỆU
 
 ## 2026-11-14
+- `ipi-agent-lab` (lab `5201a6b`): gỡ code chết tìm bằng ruff (F401/F841/ARG/ERA) và quét AST — `prompts.template_text`,
+  `vi_transform.available`, `ingest.MANIFEST_PATH`, `_ENCODED_ALPHABET` của D2, tham số `title` không dùng của
+  `carrier_docs._body_with_payload`; không đổi hành vi. Cổng scorer 8/8 trên `5201a6b`
+  (`results/scorer_gate/gate_20261114T144122Z.json`, lab `8a9e971`). Lý do: TA yêu cầu quét code chết.
 - `ipi-agent-lab` (lab `bd5ec72`): gỡ máy hiệu chỉnh độ khó — `plan_calibration`, `run_matrix.py --calibration-round`,
   khối `calibration` và `pilot.asr_gate`/`observe_targets`/`max_calibration_rounds`/`variance_probe` của
   `experiment.yaml`; gỡ `Block.parts`, `add_best_single_from` (B4 đã cắt), `conditional_harness_targets` (HN-CC đã
