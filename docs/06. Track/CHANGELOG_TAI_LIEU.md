@@ -1,6 +1,33 @@
 # CHANGELOG TÀI LIỆU
 
+## 2026-11-14
+- `ipi-agent-lab/config/experiment.yaml`, `config/prompts.yaml`, `src/eval/experiment.py`, `scripts/run_matrix.py`
+  (lab `065bbcc`): bỏ hiệu chỉnh độ khó; `blocks.B1.prompt_variants: [guarded, baseline, trusting]`, mỗi biến thể
+  một lô 1.890 run (B1 tổng 5.670); `run_matrix.py --prompt-variant` bắt buộc với B1, `env_hash`/manifest/batch_id
+  theo biến thể; `active` trở về `baseline` cho khối khác; xóa biến thể `most_trusting`. Lý do: TA quyết — GVHD chấp
+  nhận ASR thấp nên không hiệu chỉnh; mức cả tin của system prompt đo như một trục ba mức.
+- `Y_TUONG_DU_AN.md` (P3, mục 10.3, 14 quy tắc 5, 15, 16 dòng 1/4/8, 18), `CLAUDE.md` (quy tắc cứng #5),
+  `docs/01. Đề bài/01. Mô tả bài toán.md` (P3, mục 12.3, hạn chế 1/4/8), `docs/04. Design/06. Giao thức thực
+  nghiệm.md` (mục 1.1, 1.4, 2.4, 3, 4, N6), `Chốt phạm vi và checklist ký GVHD.md` (mục 5, hạng mục 12), `Kế hoạch
+  hoàn thiện sau góp ý GVHD 08.11.2026.md`: thay giao thức hiệu chỉnh bằng trục ba biến thể prompt; B1 5.670 run.
+  Hạn chế 8 (A1 tập con, đã hết hiệu lực) thay bằng VT-19 canary DB chỉ ở bản ghi mồi id=1. Lý do: như trên, và
+  `Việc treo.md` bị gỡ.
+- Gỡ khỏi repo: `docs/06. Track/Xin ý kiến GVHD — họp kế tiếp.md`, `Duyệt v-attack-1.1 — hai cách mở rộng
+  corpus.md`, `Phụ lục M1b — trình GVHD ký.md`, `Phân tích mẫu thử trước hiệu chỉnh v-attack-1.1.md`, `Chuẩn bị báo
+  cáo tiến độ 06.11.2026.md`, `Việc treo.md`, `Lộ trình triển khai code.md`, `docs/04. Design/HUONG_DAN_DIEN_PAYLOAD.md`,
+  `payload_author_worksheet.md`; xóa hai file chưa theo Git `Rà soát Overleaf chương 1–3.md`, `Phiếu lô thử B1 trước
+  ma trận.md`. Tham chiếu tới các file này ở `Y_TUONG_DU_AN.md`, `05. Ma trận dự đoán.md` và lab (lab `a7dfdc2`, chỉ
+  chú thích) đã sửa. Lý do: TA yêu cầu dọn tài liệu theo dõi không còn cần — phiếu đã quyết, việc treo đã xử lý,
+  payload đã khóa. Bản cũ còn trong lịch sử Git. Chưa sửa: chú thích đầu `docs/07. Báo cáo/Chuong2.tex`,
+  `Chuong3.tex` còn nhắc Phụ lục M1b (file TA đang sửa).
+- `ipi-agent-lab/results/scorer_gate/gate_20261114T142706Z.json` (lab `e750305`): cổng scorer 8/8, tất định, trên
+  commit `a7dfdc2`. Tag lab `v-attack-1.1` tại `e750305`: 103 payload (40 gắn ngữ cảnh), T1–T8, ba biến thể prompt.
+  Lý do: khóa payload, kỹ thuật và system prompt trước ma trận B1.
+
 ## 2026-11-11
+- `ipi-agent-lab/design.md`: viết lại theo giao diện console dựng lại — token màu sáng/tối là nguồn duy nhất, Inter thay
+  Be Vietnam Pro, thang chữ chín bậc, khung một thanh trên kèm bảng lệnh ⌘K và phím tắt, biểu đồ SVG tự viết thay
+  Recharts, quy tắc trung thực số liệu giữ nguyên. Lý do: TA duyệt dựng lại giao diện cho buổi trình diễn (STT-82/84).
 - `docs/07. Báo cáo/Chuong4.tex`: viết đủ phần thiết kế — năm tầng, năm điểm móc, đặc tả T6–T8, thiết kế D1–D4 (ba loại
   tác vụ, luật R1–R4, E1–E4), quy tắc kết quả và nguyên nhân chặn, công thức ASR hai chỉ số, DSR, USR, FRR, ARR, Wilson;
   thêm mục kiểm thử (bảng tám ca cổng scorer), thiết lập thực nghiệm (bảng khối B1–B6 rút gọn), khung kết quả theo RQ.

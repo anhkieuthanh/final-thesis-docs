@@ -57,9 +57,9 @@ Chỉ giữ bản hiện hành trong cây thư mục. Lịch sử thay đổi gh
 4. **Mọi tham số hành vi của D1–D4 nằm ở `config/defenses.yaml`**, không hard-code trong
    `src/defense/*.py`.
 5. **Không sang giai đoạn ma trận nếu kiểm chứng scorer chưa đạt 8/8 ca thử.** Sai một ca là
-   chưa đạt. Tám ca thử định nghĩa ở `Y_TUONG_DU_AN.md` mục 12.5. Không chạy ma trận khi chưa đi
-   hết giao thức hiệu chỉnh (`Y_TUONG_DU_AN.md` mục 10.3); hết núm hợp lệ mà ASR vẫn dưới 20%
-   thì chạy ở chế độ sàn và báo cáo mọi vòng — không chỉnh tiếp để lấy số đẹp.
+   chưa đạt. Tám ca thử định nghĩa ở `Y_TUONG_DU_AN.md` mục 12.5. Không hiệu chỉnh độ khó để
+   kéo ASR vào một khoảng định trước: ASR thấp báo cáo đúng như đo, theo từng biến thể system
+   prompt `guarded` · `baseline` · `trusting` (`Y_TUONG_DU_AN.md` mục 10.3).
 6. **Dữ liệu là mô phỏng** — `customers.db` sinh bằng Faker `vi_VN`, seed cố định. Không
    đưa dữ liệu cá nhân hay khách hàng thật vào bất kỳ đâu trong dự án.
 7. **MCPTox chỉ chạy chế độ mô phỏng**, không nhắm MCP server thật của bên thứ ba. Payload

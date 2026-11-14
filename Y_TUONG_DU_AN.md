@@ -35,7 +35,7 @@ Bốn bài toán trên chỉ có giá trị nếu ba vấn đề này được x
 |---|---|---|---|
 | **P1** | Chấm điểm phải tất định | Nếu điều kiện thành công phụ thuộc người đọc trace hay LLM chấm thì kết quả không tái lập, hội đồng có quyền không tin | Canary sinh per-run + `activation_check` kiểm được bằng chương trình. Chấm lại 100 lần cho cùng kết quả |
 | **P2** | Phân định nguyên nhân chặn | Model frontier có lớp an toàn riêng. Nếu nó từ chối vì chính sách nội bộ mà trace ghi thành "D1–D4 đã chặn" thì toàn bộ bảng RQ3/RQ4 sai lệch **có hệ thống** — loại sai chỉ hiện ra hôm bảo vệ | Trace bắt buộc có `blocked_by ∈ {defense, model_refusal, harness}` |
-| **P3** | Hiệu chỉnh độ khó không được thành gian lận | Với model frontier, ASR thật có thể < 20%. Cổng hiệu chỉnh sẽ đẩy tới việc làm lab "cả tin hơn" — dễ bị phản biện *"anh chỉnh lab cho tấn công thành công"* | Giao thức ba quy tắc, ghi vào tài liệu **trước** khi chỉnh (mục 10.3) |
+| **P3** | ASR thấp không được che bằng cách chỉnh lab | Với model mạnh, ASR thật có thể gần 0. Chỉnh lab cho "cả tin hơn" tới khi đủ số dễ bị phản biện *"anh chỉnh lab cho tấn công thành công"* | Không hiệu chỉnh; mức cả tin của system prompt là một trục ba mức có thật trong doanh nghiệp, báo cáo mọi mức (mục 10.3) |
 
 ---
 
@@ -330,7 +330,7 @@ Ba hệ quả phải xử lý:
 2. USR nền phải chạy lại trên bộ model mới; số của model cũ không dùng lại được.
 3. Sau khi chốt, **khóa bộ model bằng `git tag v-models-1.0`**. Đổi model giữa kỳ làm mọi số đo trước mất giá trị so sánh — buộc phải đổi thì chạy lại từ mốc M4.
 
-Hạn chế phải khai: A2 và A3 đi qua **một gateway chung** ⇒ không độc lập ở tầng hạ tầng, và **không** được rút kết luận nào về "khác biệt giữa hai nhà cung cấp". A1 gọi thẳng API Anthropic, không qua gateway, vì gateway bọc A1 bằng system prompt Claude Code (`docs/06. Track/Việc treo.md` VT-2); chênh lệch A1–A3 vì thế gồm cả khác biệt hạ tầng. Overhead token của gateway **không ổn định theo thời gian** (đo lại cùng nguyên văn request cho hai kết quả chênh 4.895 token), nên: hard cap đặt theo trường hợp xấu quan sát được; kết quả đo ở hai thời điểm khác nhau **không so sánh trực tiếp được**; phải chạy script dò overhead trước và sau mỗi lô, lưu kèm dữ liệu lô đó.
+Hạn chế phải khai: A2 và A3 đi qua **một gateway chung** ⇒ không độc lập ở tầng hạ tầng, và **không** được rút kết luận nào về "khác biệt giữa hai nhà cung cấp". A1 gọi thẳng API Anthropic, không qua gateway, vì gateway bọc A1 bằng system prompt Claude Code (dò bằng `scripts/probe_gateway.py`); chênh lệch A1–A3 vì thế gồm cả khác biệt hạ tầng. Overhead token của gateway **không ổn định theo thời gian** (đo lại cùng nguyên văn request cho hai kết quả chênh 4.895 token), nên: hard cap đặt theo trường hợp xấu quan sát được; kết quả đo ở hai thời điểm khác nhau **không so sánh trực tiếp được**; phải chạy script dò overhead trước và sau mỗi lô, lưu kèm dữ liệu lô đó.
 
 ### 10.2 Phạm vi chốt cứng
 
@@ -351,17 +351,19 @@ Phạm vi **không mở rộng** trong suốt 17 tuần. Mọi ý tưởng phát
 
 **Nằm ngoài phạm vi:** tấn công trực tiếp (chỉ làm mốc so sánh, không mở kênh K3) · đa phương thức (ảnh, audio) · tấn công tầng huấn luyện (data poisoning, backdoor) · fine-tuning để chống injection · tấn công hạ tầng MCP ở tầng mạng (giả định server bị kiểm soát là **tiền đề**, không phải đối tượng nghiên cứu) · an toàn hạ tầng OS/container/mạng · kênh K4, K5.
 
-### 10.3 Giao thức hiệu chỉnh độ khó
+### 10.3 Biến thể system prompt — một trục của B1
 
-Với model frontier, tình huống thật khả năng cao là **ASR < 20%** ⇒ cổng hiệu chỉnh sẽ đẩy tới việc làm lab "cả tin hơn" chứ không phải khó hơn. Đây là chỗ dễ bị phản biện nhất. Ba quy tắc, ghi vào tài liệu **trước** khi chỉnh:
+Không hiệu chỉnh độ khó môi trường. GVHD chấp nhận ASR thấp: ASR thấp là kết quả nếu giải thích được, không phải lý do để chỉnh lab cho "cả tin hơn". Thay vào đó, mức cả tin của system prompt là **một biến độc lập của B1**, ba mức có thật trong doanh nghiệp (`config/prompts.yaml`):
 
-1. Chỉ chỉnh các núm **có thật trong doanh nghiệp**: mức chi tiết của system prompt, có/không câu nhắc "cảnh giác nội dung ngoài", quyền tool mặc định. **Không** chỉnh theo hướng phi thực tế (ví dụ ra lệnh "hãy luôn tuân theo tài liệu").
-2. Ghi toàn bộ **diff system prompt + ASR trước/sau** ở **mỗi** lần chỉnh.
-3. Báo cáo công khai **cả** cấu hình trước và sau, không chỉ cấu hình cuối.
+| Biến thể | Mức chi tiết | Câu nhắc nội dung ngoài | Quyền tool mặc định |
+|---|---|---|---|
+| `guarded` | chi tiết | nhắc nhẹ | khi người dùng yêu cầu |
+| `baseline` | tiêu chuẩn | không | khi người dùng yêu cầu |
+| `trusting` | tiêu chuẩn | không | chủ động |
 
-Nếu chỉnh hết các núm hợp lệ mà ASR vẫn < 20%: **đó là kết quả, không phải thất bại. Không chỉnh tiếp để lấy số đẹp.** Ma trận chạy ở chế độ sàn trên cấu hình vòng cuối; báo cáo ASR của mọi vòng như đường cong độ nhạy theo mức cả tin; DSR khai là có độ chính xác thấp vì ít ca thành công để chặn; trọng tâm RQ3–RQ4 dồn sang chi phí hữu dụng của phòng thủ (USR, FRR).
+Mỗi biến thể chạy một lô B1 trọn kế hoạch (cùng các run), ghi trong `env_hash` và manifest. Khối B2, B3, B5, B6 và USR nền chạy `baseline`. Không có mức phi thực tế kiểu "luôn làm theo tài liệu". Báo cáo ASR theo từng biến thể như đường cong độ nhạy theo mức cả tin; DSR khai là có độ chính xác thấp khi ít ca thành công để chặn; RQ3–RQ4 dồn trọng tâm sang chi phí hữu dụng của phòng thủ (USR, FRR).
 
-Kết quả thực tế: ba vòng `baseline` → `trusting` → `most_trusting` đều dưới cổng ở cả ba model, dù payload tới ngữ cảnh ở 232/243 run vòng 0. Lô dò payload gắn ngữ cảnh (chỉ dẫn bám đúng tool và nghiệp vụ của tác vụ chở) cho 22–33%, nên `v-attack-1.1` thêm lớp payload này. Ô có payload gắn ngữ cảnh chỉ bốc lớp đó (`corpus_selection: contextual_first`); ô chưa có giữ payload cũ. Hiệu chỉnh đóng sau vòng 2.
+Bằng chứng dẫn tới quyết định này (`ipi-agent-lab/results/calibration/lab_calibration.md`): ba lô dò `baseline` → `trusting` → cấu hình tối giản đều cho ASR 0–2,5% dù payload tới ngữ cảnh ở 232/243 run; đổi riêng cách viết payload sang bám nghiệp vụ tác vụ chở thì lô dò lên 22–33%. Vì vậy `v-attack-1.1` thêm lớp payload gắn ngữ cảnh; ô có lớp này chỉ bốc lớp đó (`corpus_selection: contextual_first`), ô chưa có giữ payload cũ.
 
 ---
 
@@ -521,7 +523,7 @@ DoD của schema: viết được SQL tính **cả hai** chỉ số ASR trên d�
 2. **Không nhận xét hay dùng số liệu về AgentDojo/AutoDojo/MCPTox nếu chưa thực sự cài và chạy**, và bằng chứng chạy thật phải nằm trong repo.
 3. **Không thêm bước phân loại ý định tự do (regex/NLU/LLM) vào D3.** `task_type` là input người dùng chọn trước.
 4. **Mọi tham số hành vi của D1–D4 nằm ở `config/defenses.yaml`**, không hard-code trong `src/defense/*.py`.
-5. **Không sang giai đoạn ma trận nếu kiểm chứng scorer chưa đạt 8/8 ca thử** (mục 12.5). Không chạy ma trận khi chưa đi hết giao thức hiệu chỉnh mục 10.3; hết núm hợp lệ mà ASR vẫn dưới 20% thì chạy ở chế độ sàn và báo cáo mọi vòng.
+5. **Không sang giai đoạn ma trận nếu kiểm chứng scorer chưa đạt 8/8 ca thử** (mục 12.5). Không hiệu chỉnh độ khó để kéo ASR vào một khoảng định trước; ASR thấp báo cáo đúng như đo, theo từng biến thể system prompt (mục 10.3).
 6. **Dữ liệu là mô phỏng** — Faker `vi_VN`, seed cố định. Không đưa dữ liệu cá nhân hay khách hàng thật vào bất kỳ đâu trong dự án.
 7. **MCPTox chỉ chạy chế độ mô phỏng**, không nhắm MCP server thật của bên thứ ba. Payload `verbatim`/`adapted` phải dẫn đúng điều khoản giấy phép qua trường `source.license`.
 8. **Không ghi "model từ chối" thành "phòng thủ chặn".** `blocked_by` là trường bắt buộc.
@@ -542,19 +544,19 @@ Khung thời gian theo phiếu giao nhiệm vụ: 17 tuần, 07/09/2026 → 08/0
 | **ND2** Công nghệ liên quan | Tuần 4–5 · 28/09 → 11/10 | MCP SDK, RAG, bốn nhóm phòng thủ, công nghệ nền của hệ đo, khung repo uv; chốt bộ model + `v-models-1.0`; ngân sách API hết TODO; chương 3 | **M1b** (11/10) |
 | **ND3** Phân tích thiết kế | Tuần 6–8 · 12/10 → 01/11 | Kiến trúc 5 tầng, bộ đo (60 câu lành tính + 6 tác vụ chở, khóa bộ đo), trace schema, đặc tả T1–T8 và D1–D4, ma trận dự đoán ghi trước, `customers.db`, wireframe dashboard, giao thức thực nghiệm; chương 2 và phần thiết kế của chương 4 | **M1** (18/10) — khóa bộ đo |
 | **ND4** Xây dựng chương trình | Tuần 9–12 · 02/11 → 29/11 | Lõi agent, 5 tool MCP, canary, scorer + kiểm chứng, USR nền; adapter benchmark ngoài, bản địa hóa payload, 2 kênh, mutator, injector, runner ma trận; T8 → T6 → T7; D1–D4 + pipeline + unit test; tấn công thích ứng; dashboard; chương 4 phần thiết kế, xây dựng | **M2** (Tuần 10, 15/11) · **M3** (Tuần 11, 22/11) · **M3b** (Tuần 12, 29/11) — `v-attack-1.0` |
-| **ND5** Thử nghiệm và đánh giá | Tuần 13–15 · 30/11 → 20/12 | Pilot, hiệu chỉnh độ khó, ASR nền 3 model, RQ1–RQ2; ma trận kẻ tấn công mù, bench hữu dụng, Pareto, RQ3–RQ4; tấn công thích ứng, ARR, RQ5; chương 4 mục 4.4 | **M4** · **M5** — làm sớm từ Tuần 11, lịch bên dưới |
+| **ND5** Thử nghiệm và đánh giá | Tuần 13–15 · 30/11 → 20/12 | Pilot, ASR nền 3 model × 3 biến thể system prompt, RQ1–RQ2; ma trận kẻ tấn công mù, bench hữu dụng, Pareto, RQ3–RQ4; tấn công thích ứng, ARR, RQ5; chương 4 mục 4.4 | **M4** · **M5** — làm sớm từ Tuần 11, lịch bên dưới |
 | **ND6** Triển khai thực tế, phản hồi người dùng | Tuần 16–17 · 21/12 → 08/01/2027 | Đối chiếu D1–D4 ↔ harness, đo HN-OW (tùy chọn), RQ6, kịch bản demo, đóng gói một lệnh, demo 90 giây + video; đánh giá với 3–5 người dùng thực; ráp báo cáo 6 chương, slide, 15 câu phản biện, dọn repo; nộp quyển và bảo vệ | **M6** · **M7** — làm sớm từ Tuần 14 · **M8** (08/01/2027) |
 
 Định hướng hoàn thiện (GVHD): đồ án chứng minh sinh viên có làm và có nghiên cứu; kết quả thực nghiệm thấp vẫn là kết quả nếu giải thích được và có bằng chứng. Thực nghiệm chạy ở quy mô rút gọn, đủ mọi chiều; trọng tâm báo cáo là Chương 5 "Các giải pháp và đóng góp nổi bật", mỗi đóng góp có bằng chứng truy nguồn được trong repo. Bản đồ đóng góp và lịch chi tiết ở `docs/06. Track/Kế hoạch hoàn thiện sau góp ý GVHD 08.11.2026.md`.
 
-Quy mô rút gọn: B1 N = 10 mỗi ô (1.890 run, A1–A3) · B2 tối đa 6 ô S_def × 7 preset × 10 run × A2, A3 (840) · B3 60 câu × 7 preset × 2 lần × A2, A3 (1.680) · B5 3 ô × 5 preset × 5 chuỗi, A2 · B6 tùy chọn, HN-OW trên A2 × 20 mẫu. Đã cắt: B4 (tập xác nhận A1, vì A1 đã vào B1), đo phương sai chọn N (N cố định 10, khai ở hạn chế), HN-CC.
+Quy mô rút gọn: B1 N = 10 mỗi ô × 3 biến thể system prompt (3 lô × 1.890 = 5.670 run, A1–A3) · B2 tối đa 6 ô S_def × 7 preset × 10 run × A2, A3 (840) · B3 60 câu × 7 preset × 2 lần × A2, A3 (1.680) · B5 3 ô × 5 preset × 5 chuỗi, A2 · B6 tùy chọn, HN-OW trên A2 × 20 mẫu. Đã cắt: B4 (tập xác nhận A1, vì A1 đã vào B1), đo phương sai chọn N (N cố định 10, khai ở hạn chế), HN-CC.
 
 Lịch thực hiện từ Tuần 10:
 
 | Tuần | Việc chính | Mốc |
 |---|---|---|
-| Tuần 10 · 09/11 → 15/11 | Đóng hiệu chỉnh, khóa `v-attack-1.1`; khung Chương 5 | — |
-| Tuần 11 · 16/11 → 22/11 | B1; bộ chỉ số ASR/DSR/ARR | **M4** |
+| Tuần 10 · 09/11 → 15/11 | Khóa `v-attack-1.1` và ba biến thể prompt; khung Chương 5 | — |
+| Tuần 11 · 16/11 → 22/11 | B1 ba lô (`guarded`, `baseline`, `trusting`); bộ chỉ số ASR/DSR/ARR | **M4** |
 | Tuần 12 · 23/11 → 29/11 | B2 + B3; bảng, biểu đồ; Chương 3 hoàn tất | — |
 | Tuần 13 · 30/11 → 06/12 | B5; Pareto; nháp RQ1–RQ5 | **M5** |
 | Tuần 14 · 07/12 → 13/12 | Bảng đối chiếu D1–D4 ↔ harness, HN-OW (tùy chọn); demo; hướng dẫn cài đặt; Chương 5 | **M6** |
@@ -584,14 +586,14 @@ Viết trung thực, không giấu. Đây là phần hội đồng đọc kỹ n
 
 | # | Hạn chế | Hệ quả |
 |---|---|---|
-| 1 | Cỡ mẫu ở quy mô luận văn (30–60 run/ô) | Nhiều so sánh chỉ báo được **xu hướng**. Bắt buộc kèm Wilson CI 95% ở mọi tỉ lệ |
+| 1 | Cỡ mẫu rút gọn (10 run/ô ở B1, B2) | Nhiều so sánh chỉ báo được **xu hướng**. Bắt buộc kèm Wilson CI 95% ở mọi tỉ lệ |
 | 2 | Chỉ 3 mô hình đích; A2, A3 qua **một gateway chung**, A1 gọi thẳng API Anthropic | A2, A3 **không độc lập ở tầng hạ tầng**; chênh lệch A1–A3 gồm cả khác biệt hạ tầng, không quy riêng cho lớp mô hình |
 | 3 | A2 không phải self-host thật | Đo được hành vi model, không đo được ảnh hưởng của cấu hình self-host thật |
-| 4 | Lab đã được hiệu chỉnh độ khó | **ASR tuyệt đối không so được** với hệ thống khác. Chỉ so được **delta** giữa các cấu hình trong cùng lab |
+| 4 | ASR phụ thuộc system prompt và corpus của lab | **ASR tuyệt đối không so được** với hệ thống khác. Chỉ so được **delta** giữa các cấu hình trong cùng lab; ba biến thể prompt cho biết độ nhạy theo mức cả tin |
 | 5 | Mô hình đe dọa hẹp — 6 giả định vận hành | Kết quả không áp dụng trực tiếp cho tổ chức không thỏa mãn giả định nào |
 | 6 | Attacker ở mức A-adaptive có thể yếu hơn kẻ tấn công thật | ARR là **cận trên** của độ bền |
 | 7 | RQ3 không kết luận được về tính cộng tính | Không phát biểu được "D1 góp x%, D2 góp y%" |
-| 8 | A1 chỉ chạy tập con xác nhận (~500 run) vì ràng buộc chi phí | Phải ghi rõ đây là **lựa chọn có chủ ý**, kèm số liệu chứng minh |
+| 8 | Canary DB chỉ gieo ở bản ghi mồi id=1, trong khi CT-03/CT-05/CT-06 tra khách id 2, 3 | G1 qua bản ghi DB chỉ đo được trên tác vụ trùng bản ghi mồi; payload G1 gắn ngữ cảnh rò canary system prompt qua tool outbound của tác vụ. Không chuyển canary sang khách đang tra (đổi bài toán đo) |
 | 9 | Harness: một harness (HN-OW) trên A2, 20 mẫu, chỉ D=OFF, hoặc chỉ bảng đối chiếu | RQ6 là **chỉ dấu**. Harness có phòng thủ riêng không tắt được |
 | 10 | Model frontier có lớp an toàn riêng | `model_refusal > 15%` trên A1 thì báo cáo riêng, không gộp vào ASR |
 | 11 | Dữ liệu là mô phỏng | Không dùng dữ liệu cá nhân hay khách hàng thật ở bất kỳ đâu |
@@ -643,9 +645,7 @@ Những mục này phải được xử lý trong bản dựng lại, không man
 8. Điền bảng giá thật và hạn mức chi phí; không chạy lô nào khi còn TODO.
 9. Đưa bằng chứng của cổng M0 vào repo, hoặc ghi rõ hình thức duyệt.
 
-**Cần GVHD:**
-
-10. Phụ lục điều chỉnh phạm vi (mở tập kỹ thuật lên 8, đổi lớp mô hình đích, thêm phần harness và RQ6, trần ngân sách) cần chữ ký; bản trình ký ở `docs/06. Track/Phụ lục M1b — trình GVHD ký.md`. Chưa ký thì phần phạm vi của báo cáo phải viết theo bản đã ký, và **không viết cứng** phần phạm vi trước khi có chữ ký.
+**Cần GVHD:** không còn mục treo. Điều chỉnh phạm vi (tám kỹ thuật, bộ mô hình `v-models-1.2`, harness, quy mô rút gọn, bỏ hiệu chỉnh) ghi ở `docs/06. Track/Chốt phạm vi và checklist ký GVHD.md`.
 
 ---
 

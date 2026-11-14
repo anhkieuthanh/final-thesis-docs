@@ -63,12 +63,12 @@ Ma trận đủ mọi chiều khoảng 1.500 ô, không khả thi. Mỗi RQ dùn
 
 | Khối | Phục vụ | Cách tính | Số run ước tính |
 |---|---|---|---:|
-| B1 — nền tấn công | RQ1, RQ2 | (8 kỹ thuật trên K1 + 6 trên K2a + 7 trên K2b) × 3 G × 3 model (A1, A2, A3) × 10 | 1.890 |
+| B1 — nền tấn công | RQ1, RQ2 | (8 kỹ thuật trên K1 + 6 trên K2a + 7 trên K2b) × 3 G × 3 model (A1, A2, A3) × 10 × 3 biến thể system prompt (`guarded`, `baseline`, `trusting`) | 5.670 |
 | B2 — phòng thủ, tấn công | RQ3 | S_def ≤ 6 ô × 7 preset (`off` đo lại cùng lô, 5 preset bật, `d3_no_confirm`) × 2 model × 10 | ≤ 840 |
 | B3 — phòng thủ, lành tính | RQ4 | 60 câu × 2 lặp × 7 preset (`off`, 5 preset bật, `d3_no_confirm`) × 2 model | 1.680 |
 | B5 — thích ứng | RQ5 | S_adp ≤ 3 ô × 5 preset × 5 chuỗi × ≤ 3 vòng, một model | ≤ 225 |
 | B6 — harness (tùy chọn) | RQ6 | 20 mẫu × A2 × (HN-OW + vòng lặp trần) | 40 |
-| **Tổng** | | | **≈ 4.675** |
+| **Tổng** | | | **≈ 8.455** |
 
 - **S_def** = các ô (kỹ thuật × kênh × G) có cận dưới CI của `ASR_e2e(off)` ≥ 10% ở A2 hoặc A3, lấy tối đa 6 ô theo thứ tự ASR giảm dần. Ít hơn 6 ô đạt ngưỡng thì lấy 6 ô ASR cao nhất và khai. Không có ASR nền thì DSR vô nghĩa.
 - **S_adp** = các ô trong S_def có `DSR(blind)` ≥ 0,3 dưới ít nhất một preset đơn lẻ; thiếu thì lấy 3 ô DSR(blind) cao nhất.
@@ -129,7 +129,7 @@ Ràng buộc phải ghi trước khi chạy phần đo:
 | 9 | Sáu RQ và H1–H6 | Bản ở mục 4, gồm tiêu chí trả lời ghi trước | ☑ | |
 | 10 | Thiết kế phân khối | Khối B1–B3, B5, B6 quy mô rút gọn, quy tắc chọn S_def và S_adp (mục 5) | ☑ | Rút gọn, cắt B4 — duyệt 2026-11-09 (`Kế hoạch hoàn thiện sau góp ý GVHD 08.11.2026.md` mục 6.3) |
 | 11 | Ngân sách | Trần: 100 USD ; dừng khi vượt 120% dự toán | ☑ | |
-| 12 | Cổng nghiệm thu | Scorer 8/8 · đi hết giao thức hiệu chỉnh; hết núm mà ASR dưới 20% thì chạy ở chế độ sàn, báo cáo mọi vòng | ☑ | Đóng hiệu chỉnh sau vòng 2 — duyệt 2026-11-09 (mục 6.1) |
+| 12 | Cổng nghiệm thu | Scorer 8/8 · không hiệu chỉnh độ khó; ASR báo cáo đúng như đo theo ba biến thể system prompt | ☑ | GVHD chấp nhận ASR thấp; bỏ hiệu chỉnh, biến thể prompt thành trục B1 (TA quyết 2026-11-14) |
 | 13 | Kẻ tấn công thích ứng | PH1 · ≤ 3 vòng · G cố định · model sinh payload: `claude-opus-5` (chốt 2026-10-25) | ☑ | |
 | 14 | Harness | **RQ6**: bảng đối chiếu D1–D4 ↔ harness; đo HN-OW trên A2 × 20 mẫu, D=OFF, tùy chọn; cấu hình quyền theo mục 6 | ☑ | Bỏ HN-CC — duyệt 2026-11-09 (mục 6.4) |
 | 15 | Đạo đức và phát hành | Mục 7 | ☑ | |
