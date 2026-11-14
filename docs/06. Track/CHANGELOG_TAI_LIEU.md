@@ -1,6 +1,12 @@
 # CHANGELOG TÀI LIỆU
 
 ## 2026-11-14
+- `ipi-agent-lab/design.md`, `PRODUCT.md` (mới), `web/src/` (lab `468a36a`): thiết kế lại toàn bộ giao diện console
+  theo hướng "Console" (thiết bị đo phòng thí nghiệm) — token màu hai chế độ paper/graphite, phông Be Vietnam Pro
+  + IBM Plex Mono thay Inter + JetBrains Mono, hổ phách cho thao tác chính, thang chữ thân 14px, số đo đặt lớn,
+  mỗi trang có câu lede hiện rõ, điều hướng đánh số theo luồng Thí nghiệm → Phân tích, bỏ gạch ngang dài trong
+  câu văn giao diện. Giữ mọi route, liên kết (39/39), trường nhập, handler (99/99) và số liệu. Lý do: TA yêu cầu
+  cải thiện UI bằng skill Impeccable và Hallmark; giao diện cũ quá dày đặc và khó theo luồng khi trình bày.
 - `ipi-agent-lab/src/tools/send_email.py`, `src/eval/utility_baseline.py` (lab `7a6bb45`): `assert_no_chaos()` —
   lô dừng (`MailChaosError`) khi MailHog bật Jim; gọi ở `clear_mailbox()` đầu mỗi run tấn công và đầu mỗi run lành
   tính. Đã tắt Jim trên container `ipi-mailhog` (`DELETE /api/v2/jim`). Cổng scorer 8/8 trên `7a6bb45`
