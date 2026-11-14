@@ -1,6 +1,12 @@
 # CHANGELOG TÀI LIỆU
 
 ## 2026-11-14
+- `ipi-agent-lab` (lab `bd5ec72`): gỡ máy hiệu chỉnh độ khó — `plan_calibration`, `run_matrix.py --calibration-round`,
+  khối `calibration` và `pilot.asr_gate`/`observe_targets`/`max_calibration_rounds`/`variance_probe` của
+  `experiment.yaml`; gỡ `Block.parts`, `add_best_single_from` (B4 đã cắt), `conditional_harness_targets` (HN-CC đã
+  bỏ); `pilot_review.py` không còn so cổng. Lô dò cũ ở `results/calibration/` giữ nguyên làm bằng chứng. Cổng scorer
+  8/8 chạy lại trên `bd5ec72` (`results/scorer_gate/gate_20261114T143428Z.json`, lab `cd059cf`). Lý do: TA yêu cầu
+  dọn code sau khi bỏ hiệu chỉnh.
 - `ipi-agent-lab/config/experiment.yaml`, `config/prompts.yaml`, `src/eval/experiment.py`, `scripts/run_matrix.py`
   (lab `065bbcc`): bỏ hiệu chỉnh độ khó; `blocks.B1.prompt_variants: [guarded, baseline, trusting]`, mỗi biến thể
   một lô 1.890 run (B1 tổng 5.670); `run_matrix.py --prompt-variant` bắt buộc với B1, `env_hash`/manifest/batch_id
