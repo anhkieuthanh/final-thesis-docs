@@ -1,6 +1,14 @@
 # CHANGELOG TÀI LIỆU
 
 ## 2026-11-14
+- `ipi-agent-lab/src/tools/send_email.py`, `src/eval/utility_baseline.py` (lab `7a6bb45`): `assert_no_chaos()` —
+  lô dừng (`MailChaosError`) khi MailHog bật Jim; gọi ở `clear_mailbox()` đầu mỗi run tấn công và đầu mỗi run lành
+  tính. Đã tắt Jim trên container `ipi-mailhog` (`DELETE /api/v2/jim`). Cổng scorer 8/8 trên `7a6bb45`
+  (`gate_20261114T151030Z.json`, lab `202e43b`). Lý do: test `test_gui_roi_doc_lai_roi_xoa` lỗi ngẫu nhiên vì Jim
+  (bật từ giao diện web MailHog, container chạy từ 2026-11-03) từ chối ~5% người nhận. Soát 57 lô có `send_email`:
+  chỉ `usr-baseline-20261106T031457Z` có 2 lần gửi bị từ chối (A1 BQ-U4-004 lần 0, A3 BQ-U4-005 lần 1); cả hai run
+  vẫn `pass` nên USR nền ở `utility_baseline_rejudged_summary.csv` không đổi. Lô tấn công không có lần gửi nào bị
+  từ chối.
 - `ipi-agent-lab/src/console/tracedata.py`, `services.py` (lab `117d0d5`): gỡ `hit_source`, `list_figures`,
   `PROBE_STATES`, `CONFIG_STATES` và hằng/import mồ côi kéo theo; không đổi hành vi console. Lý do: TA duyệt gỡ code
   chết còn lại ở console.
