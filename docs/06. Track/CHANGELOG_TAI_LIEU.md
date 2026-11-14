@@ -1,6 +1,9 @@
 # CHANGELOG TÀI LIỆU
 
 ## 2026-11-14
+- `ipi-agent-lab/src/console/tracedata.py`, `services.py` (lab `117d0d5`): gỡ `hit_source`, `list_figures`,
+  `PROBE_STATES`, `CONFIG_STATES` và hằng/import mồ côi kéo theo; không đổi hành vi console. Lý do: TA duyệt gỡ code
+  chết còn lại ở console.
 - `ipi-agent-lab` (lab `5201a6b`): gỡ code chết tìm bằng ruff (F401/F841/ARG/ERA) và quét AST — `prompts.template_text`,
   `vi_transform.available`, `ingest.MANIFEST_PATH`, `_ENCODED_ALPHABET` của D2, tham số `title` không dùng của
   `carrier_docs._body_with_payload`; không đổi hành vi. Cổng scorer 8/8 trên `5201a6b`
