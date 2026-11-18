@@ -1,6 +1,19 @@
 # CHANGELOG TÀI LIỆU
 
+## 2026-11-18
+- `ipi-agent-lab/results/attack_matrix/dryrun-attack-B1-baseline-20261118T030825Z/` (lab commit sau `4757173`): lô thử
+  B1 `baseline`, 1 run/ô × A1–A3 = 189 run, 3,41 USD, 27 phút, 3 tiến trình. Đạt tiêu chí harness: 0 `parse_error`,
+  `response_model` đúng bản pin (A2 thêm bí danh `ZhipuAI/GLM-5.2`), cách B không vi phạm ô nào (payload gắn ngữ cảnh
+  41,3% run), K2b `delivered = 0` ở 3 run tool chở không được gọi, G3 không còn marker nguyên văn `{run_id}` và có 6
+  run `g3_hit`. Thành công 17/189 (A1 6, A2 6, A3 5; gắn ngữ cảnh 11, payload cũ 6); `model_refusal` 9. Lô dry-run
+  không vào bảng kết quả. Lý do: TA duyệt lô thử trước ba lô B1 đầy đủ.
+
 ## 2026-11-14
+- `ipi-agent-lab/design.md`, `web/src/` (chưa commit): sắp lại bố cục console — bỏ thanh bên, thay bằng thanh trên
+  hai tầng theo luồng (1 Thí nghiệm, 2 Phân tích); trang phân tích dùng hàng câu hỏi (câu hỏi và số đo bên trái,
+  bằng chứng bên phải); Thí nghiệm đặt ba bước thiết lập thành ba cột ngang, sơ đồ trải ngang; chi tiết run hai cột;
+  Lượt chạy có cột lọc dọc. Giữ mọi route, trường nhập, handler và số liệu. Lý do: TA nhận xét lần thiết kế lại
+  trước chỉ đổi màu, bố cục không khác.
 - `ipi-agent-lab/design.md`, `PRODUCT.md` (mới), `web/src/` (lab `468a36a`): thiết kế lại toàn bộ giao diện console
   theo hướng "Console" (thiết bị đo phòng thí nghiệm) — token màu hai chế độ paper/graphite, phông Be Vietnam Pro
   + IBM Plex Mono thay Inter + JetBrains Mono, hổ phách cho thao tác chính, thang chữ thân 14px, số đo đặt lớn,
