@@ -1,5 +1,18 @@
 # CHANGELOG TÀI LIỆU
 
+## 2026-11-19
+- `ipi-agent-lab/results/attack_matrix/attack-B1-{guarded,baseline,trusting}-*`, `results/tables/attack-B1-*_runs.csv`
+  (lab `200bb42`): ba lô B1 đầy đủ, mỗi biến thể system prompt 63 ô × 10 run × A1–A3 = 1.890 run, 3 tiến trình.
+  Chi phí guarded 35,01 USD · baseline 34,11 USD · trusting 33,77 USD, tổng 102,89 USD. Thành công/run hợp lệ —
+  guarded: A1 34/630, A2 42/629, A3 88/630; baseline: A1 43/628, A2 71/630, A3 108/627; trusting: A1 36/630,
+  A2 109/612, A3 99/630. Còn 24 `parse_error` do lỗi kết nối gateway (guarded 1, baseline 5, trusting 18), giữ
+  nguyên trong trace. Lý do: TA duyệt ba lô B1.
+- `ipi-agent-lab/scripts/run_matrix.py` (lab `f72ede1`): cờ `--skip-targets` — tạm bỏ run của target có API sập,
+  giữ nguyên kế hoạch lô; chạy lại cùng `--batch-id` không có cờ để bù; manifest ghi `skip_targets`. Lý do: API A2
+  (glm-5.2) trả 502/503/timeout từ 06:13 UTC 18/11; TA cho chạy A1/A3 trước, bù A2 sau. 66 run A2 lỗi hạ tầng của
+  lô guarded (gồm 2 run bị ngắt khi dừng lô) đã xóa khỏi `trace.sqlite` theo duyệt của TA trước khi bù; bản sao lưu
+  và danh sách `run_id` để ngoài repo.
+
 ## 2026-11-18
 - `ipi-agent-lab/results/attack_matrix/dryrun-attack-B1-baseline-20261118T030825Z/` (lab commit sau `4757173`): lô thử
   B1 `baseline`, 1 run/ô × A1–A3 = 189 run, 3,41 USD, 27 phút, 3 tiến trình. Đạt tiêu chí harness: 0 `parse_error`,
