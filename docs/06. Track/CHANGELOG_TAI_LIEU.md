@@ -1,6 +1,16 @@
 # CHANGELOG TÀI LIỆU
 
 ## 2026-11-19
+- `ipi-agent-lab/results/attack_matrix/dryrun-attack-B2-20261119T012920Z/` (lab `d9ef8c8`): lô thử B2, 6 ô S_def ×
+  7 preset × A2/A3 × 1 run = 84 run, 1,56 USD, 3 tiến trình, 0 `parse_error`, `response_model` đúng bản pin.
+  Thành công theo preset (/12): off 7, d1_only 5, d2_only 7, d3_only 1, d4_only 7, all 2, d3_no_confirm 8;
+  `blocked_by = defense` ở d3_only 11, all 10, d3_no_confirm 1; `model_refusal` 1 (d4_only). Lô dry-run không vào
+  bảng kết quả. Lý do: TA duyệt lô thử B2 trước lô đầy đủ.
+- `ipi-agent-lab/scripts/run_utility_baseline.py`, `src/eval/utility_baseline.py` (lab `ca3bf0b`): `run_table` nhận
+  `extra` để giữ cột `defense_config`; bảng B3 tách theo preset, thêm cột `preset`. Lý do: lô thử
+  `dryrun-benign-B3-20261119T014436Z` (70 run, khoảng 2,7 USD) chạy xong nhưng lỗi `KeyError: 'defense_config'` khi
+  xuất CSV. Lô này cả 70 run `parse_error` vì judge trả `401 invalid x-api-key` (`ANTHROPIC_API_KEY`); không dùng
+  được, chờ TA thay khóa rồi chạy lại.
 - `ipi-agent-lab/results/attack_matrix/attack-B1-{guarded,baseline,trusting}-*`, `results/tables/attack-B1-*_runs.csv`
   (lab `200bb42` → `9cbb147`): ba lô B1 đầy đủ, mỗi biến thể system prompt 63 ô × 10 run × A1–A3 = 1.890 run,
   3 tiến trình, 0 `parse_error`. Chi phí khoảng 103,5 USD (guarded 35,01 · baseline 34,11 · trusting 33,77 · bù
