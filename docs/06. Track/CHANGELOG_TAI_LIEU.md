@@ -1,6 +1,10 @@
 # CHANGELOG TÀI LIỆU
 
 ## 2026-11-19
+- `ipi-agent-lab/config/experiment.yaml`, `src/eval/experiment.py` (lab `bbaf60e`): B6 thêm `sample_from` (khối B2,
+  preset `off`, target A2, seed 20261119) — 20 mẫu bốc ngẫu nhiên có seed từ 60 run kế hoạch của B2 trên 6 ô S_def,
+  mỗi mẫu chạy dưới `none` và HN-OW, B6 = 40 run. Cài `opencode-ai@1.19.6` (lõi OpenWork) toàn máy cho HN-OW. Lý do:
+  config chỉ ghi `samples: 20`, chưa nói lấy từ đâu; TA duyệt đề xuất và duyệt cài opencode.
 - `ipi-agent-lab/results/benign_matrix/dryrun-benign-B3-20261119T020037Z/` (lab `70ab7a7`): lô thử B3 chạy lại sau khi
   TA thay `ANTHROPIC_API_KEY`, 1 câu mỗi nhóm U1–U5 × 7 preset × A2/A3 × 1 lần = 70 run, 1,92 USD, 3 tiến trình,
   0 `parse_error`, `response_model` đúng bản pin. `judge_pass` mỗi target (/5): off, d1_only, d2_only, d4_only 5;
