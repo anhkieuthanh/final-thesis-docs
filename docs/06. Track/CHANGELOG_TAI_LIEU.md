@@ -1,6 +1,37 @@
 # CHANGELOG TÀI LIỆU
 
 ## 2026-11-19
+- `ipi-agent-lab/results/benign_matrix/benign-B3-20261119T053354Z/`, `results/tables/benign-B3-20261119T053354Z_*`
+  (lab `6de6e68` → `ab88634`): lô B3 đầy đủ, 7 preset × A2/A3 × 60 câu U1–U5 × 2 lần = 1.680 run, 3 tiến trình,
+  41,98 USD. 135/840 run A2 có ít nhất một lời gọi do `glm-5.3` trả lời (off 24, all 22, d3_only 21, d4_only 21,
+  d3_no_confirm 17, d1_only 16, d2_only 14; A3 không bị) — dữ liệu gốc commit `6de6e68` và sao lưu ngoài repo, xóa
+  run + bước + dòng `judge.jsonl` (`a6d1cfe`), chạy bù cùng `batch_id` bằng harness có chốt chặn (`ab88634`, 4,06 USD).
+  Sau bù: 1.680 run, 0 run ngoài bản pin, 19 `parse_error` (judge không trả JSON 13, lỗi kết nối/HTTP 5, chạm
+  `max_tokens` 1). USR mức run A2 / A3: off 0,864 / 0,949 · d1_only 0,908 / 0,965 · d2_only 0,900 / 0,942 ·
+  d3_only 0,613 / 0,664 · d4_only 0,857 / 0,974 · all 0,613 / 0,658 · d3_no_confirm 0,739 / 0,780; FRR khác 0 chỉ ở
+  preset có D3 (d3_only 0,277 / 0,311 · all 0,294 / 0,292 · d3_no_confirm 0,168 / 0,178). Lý do: TA duyệt chạy full
+  B3, duyệt xóa run lẫn model và chạy bù.
+- `ipi-agent-lab/results/attack_matrix/attack-B2-20261119T023028Z/`, `results/tables/attack-B2-20261119T023028Z_runs.csv`
+  (lab `6f5ca7b` → `bb6f0f9`): lô B2 đầy đủ, 6 ô S_def × 7 preset × A2/A3 × 10 = 840 run, 17,22 USD. 39 run A2 có
+  lời gọi do `glm-5.3` trả lời (24 ở lời gọi cuối, 15 giữa chừng) đã xóa (`f11ab11`, `46fbc3f`) và chạy bù bằng
+  harness có chốt chặn (`bb6f0f9`, 1,43 USD). Sau bù: 840 run, 0 `parse_error`, 0 run ngoài bản pin. Thành công/60
+  A2 / A3: off 35 / 26 · d1_only 21 / 13 · d2_only 36 / 36 · d3_only 6 / 14 · d4_only 35 / 26 · all 0 / 11 ·
+  d3_no_confirm 28 / 33. Lý do: TA duyệt chạy full B2, duyệt xóa run lẫn model và chạy bù.
+- `ipi-agent-lab/src/agent/llm_client.py`, `config/models.yaml`, `tests/test_llm_client.py` (lab `b48e898`),
+  `scripts/find_offpin_runs.py` (lab `29ba1f8`): mỗi target khai `accepted_response_models`; gateway trả model ngoài
+  danh sách thì ghi lỗi, thử lại, hết lượt thì báo lỗi — run không thành kết quả. Script đối chiếu
+  `logs/llm_client.jsonl` với bước `llm` trong trace để tìm run có lời gọi giữa chừng do model khác trả lời (trace
+  chỉ giữ model của lời gọi cuối). 1.528 test qua, cổng scorer 8/8. Lý do: gateway trả `glm-5.3` (model A1) cho một
+  phần lời gọi A2 trong lô B2 và B3.
+- Báo cáo Overleaf (project `6aa65b866ad109f1bc3fe256`, AI hỗ trợ biên tập: Codex): đối chiếu trực tiếp
+  ba SQLite B1, manifest, CSV hữu dụng đã chấm lại, cổng scorer, lô thử B2/B3 và bảng kế hoạch Excel.
+  Bổ sung Chương 4 các bảng tham số, 5.670 lượt B1 (ASR theo model/kênh/T6–T8, Wilson, refusal), USR
+  165/176 · 165/176 · 170/176, tiến độ B1–B6 và giới hạn chạy bù/đơn giá tạm; tổ chức Chương 5 theo C1–C8;
+  đồng bộ Chương 6, tóm tắt Việt/Anh và các đoạn phạm vi, model, quy trình ở Chương 1–3. Lý do: TA yêu cầu
+  rà soát tiến độ, thông số đã chạy và bổ sung vào báo cáo trên Overleaf. Biên dịch thành công 79 trang,
+  0 lỗi LaTeX; còn cảnh báo mẫu, phông và 9 khóa trích dẫn chưa được định nghĩa. Bản PDF đọc lại nằm ở
+  `output/pdf/Bao_cao_Overleaf.pdf`. Các chương LaTeX cục bộ và trạng thái Excel không bị ghi đè;
+  phần cập nhật nội dung được thực hiện trực tiếp trên Overleaf. Không chạy thêm lô LLM thực nghiệm.
 - `ipi-agent-lab/config/experiment.yaml`, `src/eval/experiment.py` (lab `bbaf60e`): B6 thêm `sample_from` (khối B2,
   preset `off`, target A2, seed 20261119) — 20 mẫu bốc ngẫu nhiên có seed từ 60 run kế hoạch của B2 trên 6 ô S_def,
   mỗi mẫu chạy dưới `none` và HN-OW, B6 = 40 run. Cài `opencode-ai@1.19.6` (lõi OpenWork) toàn máy cho HN-OW. Lý do:
