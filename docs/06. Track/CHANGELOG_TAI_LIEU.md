@@ -1,5 +1,30 @@
 # CHANGELOG TÀI LIỆU
 
+## 2026-11-23
+- `ipi-agent-lab/results/attack_matrix/attack-B5-20261123T005114Z/`,
+  `results/tables/attack-B5-20261123T005114Z_{chains,runs}.csv` (lab `75cc1f0` trên harness `0858dd8`): lô B5 đầy đủ,
+  3 ô S_adp (K2a·T5·G1, K2a·T3·G2, K2a·T3·G3) × 5 preset (off không áp cho tấn công thích ứng) × 5 chuỗi = 75 chuỗi,
+  ≤ 3 vòng/chuỗi, 159 run A2, attacker `glm-5.3`, 5,47 USD. 0 `render_error`, 0 crash, 0 run ngoài bản pin
+  (468/468 bước llm đúng pin), 0 `parse_error`. `rewrite_applied` 77/159 vòng là viết lại thật; phân bố vòng: 30 chuỗi
+  dừng vòng 1, 6 vòng 2, 39 chạy đủ 3 vòng. DSR(adaptive) theo preset: d2_only 13/15 = 0,867 · d4_only 12/15 = 0,800 ·
+  d1_only 8/15 = 0,533 · all 4/15 = 0,267 · d3_only 2/15 = 0,133. Lý do: TA duyệt chạy lại full B5 sau khi fix crash.
+- `ipi-agent-lab/config/models.yaml`, `config/experiment.yaml`, `src/agent/llm_client.py`, `src/attack/adaptive.py`,
+  `src/obs/cost.py`, `src/attack/payloads/render.py`, các test tương ứng (lab `9bc7d22`, `91cc45f`, `57f4527`,
+  `87fa1ad`, `0858dd8`): attacker B5 đổi từ `claude-opus-5` sang `glm-5.3` — opus-5 từ chối ở mức API toàn bộ lời gọi
+  viết lại (lô thử `dryrun-attack-B5-20261120T065216Z`: 19/19 từ chối, 17 rỗng, payload giữ nguyên), do khung "viết lại
+  để vượt phòng thủ"; glm-5.3 viết lại 14/18 vòng 2-3 (lô thử `dryrun-attack-B5-20261120T081040Z`, 1,33 USD). Thêm khối
+  `attacker_adaptive` (`model_id: glm-5.3`, pin `accepted_response_models`, dùng lại env `TARGET_MODEL_A1`, không sửa
+  `.env`); `load_prices` tính khối này như target. Ghi cờ `rewrite_applied` mỗi vòng + cột `rewrites` trong bảng chuỗi:
+  khi attacker trả rỗng, harness giữ payload gốc — trước đó vòng đó bị đếm nhầm là thích ứng (quy tắc cứng #8). Sửa bug
+  guard render: `build_k2_layer` render bản đã điền `{run_id}` (32 ký tự) còn `instruction_budget` + `_render_problem`
+  đo bản chưa điền (`{run_id}` 8 ký tự), bản attacker viết lại khít 400 ký tự placeholder nở thành 419 sau khi điền,
+  `ChannelRenderError` lan ra giết cả lô B5 ở chuỗi 57/75 (lần chạy `attack-B5-20261120T084741Z`, bỏ); thêm
+  `fill_run_id_sample`, hai hàm guard đo bản đã điền nên tràn thành dừng `render_error` có kiểm soát. 1.532 test qua,
+  cổng scorer 8/8 (tất định). Lý do: opus-5 từ chối, TA duyệt đổi sang glm-5.3; bug render làm crash lô đầy đủ.
+- `ipi-agent-lab/config/experiment.yaml` (lab `1ee330b`): chọn S_adp cho B5 từ `attack-B2-20261119T023028Z` — cả 6 ô
+  B2 đạt ngưỡng DSR ≥ 0,3, lấy 3 ô DSR cao nhất: K2a·T5·G1, K2a·T3·G2, K2a·T3·G3. Lý do: B5 chỉ chạy ô có tín hiệu
+  tấn công rõ để đo độ bền trước kẻ tấn công thích ứng.
+
 ## 2026-11-19
 - `ipi-agent-lab/results/benign_matrix/benign-B3-20261119T053354Z/`, `results/tables/benign-B3-20261119T053354Z_*`
   (lab `6de6e68` → `ab88634`): lô B3 đầy đủ, 7 preset × A2/A3 × 60 câu U1–U5 × 2 lần = 1.680 run, 3 tiến trình,
