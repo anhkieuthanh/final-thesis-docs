@@ -1,13 +1,22 @@
 # CHANGELOG TÀI LIỆU
 
 ## 2026-11-23
+- `ipi-agent-lab/scripts/arr_pareto.py`, `results/tables/arr_pareto_B5.csv`, `arr_B5_detail.csv`,
+  `docs/06. Track/Nhap_RQ5_B5.md` (lab `6d2e880`): ghép ARR và Pareto an toàn/hữu dụng cho B5 (STT-76,
+  không chạy LLM). DSR(adaptive) từ B5 (mức chuỗi), DSR(blind) từ B2 (mức run, tái dùng `eval.cell_select.dsr_stats`),
+  USR/FRR từ B3 — gộp 3 ô S_adp, A2. ARR = DSR(adaptive)/DSR(blind): d3_only 0,867 · d1_only 0,737 · all 0,733 ·
+  d4_only 0,600 · d2_only 0,500. DSR(adaptive) [CI 95% Wilson, n=15]: d3_only 0,867 [0,621–0,963] · all 0,733
+  [0,481–0,891] · d1_only 0,467 [0,248–0,699] · d4_only 0,200 [0,071–0,452] · d2_only 0,133 [0,037–0,379]. Biên
+  Pareto: d3_only (an toàn, USR 0,613) và d1_only (hữu dụng, USR 0,908); d2_only/d4_only/all bị trội. So H5: khớp D2
+  (sụp) và D3 (giữ tốt nhất), trái H5 ở D4 (DSR thích ứng 0,200 trên tập ô khó). Lý do: TA duyệt làm tiếp STT-76 sau B5.
 - `ipi-agent-lab/results/attack_matrix/attack-B5-20261123T005114Z/`,
   `results/tables/attack-B5-20261123T005114Z_{chains,runs}.csv` (lab `75cc1f0` trên harness `0858dd8`): lô B5 đầy đủ,
   3 ô S_adp (K2a·T5·G1, K2a·T3·G2, K2a·T3·G3) × 5 preset (off không áp cho tấn công thích ứng) × 5 chuỗi = 75 chuỗi,
   ≤ 3 vòng/chuỗi, 159 run A2, attacker `glm-5.3`, 5,47 USD. 0 `render_error`, 0 crash, 0 run ngoài bản pin
   (468/468 bước llm đúng pin), 0 `parse_error`. `rewrite_applied` 77/159 vòng là viết lại thật; phân bố vòng: 30 chuỗi
-  dừng vòng 1, 6 vòng 2, 39 chạy đủ 3 vòng. DSR(adaptive) theo preset: d2_only 13/15 = 0,867 · d4_only 12/15 = 0,800 ·
-  d1_only 8/15 = 0,533 · all 4/15 = 0,267 · d3_only 2/15 = 0,133. Lý do: TA duyệt chạy lại full B5 sau khi fix crash.
+  dừng vòng 1, 6 vòng 2, 39 chạy đủ 3 vòng. ASR_e2e thích ứng (mức chuỗi, số chuỗi đạt mục tiêu / tổng) theo preset:
+  d2_only 13/15 = 0,867 · d4_only 12/15 = 0,800 · d1_only 8/15 = 0,533 · all 4/15 = 0,267 · d3_only 2/15 = 0,133;
+  DSR(adaptive) = 1 − ASR (ghép ARR ở mục STT-76). Lý do: TA duyệt chạy lại full B5 sau khi fix crash.
 - `ipi-agent-lab/config/models.yaml`, `config/experiment.yaml`, `src/agent/llm_client.py`, `src/attack/adaptive.py`,
   `src/obs/cost.py`, `src/attack/payloads/render.py`, các test tương ứng (lab `9bc7d22`, `91cc45f`, `57f4527`,
   `87fa1ad`, `0858dd8`): attacker B5 đổi từ `claude-opus-5` sang `glm-5.3` — opus-5 từ chối ở mức API toàn bộ lời gọi
