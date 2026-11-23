@@ -1,6 +1,21 @@
 # CHANGELOG TÀI LIỆU
 
 ## 2026-11-23
+- `ipi-agent-lab/src/attack/harness_ow.py`, `scripts/run_harness.py`, `src/attack/runner.py` (trường
+  `harness`, `plan_b6`, `_build_core`, `done_specs`), `results/harness_matrix/harness-B6-20261123T082444Z/`,
+  `results/tables/harness-B6-20261123T082444Z_runs.csv`, `docs/06. Track/Nhap_RQ6_B6.md`
+  (lab `b22d59a`, `ae9f66b`, `e8fe7b2`, `ae3730b`): dựng harness HN-OW (OpenWork/opencode) cho B6 và chạy lô
+  đầy đủ (STT-79). `OpenWorkCore` (thỏa `interfaces.AgentCore`) chạy carrier task qua opencode lái model A2 qua
+  gateway, gọi năm tool testbed qua MCP HTTP in-thread (state seeded dùng chung handler như core-a), map sự kiện
+  JSON opencode thành trace để cùng scorer chấm. `plan_b6` bốc 20 mẫu seeded từ kế hoạch B2 (off/A2) × [none,
+  HN-OW]. Lô đầy đủ 40 run, một harness_version `core-a@e8fe7b2`, 0 parse_error. **ASR none 0,650 = HN-OW 0,650**
+  (`blocked_by` rỗng cả hai): harness thương mại OpenWork chạy tự động **không giảm** ASR, không chặn tool-call
+  độc — không bao phủ cả D3 (trái một phần H6). Theo mục tiêu: G1 6/6=6/6 · G2 5/5 vs 4/5 · G3 2/9 vs 3/9; kênh
+  K2a 13/18 cả hai · K2b 0/2 cả hai. Hạn chế: chỉ dấu trên một harness, chạy tự động, 20 mẫu (rủi ro 9). Hai bug
+  phát hiện khi chạy và đã sửa: (1) gateway hết credit (402) giữa lô ghi 17 parse_error rác — thêm
+  `HarnessOutageError` dừng lô như budget guard (`ae9f66b`); (2) `done_specs` thiếu cột `harness` nên resume chạy
+  lại cả nhánh HN-OW gây run trùng — thêm `Run.harness` vào SELECT (`e8fe7b2`). 1.543 test qua, cổng scorer dùng
+  chung core-a nên giữ 8/8. Lý do: TA duyệt dựng đủ HN-OW cho B6 (RQ6) thay vì chỉ bảng đối chiếu.
 - `ipi-agent-lab/scripts/arr_pareto.py`, `results/tables/arr_pareto_B5.csv`, `arr_B5_detail.csv`,
   `docs/06. Track/Nhap_RQ5_B5.md` (lab `6d2e880`): ghép ARR và Pareto an toàn/hữu dụng cho B5 (STT-76,
   không chạy LLM). DSR(adaptive) từ B5 (mức chuỗi), DSR(blind) từ B2 (mức run, tái dùng `eval.cell_select.dsr_stats`),
