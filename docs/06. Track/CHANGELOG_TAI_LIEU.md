@@ -1,6 +1,12 @@
 # CHANGELOG TÀI LIỆU
 
 ## 2026-11-24
+- `docs/06. Track/Kịch bản buổi dùng thử.md` (mới), `docs/phieu_khao_sat.md` (mới): chuẩn bị đánh giá với người dùng
+  thực (STT-85–87). Kịch bản: mục tiêu ba câu hỏi, 3–5 người theo mã P1–P5 không thu thập thông tin định danh, việc
+  chuẩn bị (lượt trình diễn gọi mô hình thật phải được TA duyệt như một lô), trình tự 40 phút, bốn nhiệm vụ trên
+  console với tiêu chí đạt, lời xin đồng ý, bảng quan sát, ba lượt chạy mẫu chọn từ B2 cho nhiệm vụ N3, cách tổng hợp
+  (chỉ số đếm và trung vị, mã hóa chủ đề). Phiếu: thông tin chung không định danh, 9 câu Likert 1–5, 5 câu hỏi mở.
+  Lý do: việc 12 của plan hoàn thiện, TA duyệt; làm sớm để kịp hẹn người tham gia.
 - `docs/07. Báo cáo/Chuong6.tex`: viết lại Chương 6 theo kết quả đã có (STT-90, STT-91). Kết luận: tóm tắt hệ thống,
   quy mô ma trận đã chạy, trả lời RQ1–RQ6 bằng số và phát hiện về payload gắn ngữ cảnh. Thảo luận: vì sao K2 nguy
   hiểm hơn (giải thích ghi là khả dĩ, chưa kiểm), vì sao không cơ chế nào chặn hết, ý nghĩa ARR, harness thương mại.
