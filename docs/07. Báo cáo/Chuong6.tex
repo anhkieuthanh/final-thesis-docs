@@ -1,16 +1,43 @@
-% Nội dung biên tập với sự hỗ trợ của AI (Codex).
+% =============================================================================
+% CHƯƠNG 6 — KẾT LUẬN VÀ HƯỚNG PHÁT TRIỂN
+% Nội dung soạn với sự hỗ trợ của AI (Claude; bản trước biên tập bởi Codex). Sinh viên tự kiểm mọi số
+% liệu trước khi nộp. Số liệu lấy từ Chương 4 mục 4.6 và Chương 5; nguồn gốc ở
+% docs/06. Track/Nhap_RQ1_RQ2_B1.md, Nhap_RQ3_RQ4_B2_B3.md, Nhap_RQ5_B5.md, Nhap_RQ6_B6.md.
+% =============================================================================
 \documentclass[../DoAn.tex]{subfiles}
 \begin{document}
 
 \section{Kết luận}
-Đồ án xây dựng hệ thống đánh giá IPI trên tác tử doanh nghiệp mô phỏng dùng RAG và MCP. Phần hiện thực đã có lõi điều phối, năm công cụ, bộ tiêm nội dung, pipeline bốn cơ chế phòng thủ, kho vết và giao diện tra cứu. Việc tách dữ liệu quan sát khỏi phép chấm tạo khả năng kiểm lại kết quả và truy nguyên nguyên nhân chặn.
+Đồ án đã xây dựng và vận hành một hệ thống đánh giá tấn công tiêm nhiễm gián tiếp trên tác tử doanh nghiệp tiếng Việt dùng RAG và MCP. Hệ thống gồm testbed có kiểm soát với năm công cụ và ba phân kênh tiêm K1, K2a, K2b; bộ chấm tất định tách nguyên nhân chặn thành phòng thủ, mô hình tự từ chối và harness; tám kỹ thuật payload trong đó ba kỹ thuật tự đề xuất; bốn cơ chế phòng thủ D1--D4 có tham số đặt ngoài mã; và bảng điều khiển xem lại từng lượt chạy. Toàn bộ ma trận rút gọn đã chạy xong trên ba mô hình đích: 5.670 lượt cho kênh và kỹ thuật, 840 lượt cho phòng thủ, 1.680 lượt cho hữu dụng, 75 chuỗi tấn công thích ứng và 40 lượt so sánh harness. Mọi con số trong báo cáo truy được về kho vết và tệp bảng trong kho mã.
 
-Bằng chứng hiện có xác nhận bộ chấm đạt tám ca kiểm chứng dựng tay và đã có phép đo hữu dụng nền 540 lượt. So với hướng bộ đo công bố ở Chương~2, hệ thống tập trung vào bối cảnh tiếng Việt, nhiều kênh nội dung và khả năng theo dõi điều kiện kích hoạt. Đây là khác biệt về thiết kế; ưu thế về hiệu quả phòng thủ chưa được xác lập bằng ma trận thực nghiệm hoàn chỉnh.
+Kết quả theo sáu câu hỏi nghiên cứu như sau.
+\begin{itemize}
+	\item \textbf{RQ1.} Kênh công cụ nguy hiểm hơn kênh tài liệu truy hồi: trên sáu kỹ thuật chung, ASR của K2 là 15,6\% so với 5,0\% của K1 khi gộp ba mô hình, khác biệt rõ ở A1, A2 và chỉ là xu hướng ở A3. Phần chênh không do khâu truy hồi, vì payload K1 đã vào ngữ cảnh ở 78--93\% lượt.
+	\item \textbf{RQ2.} T3 là kỹ thuật mạnh nhất trên K2a ở mọi mô hình và mọi biến thể chỉ thị hệ thống. Trên K1, ASR ở mức sàn nên không phân định được kỹ thuật mạnh nhất. Ngoài vị trí dẫn đầu của T3, thứ hạng không ổn định khi đổi mô hình.
+	\item \textbf{RQ3.} Tổ hợp bốn cơ chế không vượt cơ chế đơn lẻ tốt nhất ở mục tiêu nào theo tiêu chí ghi trước; cơ chế đơn lẻ tốt nhất là D3 với rò rỉ dữ liệu qua công cụ và D1 với nội dung chèn vào câu trả lời.
+	\item \textbf{RQ4.} Cái giá hữu dụng chỉ đến từ D3: cấu hình có D3 chặn nhầm 27,7--31,1\% câu lành tính, tập trung ở hành động gửi ra ngoài và ở các câu hỏi bị gán loại tác vụ thô; D1, D2, D4 không làm giảm hữu dụng.
+	\item \textbf{RQ5.} Trước kẻ tấn công thích ứng, D3 giữ tốt nhất (DSR 0,867), D2 mất nhiều nhất (0,133) và D4 không giữ được như giả thuyết (0,200). Biên an toàn và hữu dụng chỉ gồm hai cấu hình: D3 ở góc an toàn và D1 ở góc hữu dụng.
+	\item \textbf{RQ6.} Harness OpenWork chạy tự động cho cùng ASR với vòng lặp trần (13/20 lượt) và không chặn lượt nào; lớp gần với D3 của nó chỉ có tác dụng khi có người xác nhận.
+\end{itemize}
 
-Các hạn chế chính gồm đo phân phối K2b còn cần rà soát, phạm vi canary cơ sở dữ liệu phụ thuộc bản ghi mồi và nguy cơ trùng lượt khi chạy tiếp lô. Kết quả hữu dụng còn phụ thuộc bộ câu hỏi, mô hình chấm và quy tắc dữ kiện cứng. Chưa có đủ bằng chứng để đưa ra kết luận cuối cho RQ1--RQ6 hoặc phản hồi người dùng thực.
+Ngoài sáu câu hỏi, đồ án rút ra một phát hiện về phương pháp đo: mức bám nghiệp vụ của payload quyết định ASR mạnh hơn mức cả tin của cấu hình. Trong hai mục tiêu G1 và G2, payload không gắn ngữ cảnh đạt 0/1.440 lượt ở mọi mô hình và mọi biến thể, còn payload gắn ngữ cảnh đạt tới 37,7\%. Một bộ đo dùng payload chung chung vì vậy có thể cho ASR gần bằng không mà không chứng minh được mô hình an toàn.
+
+\section{Thảo luận}
+\textbf{Vì sao kênh công cụ nguy hiểm hơn.} Ở K1, mô hình thấy payload trong tài liệu truy hồi gần như mọi lượt nhưng hầu như không làm theo; cùng nội dung đặt trong kết quả công cụ thì được làm theo nhiều hơn rõ rệt, và nới chỉ thị hệ thống theo hướng cả tin chỉ làm tăng ASR ở kênh công cụ. Một giải thích khả dĩ, chưa được kiểm trực tiếp, là mô hình được huấn luyện để coi kết quả công cụ là dữ liệu đáng tin hơn văn bản tham khảo. Hệ quả thực tế là một máy chủ MCP bên thứ ba là bề mặt tấn công đáng lo hơn kho tài liệu nội bộ, kể cả khi kho tài liệu đã bị cài nội dung.
+
+\textbf{Vì sao không cơ chế nào chặn hết.} Bốn cơ chế đứng ở bốn vị trí khác nhau của một lượt chạy và mỗi cơ chế chỉ thấy một phần của tấn công. D3 chặn tốt các tấn công cần gọi công cụ nhưng không chạm được nội dung chèn vào câu trả lời, nơi D1 làm tốt hơn. D2 lọc theo dấu hiệu cú pháp nên bị diễn đạt lại vượt qua, và D4 chỉ thấy dữ liệu ở dạng đi ra. Vì các điểm mù không trùng nhau, tổ hợp ghép được mặt mạnh của từng cơ chế nhưng không cộng dồn hiệu lực, và kết quả B5 cho thấy ghép thêm cơ chế không làm tăng độ bền so với một mình D3 trên tập ô khó.
+
+\textbf{Ý nghĩa của tỷ lệ giữ vững.} Tỷ lệ giữ vững cao nhất thuộc về D3, cơ chế duy nhất không đọc văn bản payload mà kiểm hành vi theo loại tác vụ người dùng chọn trước. Phòng thủ dựa trên hiểu văn bản, dù là lọc hay đánh dấu, mất hiệu lực nhanh khi kẻ tấn công được thử lại. Bài học cho người vận hành là ưu tiên kiểm soát quyền gọi công cụ, chấp nhận cái giá hữu dụng của nó, và coi các bộ lọc văn bản là lớp bổ sung chứ không phải lớp chính. Kết quả B5 là cận trên của độ bền, vì kẻ tấn công thật có thể mạnh hơn mô hình viết lại payload của đồ án.
+
+\textbf{Về harness thương mại.} Một câu phản biện tự nhiên là harness thương mại đã có sẵn những gì đồ án xây dựng. Trên OpenWork chạy tự động, điều này không đúng: harness không có lớp tương ứng với D1, D2, D4, và lớp cấp quyền gần với D3 không chặn gì khi không có người xác nhận. Đây là chỉ dấu trên một harness, nhưng đủ để cho thấy việc đánh giá phòng thủ riêng cho tác tử vẫn cần thiết khi đã dùng harness.
+
+\section{An toàn và đạo đức}
+Mọi tấn công trong đồ án chỉ nhắm vào hệ thống do chính sinh viên dựng và chạy cô lập trên máy cá nhân. Dữ liệu khách hàng sinh bằng Faker với ngôn ngữ \texttt{vi\_VN} và hạt giống cố định, không chứa dữ liệu cá nhân thật, phù hợp tinh thần của Nghị định 13/2023/NĐ-CP về bảo vệ dữ liệu cá nhân~\cite{nd13-2023}. Thư và yêu cầu HTTP do tác tử gửi đi đều vào máy chủ thư giả và máy nghe chuỗi đánh dấu chạy cục bộ, nên không dữ liệu nào rời máy trong lượt chạy. Bộ đo MCPTox chỉ được chạy ở chế độ mô phỏng, không nhắm vào máy chủ MCP thật của bên thứ ba, và mọi payload lấy hoặc chuyển thể từ bộ đo ngoài ghi rõ giấy phép gốc. Khóa truy cập dịch vụ mô hình nằm ngoài kho mã, và kho mã sẽ được quét khóa lộ trước khi công bố. Khi công bố cùng mã nguồn, tập payload phục vụ đánh giá phòng thủ; các payload được viết cho testbed mô phỏng và không kèm chỉ dẫn khai thác hệ thống cụ thể nào. Nội dung báo cáo và mã có sự hỗ trợ của công cụ AI, được ghi rõ ở đầu các tài liệu tương ứng; mọi số liệu do sinh viên kiểm lại từ dữ liệu thô.
+
+\section{Hạn chế}
+Các hạn chế ảnh hưởng tới tính hợp lệ đã trình bày ở mục~\ref{section:4.7}; bốn hạn chế quan trọng nhất là: quy mô rút gọn với mười lượt mỗi ô nên nhiều so sánh chỉ là xu hướng; kết quả phòng thủ đo trên các ô thuộc kênh công cụ, không đại diện cho kênh tài liệu nơi ASR nền ở mức sàn; ba mô hình đích đi chung một cổng dịch vụ; và kết quả harness là chỉ dấu trên một harness với 20 mẫu. Testbed mô phỏng một nghiệp vụ duy nhất, nên kết luận chưa suy rộng được sang các tác tử có công cụ và dữ liệu khác.
+
 \section{Hướng phát triển}
-Bước tiếp theo là kiểm tra tính toàn vẹn của đơn vị thực nghiệm, điều kiện payload tới ngữ cảnh và quá trình chạy tiếp. Sau đó cần hoàn tất hiệu chỉnh theo giao thức đã ghi trước, khóa điều kiện đo và chạy tấn công cùng tác vụ lành tính cho từng cấu hình. Phân tích phải giữ nguyên số đếm, trường hợp lỗi và các giới hạn của khoảng tin cậy.
-
-Đối chiếu harness và đánh giá với người dùng được thực hiện sau khi có phiên bản đủ ổn định để cài lại. Các hướng mở rộng gồm đa dạng hóa nghiệp vụ tiếng Việt, kiểm tra trôi mô hình và phát triển bộ chấm phát hiện nhiều dạng rò rỉ hơn. Mỗi mở rộng cần một bộ điều kiện đo riêng để bảo toàn khả năng so sánh với kết quả hiện có.
+Ba hướng mở rộng trực tiếp từ kết quả hiện có. Thứ nhất, tăng số lượt mỗi ô ở những so sánh đang chỉ là xu hướng, đặc biệt giữa K1 và K2 trên A3 và giữa \texttt{all} với D3 ở G1, để biết khác biệt có thật hay không. Thứ hai, soát vết các chuỗi B5 vượt qua D4 để xác định đường rò mà bộ lọc dữ liệu ra chưa thấy, và mở rộng bộ chấm phát hiện dữ liệu đã bị diễn đạt lại. Thứ ba, thay cách gán loại tác vụ thô của D3 bằng danh sách công cụ chi tiết hơn để giảm chặn nhầm mà không mất phần bền của D3. Xa hơn, testbed có thể thêm các kênh K3--K5 mới chỉ được mô tả, thêm nghiệp vụ tiếng Việt khác, đo trên một harness thứ hai và ở chế độ có người xác nhận, và chạy lại định kỳ để theo dõi trôi mô hình. Mỗi mở rộng cần bộ điều kiện đo riêng để giữ khả năng so sánh với kết quả của đồ án.
 
 \end{document}

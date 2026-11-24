@@ -1,6 +1,14 @@
 # CHANGELOG TÀI LIỆU
 
 ## 2026-11-24
+- `docs/07. Báo cáo/Chuong6.tex`: viết lại Chương 6 theo kết quả đã có (STT-90, STT-91). Kết luận: tóm tắt hệ thống,
+  quy mô ma trận đã chạy, trả lời RQ1–RQ6 bằng số và phát hiện về payload gắn ngữ cảnh. Thảo luận: vì sao K2 nguy
+  hiểm hơn (giải thích ghi là khả dĩ, chưa kiểm), vì sao không cơ chế nào chặn hết, ý nghĩa ARR, harness thương mại.
+  Mục mới "An toàn và đạo đức" (hệ tự dựng cô lập, Faker, Nghị định 13/2023 — dùng khóa `nd13-2023` vốn chưa được
+  trích, MCPTox chỉ mô phỏng, giấy phép payload, khóa API, công bố payload, dùng AI). Hạn chế dẫn về mục 4.7; hướng
+  phát triển cụ thể từ kết quả. Thay bản cũ "chưa có đủ bằng chứng cho RQ1–RQ6". Đối chiếu trích dẫn cục bộ: 29 khóa
+  được trích đều có trong ba tệp `.bib`; 9 khóa chưa định nghĩa ghi nhận trước đây thuộc bản Overleaf, cần kiểm
+  trên Overleaf. Chưa kiểm nội dung từng mục `.bib` với nguồn gốc. Lý do: việc 8 của plan hoàn thiện, TA duyệt.
 - `docs/07. Báo cáo/Chuong2.tex`, `Chuong3.tex`, `Chuong4.tex`: rà Chương 2, 3 cho khớp hiện trạng. Chương 2 mục
   2.2.5 và Hình `fig:hoatdong`: bỏ cổng hiệu chỉnh độ khó 20–80% (trái hạng mục 12 checklist đã ký), thay bằng cổng
   lô thử kiểm bộ chạy, mức cả tin của prompt là trục đo, phân định "mô hình chống chịu hay payload yếu" bằng so lớp
