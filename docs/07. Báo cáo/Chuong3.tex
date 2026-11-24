@@ -16,8 +16,7 @@
 %
 % ĐIỂM CẦN XÁC NHẬN (tìm "% [XÁC NHẬN]"):
 %   (1) Mục bib mới trong refs_chuong3.bib: đối chiếu tác giả, năm, nơi công bố với bản gốc.
-%   (2) Bộ mô hình A1--A3 và phần harness thuộc Phụ lục M1b, còn chờ GVHD ký; xem Chương 2,
-%       điểm (3).
+%   (2) Bộ mô hình A1--A3 hiện hành khác hạng mục 6 của checklist đã ký; xem Chương 2, điểm (3).
 % =============================================================================
 \documentclass[../DoAn.tex]{subfiles}
 \begin{document}
@@ -332,7 +331,7 @@ Bảng~\ref{tab:c3-congnghe} liệt kê các công nghệ được dùng để h
 		\hline
 		\textbf{Tầng} & \textbf{Công nghệ} & \textbf{Vai trò} \\ \hline
 		Nền tảng & Python $\geq$ 3.10, uv & Ngôn ngữ hiện thực; quản lý phụ thuộc bằng tệp khóa \texttt{uv.lock} \\ \hline
-		Mô hình đích & SDK \texttt{anthropic} 1.13, SDK \texttt{openai} & Gọi A1, A2, A3 qua cổng tương thích OpenAI; gọi mô hình chấm và mô hình sinh payload qua Messages API của Anthropic \\ \hline
+		Mô hình đích & SDK \texttt{anthropic} 1.13, SDK \texttt{openai} & Gọi A1, A2, A3 và mô hình viết lại payload của kẻ tấn công thích ứng qua cổng tương thích OpenAI; gọi mô hình chấm và mô hình sinh biến thể payload qua Messages API của Anthropic \\ \hline
 		Công cụ & MCP Python SDK 2.3 & Cung cấp năm công cụ của tác tử theo giao thức MCP \\ \hline
 		Kho tri thức & fastembed 0.8, \texttt{multilingual-e5-large}, Qdrant 1.19.2, pypdf, python-docx & Trích văn bản, nhúng 1024 chiều, lưu và truy hồi theo cosine \\ \hline
 		Dữ liệu mô phỏng & Faker (\texttt{vi\_VN}), SQLite & Sinh cơ sở dữ liệu khách hàng với hạt giống cố định \\ \hline
@@ -341,7 +340,7 @@ Bảng~\ref{tab:c3-congnghe} liệt kê các công nghệ được dùng để h
 		Trình bày & FastAPI; React 18, TypeScript, Vite, Tailwind CSS, Recharts & Giao diện web: giao diện lập trình chỉ đọc trên kho vết và ứng dụng một trang cho kết quả, vết chạy, trình diễn \\ \hline
 		Đóng gói & Docker, Docker Compose & Dựng toàn bộ hạ tầng bằng một lệnh \\ \hline
 		Chất lượng mã & pytest, ruff, pre-commit, GitHub Actions & Kiểm thử, kiểm tra quy chuẩn mã trước mỗi lần cam kết và ở mọi lần đẩy mã \\ \hline
-		Harness đối chiếu & OpenWork (lõi opencode) & Chạy tác tử qua lớp kiểm soát của harness thương mại; phần đo là tùy chọn, trên tập con \\ \hline
+		Harness đối chiếu & OpenWork (lõi opencode) & Chạy tác tử qua lớp kiểm soát của harness thương mại; đo trên 20 mẫu của A2 \\ \hline
 	\end{tabular}
 \end{table}
 

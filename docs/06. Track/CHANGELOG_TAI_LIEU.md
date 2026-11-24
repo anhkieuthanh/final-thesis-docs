@@ -1,6 +1,15 @@
 # CHANGELOG TÀI LIỆU
 
 ## 2026-11-24
+- `docs/07. Báo cáo/Chuong2.tex`, `Chuong3.tex`, `Chuong4.tex`: rà Chương 2, 3 cho khớp hiện trạng. Chương 2 mục
+  2.2.5 và Hình `fig:hoatdong`: bỏ cổng hiệu chỉnh độ khó 20–80% (trái hạng mục 12 checklist đã ký), thay bằng cổng
+  lô thử kiểm bộ chạy, mức cả tin của prompt là trục đo, phân định "mô hình chống chịu hay payload yếu" bằng so lớp
+  payload; thêm bước chọn ô theo quy tắc ghi trước. UC04.2 đổi thành "Chạy lô thử kiểm harness". Chương 3 Bảng công
+  nghệ: mô hình viết lại payload B5 gọi qua cổng tương thích OpenAI; harness đo trên 20 mẫu A2. Chương 4 mục 4.5 dẫn
+  tới quy trình hiện hành ở 2.2.5. Ghi chú [XÁC NHẬN] ở Chương 2, 3, 4 sửa lại: Phụ lục M1b đã xóa, checklist đã ký thay
+  thế nó nhưng hạng mục 6 (bộ mô hình) và 13 (attacker) còn ghi bộ cũ — cần GVHD xác nhận bổ sung `v-models-1.2` và
+  attacker `glm-5.3`. Không sửa phần khảo sát bộ đo (điểm [XÁC NHẬN] (2) của Chương 2 cần đối chiếu PDF gốc). Lý do:
+  việc 7 của plan hoàn thiện, TA duyệt.
 - `docs/07. Báo cáo/Chuong4.tex`, `Chuong5.tex`: điền Chương 4 và sửa chỗ cũ. Hình kiến trúc chuyển từ Chương 5 sang
   mục 4.1 (`fig:c4-kientruc`), Chương 5 dẫn tới. Mục 4.3.1: mô hình viết lại payload của B5 đổi sang `glm-5.3` (opus-5
   từ chối 19/19), thêm chốt chặn mô hình ngoài danh sách được phép. Mục 4.4.1: 1.549 ca kiểm thử (đạt 1.548, bỏ qua 1).

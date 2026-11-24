@@ -13,7 +13,9 @@
 % CHỖ CÒN TRỐNG (tìm "% [ĐIỀN]"): ảnh giao diện, cài lại trên máy sạch (STT-83), đánh giá người dùng.
 % ĐIỂM CẦN XÁC NHẬN (tìm "% [XÁC NHẬN]"):
 %   (1) Mục 4.3.1: tên lớp của A1 (nhãn "frontier" trong tài liệu gốc) sau khi A1 là glm-5.3 —
-%       TA và GVHD chốt cách gọi rồi sửa câu đầu mục cho khớp.
+%       TA và GVHD chốt cách gọi rồi sửa câu đầu mục cho khớp. Câu "bộ mô hình đã đổi hai lần, đều có
+%       GVHD duyệt" chưa có bằng chứng ký: checklist đã ký hạng mục 6, 13 còn ghi bộ mô hình cũ và
+%       attacker claude-opus-5 — xem Chương 2, điểm (3).
 % =============================================================================
 \documentclass[../DoAn.tex]{subfiles}
 \begin{document}
@@ -257,7 +259,7 @@ Tám vết chạy dựng tay có đáp án biết trước, liệt kê ở Bản
 
 \section{Thiết lập thực nghiệm}
 \label{section:4.5}
-Thực nghiệm chia thành các khối, mỗi khối trả lời một nhóm câu hỏi nghiên cứu, chạy ở quy mô rút gọn nêu ở Bảng~\ref{tab:c4-khoi}. Thứ tự lượt chạy trong một lô được xáo trộn với hạt giống cố định. Môi trường đã đi qua ba vòng hiệu chỉnh độ khó theo giao thức ở mục~\ref{subsection:2.2.5} mà ASR vẫn dưới ngưỡng 20\%; sau góp ý của giáo viên hướng dẫn rằng ASR thấp vẫn là kết quả nếu giải thích được, đồ án dừng hiệu chỉnh và đưa mức cả tin của chỉ thị hệ thống thành một trục đo của B1 với ba biến thể \texttt{guarded}, \texttt{baseline}, \texttt{trusting}. Các khối khác chạy biến thể \texttt{baseline}. Hành trình hiệu chỉnh được trình bày ở mục~\ref{section:5.5}. Tập ô của B2 (S\_def) và B5 (S\_adp) được chọn bằng chương trình theo quy tắc ghi trước, từ kết quả của khối trước đó.
+Thực nghiệm chia thành các khối, mỗi khối trả lời một nhóm câu hỏi nghiên cứu, chạy ở quy mô rút gọn nêu ở Bảng~\ref{tab:c4-khoi}. Thứ tự lượt chạy trong một lô được xáo trộn với hạt giống cố định. Môi trường đã đi qua ba vòng hiệu chỉnh độ khó theo giao thức ban đầu mà ASR vẫn dưới ngưỡng 20\%; sau góp ý của giáo viên hướng dẫn rằng ASR thấp vẫn là kết quả nếu giải thích được, đồ án dừng hiệu chỉnh và đưa mức cả tin của chỉ thị hệ thống thành một trục đo của B1 với ba biến thể \texttt{guarded}, \texttt{baseline}, \texttt{trusting}. Các khối khác chạy biến thể \texttt{baseline}. Quy trình đánh giá hiện hành là quy trình ở mục~\ref{subsection:2.2.5}; hành trình hiệu chỉnh được trình bày ở mục~\ref{section:5.5}. Tập ô của B2 (S\_def) và B5 (S\_adp) được chọn bằng chương trình theo quy tắc ghi trước, từ kết quả của khối trước đó.
 
 \begin{table}[htbp]
 	\centering

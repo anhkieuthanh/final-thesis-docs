@@ -15,9 +15,10 @@
 %   (1) Mục 2.1.1: đồ án chưa khảo sát người dùng diện rộng; nhu cầu suy từ phân tích vai trò.
 %       Nếu GVHD yêu cầu phiếu khảo sát sơ bộ thì bổ sung số liệu thật, không điền số giả định.
 %   (2) Số liệu công bố của AutoDojo, AgentDyn, MCPTox: đối chiếu lại bảng/mục trong bản PDF gốc.
-%   (3) Tám kỹ thuật T1--T8, bộ mô hình A1--A3 và phần harness (RQ6) thuộc Phụ lục M1b, còn chờ
-%       GVHD ký (docs/06. Track/Phụ lục M1b — trình GVHD ký.md). Chưa ký thì sửa các đoạn
-%       đánh dấu (3) theo bản checklist đã ký trước khi nộp.
+%   (3) T1--T8 và harness HN-OW đã ký ở checklist (docs/06. Track/Chốt phạm vi và checklist ký
+%       GVHD.md, hạng mục 5, 14). Bộ mô hình hiện hành v-models-1.2 (A1 glm-5.3, A3
+%       deepseek-v4.1-flash-1017) và kẻ tấn công glm-5.3 KHÁC hạng mục 6, 13 đã ký (A1 claude-opus-5,
+%       A3 glm-5.3-flash, attacker claude-opus-5): cần GVHD xác nhận bổ sung trước khi nộp.
 % =============================================================================
 \documentclass[../DoAn.tex]{subfiles}
 \begin{document}
@@ -219,14 +220,14 @@ Sáu use case mức cao được mô tả ngắn gọn như sau. UC01 \textit{Qu
 \subsection{Biểu đồ use case phân rã Chạy thực nghiệm}
 \label{subsection:2.2.2}
 
-Hình~\ref{fig:uc-chaythucnghiem} phân rã UC04. Người đánh giá có sáu use case con. \textit{Kiểm chứng bộ chấm} cho bộ chấm chấm tám vết chạy dựng tay có đáp án biết trước, và là cổng bắt buộc trước mọi lượt chạy ma trận. \textit{Chạy thử và hiệu chỉnh độ khó} chạy một tập mẫu nhỏ phủ mọi ô thí nghiệm để đưa tỷ lệ tấn công thành công về khoảng phân biệt được giữa các cấu hình. \textit{Chạy ma trận tấn công} thực thi mọi tổ hợp kênh, kỹ thuật, mô hình và cấu hình phòng thủ với kẻ tấn công mù. \textit{Chạy tấn công thích ứng} cho kẻ tấn công viết lại payload qua tối đa ba vòng. \textit{Chạy bộ đo hữu dụng} chạy 60 câu hỏi lành tính thuộc năm nhóm U1--U5 trên cùng cấu hình. \textit{Chạy qua harness} chạy tác tử bên trong harness thương mại. Bốn use case chạy đều bao gồm \textit{Thực thi một lượt chạy}, và use case này lại bao gồm \textit{Chấm điểm lượt chạy} và \textit{Ghi vết chạy}.
+Hình~\ref{fig:uc-chaythucnghiem} phân rã UC04. Người đánh giá có sáu use case con. \textit{Kiểm chứng bộ chấm} cho bộ chấm chấm tám vết chạy dựng tay có đáp án biết trước, và là cổng bắt buộc trước mọi lượt chạy ma trận. \textit{Chạy lô thử kiểm harness} chạy một tập mẫu nhỏ phủ mọi ô thí nghiệm để kiểm bộ chạy trước lô đầy đủ: không có lượt lỗi, mô hình trả lời đúng bản đã ghim, cờ đã phân phối được ghi đúng ở từng kênh. \textit{Chạy ma trận tấn công} thực thi mọi tổ hợp kênh, kỹ thuật, mô hình và cấu hình phòng thủ với kẻ tấn công mù. \textit{Chạy tấn công thích ứng} cho kẻ tấn công viết lại payload qua tối đa ba vòng. \textit{Chạy bộ đo hữu dụng} chạy 60 câu hỏi lành tính thuộc năm nhóm U1--U5 trên cùng cấu hình. \textit{Chạy qua harness} chạy tác tử bên trong harness thương mại. Bốn use case chạy đều bao gồm \textit{Thực thi một lượt chạy}, và use case này lại bao gồm \textit{Chấm điểm lượt chạy} và \textit{Ghi vết chạy}.
 
 \begin{figure}[htbp]
 	\centering
 	\begin{adjustbox}{max totalsize={\linewidth}{0.8\textheight},center}
 \begin{tikzpicture}[font=\small, scale=0.9, transform shape]
 		\node[uc] (a1) at (4.2, 4.5) {UC04.1 Kiểm chứng bộ chấm};
-		\node[uc] (a2) at (4.2, 3.0) {UC04.2 Chạy thử và hiệu chỉnh độ khó};
+		\node[uc] (a2) at (4.2, 3.0) {UC04.2 Chạy lô thử kiểm harness};
 		\node[uc] (a3) at (4.2, 1.5) {UC04.3 Chạy ma trận tấn công};
 		\node[uc] (a4) at (4.2, 0.0) {UC04.4 Chạy tấn công thích ứng};
 		\node[uc] (a5) at (4.2,-1.5) {UC04.5 Chạy bộ đo hữu dụng};
@@ -318,26 +319,23 @@ Hình~\ref{fig:uc-phantich} phân rã UC05. Người phụ trách an toàn \text
 \subsection{Quy trình nghiệp vụ đánh giá một bộ cấu hình phòng thủ}
 \label{subsection:2.2.5}
 
-Nghiệp vụ chính của hệ thống là đánh giá một bộ cấu hình phòng thủ trên một mô hình đích, kết hợp UC02, UC03, UC04 và UC05 theo thứ tự ở Hình~\ref{fig:hoatdong}. Quy trình có hai cổng chặn. Cổng thứ nhất là kiểm chứng bộ chấm: bộ chấm phải chấm đúng cả tám ca thử, sai một ca là chưa đạt và không được chạy ma trận, vì toàn bộ số liệu của đồ án là đầu ra của bộ chấm. Cổng thứ hai là hiệu chỉnh độ khó: tỷ lệ tấn công thành công của lần chạy thử phải nằm trong khoảng 20--80\% thì chênh lệch giữa các cấu hình mới quan sát được. Việc hiệu chỉnh chỉ được chỉnh ba yếu tố cấu hình có thật trong doanh nghiệp: mức chi tiết của chỉ thị hệ thống, câu nhắc cảnh giác với nội dung lấy từ kho tri thức và công cụ, và quyền mặc định của trợ lý với công cụ có tác dụng ra ngoài, từ chỉ dùng khi người dùng yêu cầu tới chủ động dùng để làm trọn việc. Mỗi vòng hiệu chỉnh đổi đúng một yếu tố theo hướng cả tin hơn, và mọi vòng đều ghi lại phần chỉ thị hệ thống thay đổi cùng tỷ lệ trước và sau. Cấu hình được khóa sau vòng cuối, và mô hình đích khác được đo trên đúng môi trường đã khóa đó; nói cách khác, hiệu chỉnh là chỉnh môi trường triển khai chứ không chỉnh theo từng mô hình. Nếu đã chỉnh hết các yếu tố hợp lệ mà tỷ lệ vẫn dưới 20\%, chưa được kết luận ngay là mô hình chống chịu tốt, vì tỷ lệ thấp có thể do tập payload yếu. Người đánh giá chạy một lô dò nhỏ với payload gắn ngữ cảnh trên cùng mô hình và cùng cấu hình. Nếu lô dò cho tỷ lệ cao hơn rõ rệt thì tập payload là nguyên nhân: tập payload được mở rộng theo quy tắc của UC02, khóa nhãn phiên bản mới, và hiệu chỉnh chạy lại từ đầu. Nếu không, tỷ lệ thấp được ghi nhận như một phát hiện về mức chống chịu của mô hình, không chỉnh tiếp để lấy số liệu đẹp.
+Nghiệp vụ chính của hệ thống là đánh giá một bộ cấu hình phòng thủ trên một mô hình đích, kết hợp UC02, UC03, UC04 và UC05 theo thứ tự ở Hình~\ref{fig:hoatdong}. Quy trình có hai cổng chặn. Cổng thứ nhất là kiểm chứng bộ chấm: bộ chấm phải chấm đúng cả tám ca thử, sai một ca là chưa đạt và không được chạy ma trận, vì toàn bộ số liệu của đồ án là đầu ra của bộ chấm. Cổng thứ hai là lô thử: một tập mẫu nhỏ phủ mọi ô thí nghiệm được chạy trước lô đầy đủ, và chỉ đạt khi không có lượt lỗi, mô hình đích trả lời đúng bản đã ghim, và các cờ đo (đã phân phối, nguyên nhân chặn) được ghi đúng; lô thử không vào bảng kết quả. Hệ thống không hiệu chỉnh môi trường để kéo tỷ lệ tấn công thành công vào một khoảng định trước. Thay vào đó, mức cả tin của chỉ thị hệ thống là một trục đo: ma trận tấn công mù chạy với nhiều biến thể chỉ thị hệ thống, từ thận trọng tới cả tin, chỉ khác nhau ở ba yếu tố cấu hình có thật trong doanh nghiệp là mức chi tiết của chỉ thị, câu nhắc cảnh giác với nội dung lấy từ kho tri thức và công cụ, và quyền mặc định với công cụ có tác dụng ra ngoài. Tỷ lệ thấp được báo cáo đúng như đo. Khi tỷ lệ thấp, người đánh giá phân định hai cách giải thích là mô hình chống chịu tốt hay tập payload yếu bằng cách so lớp payload gắn ngữ cảnh với lớp không gắn ngữ cảnh trên cùng mô hình và cùng cấu hình, thay vì chỉnh tiếp môi trường. Tập ô cho bước đánh giá phòng thủ và tấn công thích ứng được chọn bằng chương trình theo quy tắc ghi trước, từ kết quả của bước trước.
 
 \begin{figure}[htbp]
 	\centering
 	\begin{adjustbox}{max totalsize={\linewidth}{0.8\textheight},center}
 \begin{tikzpicture}[font=\small, node distance=5mm, scale=0.88, transform shape]
 		\node[circle, fill, inner sep=3pt] (start) {};
-		\node[act, below=of start] (b1) {Khóa bộ đo, tập payload và bộ mô hình đích};
+		\node[act, below=of start] (b1) {Khóa bộ đo, tập payload, bộ mô hình đích và các biến thể chỉ thị hệ thống};
 		\node[act, below=of b1] (b2) {Kiểm chứng bộ chấm trên tám ca thử};
 		\node[dec, below=of b2] (d1) {Đạt 8/8?};
 		\node[act, right=12mm of d1, text width=2.8cm] (f1) {Sửa bộ chấm};
-		\node[act, below=of d1] (b3) {Chạy thử tập mẫu nhỏ};
-		\node[dec, below=of b3] (d2) {Tỷ lệ tấn công thành công trong 20--80\%?};
-		\node[dec, right=8mm of d2, text width=2.6cm] (d3) {Còn yếu tố hiệu chỉnh hợp lệ?};
-		\node[act, above=of d3, text width=2.8cm] (f2) {Hiệu chỉnh, ghi lại thay đổi};
-		\node[dec, below=of d3, text width=2.6cm] (d4) {Lô dò cho thấy tập payload yếu?};
-		\node[act, right=8mm of d4, text width=2.6cm] (f4) {Mở rộng tập payload, khóa nhãn mới};
-		\node[act, below=of d4, text width=2.8cm] (f3) {Ghi nhận mức chống chịu của mô hình};
-		\node[act, below=10mm of d2] (b4) {Chạy ma trận kẻ tấn công mù và bộ đo hữu dụng};
-		\node[act, below=of b4] (b5) {Chạy tấn công thích ứng trên các cơ chế còn hiệu lực};
+		\node[act, below=of d1] (b3) {Chạy lô thử phủ mọi ô};
+		\node[dec, below=of b3] (d2) {Bộ chạy đạt tiêu chí lô thử?};
+		\node[act, right=12mm of d2, text width=2.8cm] (f2) {Sửa bộ chạy, ghi lại thay đổi};
+		\node[act, below=10mm of d2] (b4) {Chạy ma trận kẻ tấn công mù theo các biến thể chỉ thị hệ thống};
+		\node[act, below=of b4] (b4b) {Chọn ô theo quy tắc ghi trước; chạy các cấu hình phòng thủ và bộ đo hữu dụng};
+		\node[act, below=of b4b] (b5) {Chạy tấn công thích ứng trên tập ô đã chọn};
 		\node[act, below=of b5] (b6) {Tổng hợp chỉ số kèm khoảng tin cậy Wilson 95\%};
 		\node[act, below=of b6] (b7) {Phân tích kết quả trên bảng điều khiển};
 		\node[circle, draw, inner sep=4pt, below=of b7] (end) {};
@@ -349,16 +347,11 @@ Nghiệp vụ chính của hệ thống là đánh giá một bộ cấu hình p
 		\draw[flow] (f1) |- (b2);
 		\draw[flow] (d1) -- node[right] {có} (b3);
 		\draw[flow] (b3) -- (d2);
-		\draw[flow] (d2) -- node[above] {không} (d3);
-		\draw[flow] (d3) -- node[right] {có} (f2);
+		\draw[flow] (d2) -- node[above] {không} (f2);
 		\draw[flow] (f2) |- (b3);
-		\draw[flow] (d3) -- node[right] {không} (d4);
-		\draw[flow] (d4) -- node[above] {có} (f4);
-		\draw[flow] (f4) |- (f2);
-		\draw[flow] (d4) -- node[right] {không} (f3);
-		\draw[flow] (f3) |- (b4);
 		\draw[flow] (d2) -- node[right] {có} (b4);
-		\draw[flow] (b4) -- (b5);
+		\draw[flow] (b4) -- (b4b);
+		\draw[flow] (b4b) -- (b5);
 		\draw[flow] (b5) -- (b6);
 		\draw[flow] (b6) -- (b7);
 		\draw[flow] (b7) -- (end);
