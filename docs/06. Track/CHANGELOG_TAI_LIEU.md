@@ -1,6 +1,14 @@
 # CHANGELOG TÀI LIỆU
 
 ## 2026-11-24
+- `ipi-agent-lab/src/eval/b1_analysis.py`, `scripts/b1_tables.py`, `results/tables/b1/` (lab `b1f21e2`),
+  `docs/06. Track/Nhap_RQ1_RQ2_B1.md`: bảng nền B1 (STT-68) và nháp RQ1–RQ2 (STT-70), không chạy LLM. RQ1 trên
+  T_chung, biến thể baseline: K2 15,6% [13,6; 17,9] so với K1 5,0% [3,5; 7,2] (`ASR_cond` K1 5,8%) — H1 đúng với
+  A1, A2 và khi gộp, ở cả ba biến thể; A3 chỉ là xu hướng. Payload K1 vào ngữ cảnh ở 78–93% run, nên phần chênh
+  không do khâu truy hồi. RQ2: T3 là kỹ thuật duy nhất trong nhóm mạnh nhất trên K2a (gộp A2+A3) ở cả ba biến thể —
+  phần H2 về K2a đúng; K1 ở mức sàn nên phần H2 về T5 không kiểm được; Kendall τ-b A2↔A3 0,19–0,54, dưới ngưỡng 0,6
+  nên thứ hạng không ổn định theo tiêu chí ghi trước. Soát ba lô B1 bằng `find_offpin_runs.py`: 0 lời gọi ngoài bản
+  pin trên 15.421 lời gọi target. 1.548 test qua. Lý do: TA duyệt bắt đầu việc 1 của plan hoàn thiện.
 - `docs/07. Báo cáo/Chuong5.tex` mục 5.4: thêm hai tiểu mục từ nháp `Nhap_RQ5_B5.md`, `Nhap_RQ6_B6.md` — RQ5
   (B5: thiết lập, Bảng `tab:c5-rq5` DSR thích ứng/DSR mù/ARR/USR/FRR năm cấu hình, so H5, biên Pareto
   d1_only ↔ d3_only, giới hạn) và RQ6 (B6: thiết lập HN-OW, Bảng `tab:c5-rq6` ASR 13/20 = 0,650 [0,433; 0,819] cả
