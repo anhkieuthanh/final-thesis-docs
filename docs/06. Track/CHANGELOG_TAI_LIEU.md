@@ -1,5 +1,14 @@
 # CHANGELOG TÀI LIỆU
 
+## 2026-11-24
+- `docs/07. Báo cáo/Chuong5.tex` mục 5.4: thêm hai tiểu mục từ nháp `Nhap_RQ5_B5.md`, `Nhap_RQ6_B6.md` — RQ5
+  (B5: thiết lập, Bảng `tab:c5-rq5` DSR thích ứng/DSR mù/ARR/USR/FRR năm cấu hình, so H5, biên Pareto
+  d1_only ↔ d3_only, giới hạn) và RQ6 (B6: thiết lập HN-OW, Bảng `tab:c5-rq6` ASR 13/20 = 0,650 [0,433; 0,819] cả
+  hai harness, Bảng `tab:c5-rq6-map` đối chiếu D1–D4 ↔ OpenWork, so H6, giới hạn). Số liệu đối chiếu lại với
+  `arr_pareto_B5.csv`, `attack-B5-20261123T005114Z_chains.csv`, `harness-B6-20261123T082444Z_runs.csv`. Kiểm cú pháp
+  bằng script (ngoặc, môi trường, số cột bảng), chưa biên dịch: máy không có gói LaTeX cục bộ. Bản Overleaf chưa
+  cập nhật. Lý do: TA yêu cầu đưa nháp RQ5, RQ6 vào Chương 5.
+
 ## 2026-11-23
 - `ipi-agent-lab/src/attack/harness_ow.py`, `scripts/run_harness.py`, `src/attack/runner.py` (trường
   `harness`, `plan_b6`, `_build_core`, `done_specs`), `results/harness_matrix/harness-B6-20261123T082444Z/`,

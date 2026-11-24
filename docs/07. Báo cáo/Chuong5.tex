@@ -5,6 +5,7 @@
 % docs/06. Track/Kế hoạch hoàn thiện sau góp ý GVHD 08.11.2026.md, mỗi mục: Vấn đề -> Giải pháp
 % -> Kết quả và giới hạn. Nguồn số liệu: ipi-agent-lab/results/calibration/lab_calibration.md
 % (mục 5--8, 9, 12, 13, 14), results/tables/utility_baseline_judge_compare.csv,
+% results/tables/arr_pareto_B5.csv (RQ5), results/tables/harness-B6-20261123T082444Z_runs.csv (RQ6),
 % results/scorer_gate/gate_20261106T063243Z.json, docs/06. Track/CHANGELOG_TAI_LIEU.md.
 %
 % CHỖ CÒN TRỐNG (tìm "% [ĐIỀN]"): số liệu chờ B1, B2, B3, B5, buổi dùng thử; hình chụp console;
@@ -59,6 +60,69 @@ Bốn cơ chế D1--D4 được hiện thực tại năm điểm móc của lõi
 \subsection{Kết quả và giới hạn}
 % [ĐIỀN] Bảng 7 cấu hình x A2, A3: ASR hai chỉ số, DSR, USR, tỷ lệ chặn nhầm (B2, B3); đường Pareto.
 Giới hạn cần khai trước: khi ASR nền ở mức sàn, số lượt tấn công thành công để phòng thủ chặn rất ít, nên tỷ lệ phòng thủ có khoảng tin cậy rộng hoặc không xác định; trường hợp đó được báo cáo đúng như vậy, không ghi thành 0\%. Lặp một câu lành tính nhiều lần không tạo thêm câu độc lập, nên chỉ số hữu dụng được báo cáo ở cả mức lượt chạy và mức câu.
+
+\subsubsection{Độ bền trước kẻ tấn công thích ứng (RQ5)}
+Câu hỏi RQ5 là phòng thủ còn hiệu quả tới đâu khi kẻ tấn công biết trước cơ chế đang bật và được viết lại payload theo phản hồi. Giả thuyết H5 dự đoán D1 và D2 gần như mất tác dụng, còn D3 và D4 giữ được vì không dựa vào việc đọc hiểu văn bản.
+
+Khối B5 chạy trên ba ô S\_adp chọn từ B2 theo quy tắc ghi trước: K2a$\cdot$T5$\cdot$G1, K2a$\cdot$T3$\cdot$G2 và K2a$\cdot$T3$\cdot$G3. Đây là các ô mà phòng thủ chặn tốt nhất khi kẻ tấn công còn mù, nên kết quả đo độ bền ở điều kiện khó nhất cho kẻ tấn công, không phải mức trung bình của toàn ma trận. Mỗi tổ hợp ô và cấu hình chạy năm chuỗi trên A2, mỗi chuỗi tối đa ba vòng; giữa hai vòng, kẻ tấn công chỉ quan sát được những gì một người ngoài thấy (câu trả lời cuối, hộp thư, phiếu, yêu cầu tới máy nghe của nó) rồi viết lại payload. Một chuỗi tính là thành công nếu có vòng đạt mục tiêu. Tỷ lệ giữ vững ARR bằng DSR thích ứng chia cho DSR mù, trong đó DSR mù lấy từ B2 trên cùng ba ô; ARR gần 1 nghĩa là phòng thủ ít mất hiệu lực khi kẻ tấn công leo thang. Lô đầy đủ gồm 75 chuỗi, 159 lượt chạy, 5,47 USD và không có lượt lỗi (\texttt{attack-B5-20261123T005114Z}).
+
+\begin{table}[htbp]
+	\centering
+	\caption{Độ bền của năm cấu hình phòng thủ trước kẻ tấn công thích ứng, A2, gộp ba ô S\_adp}
+	\label{tab:c5-rq5}
+	\small
+	\begin{tabular}{|l|c|c|c|c|c|}
+		\hline
+		\textbf{Cấu hình} & \textbf{DSR thích ứng (Wilson 95\%)} & \textbf{DSR mù} & \textbf{ARR} & \textbf{USR} & \textbf{FRR} \\ \hline
+		d3\_only & 0,867 [0,621; 0,963] & 1,000 & 0,867 & 0,613 & 0,277 \\ \hline
+		all & 0,733 [0,481; 0,891] & 1,000 & 0,733 & 0,613 & 0,294 \\ \hline
+		d1\_only & 0,467 [0,248; 0,699] & 0,633 & 0,737 & 0,908 & 0,000 \\ \hline
+		d4\_only & 0,200 [0,071; 0,452] & 0,333 & 0,600 & 0,857 & 0,000 \\ \hline
+		d2\_only & 0,133 [0,037; 0,379] & 0,267 & 0,500 & 0,900 & 0,000 \\ \hline
+	\end{tabular}
+\end{table}
+
+Bảng~\ref{tab:c5-rq5} cho thấy H5 đúng với D2 và D3 nhưng sai với D4. D2 mất nhiều nhất: DSR thích ứng 0,133 và ARR 0,500, vì D2 lọc theo dấu hiệu cú pháp nên kẻ tấn công chỉ cần diễn đạt lại. D3 giữ tốt nhất với DSR 0,867: D3 là chính sách gọi công cụ theo loại tác vụ người dùng chọn trước, không đọc nội dung payload nên câu chữ viết lại không né được. D1 giảm còn dưới một nửa (0,467). D4 không giữ được như dự đoán (0,200): trên các ô này, bộ lọc dữ liệu đi ra bị vượt; cần soát vết từng chuỗi để xác định đường rò. Cấu hình \texttt{all} thấp hơn \texttt{d3\_only} (0,733 so với 0,867), nghĩa là ghép đủ bốn cơ chế không bền hơn một mình D3 trên tập ô này.
+
+Xét đồng thời an toàn (DSR thích ứng) và hữu dụng (USR của A2 trong B3), biên Pareto chỉ gồm hai cấu hình: \texttt{d3\_only} ở góc an toàn, với cái giá là USR giảm còn 0,613 và FRR 0,277, và \texttt{d1\_only} ở góc hữu dụng, với USR 0,908, FRR bằng 0 nhưng DSR chỉ 0,467. Ba cấu hình còn lại bị trội; riêng \texttt{all} bị \texttt{d3\_only} trội vì cùng USR mà an toàn kém hơn. Kết luận cho RQ5: không cấu hình nào vừa bền trước kẻ tấn công thích ứng vừa rẻ về hữu dụng, và việc chọn cấu hình vận hành là chọn một điểm trên biên giữa \texttt{d1\_only} và \texttt{d3\_only}.
+
+Giới hạn: mỗi cấu hình chỉ có 15 chuỗi nên khoảng tin cậy rộng, các so sánh nên đọc là xu hướng; ba ô S\_adp cùng nằm ở kênh K2a; mô hình viết lại payload là \texttt{glm-5.3} vì \texttt{claude-opus-5} từ chối toàn bộ 19 lời gọi viết lại ở lô thử, và kẻ tấn công thật có thể mạnh hơn, nên ARR ở đây là cận trên của độ bền. Số liệu truy nguồn: \texttt{results/tables/arr\_pareto\_B5.csv}, sinh bởi \texttt{scripts/arr\_pareto.py} từ ba lô B5, B2, B3.
+
+\subsubsection{Đối chiếu với harness thương mại (RQ6)}
+Câu hỏi RQ6 kiểm một phản biện tự nhiên: một harness tác tử thương mại có sẵn đã làm được việc của D1--D4 hay chưa. Giả thuyết H6 dự đoán harness bao phủ phần lớn D3 (kiểm soát gọi công cụ) nhưng không bao phủ D1, D2, D4.
+
+Đồ án tự cắm harness HN-OW (OpenWork, lõi \texttt{opencode} 1.19.6) vào testbed: \texttt{opencode} lái mô hình A2 qua cùng cổng dịch vụ, gọi năm công cụ của testbed qua MCP, và sự kiện của nó được chuyển thành vết chạy để cùng bộ chấm chấm điểm. Hai mươi mẫu được bốc có hạt giống từ kế hoạch B2 (cấu hình \texttt{off}, A2); mỗi mẫu chạy một lần trên vòng lặp trần \texttt{CoreA} và một lần qua HN-OW trong cùng lô, tổng 40 lượt, không lượt lỗi (\texttt{harness-B6-20261123T082444Z}). D1--D4 đều tắt; \texttt{opencode} chạy tự động, không có người xác nhận lời gọi công cụ, và công cụ dựng sẵn của nó bị tắt để chỉ còn năm công cụ của testbed.
+
+\begin{table}[htbp]
+	\centering
+	\caption{ASR đầu-cuối của vòng lặp trần và harness HN-OW trên cùng 20 mẫu, A2, phòng thủ tắt}
+	\label{tab:c5-rq6}
+	\begin{tabular}{|l|c|c|c|c|c|}
+		\hline
+		\textbf{Harness} & \textbf{ASR (Wilson 95\%)} & \textbf{G1} & \textbf{G2} & \textbf{G3} & \textbf{Lượt bị chặn} \\ \hline
+		Vòng lặp trần \texttt{CoreA} & 13/20 = 0,650 [0,433; 0,819] & 6/6 & 5/5 & 2/9 & 0 \\ \hline
+		HN-OW (\texttt{opencode}) & 13/20 = 0,650 [0,433; 0,819] & 6/6 & 4/5 & 3/9 & 0 \\ \hline
+	\end{tabular}
+\end{table}
+
+Bảng~\ref{tab:c5-rq6} cho thấy harness không làm giảm ASR: hai bên cùng 13/20 lượt thành công, cùng 13/18 lượt ở kênh K2a và 0/2 ở K2b, và không lượt nào có nguyên nhân chặn. Bảng~\ref{tab:c5-rq6-map} đối chiếu từng cơ chế với lớp kiểm soát của harness. OpenWork có cơ chế cấp quyền và danh sách công cụ được phép, gần với D3, nhưng ở chế độ tự động mọi công cụ trong danh sách đều được gọi, nên lớp này không chặn được lời gọi do payload gây ra.
+
+\begin{table}[htbp]
+	\centering
+	\caption{Đối chiếu D1--D4 với lớp kiểm soát của harness HN-OW}
+	\label{tab:c5-rq6-map}
+	\small
+	\begin{tabular}{|p{0.2\textwidth}|p{0.3\textwidth}|p{0.24\textwidth}|p{0.14\textwidth}|}
+		\hline
+		\textbf{Cơ chế} & \textbf{Chức năng} & \textbf{Lớp tương ứng trong OpenWork} & \textbf{Bao phủ} \\ \hline
+		D1 spotlighting & Đánh dấu và tách dữ liệu không tin cậy & Không có & Không \\ \hline
+		D2 lọc đầu vào & Lọc, chuẩn hóa payload trong dữ liệu & Không có & Không \\ \hline
+		D3 chính sách công cụ & Danh sách công cụ theo loại tác vụ, hỏi trước khi gọi & Cấp quyền và danh sách công cụ được phép & Có cơ chế, không tác dụng khi chạy tự động \\ \hline
+		D4 lọc dữ liệu ra & Chặn rò rỉ qua thư và HTTP & Không có & Không \\ \hline
+	\end{tabular}
+\end{table}
+
+H6 không được chứng thực trong cấu hình này: harness không bao phủ D1, D2, D4, và lớp gần với D3 chỉ có tác dụng khi có người xác nhận. Vì vậy D1--D4 không bị harness thương mại thay thế. Giới hạn: đây là chỉ dấu trên một harness, một mô hình đích, 20 mẫu và chỉ cấu hình \texttt{off}; harness có phòng thủ riêng không tắt hoàn toàn được, và một harness khác hoặc chế độ có người xác nhận có thể chặn nhiều hơn. Số liệu truy nguồn: \texttt{results/tables/harness-B6-20261123T082444Z\_runs.csv}.
 
 \section{Giao thức hiệu chỉnh độ khó và phát hiện về payload gắn ngữ cảnh}
 \label{section:5.5}
