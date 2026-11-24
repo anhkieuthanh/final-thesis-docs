@@ -48,8 +48,23 @@ Payload của các bộ đo đã khảo sát không có dạng chia mảnh qua n
 \subsection{Giải pháp}
 Đồ án đặc tả và hiện thực ba kỹ thuật T6 (chia mảnh), T7 (kích hoạt trễ) và T8 (che giấu đặc thù tiếng Việt). Mỗi payload gắn với kênh, tác vụ chở, mục tiêu và một điều kiện kích hoạt kiểm được bằng chương trình. Giọng thẩm quyền hành chính được xếp là biến thể của T1, không phải kỹ thuật thứ chín.
 \subsection{Kết quả và giới hạn}
-% [ĐIỀN] ASR của T6--T8 theo kênh và mô hình từ B1 rút gọn (N = 10 mỗi ô), kèm khoảng Wilson.
-Số liệu sơ bộ duy nhất hiện có đến từ lô đối chứng trên A2 (mục~\ref{section:5.5}): payload T8 gắn ngữ cảnh đạt 2/3 lượt và T7 đạt 0/3 lượt; cỡ mẫu này chỉ đủ để xác nhận payload chạy được, chưa đủ để so sánh kỹ thuật. Giới hạn: với K1 phải kiểm đoạn chứa payload có được truy hồi; với T6 mọi mảnh phải cùng lọt vào ngữ cảnh thì payload mới có nghĩa.
+Ba kỹ thuật được đo trong ma trận B1 cùng năm kỹ thuật lấy từ khảo sát, phòng thủ tắt, kẻ tấn công mù, ba mô hình và ba biến thể chỉ thị hệ thống. Bảng~\ref{tab:c5-t678} gộp ba mô hình và ba biến thể (270 lượt mỗi kỹ thuật trên mỗi kênh) và đặt cạnh kỹ thuật mạnh nhất của cùng kênh để so.
+
+\begin{table}[htbp]
+	\centering
+	\caption{ASR đầu-cuối của T6--T8 theo kênh, gộp ba mô hình và ba biến thể, kèm khoảng Wilson 95\%}
+	\label{tab:c5-t678}
+	\small
+	\begin{tabular}{|l|c|c|c|c|}
+		\hline
+		\textbf{Kênh} & \textbf{T6} & \textbf{T7} & \textbf{T8} & \textbf{Mạnh nhất cùng kênh} \\ \hline
+		K1 & 13/270 = 4,8\% [2,8; 8,1] & 7/270 = 2,6\% [1,3; 5,3] & 7/270 = 2,6\% [1,3; 5,3] & T4: 8,1\% [5,4; 12,0] \\ \hline
+		K2a & không dựng được & 5/270 = 1,9\% [0,8; 4,3] & 49/270 = 18,1\% [14,0; 23,2] & T3: 58,1\% [52,2; 63,9] \\ \hline
+		K2b & không dựng được & 1/270 = 0,4\% [0,1; 2,1] & 12/270 = 4,4\% [2,6; 7,6] & T5: 21,5\% [17,0; 26,8] \\ \hline
+	\end{tabular}
+\end{table}
+
+T8 là kỹ thuật tự đề xuất có kết quả rõ nhất: trên K2a nó đứng thứ ba trong sáu kỹ thuật, sau T3 và T2, và trên A2 nó nhạy với mức cả tin của chỉ thị hệ thống, từ 5/30 (\texttt{guarded}) lên 11/30 (\texttt{baseline}) rồi 20/30 lượt (\texttt{trusting}). T6 chỉ dựng được trên K1, nơi mọi kỹ thuật đều ở mức sàn; T6 đứng thứ tư trong tám kỹ thuật và mọi lượt thành công đến từ A3. T7 thấp nhất ở cả ba kênh, tổng 13/810 lượt; một giải thích khả dĩ là điều kiện kích hoạt trễ đòi chuỗi nhiều bước mà các tác vụ chở ngắn không đi tới, nhưng giải thích này chưa được kiểm bằng soát vết. Theo tiêu chí ghi trước của RQ2, trên K1 mọi kỹ thuật đều thuộc nhóm mạnh nhất, nên thứ hạng trên K1 chỉ là mô tả, không phải kết luận T6 mạnh hơn hay yếu hơn các kỹ thuật khác. Số liệu truy nguồn: \texttt{results/tables/b1/channel\_technique.csv} và \texttt{rq2\_rank.csv}. Giới hạn: mỗi kỹ thuật chỉ có 30 lượt trên mỗi kênh và mô hình ở một biến thể; với K1 phải kiểm đoạn chứa payload có được truy hồi; với T6 mọi mảnh phải cùng lọt vào ngữ cảnh thì payload mới có nghĩa.
 
 \section{Bốn cơ chế phòng thủ đánh giá theo cặp an toàn và hữu dụng}
 \label{section:5.4}

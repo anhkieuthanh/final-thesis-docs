@@ -1,6 +1,12 @@
 # CHANGELOG TÀI LIỆU
 
 ## 2026-11-24
+- `docs/07. Báo cáo/Chuong5.tex` mục 5.3: thay ô [ĐIỀN] và đoạn "số liệu sơ bộ" cũ (lô đối chứng 3 lượt) bằng kết
+  quả T6–T8 từ B1 — Bảng `tab:c5-t678` (gộp ba model, ba biến thể, 270 lượt mỗi kỹ thuật × kênh, Wilson 95%, kèm kỹ
+  thuật mạnh nhất cùng kênh) và nhận định: T8 trên K2a 18,1% [14,0; 23,2], thứ ba trong sáu kỹ thuật, trên A2 tăng
+  5/30 → 11/30 → 20/30 theo mức cả tin; T6 (chỉ K1) 4,8%, cả 13 lượt thành công từ A3; T7 thấp nhất mọi kênh, 13/810
+  lượt — giải thích "chuỗi nhiều bước không đi tới" ghi là khả dĩ, chưa soát vết. Nguồn `results/tables/b1/
+  channel_technique.csv`, `rq2_rank.csv` (lab `b1f21e2`). Lý do: việc 4 của plan hoàn thiện, TA duyệt.
 - `ipi-agent-lab/scripts/tradeoff_b2_b3.py`, `results/tables/tradeoff/` (lab `f095f36`),
   `docs/06. Track/Nhap_RQ3_RQ4_B2_B3.md`: bảng đánh đổi an toàn – hữu dụng 7 preset × A2, A3 (STT-73) và nháp
   RQ3–RQ4 (STT-74), không chạy LLM. RQ3: ở không G nào `all` vượt đơn lẻ tốt nhất theo tiêu chí ghi trước (gần nhất
