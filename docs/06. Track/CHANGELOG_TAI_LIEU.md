@@ -1,6 +1,14 @@
 # CHANGELOG TÀI LIỆU
 
 ## 2026-11-24
+- `ipi-agent-lab/scripts/b1_tables.py`, `results/tables/b1/sensitivity.csv`, `sensitivity_pgfplots.tex` (lab
+  `f782282`), `docs/07. Báo cáo/Chuong5.tex` mục 5.5: đường cong độ nhạy (C5) thay ô [ĐIỀN] — Hình
+  `fig:c5-donhay` (pgfplots, ba khung) và đoạn nhận định. ASR theo biến thể prompt tách ba lớp: G1+G2 gắn ngữ cảnh,
+  G1+G2 không gắn ngữ cảnh, G3 — tách G3 vì payload gắn ngữ cảnh chỉ có ở G1, G2, gộp mọi mục tiêu sẽ trộn lớp payload
+  với mục tiêu (A3 nhìn như "payload cũ mạnh hơn" chỉ vì 97/97 run thành công của A3 với payload cũ đều là G3). Trong
+  G1+G2, payload không gắn ngữ cảnh 0/1.440 lượt, payload gắn ngữ cảnh 3,8–37,7%; A2 tăng 12,7% → 23,1% → 37,7% theo
+  mức cả tin, A1 và A3 gần như phẳng; G3 của A3 37–46%. Chương cần `pgfplots` + thư viện `groupplots` ở tệp chính;
+  chưa biên dịch (máy không có gói LaTeX). Lý do: việc 2 của plan hoàn thiện, TA duyệt.
 - `ipi-agent-lab/src/eval/b1_analysis.py`, `scripts/b1_tables.py`, `results/tables/b1/` (lab `b1f21e2`),
   `docs/06. Track/Nhap_RQ1_RQ2_B1.md`: bảng nền B1 (STT-68) và nháp RQ1–RQ2 (STT-70), không chạy LLM. RQ1 trên
   T_chung, biến thể baseline: K2 15,6% [13,6; 17,9] so với K1 5,0% [3,5; 7,2] (`ASR_cond` K1 5,8%) — H1 đúng với

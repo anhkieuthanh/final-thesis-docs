@@ -147,7 +147,51 @@ Bảng~\ref{tab:c5-hieuchinh} cho thấy qua ba vòng trên cùng 81 ca mỗi m�
 \end{table}
 
 Lô dò sáu payload gắn ngữ cảnh cho kết quả khác hẳn: 4/18 lượt (22\%) trên A2 và 6/18 lượt (33\%) trên A3, toàn bộ ở mục tiêu G2. Khi lớp payload này được đưa vào tập payload và đo cùng payload cũ, nhóm gắn ngữ cảnh đạt 11/125 lượt (8,8\%) so với 1/193 lượt (0,5\%) của nhóm không gắn ngữ cảnh. Lô đối chứng trên A2, dùng đúng tổ hợp kênh và tác vụ chở của lô dò, đạt 27/51 lượt (53\%). Phát hiện rút ra là mức bám nghiệp vụ của payload, chứ không phải mức cả tin của cấu hình, quyết định ASR trong testbed này; một tập payload không gắn ngữ cảnh có thể cho ASR gần bằng không mà không chứng minh được mô hình chống chịu tốt.
-% [ĐIỀN] Hình đường cong độ nhạy: ASR theo ba biến thể cấu hình, tách hai lớp payload.
+Ma trận B1 đầy đủ (5.670 lượt, ba biến thể chỉ thị hệ thống \texttt{guarded}, \texttt{baseline}, \texttt{trusting}) cho phép kiểm lại phát hiện này ở quy mô lớn hơn. Hình~\ref{fig:c5-donhay} vẽ ASR theo biến thể chỉ thị hệ thống cho ba lớp payload. Payload gắn ngữ cảnh trong tập payload chỉ có ở G1 và G2, nên so hai lớp payload trên mọi mục tiêu sẽ trộn lớp payload với mục tiêu; vì vậy hai lớp được so trong cùng G1+G2, còn G3 (chỉ có payload không gắn ngữ cảnh) vẽ riêng.
+
+\begin{figure}[htbp]
+	\centering
+	% Cần \usepackage{pgfplots} và \usepgfplotslibrary{groupplots} ở tệp chính.
+	% Sinh bởi scripts/b1_tables.py — không sửa tay. Cần \usepackage{pgfplots} và
+	% \usepgfplotslibrary{groupplots}.
+	\begin{tikzpicture}
+	\begin{groupplot}[group style={group size=3 by 1, horizontal sep=1.4cm},
+	  width=0.36\textwidth, height=5cm, ymin=0, ymax=0.55,
+	  symbolic x coords={guarded,baseline,trusting}, xtick=data,
+	  x tick label style={font=\small}, ylabel style={font=\small},
+	  yticklabel={\pgfmathparse{100*\tick}\pgfmathprintnumber{\pgfmathresult}\%},
+	  legend style={font=\small}, legend pos=north west]
+	\nextgroupplot[title={G1+G2 gắn ngữ cảnh}, ylabel={ASR đầu-cuối}]
+	\addplot+[mark=square*, error bars/.cd, y dir=both, y explicit]
+	  coordinates {(guarded,0.0923) += (0,0.0414) -= (0,0.0295) (baseline,0.0962) += (0,0.0419) -= (0,0.0302) (trusting,0.0885) += (0,0.0407) -= (0,0.0288)};
+	\addlegendentry{A1}
+	\addplot+[mark=*, error bars/.cd, y dir=both, y explicit]
+	  coordinates {(guarded,0.1269) += (0,0.0460) -= (0,0.0351) (baseline,0.2308) += (0,0.0549) -= (0,0.0471) (trusting,0.3769) += (0,0.0603) -= (0,0.0567)};
+	\addlegendentry{A2}
+	\addplot+[mark=triangle*, error bars/.cd, y dir=both, y explicit]
+	  coordinates {(guarded,0.0385) += (0,0.0308) -= (0,0.0175) (baseline,0.0462) += (0,0.0327) -= (0,0.0196) (trusting,0.0500) += (0,0.0337) -= (0,0.0206)};
+	\addlegendentry{A3}
+	\nextgroupplot[title={G1+G2 không gắn ngữ cảnh}]
+	\addplot+[mark=square*, error bars/.cd, y dir=both, y explicit]
+	  coordinates {(guarded,0.0000) += (0,0.0234) -= (0,0.0000) (baseline,0.0000) += (0,0.0234) -= (0,0.0000) (trusting,0.0000) += (0,0.0234) -= (0,0.0000)};
+	\addplot+[mark=*, error bars/.cd, y dir=both, y explicit]
+	  coordinates {(guarded,0.0000) += (0,0.0234) -= (0,0.0000) (baseline,0.0000) += (0,0.0234) -= (0,0.0000) (trusting,0.0000) += (0,0.0234) -= (0,0.0000)};
+	\addplot+[mark=triangle*, error bars/.cd, y dir=both, y explicit]
+	  coordinates {(guarded,0.0000) += (0,0.0234) -= (0,0.0000) (baseline,0.0000) += (0,0.0234) -= (0,0.0000) (trusting,0.0000) += (0,0.0234) -= (0,0.0000)};
+	\nextgroupplot[title={G3}]
+	\addplot+[mark=square*, error bars/.cd, y dir=both, y explicit]
+	  coordinates {(guarded,0.0476) += (0,0.0378) -= (0,0.0215) (baseline,0.0857) += (0,0.0457) -= (0,0.0308) (trusting,0.0619) += (0,0.0411) -= (0,0.0254)};
+	\addplot+[mark=*, error bars/.cd, y dir=both, y explicit]
+	  coordinates {(guarded,0.0476) += (0,0.0378) -= (0,0.0215) (baseline,0.0524) += (0,0.0389) -= (0,0.0229) (trusting,0.0714) += (0,0.0431) -= (0,0.0276)};
+	\addplot+[mark=triangle*, error bars/.cd, y dir=both, y explicit]
+	  coordinates {(guarded,0.3714) += (0,0.0671) -= (0,0.0625) (baseline,0.4619) += (0,0.0675) -= (0,0.0661) (trusting,0.4095) += (0,0.0676) -= (0,0.0643)};
+	\end{groupplot}
+	\end{tikzpicture}
+	\caption{ASR đầu-cuối theo biến thể chỉ thị hệ thống, tách lớp payload; thanh sai số là khoảng Wilson 95\%; phòng thủ tắt, kẻ tấn công mù. Ở khung giữa ba đường trùng nhau tại 0.}
+	\label{fig:c5-donhay}
+\end{figure}
+
+Trong G1+G2, payload không gắn ngữ cảnh đạt 0/160 lượt ở cả ba mô hình và cả ba biến thể, tổng cộng 0/1.440 lượt, trong khi payload gắn ngữ cảnh đạt từ 3,8\% (A3, \texttt{guarded}) tới 37,7\% (A2, \texttt{trusting}). Mức cả tin của chỉ thị hệ thống chỉ khuếch đại khi payload đã bám nghiệp vụ: với A2, payload gắn ngữ cảnh tăng từ 12,7\% lên 23,1\% rồi 37,7\%; với A1 và A3 đường gần như phẳng. Khung G3 cho thấy một hiện tượng khác: A3 làm theo chỉ dấu G3 ở 37--46\% lượt, cao gấp nhiều lần A1, A2, và gần như không đổi theo biến thể. Kết luận của mục này vì vậy được củng cố trên toàn ma trận: lớp payload quyết định ASR mạnh hơn mức cả tin của cấu hình, và độ nhạy với cấu hình khác nhau giữa các mô hình. Số liệu truy nguồn: \texttt{results/tables/b1/sensitivity.csv}, sinh bởi \texttt{scripts/b1\_tables.py}.
 
 Giới hạn: lô dò và lô đối chứng có cỡ mẫu nhỏ, mỗi payload lặp ba lần, và lô đối chứng chỉ đo A2; ASR của payload gắn ngữ cảnh khi vào ma trận thấp hơn nhiều so với lô dò vì ma trận trải đều qua cả những ô yếu; ASR toàn tập vẫn dưới ngưỡng 20\% nên ma trận chạy ở chế độ sàn; môi trường được hiệu chỉnh theo A2 và A3 nên nghiêng về hai mô hình này.
 
