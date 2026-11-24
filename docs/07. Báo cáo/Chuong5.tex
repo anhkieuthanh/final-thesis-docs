@@ -5,15 +5,13 @@
 % docs/06. Track/Kế hoạch hoàn thiện sau góp ý GVHD 08.11.2026.md, mỗi mục: Vấn đề -> Giải pháp
 % -> Kết quả và giới hạn. Nguồn số liệu: ipi-agent-lab/results/calibration/lab_calibration.md
 % (mục 5--8, 9, 12, 13, 14), results/tables/utility_baseline_judge_compare.csv,
+% results/tables/b1/ (B1: T6--T8, độ nhạy), results/tables/tradeoff/ (B2, B3),
 % results/tables/arr_pareto_B5.csv (RQ5), results/tables/harness-B6-20261123T082444Z_runs.csv (RQ6),
 % results/scorer_gate/gate_20261106T063243Z.json, docs/06. Track/CHANGELOG_TAI_LIEU.md.
+% Hình cần pgfplots + thư viện groupplots, graphicx; ảnh kiến trúc tải lên Overleaf cùng tên tệp.
 %
-% CHỖ CÒN TRỐNG (tìm "% [ĐIỀN]"): số liệu chờ B1, B2, B3, B5, buổi dùng thử; hình chụp console;
-% hình đường cong độ nhạy.
-% ĐIỂM CẦN XÁC NHẬN (tìm "% [XÁC NHẬN]"):
-%   (1) Ba vòng hiệu chỉnh và lô 20261102 chạy trên bộ mô hình trước v-models-1.2 (A1, A3 khác
-%       hiện hành; A2 không đổi). Sau lô vòng 0 nhỏ trên v-models-1.2 thì cập nhật Bảng hiệu chỉnh.
-%   (2) Số ca kiểm thử tự động ở mục 5.1: điền sau khi bộ test đạt toàn bộ.
+% CHỖ CÒN TRỐNG (tìm "% [ĐIỀN]"): kết quả cài lại trên máy sạch (STT-83); hình chụp console;
+% buổi dùng thử với người dùng (STT-85--87) và kịch bản trình diễn (STT-82, 84).
 % =============================================================================
 \documentclass[../DoAn.tex]{subfiles}
 \begin{document}
@@ -26,10 +24,19 @@ Chương này trình bày tám đóng góp của đồ án. Mỗi mục đi theo
 Các bộ đo đã khảo sát ở Chương~2 không có kênh tài liệu truy hồi, không có bối cảnh nghiệp vụ tiếng Việt, và một số không thực thi công cụ thật. Đo trên hệ thống đang vận hành thì không cố định được môi trường và có nguy cơ làm lộ dữ liệu thật.
 \subsection{Giải pháp}
 Đồ án tự cài vòng lặp tác tử \texttt{CoreA} không dùng khung phát triển, năm công cụ cung cấp qua máy chủ MCP, và lớp tiêm cho ba phân kênh K1, K2a, K2b; lớp tiêm K2 mô phỏng một máy chủ MCP bị kẻ tấn công kiểm soát. Dữ liệu khách hàng sinh bằng Faker với hạt giống cố định. Thư gửi ra đi vào máy chủ thư giả và yêu cầu HTTP đi vào máy nghe chuỗi đánh dấu, nên một lượt chạy diễn ra trọn vẹn mà không có dữ liệu nào rời máy.
-% [ĐIỀN] Hình kiến trúc testbed: docs/04. Design/00. Image/kien_truc_lab_ipi_guard.png
+Hình~\ref{fig:c5-kientruc} tóm tắt kiến trúc testbed.
+
+\begin{figure}[htbp]
+	\centering
+	% Nguồn: docs/04. Design/00. Image/kien_truc_lab_ipi_guard.png
+	\includegraphics[width=\textwidth]{kien_truc_lab_ipi_guard.png}
+	\caption{Kiến trúc testbed: lõi tác tử, năm công cụ qua MCP, lớp tiêm K1, K2a, K2b, lớp phòng thủ D1--D4 và các bồn chứa đối chiếu}
+	\label{fig:c5-kientruc}
+\end{figure}
 \subsection{Kết quả và giới hạn}
 Testbed chạy đầu-cuối trên ba mô hình đích với kho tri thức 40 tài liệu tiếng Việt và sáu tác vụ chở.
-% [XÁC NHẬN] (2) [ĐIỀN] số ca kiểm thử tự động và kết quả cài lại trên máy sạch (STT-83).
+Bộ kiểm thử tự động gồm 1.549 ca, đạt 1.548 ca và bỏ qua 1 ca, chạy lại sau mỗi thay đổi mã trước khi mở lô.
+% [ĐIỀN] Kết quả cài lại trên máy sạch (STT-83).
 Giới hạn: testbed mô phỏng một nghiệp vụ duy nhất là công ty phân phối thiết bị; ba kênh K3--K5 chỉ được mô tả; ba mô hình đích đi chung một cổng dịch vụ nên không độc lập ở tầng hạ tầng.
 
 \section{Bộ chấm tất định và phân định nguyên nhân chặn}
@@ -73,7 +80,54 @@ Một cấu hình ngăn mọi hành động ra ngoài sẽ giảm tấn công nh
 \subsection{Giải pháp}
 Bốn cơ chế D1--D4 được hiện thực tại năm điểm móc của lõi tác tử, mọi tham số hành vi nằm trong \texttt{config/defenses.yaml}. D3 là một máy trạng thái nằm ngoài mô hình, nhận loại tác vụ do người dùng chọn trước. Mỗi cấu hình phòng thủ được đo trên cùng tập tấn công và cùng bộ 60 câu lành tính, và luôn được báo cáo bằng cả hai chỉ số.
 \subsection{Kết quả và giới hạn}
-% [ĐIỀN] Bảng 7 cấu hình x A2, A3: ASR hai chỉ số, DSR, USR, tỷ lệ chặn nhầm (B2, B3); đường Pareto.
+Bảng~\ref{tab:c5-danhdoi} đặt an toàn và hữu dụng của bảy cấu hình cạnh nhau. An toàn đo ở B2 trên sáu ô S\_def chọn từ B1 theo quy tắc ghi trước (cận dưới Wilson của ASR $\ge 10\%$ ở A2 hoặc A3, xếp theo ASR gộp), mỗi cấu hình 60 lượt mỗi mô hình, với \texttt{off} đo lại trong cùng lô. Hữu dụng đo ở B3 trên 60 câu lành tính lặp hai lần.
+
+\begin{table}[htbp]
+	\centering
+	\caption{An toàn và hữu dụng của bảy cấu hình phòng thủ, kẻ tấn công mù (B2) và câu lành tính (B3)}
+	\label{tab:c5-danhdoi}
+	\small
+	\begin{tabular}{|l|c|c|c|c|c|c|}
+		\hline
+		& \multicolumn{3}{c|}{\textbf{A2}} & \multicolumn{3}{c|}{\textbf{A3}} \\ \hline
+		\textbf{Cấu hình} & \textbf{DSR} & \textbf{USR} & \textbf{FRR} & \textbf{DSR} & \textbf{USR} & \textbf{FRR} \\ \hline
+		off & 41,7\% & 86,4\% & 0,0\% & 56,7\% & 94,9\% & 0,0\% \\ \hline
+		d1\_only & 65,0\% & 90,8\% & 0,0\% & 78,3\% & 96,5\% & 0,0\% \\ \hline
+		d2\_only & 40,0\% & 90,0\% & 0,0\% & 40,0\% & 94,2\% & 0,0\% \\ \hline
+		d3\_only & 90,0\% & 61,3\% & 27,7\% & 76,7\% & 66,4\% & 31,1\% \\ \hline
+		d4\_only & 41,7\% & 85,7\% & 0,0\% & 56,7\% & 97,4\% & 0,0\% \\ \hline
+		all & 100,0\% & 61,3\% & 29,4\% & 81,7\% & 65,8\% & 29,2\% \\ \hline
+		d3\_no\_confirm & 53,3\% & 74,0\% & 16,8\% & 45,0\% & 78,0\% & 17,8\% \\ \hline
+	\end{tabular}
+\end{table}
+
+Ba điểm nổi bật. Thứ nhất, tổ hợp bốn cơ chế không cộng tính (RQ3): cơ chế đơn lẻ tốt nhất được chọn theo từng mục tiêu trên toàn B2 gộp A2, A3 (D3 ở G1, D1 ở G3), và ở không mục tiêu nào \texttt{all} vượt nó với chênh lệch từ 10 điểm phần trăm và khoảng Wilson không chồng; sát nhất là G1, 10,0\% so với 0,0\% nhưng hai khoảng chồng nhau. D2 và D4 gần như không chặn trên các ô này. Thứ hai, cái giá hữu dụng chỉ đến từ D3 (RQ4): chỉ cấu hình có D3 chặn nhầm câu lành tính, tập trung ở nhóm gửi thư và báo cáo (bước xác nhận R4) và ở mười câu hỏi tồn kho qua \texttt{http\_request} bị gán loại tra cứu từ trước (quy tắc R1); độ trễ và chi phí mô hình gần như không đổi theo cấu hình. Thứ ba, bước xác nhận R4 là phần chặn chính của D3: cấu hình \texttt{d3\_no\_confirm}, báo cáo dạng khám phá, để ASR tăng từ 10,0\% lên 46,7\% trên A2.
+
+Hình~\ref{fig:c5-pareto} đặt hai bộ điểm an toàn và hữu dụng: kẻ tấn công mù (B2) và kẻ tấn công thích ứng (B5, chỉ A2). Với kẻ tấn công mù, biên Pareto của A2 gồm \texttt{d1\_only} và \texttt{all}; với kẻ tấn công thích ứng, \texttt{all} rơi khỏi biên và \texttt{d3\_only} thay vào góc an toàn. Hai bộ điểm đo trên hai tập ô khác nhau (sáu ô S\_def và ba ô S\_adp), nên khoảng cách giữa chúng chỉ có ý nghĩa mô tả; phép so trên cùng ô là ARR ở mục RQ5 dưới đây. Số liệu truy nguồn: \texttt{results/tables/tradeoff/}, sinh bởi \texttt{scripts/tradeoff\_b2\_b3.py}.
+
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}
+	\begin{groupplot}[group style={group size=2 by 1, horizontal sep=1.6cm},
+	  width=0.47\textwidth, height=6cm, xmin=0.55, xmax=1.0, ymin=0, ymax=1.05,
+	  xlabel={USR (hữu dụng)}, ylabel={DSR (an toàn)},
+	  nodes near coords, point meta=explicit symbolic,
+	  every node near coord/.append style={font=\scriptsize, anchor=south west},
+	  legend style={font=\small}, legend pos=south west]
+	\nextgroupplot[title={A2}]
+	\addplot+[only marks, mark=*] coordinates {(0.8644,0.4167) [off] (0.9083,0.6500) [D1] (0.9000,0.4000) [D2] (0.6134,0.9000) [D3] (0.8571,0.4167) [D4] (0.6134,1.0000) [all] (0.7395,0.5333) [D3nc]};
+	\addlegendentry{mù (B2)}
+	\addplot+[only marks, mark=triangle*] coordinates {(0.9083,0.4667) [D1] (0.9000,0.1333) [D2] (0.6134,0.8667) [D3] (0.8571,0.2000) [D4] (0.6134,0.7333) [all]};
+	\addlegendentry{thích ứng (B5)}
+	\nextgroupplot[title={A3}]
+	\addplot+[only marks, mark=*] coordinates {(0.9492,0.5667) [off] (0.9652,0.7833) [D1] (0.9417,0.4000) [D2] (0.6639,0.7667) [D3] (0.9744,0.5667) [D4] (0.6583,0.8167) [all] (0.7797,0.4500) [D3nc]};
+	\addlegendentry{mù (B2)}
+	\end{groupplot}
+	\end{tikzpicture}
+	\caption{Đánh đổi an toàn (DSR) và hữu dụng (USR) của các cấu hình phòng thủ; chấm tròn: kẻ tấn công mù trên sáu ô S\_def; tam giác: kẻ tấn công thích ứng trên ba ô S\_adp}
+	\label{fig:c5-pareto}
+\end{figure}
+
 Giới hạn cần khai trước: khi ASR nền ở mức sàn, số lượt tấn công thành công để phòng thủ chặn rất ít, nên tỷ lệ phòng thủ có khoảng tin cậy rộng hoặc không xác định; trường hợp đó được báo cáo đúng như vậy, không ghi thành 0\%. Lặp một câu lành tính nhiều lần không tạo thêm câu độc lập, nên chỉ số hữu dụng được báo cáo ở cả mức lượt chạy và mức câu.
 
 \subsubsection{Độ bền trước kẻ tấn công thích ứng (RQ5)}
@@ -139,15 +193,14 @@ Bảng~\ref{tab:c5-rq6} cho thấy harness không làm giảm ASR: hai bên cùn
 
 H6 không được chứng thực trong cấu hình này: harness không bao phủ D1, D2, D4, và lớp gần với D3 chỉ có tác dụng khi có người xác nhận. Vì vậy D1--D4 không bị harness thương mại thay thế. Giới hạn: đây là chỉ dấu trên một harness, một mô hình đích, 20 mẫu và chỉ cấu hình \texttt{off}; harness có phòng thủ riêng không tắt hoàn toàn được, và một harness khác hoặc chế độ có người xác nhận có thể chặn nhiều hơn. Số liệu truy nguồn: \texttt{results/tables/harness-B6-20261123T082444Z\_runs.csv}.
 
-\section{Giao thức hiệu chỉnh độ khó và phát hiện về payload gắn ngữ cảnh}
+\section{Đo độ nhạy theo mức cả tin và phát hiện về payload gắn ngữ cảnh}
 \label{section:5.5}
 \subsection{Vấn đề}
 Khi ASR nền gần bằng không, bật hay tắt phòng thủ cho cùng một kết quả và phép đo không phân biệt được cơ chế tốt với cơ chế vô dụng. Chỉnh môi trường cho tới khi có số liệu đẹp thì lại là gian lận phương pháp. Ngoài ra, một tỷ lệ thấp có hai cách giải thích khác hẳn nhau: mô hình chống chịu tốt, hoặc tập payload yếu.
 \subsection{Giải pháp}
-Giao thức hiệu chỉnh được ghi trước khi chạy: chỉ chỉnh ba yếu tố cấu hình có thật trong doanh nghiệp, mỗi vòng đổi đúng một yếu tố, ghi phần chỉ thị hệ thống thay đổi và ASR trước sau, và báo cáo mọi vòng. Khi hết yếu tố hợp lệ mà ASR vẫn thấp, đồ án không chỉnh tiếp mà kiểm giả thuyết tập payload yếu bằng một lô dò dùng payload gắn ngữ cảnh, tức payload đòi đúng công cụ và đối tượng của tác vụ đang chạy.
+Giao thức hiệu chỉnh được ghi trước khi chạy: chỉ chỉnh ba yếu tố cấu hình có thật trong doanh nghiệp, mỗi vòng đổi đúng một yếu tố, ghi phần chỉ thị hệ thống thay đổi và ASR trước sau, và báo cáo mọi vòng. Khi hết yếu tố hợp lệ mà ASR vẫn thấp, đồ án không chỉnh tiếp mà kiểm giả thuyết tập payload yếu bằng một lô dò dùng payload gắn ngữ cảnh, tức payload đòi đúng công cụ và đối tượng của tác vụ đang chạy. Sau góp ý của giáo viên hướng dẫn ngày 08/11/2026 rằng ASR thấp vẫn là kết quả nếu giải thích được, đồ án dừng hiệu chỉnh và chuyển mức cả tin của chỉ thị hệ thống thành một trục đo của B1 với ba biến thể \texttt{guarded}, \texttt{baseline}, \texttt{trusting}, mỗi biến thể một lô đầy đủ.
 \subsection{Kết quả và giới hạn}
-% [XÁC NHẬN] (1)
-Bảng~\ref{tab:c5-hieuchinh} cho thấy qua ba vòng trên cùng 81 ca mỗi mô hình, ASR không vượt 2,5\% dù payload tới ngữ cảnh ở hơn 90\% lượt chạy. Nới cấu hình theo hướng cả tin không làm ASR tăng có ý nghĩa.
+Bảng~\ref{tab:c5-hieuchinh} cho thấy qua ba vòng trên cùng 81 ca mỗi mô hình, ASR không vượt 2,5\% dù payload tới ngữ cảnh ở hơn 90\% lượt chạy. Ba vòng này chạy trước khi chốt bộ mô hình hiện hành \texttt{v-models-1.2}: A2 không đổi, còn mô hình A3 khi đó khác A3 hiện hành, nên bảng chỉ dùng để mô tả quá trình, không gộp với số liệu B1. Nới cấu hình theo hướng cả tin không làm ASR tăng có ý nghĩa.
 
 \begin{table}[htbp]
 	\centering
@@ -217,7 +270,7 @@ Một bộ đo sai cho ra số liệu trông hợp lệ. Các lỗi dưới đâ
 \subsection{Giải pháp}
 Mỗi lô chạy đều được soát vết ở các nhóm có kết quả bất thường, đặc biệt các nhóm 0 lượt thành công, trước khi diễn giải. Mỗi lỗi được ghi lại theo bốn cột: hiện tượng, hệ quả lên số liệu, cách phát hiện và cách sửa.
 \subsection{Kết quả và giới hạn}
-Bảng~\ref{tab:c5-loi} tổng hợp sáu lỗi. Chi tiết và mã commit của từng bản sửa nằm trong \texttt{CHANGELOG\_TAI\_LIEU.md}.
+Bảng~\ref{tab:c5-loi} tổng hợp mười lỗi; bốn lỗi cuối lộ ra trong khi chạy các khối B2--B6. Chi tiết và mã commit của từng bản sửa nằm trong \texttt{CHANGELOG\_TAI\_LIEU.md}.
 
 \begin{table}[htbp]
 	\centering
@@ -234,6 +287,10 @@ Bảng~\ref{tab:c5-loi} tổng hợp sáu lỗi. Chi tiết và mã commit của
 		Chạy tiếp lô sinh lượt chạy trùng & Kho vết có 497 bản ghi cho 318 đơn vị thực nghiệm & Đếm đơn vị phân biệt so với kế hoạch & Ghi mã băm kế hoạch, từ chối chạy tiếp khi kế hoạch đổi \\ \hline
 		Mô tả công cụ không nêu dạng đường dẫn tra tồn kho & Tác vụ chở nhận lỗi 404, payload không có cơ hội kích hoạt & Soát vết các nhóm 0/6 lượt & Nêu rõ dạng đường dẫn; kiểm lại 36/36 lượt lành tính đạt \\ \hline
 		Bộ sinh payload đổi tác vụ chở và khung câu chữ so với lô dò & Lớp payload gắn ngữ cảnh không giữ tổ hợp đã thành công & Đối chiếu tập payload với payload của lô dò & Sinh lại lớp payload; lô đối chứng tái hiện kết quả lô dò \\ \hline
+		Cổng dịch vụ trả lời một phần lời gọi của A2 bằng mô hình của A1 & 39 lượt B2 và 135 lượt B3 có lời gọi do mô hình khác trả lời; vết chạy chỉ ghi mô hình của lời gọi cuối nên không lộ & Đối chiếu nhật ký từng lời gọi với các bước trong vết (\texttt{find\_offpin\_runs.py}) & Mô hình trả về ngoài danh sách được phép thì thử lại, hết lượt thì báo lỗi; xóa các lượt bị ảnh hưởng và chạy bù \\ \hline
+		Bộ kiểm độ dài payload của B5 đo bản chưa điền mã lượt chạy & Bản viết lại khít giới hạn nở quá giới hạn sau khi điền, lô B5 dừng ở chuỗi 57/75 & Lô dừng giữa chừng, đọc lỗi & Đo trên bản đã điền; tràn thì dừng chuỗi có kiểm soát; chạy lại toàn lô \\ \hline
+		Mô hình viết lại payload từ chối nhưng vòng sau vẫn được tính là thích ứng & Lô thử B5: 19/19 lời gọi viết lại bị từ chối, payload các vòng sau giữ nguyên & Đếm vòng có payload khác vòng trước & Ghi cờ viết lại thật ở mỗi vòng; đổi mô hình viết lại \\ \hline
+		Chạy tiếp lô B6 không phân biệt hai harness & Nhánh HN-OW chạy lại, sinh lượt trùng & Đếm lượt theo harness so với kế hoạch & Thêm harness vào danh tính khi chạy tiếp \\ \hline
 	\end{tabular}
 \end{table}
 
@@ -259,6 +316,6 @@ Bảng điều khiển gồm giao diện lập trình FastAPI chỉ đọc trên
 % [ĐIỀN] Kết quả buổi dùng thử với 3--5 người dùng (STT-85--87) và kịch bản trình diễn (STT-82, 84).
 Giới hạn: bảng điều khiển chỉ phục vụ trên địa chỉ nội bộ của máy; chức năng trình diễn tốn chi phí gọi mô hình nên chỉ mở khi được bật tường minh.
 
-Tám đóng góp trên tạo thành một hệ đo kiểm tra lại được từ dữ liệu thô tới con số báo cáo. Phần giá trị thực nghiệm của các mục~\ref{section:5.3}, \ref{section:5.4} và \ref{section:5.8} còn phụ thuộc ma trận rút gọn và buổi dùng thử với người dùng thực.
+Tám đóng góp trên tạo thành một hệ đo kiểm tra lại được từ dữ liệu thô tới con số báo cáo. Kết quả thực nghiệm ở các mục~\ref{section:5.3}, \ref{section:5.4} và \ref{section:5.5} lấy từ ma trận rút gọn với mười lượt mỗi ô; phần đánh giá của mục~\ref{section:5.8} còn chờ buổi dùng thử với người dùng thực.
 
 \end{document}

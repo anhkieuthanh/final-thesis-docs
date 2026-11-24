@@ -1,6 +1,15 @@
 # CHANGELOG TÀI LIỆU
 
 ## 2026-11-24
+- `docs/07. Báo cáo/Chuong5.tex`: điền các ô [ĐIỀN] đã có số liệu và gỡ hai điểm [XÁC NHẬN]. Mục 5.1: Hình
+  `fig:c5-kientruc` (ảnh `kien_truc_lab_ipi_guard.png`) và số ca kiểm thử 1.549 (đạt 1.548, bỏ qua 1). Mục 5.4: Bảng
+  `tab:c5-danhdoi` DSR/USR/FRR bảy cấu hình × A2, A3, đoạn tóm tắt RQ3, RQ4, phát hiện về R4, Hình `fig:c5-pareto` hai
+  bộ điểm (mù B2, thích ứng B5). Mục 5.5: đổi tên thành "Đo độ nhạy theo mức cả tin…", thêm việc dừng hiệu chỉnh sau góp
+  ý GVHD 08/11/2026 và chuyển mức cả tin thành trục của B1; khai bảng ba vòng hiệu chỉnh chạy trước `v-models-1.2`, chỉ
+  mô tả quá trình. Mục 5.6: bảng lỗi từ sáu lên mười lỗi (cổng dịch vụ trả nhầm model, bộ kiểm độ dài B5, vòng viết lại
+  bị từ chối vẫn đếm là thích ứng, chạy tiếp B6 trùng nhánh harness). Câu kết chương cập nhật. Còn ba ô chờ việc khác:
+  cài lại trên máy sạch (STT-83), hình chụp console, buổi dùng thử và kịch bản demo. Chưa biên dịch. Lý do: việc 5 của
+  plan hoàn thiện, TA duyệt.
 - `docs/07. Báo cáo/Chuong5.tex` mục 5.3: thay ô [ĐIỀN] và đoạn "số liệu sơ bộ" cũ (lô đối chứng 3 lượt) bằng kết
   quả T6–T8 từ B1 — Bảng `tab:c5-t678` (gộp ba model, ba biến thể, 270 lượt mỗi kỹ thuật × kênh, Wilson 95%, kèm kỹ
   thuật mạnh nhất cùng kênh) và nhận định: T8 trên K2a 18,1% [14,0; 23,2], thứ ba trong sáu kỹ thuật, trên A2 tăng
