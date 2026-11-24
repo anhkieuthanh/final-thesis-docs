@@ -1,6 +1,14 @@
 # CHANGELOG TÀI LIỆU
 
 ## 2026-11-24
+- `ipi-agent-lab/scripts/tradeoff_b2_b3.py`, `results/tables/tradeoff/` (lab `f095f36`),
+  `docs/06. Track/Nhap_RQ3_RQ4_B2_B3.md`: bảng đánh đổi an toàn – hữu dụng 7 preset × A2, A3 (STT-73) và nháp
+  RQ3–RQ4 (STT-74), không chạy LLM. RQ3: ở không G nào `all` vượt đơn lẻ tốt nhất theo tiêu chí ghi trước (gần nhất
+  G1, Δ 10 điểm % nhưng CI chồng) — H3 "không cộng tính" đúng; đơn lẻ tốt nhất là D3 ở G1, D1 ở G3; D2, D4 gần như
+  không chặn trên S_def; khám phá: tắt R4 (`d3_no_confirm`) làm ASR của D3 tăng từ 10,0% lên 46,7% (A2). RQ4: chỉ
+  preset có D3 có FRR khác 0 (27,7–31,1%), tập trung ở U4/CT-05/CT-06 (R4) và CT-04 (R1, đã ghi trước) — H4 đúng;
+  độ trễ p50 và chi phí model đích gần như không đổi theo preset. Biên Pareto mù A2: `d1_only`, `all`; hình Pareto
+  hai bộ điểm (mù B2, thích ứng B5) ở `pareto_pgfplots.tex`. Lý do: việc 3 của plan hoàn thiện, TA duyệt.
 - `ipi-agent-lab/scripts/b1_tables.py`, `results/tables/b1/sensitivity.csv`, `sensitivity_pgfplots.tex` (lab
   `f782282`), `docs/07. Báo cáo/Chuong5.tex` mục 5.5: đường cong độ nhạy (C5) thay ô [ĐIỀN] — Hình
   `fig:c5-donhay` (pgfplots, ba khung) và đoạn nhận định. ASR theo biến thể prompt tách ba lớp: G1+G2 gắn ngữ cảnh,
