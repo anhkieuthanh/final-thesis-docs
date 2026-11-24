@@ -8,7 +8,7 @@
 % results/tables/b1/ (B1: T6--T8, độ nhạy), results/tables/tradeoff/ (B2, B3),
 % results/tables/arr_pareto_B5.csv (RQ5), results/tables/harness-B6-20261123T082444Z_runs.csv (RQ6),
 % results/scorer_gate/gate_20261106T063243Z.json, docs/06. Track/CHANGELOG_TAI_LIEU.md.
-% Hình cần pgfplots + thư viện groupplots, graphicx; ảnh kiến trúc tải lên Overleaf cùng tên tệp.
+% Hình cần pgfplots + thư viện groupplots.
 %
 % CHỖ CÒN TRỐNG (tìm "% [ĐIỀN]"): kết quả cài lại trên máy sạch (STT-83); hình chụp console;
 % buổi dùng thử với người dùng (STT-85--87) và kịch bản trình diễn (STT-82, 84).
@@ -24,15 +24,7 @@ Chương này trình bày tám đóng góp của đồ án. Mỗi mục đi theo
 Các bộ đo đã khảo sát ở Chương~2 không có kênh tài liệu truy hồi, không có bối cảnh nghiệp vụ tiếng Việt, và một số không thực thi công cụ thật. Đo trên hệ thống đang vận hành thì không cố định được môi trường và có nguy cơ làm lộ dữ liệu thật.
 \subsection{Giải pháp}
 Đồ án tự cài vòng lặp tác tử \texttt{CoreA} không dùng khung phát triển, năm công cụ cung cấp qua máy chủ MCP, và lớp tiêm cho ba phân kênh K1, K2a, K2b; lớp tiêm K2 mô phỏng một máy chủ MCP bị kẻ tấn công kiểm soát. Dữ liệu khách hàng sinh bằng Faker với hạt giống cố định. Thư gửi ra đi vào máy chủ thư giả và yêu cầu HTTP đi vào máy nghe chuỗi đánh dấu, nên một lượt chạy diễn ra trọn vẹn mà không có dữ liệu nào rời máy.
-Hình~\ref{fig:c5-kientruc} tóm tắt kiến trúc testbed.
-
-\begin{figure}[htbp]
-	\centering
-	% Nguồn: docs/04. Design/00. Image/kien_truc_lab_ipi_guard.png
-	\includegraphics[width=\textwidth]{kien_truc_lab_ipi_guard.png}
-	\caption{Kiến trúc testbed: lõi tác tử, năm công cụ qua MCP, lớp tiêm K1, K2a, K2b, lớp phòng thủ D1--D4 và các bồn chứa đối chiếu}
-	\label{fig:c5-kientruc}
-\end{figure}
+Kiến trúc testbed được trình bày ở Hình~\ref{fig:c4-kientruc}.
 \subsection{Kết quả và giới hạn}
 Testbed chạy đầu-cuối trên ba mô hình đích với kho tri thức 40 tài liệu tiếng Việt và sáu tác vụ chở.
 Bộ kiểm thử tự động gồm 1.549 ca, đạt 1.548 ca và bỏ qua 1 ca, chạy lại sau mỗi thay đổi mã trước khi mở lô.

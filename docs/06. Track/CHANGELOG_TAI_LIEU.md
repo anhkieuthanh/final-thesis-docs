@@ -1,6 +1,15 @@
 # CHANGELOG TÀI LIỆU
 
 ## 2026-11-24
+- `docs/07. Báo cáo/Chuong4.tex`, `Chuong5.tex`: điền Chương 4 và sửa chỗ cũ. Hình kiến trúc chuyển từ Chương 5 sang
+  mục 4.1 (`fig:c4-kientruc`), Chương 5 dẫn tới. Mục 4.3.1: mô hình viết lại payload của B5 đổi sang `glm-5.3` (opus-5
+  từ chối 19/19), thêm chốt chặn mô hình ngoài danh sách được phép. Mục 4.4.1: 1.549 ca kiểm thử (đạt 1.548, bỏ qua 1).
+  Mục 4.5: thay đoạn "ma trận chạy ở chế độ sàn sau hiệu chỉnh" bằng việc dừng hiệu chỉnh và ba biến thể prompt của B1;
+  bảng khối B1 5.670 lượt, B5 75 chuỗi 159 lượt, B6 bỏ chữ "tùy chọn"; thêm cách xử lý lượt lỗi hạ tầng và chi phí theo
+  nhật ký lời gọi (khoảng 174 USD các lô đầy đủ). Mục 4.6.2: RQ1 với Bảng `tab:c4-rq1`, RQ2, tóm tắt RQ3–RQ6 dẫn tới
+  bảng của Chương 5 để không lặp. Mục 4.7: thay đoạn "chưa có đủ bằng chứng" bằng sáu yếu tố ảnh hưởng tới tính hợp lệ.
+  Còn ô chờ: ảnh giao diện, cài lại máy sạch (STT-83), đánh giá người dùng; điểm [XÁC NHẬN] (1) về tên lớp của A1 giữ
+  cho TA và GVHD. Chưa biên dịch. Lý do: việc 6 của plan hoàn thiện, TA duyệt.
 - `docs/07. Báo cáo/Chuong5.tex`: điền các ô [ĐIỀN] đã có số liệu và gỡ hai điểm [XÁC NHẬN]. Mục 5.1: Hình
   `fig:c5-kientruc` (ảnh `kien_truc_lab_ipi_guard.png`) và số ca kiểm thử 1.549 (đạt 1.548, bỏ qua 1). Mục 5.4: Bảng
   `tab:c5-danhdoi` DSR/USR/FRR bảy cấu hình × A2, A3, đoạn tóm tắt RQ3, RQ4, phát hiện về R4, Hình `fig:c5-pareto` hai
