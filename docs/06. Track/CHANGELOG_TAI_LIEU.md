@@ -1,6 +1,13 @@
 # CHANGELOG TÀI LIỆU
 
 ## 2026-11-24
+- `ipi-agent-lab/src/console/demo.py` (lab `54dbec0`), `docs/demo_script.md` (mới): kịch bản demo bảo vệ (STT-82,
+  STT-84). Soát kho demo: mọi lượt demo đã chạy trước đây đều thất bại (5 kịch bản dựng sẵn dùng payload không gắn ngữ
+  cảnh). Thêm kịch bản `config-leak-ticket` (A2, K2a·T5·G1, `P-T5-G1-VI-974`, CT-06) chọn từ B2 theo tiêu chí STT-82:
+  thành công 5/5 ở off, D1, D2, D4, bị D3 chặn 5/5. `demo_script.md`: 7 bước bấm giờ ≤ 90 giây với lời thoại và dự
+  phòng từng bước, chuẩn bị, lượt chạy sẵn và video, chi phí (≈ 0,40 USD cho diễn tập và demo, cần TA duyệt như một
+  lô), nhật ký diễn tập cho cổng M7. Đề xuất bỏ demo PDF payload ẩn K1 khỏi phần chạy trực tiếp vì K1 trên A2 gần như
+  không thành công — chờ TA quyết. Chưa chạy lượt demo nào. Lý do: việc 10 của plan hoàn thiện, TA duyệt.
 - `docs/06. Track/Kịch bản buổi dùng thử.md` (mới), `docs/phieu_khao_sat.md` (mới): chuẩn bị đánh giá với người dùng
   thực (STT-85–87). Kịch bản: mục tiêu ba câu hỏi, 3–5 người theo mã P1–P5 không thu thập thông tin định danh, việc
   chuẩn bị (lượt trình diễn gọi mô hình thật phải được TA duyệt như một lô), trình tự 40 phút, bốn nhiệm vụ trên
